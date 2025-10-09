@@ -57,7 +57,7 @@ public class Gate extends CircuitPart {
 	 * mirroring in both axes
 	 */
 	public int mirror = 0;
-	protected Vector<Pin> pins = new Vector<Pin>();
+	protected Vector<Pin> pins = new Vector<>();
 
 	/**
 	 * rotate in 90 degree steps clockwise (0-3).
@@ -189,13 +189,32 @@ public class Gate extends CircuitPart {
 	}
 
 	protected void drawFrame(Graphics2D g2) {
-		Rectangle2D border = new Rectangle2D.Double(getX() + CONN_SIZE - 1, getY() + CONN_SIZE - 1,
-				(width + 2) - 2 * CONN_SIZE, (height + 2) - 2 * CONN_SIZE);
+		int borderRadius = 10;
+		Rectangle2D border = new Rectangle2D.Double(
+			getX() + CONN_SIZE - 1,
+			getY() + CONN_SIZE - 1,
+			(width + 2) - 2 * CONN_SIZE,
+			(height + 2) - 2 * CONN_SIZE
+		);
 		g2.setPaint(busted ? Color.red : backgroundColor);
-		g2.fill(border);
+		g2.fillRoundRect(
+			(int) border.getX(),
+			(int) border.getY(),
+			(int) border.getWidth(),
+			(int) border.getHeight(),
+			borderRadius,
+			borderRadius
+		);
 		g2.setPaint(Color.black);
 		g2.setStroke(new BasicStroke(1));
-		g2.draw(border);
+		g2.drawRoundRect(
+			(int) border.getX(),
+			(int) border.getY(),
+			(int) border.getWidth(),
+			(int) border.getHeight(),
+			borderRadius,
+			borderRadius
+		);
 		drawLabel(g2, label, bigFont);
 	}
 
@@ -324,7 +343,7 @@ public class Gate extends CircuitPart {
 	}
 
 	public Vector<Pin> getInputs() {
-		Vector<Pin> cs = new Vector<Pin>();
+		Vector<Pin> cs = new Vector<>();
 		for (Pin c : pins) {
 			if (c.isInput())
 				cs.add(c);
@@ -341,7 +360,7 @@ public class Gate extends CircuitPart {
 	}
 
 	public Vector<Pin> getOutputs() {
-		Vector<Pin> cs = new Vector<Pin>();
+		Vector<Pin> cs = new Vector<>();
 		for (Pin c : pins) {
 			if (c.isOutput())
 				cs.add(c);
@@ -609,11 +628,11 @@ public class Gate extends CircuitPart {
 
 	@Override
 	public String toString() {
-		String s = getId();
+		StringBuilder s = new StringBuilder(getId());
 		for (Pin c : pins) {
-			s += "\n" + indent(c.toString(), 3);
+			s.append("\n").append(indent(c.toString(), 3));
 		}
-		return s;
+		return s.toString();
 	}
 
 	@Override
