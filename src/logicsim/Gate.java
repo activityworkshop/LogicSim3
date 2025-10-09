@@ -113,32 +113,46 @@ public class Gate extends CircuitPart {
 	}
 
 	public void createDynamicInputs(int total) {
+        if (total < 1) total = 1;
 		int numinputs = getInputs().size();
-		// get max number
-		int num = -1;
-		for (Pin c : pins)
-			if (c.number > num)
-				num = c.number;
+        if (total > numinputs) {
+            // get max number
+            int num = -1;
+            for (Pin c : pins)
+                if (c.number > num)
+                    num = c.number;
 
-		// add new connectors - total times
-		for (int i = numinputs; i < total; i++) {
-			num++;
-			int pos = getX();
-			int ioType = Pin.INPUT;
-			Pin c = new Pin(pos, 0, this, num);
-			c.paintDirection = ioType == Pin.INPUT ? Pin.RIGHT : Pin.LEFT;
-			c.setIoType(ioType);
-			pins.add(c);
-		}
+            // add new connectors - total times
+            for (int i = numinputs; i < total; i++) {
+                num++;
+                int pos = getX();
+                int ioType = Pin.INPUT;
+                Pin c = new Pin(pos, 0, this, num);
+                c.paintDirection = ioType == Pin.INPUT ? Pin.RIGHT : Pin.LEFT;
+                c.setIoType(ioType);
+                pins.add(c);
+            }
 
-		// reposition all inputs
-		num = 0;
-		for (Pin p : getInputs()) {
-			p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
-			num++;
-		}
+            // reposition all inputs
+            num = 0;
+            for (Pin p : getInputs()) {
+                p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                num++;
+            }
+        } else if (total < numinputs) {
+            for (int i = numinputs - 1; i >= total; i--) {
+                Pin p = getInputs().get(i);
+                pins.remove(p);
+            }
 
-	}
+            int num = 0;
+            for (Pin p : getInputs()) {
+                p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                num++;
+            }
+        }
+
+    }
 
 	public void createInputs(int n) {
 		createPins(Pin.INPUT, n);

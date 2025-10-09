@@ -54,6 +54,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	JMenuItem menuItem_properties;
 	JMenuItem menuItem_rotate;
 	JMenuItem menuItem_mirror;
+    JMenuItem menuItem_increase_inputs;
+    JMenuItem menuItem_decrease_inputs;
 
 	public LSFrame(String title) {
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
@@ -584,19 +586,31 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		// ------------------------------------------------------------------
 		// Create the popup menu.
 		popup = new JPopupMenu();
+
 		menuItem_remove = new JMenuItem(I18N.tr(Lang.REMOVEGATE));
 		menuItem_remove.addActionListener(this);
 		popup.add(menuItem_remove);
+
 		menuItem_properties = new JMenuItem(I18N.tr(Lang.PROPERTIES));
 		menuItem_properties.addActionListener(this);
 		popup.add(menuItem_properties);
+
 		// rotate and mirror actions for popup
 		menuItem_rotate = new JMenuItem(I18N.tr(Lang.ROTATE));
 		menuItem_rotate.addActionListener(this);
 		popup.add(menuItem_rotate);
+
 		menuItem_mirror = new JMenuItem(I18N.tr(Lang.MIRROR));
 		menuItem_mirror.addActionListener(this);
 		popup.add(menuItem_mirror);
+
+        menuItem_increase_inputs = new JMenuItem("Increase Inputs");
+        menuItem_increase_inputs.addActionListener(this);
+        popup.add(menuItem_increase_inputs);
+
+        menuItem_decrease_inputs = new JMenuItem("Decrease Inputs");
+        menuItem_decrease_inputs.addActionListener(this);
+        popup.add(menuItem_decrease_inputs);
 		// Add listener to components that can bring up popup menus.
 		lspanel.addMouseListener(new PopupListener());
 
@@ -679,8 +693,20 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 				}
 				lspanel.repaint();
 			}
-		}
-	}
+		} else if (source == menuItem_increase_inputs) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            if (g.variableInputCountSupported) {
+                g.createDynamicInputs(g.getNumInputs() + 1);
+                lspanel.repaint();
+            }
+        } else if (source == menuItem_decrease_inputs) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            if (g.variableInputCountSupported) {
+                g.createDynamicInputs(g.getNumInputs() - 1);
+                lspanel.repaint();
+            }
+        }
+    }
 
 	class PopupListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
