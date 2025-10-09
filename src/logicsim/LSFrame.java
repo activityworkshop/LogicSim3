@@ -20,28 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultListModel;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
@@ -466,9 +445,16 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		cbNumInputs = new JComboBox<String>(gateInputNums);
 
 		pnlGateList.setLayout(new BorderLayout());
+
 		pnlGateList.setPreferredSize(new Dimension(120, 200));
 		pnlGateList.setMinimumSize(new Dimension(100, 200));
-		pnlGateList.add(new JScrollPane(lstParts), BorderLayout.CENTER);
+        JScrollPane gateScrollPane = new JScrollPane(lstParts);
+        gateScrollPane.setHorizontalScrollBar(null);
+        JScrollBar gateScrollBar = new JScrollBar(JScrollBar.VERTICAL);
+        gateScrollBar.setUI(new LSScrollBarUI());
+        gateScrollBar.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
+        gateScrollPane.setVerticalScrollBar(gateScrollBar);
+		pnlGateList.add(gateScrollPane, BorderLayout.CENTER);
 		pnlGateList.add(cbNumInputs, BorderLayout.SOUTH);
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true);

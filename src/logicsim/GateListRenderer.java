@@ -4,7 +4,6 @@ import java.awt.*;
 import java.io.Serial;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class GateListRenderer extends JLabel implements ListCellRenderer<Object> {
 	@Serial
