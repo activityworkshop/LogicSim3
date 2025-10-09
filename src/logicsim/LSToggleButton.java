@@ -1,13 +1,15 @@
 package logicsim;
 
 import java.awt.*;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.*;
 
 public class LSToggleButton extends JToggleButton {
 
-	private static final long serialVersionUID = 4992541122998327288L;
+	@Serial
+    private static final long serialVersionUID = 4992541122998327288L;
     private final int size = 20;
     private final int padding = 10;
 

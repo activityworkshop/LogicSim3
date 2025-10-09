@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class LSRoundedBorder implements Border {
 
-    private int radius;
+    private final int radius;
 
 
     public LSRoundedBorder(int radius) {

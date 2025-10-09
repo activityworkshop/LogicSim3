@@ -3,6 +3,7 @@ package logicsim;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.io.Serial;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -10,7 +11,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
 public class GateListRenderer extends JLabel implements ListCellRenderer<Object> {
-	private static final long serialVersionUID = -361281475843085219L;
+	@Serial
+    private static final long serialVersionUID = -361281475843085219L;
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,

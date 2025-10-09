@@ -1,13 +1,15 @@
 package logicsim;
 
 import java.awt.*;
+import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.*;
 
 public class LSButton extends JButton {
 
-	private static final long serialVersionUID = 4465562539140913810L;
+	@Serial
+    private static final long serialVersionUID = 4465562539140913810L;
     private final int size = 20;
     private final int padding = 10;
 

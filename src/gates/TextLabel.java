@@ -43,8 +43,8 @@ public class TextLabel extends Gate {
 		g2.setFont(bigFont);
 		if (text != null) {
 			Rectangle r = WidgetHelper.textDimensions(g2, text);
-			width = r.width / 10 * 10 + 10;
-			height = r.height / 10 * 10 + 10;
+			width = r.width + 10;
+			height = r.height + 10;
 			super.drawActiveFrame(g2);
 		}
 	}
@@ -60,9 +60,11 @@ public class TextLabel extends Gate {
 		if (text != null) {
 			Rectangle r = WidgetHelper.textDimensions(g2, text);
 			width = r.width;
-			width = width / 10 * 10 + 10;
+			width = width + 10;
 			height = r.height;
-			height = height / 10 * 10 + 10;
+			height = height + 10;
+            xc = getX() + width / 2;
+            yc = getY() + height / 2;
 			WidgetHelper.drawString(g2, text, xc, yc, WidgetHelper.ALIGN_CENTER);
 		}
 	}
