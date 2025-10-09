@@ -2,6 +2,7 @@ package logicsim;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -38,10 +39,10 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 			return this;
 		} else if (value instanceof String) {
 			String s = (String) value;
-			setText(I18N.tr(s));
-			setBackground(Color.LIGHT_GRAY);
-			setForeground(Color.WHITE);
-			setHorizontalAlignment(SwingConstants.CENTER);
+			setText("   " + I18N.tr(s));
+            setFont(new Font(list.getFont().getName(), Font.BOLD, list.getFont().getSize() + 4));
+			setForeground(Color.BLACK);
+			setHorizontalAlignment(SwingConstants.LEFT);
 			return this;
 		} else
 			throw new RuntimeException("unknown format of object in getcelllistrenderer");

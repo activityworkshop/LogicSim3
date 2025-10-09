@@ -554,6 +554,11 @@ public class Gate extends CircuitPart {
 
 	public void rotate() {
 		rotate90 = (rotate90 + 1) % 4;
+		// ensure rotation center is set
+		if (xc == -1) {
+			xc = getX() + width / 2;
+			yc = getY() + height / 2;
+		}
 		rotatePins();
 		// set rotation center
 		Point center = new Point((int) xc, (int) yc);
@@ -577,6 +582,11 @@ public class Gate extends CircuitPart {
 	}
 
 	protected void rotatePins() {
+		// ensure rotation center is set
+		if (xc == -1) {
+			xc = getX() + width / 2;
+			yc = getY() + height / 2;
+		}
 		// set rotation center
 		Point center = new Point((int) xc, (int) yc);
 		// rotate everything around the center

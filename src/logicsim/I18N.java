@@ -12,6 +12,8 @@ package logicsim;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -49,11 +51,29 @@ public class I18N {
 
 	public static Properties load(String lang) {
 		Properties properties = new Properties();
-		try {
-			properties.load(new FileInputStream("languages/" + lang + ".txt"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+        String path = "languages/" + lang + ".txt";
+        boolean loadFromJar = false;
+        if(Files.exists(Path.of(path))) {
+            try {
+                properties.load(new FileInputStream("languages/" + lang + ".txt"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                loadFromJar = true;
+            }
+        } else {
+            loadFromJar = true;
+        }
+
+        if(loadFromJar) {
+            try {
+                properties.load(App.class.getResourceAsStream("languages/" + lang + ".txt"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
 		return properties;
 	}
 

@@ -33,7 +33,7 @@ public class FileInfoDialog {
 		dlg.setResizable(true);
 		dlg.setSize(500, 250);
 		dlg.setVisible(true);
-		if (I18N.tr(Lang.OK) == (String) pane.getValue()) {
+		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			lsFile.setDescription(txtDescription.getText());
 			return true;
 		}

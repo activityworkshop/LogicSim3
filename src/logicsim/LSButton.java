@@ -1,23 +1,34 @@
 package logicsim;
 
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
+import java.util.Objects;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 
 public class LSButton extends JButton {
 
 	private static final long serialVersionUID = 4465562539140913810L;
+    private final int size = 20;
+    private final int padding = 10;
 
 	public LSButton(String iconName, Lang toolTip) {
 		this.setDoubleBuffered(true);
 		this.setIcon(getIcon(iconName));
 		this.setToolTipText(I18N.tr(toolTip));
 		this.setName(toolTip.toString());
-		// this.setBorderPainted(true);
-		// this.setBorder(BorderFactory.createLineBorder(Color.black));
-		// this.addMouseListener(this);
+        this.setMinimumSize(new Dimension(size + padding, size + padding));
+        this.setMaximumSize(new Dimension(size + padding, size + padding));
+        this.setPreferredSize(new Dimension(size + padding, size + padding));
+        this.setBorder(new LSRoundedBorder(5));
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                setBackground(Color.LIGHT_GRAY);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                setBackground(UIManager.getColor("control"));
+            }
+        });
 	}
 
 	@Override
@@ -27,9 +38,9 @@ public class LSButton extends JButton {
 
 	private ImageIcon getIcon(String imgname) {
 		String filename = "images/" + imgname + ".png";
-		int is = LSProperties.getInstance().getPropertyInteger("iconsize", 36);
+		int is = size;
 		// return new ImageIcon(LSFrame.class.getResource(filename));
-		return new ImageIcon(new ImageIcon(getClass().getResource(filename)).getImage().getScaledInstance(is, is,
+		return new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage().getScaledInstance(is, is,
 				Image.SCALE_AREA_AVERAGING));
 	}
 }

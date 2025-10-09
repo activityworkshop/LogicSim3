@@ -40,6 +40,10 @@ public class App {
 		new I18N();
 		initializeGateCategories();
 
+        /*try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {}*/
+
 		// center the window and adjust dimensions
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = new Dimension(1024, 768);
