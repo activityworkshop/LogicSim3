@@ -1,14 +1,10 @@
 package logicsim;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.io.Serial;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 public class GateListRenderer extends JLabel implements ListCellRenderer<Object> {
 	@Serial
@@ -40,12 +36,19 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 			setHorizontalAlignment(SwingConstants.LEFT);
 			return this;
 		} else if (value instanceof String) {
-			String s = (String) value;
-			setText("   " + I18N.tr(s));
-            setFont(new Font(list.getFont().getName(), Font.BOLD, list.getFont().getSize() + 4));
-			setForeground(Color.BLACK);
-			setHorizontalAlignment(SwingConstants.LEFT);
-			return this;
+            JPanel panel = new JPanel(new BorderLayout());
+
+            JSeparator separatorLine = new JSeparator(SwingConstants.HORIZONTAL);
+            separatorLine.setForeground(Color.BLACK);
+            panel.add(separatorLine, BorderLayout.NORTH);
+
+            JLabel label = new JLabel(I18N.tr((String) value));
+            label.setFont(new Font(list.getFont().getName(), Font.BOLD, list.getFont().getSize() + 4));
+            label.setForeground(Color.BLACK);
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            panel.add(label, BorderLayout.CENTER);
+
+            return panel;
 		} else
 			throw new RuntimeException("unknown format of object in getcelllistrenderer");
 	}
