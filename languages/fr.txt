@@ -18,6 +18,8 @@ gatedesign.ansi=US
 language=Langue
 
 help=Aide
+increaseinputs=Augmenter les entrées
+decreaseinputs=Diminuer les entrées
 about=à propos de LogicSim
 
 removegate=Effacer le composant

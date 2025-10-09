@@ -39,7 +39,7 @@ public class I18N {
 
 		lang = LSProperties.getInstance().getProperty(LSProperties.LANGUAGE, "en");
 		prop = load(lang);
-		if (prop.size() == 0 && !"en".equals(lang)) {
+		if (prop.isEmpty() && !"en".equals(lang)) {
 			prop = load("en");
 			if (prop == null) {
 				Dialogs.messageDialog(null,

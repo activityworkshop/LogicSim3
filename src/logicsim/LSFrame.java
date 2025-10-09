@@ -289,14 +289,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		boolean autowire = LSProperties.getInstance().getPropertyBoolean(LSProperties.AUTOWIRE, true);
 		final JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem(I18N.tr(Lang.AUTOWIRE));
 		cbMenuItem.setSelected(autowire);
-		cbMenuItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JCheckBoxMenuItem bmi = (JCheckBoxMenuItem) e.getSource();
-				LSProperties.getInstance().setPropertyBoolean(LSProperties.AUTOWIRE, bmi.isSelected());
-				lspanel.repaint();
-			}
-		});
+		cbMenuItem.addActionListener(e -> {
+            JCheckBoxMenuItem bmi = (JCheckBoxMenuItem) e.getSource();
+            LSProperties.getInstance().setPropertyBoolean(LSProperties.AUTOWIRE, bmi.isSelected());
+            lspanel.repaint();
+        });
 		mnu.add(cbMenuItem);
 
 		m = new JMenu(I18N.tr(Lang.GATEDESIGN));
@@ -305,21 +302,13 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 		JRadioButtonMenuItem mGatedesignIEC = new JRadioButtonMenuItem();
 		mGatedesignIEC.setText(I18N.tr(Lang.GATEDESIGN_IEC));
-		mGatedesignIEC.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionGateDesign(e);
-			}
-		});
+		mGatedesignIEC.addActionListener(this::actionGateDesign);
 		mGatedesignIEC.setSelected(LSProperties.GATEDESIGN_IEC.equals(gatedesign));
 		m.add(mGatedesignIEC);
 
 		JRadioButtonMenuItem mGatedesignANSI = new JRadioButtonMenuItem();
 		mGatedesignANSI.setText(I18N.tr(Lang.GATEDESIGN_ANSI));
-		mGatedesignANSI.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionGateDesign(e);
-			}
-		});
+		mGatedesignANSI.addActionListener(this::actionGateDesign);
 		mGatedesignANSI.setSelected(LSProperties.GATEDESIGN_ANSI.equals(gatedesign));
 		m.add(mGatedesignANSI);
 
@@ -333,21 +322,13 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		btnGroup = new ButtonGroup();
 
 		JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(Lang.NORMAL));
-		mnuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionMode(e);
-			}
-		});
+		mnuItem.addActionListener(this::actionMode);
 		mnuItem.setSelected(LSProperties.MODE_NORMAL.equals(mode));
 		btnGroup.add(mnuItem);
 		mnuMode.add(mnuItem);
 
 		mnuItem = new JRadioButtonMenuItem(I18N.tr(Lang.EXPERT));
-		mnuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionMode(e);
-			}
-		});
+		mnuItem.addActionListener(this::actionMode);
 		mnuItem.setSelected(LSProperties.MODE_EXPERT.equals(mode));
 		btnGroup.add(mnuItem);
 		mnuMode.add(mnuItem);
@@ -604,11 +585,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		menuItem_mirror.addActionListener(this);
 		popup.add(menuItem_mirror);
 
-        menuItem_increase_inputs = new JMenuItem("Increase Inputs");
+        menuItem_increase_inputs = new JMenuItem(I18N.tr(Lang.INCREASEINPUTS));
         menuItem_increase_inputs.addActionListener(this);
         popup.add(menuItem_increase_inputs);
 
-        menuItem_decrease_inputs = new JMenuItem("Decrease Inputs");
+        menuItem_decrease_inputs = new JMenuItem(I18N.tr(Lang.DECREASEINPUTS));
         menuItem_decrease_inputs.addActionListener(this);
         popup.add(menuItem_decrease_inputs);
 		// Add listener to components that can bring up popup menus.
@@ -694,15 +675,59 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 				lspanel.repaint();
 			}
 		} else if (source == menuItem_increase_inputs) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            if (g.variableInputCountSupported) {
-                g.createDynamicInputs(g.getNumInputs() + 1);
+            if (popupGateIdx >= 0) {
+                Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+                CircuitPart[] sel = lspanel.circuit.getSelected();
+                boolean clickedInSelection = false;
+                for (CircuitPart p : sel) {
+                    if (p == g) {
+                        clickedInSelection = true;
+                        break;
+                    }
+                }
+                if (clickedInSelection && sel.length > 1) {
+                    for (CircuitPart p : sel) {
+                        if (p instanceof Gate) {
+                            Gate g2 = (Gate) p;
+                            if (g2.variableInputCountSupported) {
+                                g2.createDynamicInputs(g2.getNumInputs() + 1);
+                            }
+                        }
+                    }
+                } else {
+                    if (g.variableInputCountSupported) {
+                        g.createDynamicInputs(g.getNumInputs() + 1);
+                    }
+                    lspanel.changedCircuit();
+                }
                 lspanel.repaint();
             }
         } else if (source == menuItem_decrease_inputs) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            if (g.variableInputCountSupported) {
-                g.createDynamicInputs(g.getNumInputs() - 1);
+            if (popupGateIdx >= 0) {
+                Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+                CircuitPart[] sel = lspanel.circuit.getSelected();
+                boolean clickedInSelection = false;
+                for (CircuitPart p : sel) {
+                    if (p == g) {
+                        clickedInSelection = true;
+                        break;
+                    }
+                }
+                if (clickedInSelection && sel.length > 1) {
+                    for (CircuitPart p : sel) {
+                        if (p instanceof Gate) {
+                            Gate g2 = (Gate) p;
+                            if (g2.variableInputCountSupported) {
+                                g2.createDynamicInputs(g2.getNumInputs() - 1);
+                            }
+                        }
+                    }
+                } else {
+                    if (g.variableInputCountSupported) {
+                        g.createDynamicInputs(g.getNumInputs() - 1);
+                    }
+                    lspanel.changedCircuit();
+                }
                 lspanel.repaint();
             }
         }
