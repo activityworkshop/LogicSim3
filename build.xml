@@ -26,13 +26,18 @@
 	</target>
 
 	<target name="jar" depends="compile">
-		<move file="${classes.dir}/gates" tofile="${dist.dir}/gates" />
+        <copy todir="${dist.dir}/gates">
+            <fileset dir="${classes.dir}/gates" />
+        </copy>
 		<mkdir dir="${jar.dir}" />
 		<copy todir="${classes.dir}/logicsim/images">
 			<fileset dir="${src.dir}/logicsim/images" />
 		</copy>
         <copy todir="${classes.dir}/logicsim/languages">
-            <fileset dir="${src.dir}/logicsim/languages" />
+            <fileset dir="languages" />
+        </copy>
+        <copy todir="${classes.dir}/docs">
+            <fileset dir="docs" />
         </copy>
 		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
 			<manifest>
@@ -63,6 +68,7 @@
 				<file file="LICENSE.md" />
 				<file file="icon.png" />
 				<file file="logicsim.bat" />
+                <file file="logicsim.sh" />
 				<file file="README.md" />
 			</resources>
 		</copy>
@@ -71,9 +77,6 @@
 		</copy>
 		<copy todir="${dist.dir}/circuits">
 			<fileset dir="circuits" />
-		</copy>
-		<copy todir="${dist.dir}/docs">
-			<fileset dir="docs" />
 		</copy>
 		<zip destfile="${release.dir}/LogicSim-${version}.zip" basedir="${dist.dir}" />
 	</target>

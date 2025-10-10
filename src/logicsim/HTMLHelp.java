@@ -6,6 +6,7 @@
 
 package logicsim;
 
+import javax.swing.*;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Objects;
 
 /**
  *
@@ -21,9 +23,9 @@ import java.io.File;
  */
 public class HTMLHelp extends javax.swing.JFrame implements java.awt.event.ActionListener {
 	private static final long serialVersionUID = 4292051858178374722L;
-	private javax.swing.JButton jButton_ok;
-	private javax.swing.JScrollPane jScrollPane1;
-	private javax.swing.JTextPane jTextPane1;
+	private JButton jButton_ok;
+	private JScrollPane jScrollPane1;
+	private JTextPane jTextPane1;
 
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 
@@ -43,21 +45,16 @@ public class HTMLHelp extends javax.swing.JFrame implements java.awt.event.Actio
 		this.setTitle("LogicSim " + I18N.tr(Lang.HELP));
 
 		try {
-			String url = null;
-			File f = new File("docs");
-			File[] files = f.listFiles();
-			url = new File("docs/en.html").getAbsolutePath();
-			// Anleitung in der eingestellten Sprache finden
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].getName().startsWith(language) && files[i].getName().endsWith(".html")) {
-					url = files[i].getAbsolutePath();
-				}
+			String resourcePath = "/docs/" + language + ".html";
+			java.net.URL url = getClass().getResource(resourcePath);
+			if (url == null) {
+				url = getClass().getResource("/docs/en.html");
 			}
-
-			url = url.replaceAll("\\\\", "/");
-			url = "file:///" + url;
-			url = url.replaceAll(" ", "%20");
-			jTextPane1.setPage(url);
+			if (url != null) {
+				jTextPane1.setPage(url);
+			} else {
+				throw new java.io.FileNotFoundException("Docs file not found: " + resourcePath);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			this.setVisible(false);
