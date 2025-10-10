@@ -12,12 +12,11 @@ package logicsim;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  *
@@ -53,26 +52,11 @@ public class I18N {
 		Properties properties = new Properties();
 
         String path = "languages/" + lang + ".txt";
-        boolean loadFromJar = false;
-        if(Files.exists(Path.of(path))) {
-            try {
-                properties.load(new FileInputStream("languages/" + lang + ".txt"));
-            } catch (Exception e) {
-                e.printStackTrace();
-                loadFromJar = true;
-            }
-        } else {
-            loadFromJar = true;
+        try {
+            properties.load(App.class.getResourceAsStream(path));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if(loadFromJar) {
-            try {
-                properties.load(App.class.getResourceAsStream("languages/" + lang + ".txt"));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
 
 		return properties;
 	}
@@ -121,23 +105,31 @@ public class I18N {
 	}
 
 	public static List<String> getLanguages() {
-		File dir = new File("languages/");
-		String[] files = dir.list();
-		java.util.Arrays.sort(files);
-		List<String> langs = new ArrayList<String>();
-		for (int i = 0; i < files.length; i++) {
-			if (files[i].endsWith(".txt")) {
-				String name = files[i].substring(0, files[i].length() - 4);
-				langs.add(name);
-			}
+		List<String> langs = new ArrayList<>();
+		try {
+		    String path = "languages/";
+		    InputStream in = App.class.getResourceAsStream(path);
+		    if (in != null) {
+		        try (Scanner scanner = new Scanner(in)) {
+		            while (scanner.hasNextLine()) {
+		                String file = scanner.nextLine();
+		                if (file.endsWith(".txt")) {
+		                    String name = file.substring(0, file.length() - 4);
+		                    langs.add(name);
+		                }
+		            }
+		        }
+		    }
+		} catch (Exception e) {
+		    e.printStackTrace();
 		}
 		return langs;
 	}
 
 	public static void main(String[] args) {
-		List<Lang> langList = new ArrayList<Lang>(EnumSet.allOf(Lang.class));
+		List<Lang> langList = new ArrayList<>(EnumSet.allOf(Lang.class));
 
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (Lang l : langList) {
 			String key = langToStr(l);
 			list.add(key);

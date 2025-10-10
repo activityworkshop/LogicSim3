@@ -31,6 +31,9 @@
 		<copy todir="${classes.dir}/logicsim/images">
 			<fileset dir="${src.dir}/logicsim/images" />
 		</copy>
+        <copy todir="${classes.dir}/logicsim/languages">
+            <fileset dir="${src.dir}/logicsim/languages" />
+        </copy>
 		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}" />
@@ -68,9 +71,6 @@
 		</copy>
 		<copy todir="${dist.dir}/circuits">
 			<fileset dir="circuits" />
-		</copy>
-		<copy todir="${dist.dir}/languages">
-			<fileset dir="languages" />
 		</copy>
 		<copy todir="${dist.dir}/docs">
 			<fileset dir="docs" />
