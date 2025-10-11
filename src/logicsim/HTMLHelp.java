@@ -15,18 +15,19 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.Serial;
 
 /**
  *
  * @author atetzl
  */
-public class HTMLHelp extends javax.swing.JFrame implements java.awt.event.ActionListener {
-	private static final long serialVersionUID = 4292051858178374722L;
-	private JButton jButton_ok;
-	private JScrollPane jScrollPane1;
-	private JTextPane jTextPane1;
+public class HTMLHelp extends javax.swing.JFrame implements ActionListener {
+	@Serial
+    private static final long serialVersionUID = 4292051858178374722L;
+    private JTextPane jTextPane1;
 
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 
@@ -91,17 +92,13 @@ public class HTMLHelp extends javax.swing.JFrame implements java.awt.event.Actio
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code
 	// ">//GEN-BEGIN:initComponents
 	private void initComponents() {
-		jButton_ok = new javax.swing.JButton();
-		jScrollPane1 = new javax.swing.JScrollPane();
+        JButton jButton_ok = new JButton();
+        JScrollPane jScrollPane1 = new JScrollPane();
 		jTextPane1 = new javax.swing.JTextPane();
 		jTextPane1.setContentType("text/html;charset=UTF-8");
 		
 		jButton_ok.setText("OK");
-		jButton_ok.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton_okActionPerformed(evt);
-			}
-		});
+		jButton_ok.addActionListener(this::jButton_okActionPerformed);
 
 		getContentPane().add(jButton_ok, java.awt.BorderLayout.SOUTH);
 
@@ -114,7 +111,7 @@ public class HTMLHelp extends javax.swing.JFrame implements java.awt.event.Actio
 		pack();
 	}
 
-	private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton_okActionPerformed
+	private void jButton_okActionPerformed(ActionEvent evt) {// GEN-FIRST:event_jButton_okActionPerformed
 		this.dispose();
 		this.setVisible(false);
 	}

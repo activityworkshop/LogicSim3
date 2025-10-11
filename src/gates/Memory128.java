@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
+import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -17,7 +18,6 @@ import logicsim.Pin;
 
 /**
  * 128bit Memory
- * 
  * The Memory chip simulates 16 8bit registers (so it is static RAM), similar to
  * the 74LS189 IC. This adds up to a total of 128 bits. The memory chip has an
  * address decoder to select the right register number.
@@ -64,7 +64,7 @@ public class Memory128 extends Gate {
 			getPin(ADD + i).paintDirection = Pin.DOWN;
 			getPin(ADD + i).setX(getX() + (4 - i + 3) * 10);
 			getPin(ADD + i).setY(getY());
-			getPin(ADD + i).setProperty(TEXT, "a" + String.valueOf(i));
+			getPin(ADD + i).setProperty(TEXT, "a" + i);
 		}
 
 		getPin(WE).setProperty(TEXT, "WE");
@@ -100,9 +100,9 @@ public class Memory128 extends Gate {
 				if (my >= 0 && my <= 15) {
 					int pow = (int) Math.pow(2, mx);
 					if ((mem[my] & pow) == pow)
-						mem[my] -= pow;
+						mem[my] -= (byte) pow;
 					else
-						mem[my] += pow;
+						mem[my] += (byte) pow;
 					setPropertyInt(STATE + my, mem[my]);
 				}
 			}
@@ -146,9 +146,7 @@ public class Memory128 extends Gate {
 	}
 
 	private void clearMemory() {
-		for (int i = 0; i < mem.length; i++) {
-			mem[i] = 0;
-		}
+        Arrays.fill(mem, (byte) 0);
 	}
 
 	private void set(int cell, int instruction) {
@@ -197,7 +195,7 @@ public class Memory128 extends Gate {
 				for (int i = DATA; i < DATA + 8; i++) {
 					int pow = (int) Math.pow(2, i - DATA);
 					if (getPin(i).getLevel())
-						value += pow;
+						value += (byte) pow;
 				}
 				mem[address] = value;
 				setPropertyInt(STATE + address, value);
@@ -216,7 +214,7 @@ public class Memory128 extends Gate {
 			clearMemory();
 			for (int i = 0; i < instructions.length; i++) {
 				String s = instructions[i];
-				int code = 0;
+				int code;
 				if (s.contains("x")) {
 					s = s.substring(2);
 					code = Integer.parseInt(s, 16);

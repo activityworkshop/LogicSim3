@@ -14,14 +14,14 @@ public class LSToggleButton extends JToggleButton {
 	@Serial
     private static final long serialVersionUID = 4992541122998327288L;
     private final int size = 20;
-    private final int padding = 10;
 
-	public final String id;
+    public final String id;
 	public LSToggleButton(String iconName, Lang toolTip) {
 		this.setDoubleBuffered(true);
 		this.setIcon(getIcon(iconName));
 		this.setToolTipText(I18N.tr(toolTip));
 		this.id = I18N.langToStr(toolTip);
+        int padding = 10;
         this.setMinimumSize(new Dimension(size + padding, size + padding));
         this.setMaximumSize(new Dimension(size + padding, size + padding));
         this.setPreferredSize(new Dimension(size + padding, size + padding));

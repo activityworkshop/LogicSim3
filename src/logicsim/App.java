@@ -30,18 +30,15 @@ public class App {
 		}
 		timer = newtime;
 	}
-	static ArrayList<Category> cats = new ArrayList<Category>();
+	static ArrayList<Category> cats = new ArrayList<>();
 
 	public App() {
-		String protocol = this.getClass().getResource("").getProtocol();
+		String protocol = Objects.requireNonNull(this.getClass().getResource("")).getProtocol();
 		if (Objects.equals(protocol, "jar"))
 			Running_From_Jar = true;
 		new I18N();
 		initializeGateCategories();
 
-        /*try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {}*/
         setUIFont(new FontUIResource("Roboto", Font.PLAIN, 12));
 
 		// center the window and adjust dimensions
@@ -62,7 +59,7 @@ public class App {
 	}
 
     private static void setUIFont(FontUIResource f){
-        Enumeration keys = UIManager.getDefaults().keys();
+        Enumeration<Object> keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
@@ -113,25 +110,12 @@ public class App {
 				gate.loadLanguage();
 				addToCategory(gate);
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IOException |
+                 IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
 
-		loadModules();
+        loadModules();
 	}
 
 	private static void loadModules() {
@@ -141,22 +125,22 @@ public class App {
 		File mods = new File(App.getModulePath());
 		// list of filenames in modules dir
 		String[] list = mods.list();
-		Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
+        assert list != null;
+        Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
 		// prepare list for all loaded modules
 		ArrayList<String> loadedModules = new ArrayList<>();
 		// prepare list of modules with sublist of needed modules
 		Map<String, ArrayList<String>> modules = new HashMap<>();
 
 		// now collect all modules with their needed modules
-		for (int i = 0; i < list.length; i++) {
-			if (list[i].endsWith(App.MODULE_FILE_SUFFIX)) {
-				String filename = list[i];
-				String type = new File(filename).getName();
-				type = type.substring(0, type.lastIndexOf("."));
-				//type = type.toLowerCase();
-				modules.put(type, XMLLoader.getModuleListFromFile(App.getModulePath() + "/" + filename));
-			}
-		}
+        for (String filename : list) {
+            if (filename.endsWith(App.MODULE_FILE_SUFFIX)) {
+                String type = new File(filename).getName();
+                type = type.substring(0, type.lastIndexOf("."));
+                //type = type.toLowerCase();
+                modules.put(type, XMLLoader.getModuleListFromFile(App.getModulePath() + "/" + filename));
+            }
+        }
 		int maxtries = modules.size();
 		int tries = 0;
 		while (tries < maxtries && maxtries != loadedModules.size()) {
@@ -198,7 +182,7 @@ public class App {
 		String fname = f.getAbsolutePath() + "/circuits/";
 		f = new File(fname);
 		if (f != null && f.exists() && f.isDirectory()) {
-			return new String(f.getAbsolutePath() + "/");
+			return f.getAbsolutePath() + "/";
 		} else {
 			Dialogs.messageDialog(null, "Directory 'circuits' not found.\nPlease run the program from its directory");
 			System.exit(0);

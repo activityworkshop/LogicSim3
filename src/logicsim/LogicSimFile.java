@@ -10,7 +10,7 @@ public class LogicSimFile {
 	Map<String, String> info = new HashMap<>();
 	String fileName;
 	public boolean changed = false;
-	private Vector<String> errors = new Vector<String>();
+	private final Vector<String> errors = new Vector<>();
 
 	public LogicSimFile(String fileName) {
 		this.fileName = fileName;
@@ -19,7 +19,7 @@ public class LogicSimFile {
 	/**
 	 * extract the pure file name from an absolute path
 	 *
-	 * @return
+	 * @return file name without path and extension
 	 */
 	public String extractFileName() {
 		File f = new File(fileName);
@@ -88,12 +88,12 @@ public class LogicSimFile {
 	}
 
 	public String getErrorString() {
-		if (errors.size() == 0)
+		if (errors.isEmpty())
 			return null;
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for (String err : errors)
-			s += " " + err;
-		return s;
+			s.append(" ").append(err);
+		return s.toString();
 	}
 
 }

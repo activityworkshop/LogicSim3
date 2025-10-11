@@ -46,7 +46,6 @@ public class SRRFlipFlop extends Gate {
 
 	/**
 	 * generate events for srr flipflop
-	 * 
 	 * easy task, cause the flip-flop will switch at rising edge
 	 * this cannot be detected over time only, so resetting means
 	 * setting the output to LOW (and the inverted output to HIGH)

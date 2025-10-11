@@ -11,7 +11,7 @@ import logicsim.Pin;
 /**
  * D-Flipflop with Set and Reset
  * 
- * @see http://cedmagic.com/tech-info/data/cd4013.pdf
+ * @see <a href="http://cedmagic.com/tech-info/data/cd4013.pdf">http://cedmagic.com/tech-info/data/cd4013.pdf</a>
  * 
  * @author Peter Gabriel
  * @version 2.0

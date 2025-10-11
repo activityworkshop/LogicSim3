@@ -23,9 +23,7 @@ public class MonoFlop extends Gate implements Runnable {
 
 	static final long serialVersionUID = -6063406618533983926L;
 
-	private Thread thread;
-
-	static final String HT = "hightime";
+    static final String HT = "hightime";
 
 	static final String HT_DEFAULT = "1000";
 
@@ -53,7 +51,7 @@ public class MonoFlop extends Gate implements Runnable {
 				getPin(1).changedLevel(evt);
 				fireRepaint();
 				// rising edge detection of input
-				thread = new Thread(this);
+                Thread thread = new Thread(this);
 				thread.setPriority(Thread.MIN_PRIORITY);
 				thread.start();
 			}
@@ -64,7 +62,7 @@ public class MonoFlop extends Gate implements Runnable {
 	public void run() {
 		try {
 			Thread.sleep(highTime);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException _) {
 		}
 		LSLevelEvent evt = new LSLevelEvent(this, LOW);
 		getPin(1).changedLevel(evt);
@@ -91,8 +89,8 @@ public class MonoFlop extends Gate implements Runnable {
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
 		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, HT), I18N.tr(Lang.SETTINGS),
-				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString((int) highTime));
-		if (h != null && h.length() > 0) {
+				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(highTime));
+		if (h != null && !h.isEmpty()) {
 			highTime = Integer.parseInt(h);
 			setPropertyInt(HT, highTime);
 		}

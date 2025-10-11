@@ -78,10 +78,10 @@ public class Switch4 extends Gate {
 	@Override
 	public void moveBy(int dx, int dy) {
 		super.moveBy(dx, dy);
-		for (int i = 0; i < areaRect.length; i++) {
-			areaRect[i].x = areaRect[i].x + dx;
-			areaRect[i].y = areaRect[i].y + dy;
-		}
+        for (Rectangle rectangle : areaRect) {
+            rectangle.x = rectangle.x + dx;
+            rectangle.y = rectangle.y + dy;
+        }
 	}
 
 	@Override

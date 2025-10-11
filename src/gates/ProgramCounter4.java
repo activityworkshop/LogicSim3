@@ -11,7 +11,6 @@ import logicsim.Pin;
 
 /**
  * 4bit Program Counter
- * 
  * The Program Counter keeps track of the next instruction.
  * 
  * @author Peter Gabriel
@@ -61,7 +60,7 @@ public class ProgramCounter4 extends Gate {
 			getPin(i).setDirection(Pin.DOWN);
 			getPin(i).setY(getY());
 			getPin(i).setX(getX() + (10 * (4 - (i - INTOUT) + 1)));
-			getPin(i).setProperty(TEXT, "i" + String.valueOf(i - INTOUT));
+			getPin(i).setProperty(TEXT, "i" + (i - INTOUT));
 		}
 
 	}
@@ -178,7 +177,7 @@ public class ProgramCounter4 extends Gate {
 		// if output enable is low, send content to bus
 		if (getPin(CO).getLevel() == LOW && getPin(JUMP).getLevel() == HIGH) {
 			for (int i = 0; i < 4; i++) {
-				LSLevelEvent evt = null;
+				LSLevelEvent evt;
 				int pot = (int) Math.pow(2, i);
 				evt = new LSLevelEvent(this, (content & pot) == pot);
 				getPin(i + DATA).changedLevel(evt);

@@ -9,9 +9,8 @@ import java.util.Vector;
 
 /**
  * XML Loader for circuit and module files
- * 
- * ideas taken from https://argonrain.wordpress.com/2009/10/27/000/
- * 
+ * ideas taken from <a href="https://argonrain.wordpress.com/2009/10/27/000/">https://argonrain.wordpress.com/2009/10/27/000/</a>
+ *
  * @author Peter Gabriel
  * @version 1.0
  */
@@ -163,7 +162,7 @@ public class XMLLoader {
 		String optMirror = gnode.optString("mirror");
 		String optInputs = gnode.optString("inputs");
 
-		Gate gate = null;
+		Gate gate;
 		try {
 			Gate g = App.getGate(type);
 			if (g == null)
@@ -181,16 +180,18 @@ public class XMLLoader {
 				gate.rotate();
 		}
 		if (optMirror != null) {
-			if ("x".equals(optMirror))
-				gate.mirror();
-			else if ("y".equals(optMirror)) {
-				gate.mirror();
-				gate.mirror();
-			} else if ("xy".equals(optMirror)) {
-				gate.mirror();
-				gate.mirror();
-				gate.mirror();
-			}
+            switch (optMirror) {
+                case "x" -> gate.mirror();
+                case "y" -> {
+                    gate.mirror();
+                    gate.mirror();
+                }
+                case "xy" -> {
+                    gate.mirror();
+                    gate.mirror();
+                    gate.mirror();
+                }
+            }
 		}
 		gate.moveTo(x, y);
 
@@ -203,7 +204,7 @@ public class XMLLoader {
 		gate.loadProperties();
 
 		// old
-		if (gnode.children("io").size() > 0)
+		if (!gnode.children("io").isEmpty())
 			loadPinsIO(gate, gnode);
 		else
 			loadPins(gate, gnode);
@@ -238,15 +239,13 @@ public class XMLLoader {
 			if ("input".equals(ioType)) {
 				String inpType = inode.optString("type");
 				if (inpType != null) {
-					int inputType = 0;
-					if ("high".equals(inpType)) {
-						inputType = Pin.HIGH;
-					} else if ("low".equals(inpType)) {
-						inputType = Pin.LOW;
-					} else if ("inv".equals(inpType)) {
-						inputType = Pin.INVERTED;
-					}
-					gate.getPin(number).levelType = inputType;
+					int inputType = switch (inpType) {
+                        case "high" -> Pin.HIGH;
+                        case "low" -> Pin.LOW;
+                        case "inv" -> Pin.INVERTED;
+                        default -> 0;
+                    };
+                    gate.getPin(number).levelType = inputType;
 				}
 			}
 		}
@@ -267,15 +266,13 @@ public class XMLLoader {
 			if (XMLCreator.INPUT.equals(ioType)) {
 				String inpType = inode.optString("type");
 				if (inpType != null) {
-					int inputType = 0;
-					if ("high".equals(inpType)) {
-						inputType = Pin.HIGH;
-					} else if ("low".equals(inpType)) {
-						inputType = Pin.LOW;
-					} else if ("inv".equals(inpType)) {
-						inputType = Pin.INVERTED;
-					}
-					gate.getPin(number).levelType = inputType;
+					int inputType = switch (inpType) {
+                        case "high" -> Pin.HIGH;
+                        case "low" -> Pin.LOW;
+                        case "inv" -> Pin.INVERTED;
+                        default -> 0;
+                    };
+                    gate.getPin(number).levelType = inputType;
 				}
 			}
 		}

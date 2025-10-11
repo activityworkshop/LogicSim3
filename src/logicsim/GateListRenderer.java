@@ -12,14 +12,11 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
     private static final long serialVersionUID = -361281475843085219L;
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
-			boolean isSelected, boolean cellHasFocus) {
-
+	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		setFont(list.getFont());
 		setOpaque(true);
-		if (value instanceof Gate) {
-			Gate gate = (Gate) value;
-			if (isSelected) {
+		if (value instanceof Gate gate) {
+            if (isSelected) {
 				setBackground(new Color(0xaa, 0xaa, 0xFF));
 				setForeground(Color.white);
 			} else {

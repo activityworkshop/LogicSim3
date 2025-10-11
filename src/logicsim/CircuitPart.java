@@ -26,13 +26,12 @@ public abstract class CircuitPart implements LSLevelListener {
 	protected Font bigFont = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
 	public static Font smallFont = new Font(Font.SANS_SERIF, Font.PLAIN, 7);
 
-	private Collection<LSLevelListener> listeners;
+	private final Collection<LSLevelListener> listeners;
 	private LSRepaintListener repListener;
 
 	protected static String indent(String string, int indentation) {
-		String s = "";
-		for (int i = 0; i < indentation; i++)
-			s += " ";
+		StringBuilder s = new StringBuilder();
+        s.append(" ".repeat(Math.max(0, indentation)));
 		return s + string.replaceAll("\n", "\n" + s);
 	}
 
@@ -48,7 +47,7 @@ public abstract class CircuitPart implements LSLevelListener {
 		return x;
 	}
 
-	private CircuitChangedListener changeListener = null;
+	private final CircuitChangedListener changeListener = null;
 
 	protected Point mousePos;
 	public CircuitPart parent;
@@ -70,7 +69,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	public CircuitPart(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.listeners = new ArrayList<LSLevelListener>();
+		this.listeners = new ArrayList<>();
 	}
 
 	protected Properties properties = new Properties();
@@ -356,7 +355,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public boolean isConnected() {
-		return getListeners().size() > 0;
+		return !getListeners().isEmpty();
 	}
 
 	public Collection<LSLevelListener> getListeners() {
@@ -364,16 +363,16 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public String toStringAll() {
-		String s = "-----------------------------\n";
-		s += toString();
-		s += "PARENT : " + parent + "\n";
-		s += "\n-- LISTENERS: \n";
+		StringBuilder s = new StringBuilder("-----------------------------\n");
+		s.append(toString());
+		s.append("PARENT : ").append(parent).append("\n");
+		s.append("\n-- LISTENERS: \n");
 		for (LSLevelListener l : getListeners()) {
-			s += l.toString();
-			s += " with parent " + ((CircuitPart) l).parent;
+			s.append(l.toString());
+			s.append(" with parent ").append(((CircuitPart) l).parent);
 		}
-		s += "-----------------------------\n";
-		return s;
+		s.append("-----------------------------\n");
+		return s.toString();
 	}
 
 	protected void clearListeners() {

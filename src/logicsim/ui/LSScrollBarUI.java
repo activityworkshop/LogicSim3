@@ -3,6 +3,7 @@ package logicsim.ui;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
+import java.io.Serial;
 
 public class LSScrollBarUI extends BasicScrollBarUI {
     private final Dimension d = new Dimension();
@@ -11,6 +12,7 @@ public class LSScrollBarUI extends BasicScrollBarUI {
     protected JButton createDecreaseButton(int orientation) {
         return new JButton() {
 
+            @Serial
             private static final long serialVersionUID = -3592643796245558676L;
 
             @Override
@@ -24,6 +26,7 @@ public class LSScrollBarUI extends BasicScrollBarUI {
     protected JButton createIncreaseButton(int orientation) {
         return new JButton() {
 
+            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -41,7 +44,7 @@ public class LSScrollBarUI extends BasicScrollBarUI {
     protected void paintThumb(Graphics g, JComponent c, Rectangle r) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Color color = null;
+        Color color;
         JScrollBar sb = (JScrollBar) c;
         if (!sb.isEnabled() || r.width > r.height) {
             return;

@@ -11,7 +11,6 @@ import logicsim.Pin;
 
 /**
  * 4bit Register
- * 
  * The register has 4 binary tri state outputs. Clock, output enable and load
  * inputs ensure control of the register.
  * 
@@ -60,7 +59,7 @@ public class Register4 extends Gate {
 			getPin(i).setDirection(Pin.UP);
 			getPin(i).setY(getY() + height);
 			getPin(i).setX(getX() + (10 * (4 - (i - INTOUT) + 1)));
-			getPin(i).setProperty(TEXT, "i" + String.valueOf(i - INTOUT));
+			getPin(i).setProperty(TEXT, "i" + (i - INTOUT));
 		}
 
 	}
@@ -171,7 +170,7 @@ public class Register4 extends Gate {
 		// if output enable is low, send content to bus
 		if (getPin(OE).getLevel() == LOW && getPin(LOAD).getLevel() == HIGH) {
 			for (int i = 0; i < 4; i++) {
-				LSLevelEvent evt = null;
+				LSLevelEvent evt;
 				int pot = (int) Math.pow(2, i);
 				evt = new LSLevelEvent(this, (content & pot) == pot);
 				getPin(i + DATA).changedLevel(evt);

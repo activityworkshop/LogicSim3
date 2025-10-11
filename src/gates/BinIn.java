@@ -158,15 +158,13 @@ public class BinIn extends Gate {
 		p.addPoint(x + rect.x, y + rect.y);
 		g.fill(p);
 		g.setPaint(Color.BLACK);
-		String sval = "";
+		String sval;
 
 		if (dHex)
 			sval = Integer.toHexString(value);
 		else
 			sval = Integer.toString(value);
-		if (sval.length() == 0)
-			sval = "00";
-		if (sval.length() == 1)
+        if (sval.length() == 1)
 			sval = "0" + sval;
 
 		sval = sval.toUpperCase();
@@ -219,7 +217,7 @@ public class BinIn extends Gate {
 		dlg.setResizable(true);
 		dlg.setSize(320, 180);
 		dlg.setVisible(true);
-		if (I18N.tr(Lang.OK).equals((String) pane.getValue())) {
+		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
 				displayType = DISPLAY_TYPE_HEX;
 			} else if (jRadioButton2.isSelected()) {

@@ -149,34 +149,23 @@ public class CtrlLogic extends Gate {
 
 	@Override
 	protected void drawLabel(Graphics2D g2, String lbl, Font font) {
-		super.drawLabel(g2, "Ins: " + insToMn(instruction) + " / " + "\u03BC" + "Step: " + mstep, font);
+		super.drawLabel(g2, "Ins: " + insToMn(instruction) + " / μ Step: " + mstep, font);
 	}
 
 	private String insToMn(int instruction2) {
-		switch (instruction) {
-		case cNOP:
-			return "NOP";
-		case cLDA:
-			return "LDA";
-		case cADD:
-			return "ADD";
-		case cSUB:
-			return "SUB";
-		case cSTA:
-			return "STA";
-		case cLDI:
-			return "LDI";
-		case cJMP:
-			return "JMP";
-		case cJC:
-			return "JC";
-		case cJZ:
-			return "JZ";
-		case cOUT:
-			return "OUT";
-		default:
-			return "HLT";
-		}
+        return switch (instruction) {
+            case cNOP -> "NOP";
+            case cLDA -> "LDA";
+            case cADD -> "ADD";
+            case cSUB -> "SUB";
+            case cSTA -> "STA";
+            case cLDI -> "LDI";
+            case cJMP -> "JMP";
+            case cJC -> "JC";
+            case cJZ -> "JZ";
+            case cOUT -> "OUT";
+            default -> "HLT";
+        };
 	}
 
 	@Override

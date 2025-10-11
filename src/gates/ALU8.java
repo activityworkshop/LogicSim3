@@ -10,10 +10,8 @@ import logicsim.Pin;
 
 /**
  * 8bit Algorithmic Unit
- * 
  * Following Ben Eater's Youtube Channel the ALU has inputs for two 8bit Words,
  * a signal for subtracting/adding the numbers and an output enable signal.
- * 
  * There are 8 outputs for the result of the subtraction/addition. The
  * computation is instantaneous so there is no clock input.
  * 

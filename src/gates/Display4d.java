@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
+import java.util.Arrays;
 
 import logicsim.Gate;
 import logicsim.localization.I18N;
@@ -29,7 +30,7 @@ public class Display4d extends Gate {
 			1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
 
 	String displayType;
-	int value = 0;
+	int value;
 	int[] digit = new int[] { BLANK, BLANK, BLANK, BLANK };
 
 	private static final int WE = 8;
@@ -114,9 +115,7 @@ public class Display4d extends Gate {
 			}
 		}
 		if (e.source.equals(getPin(CLR)) && e.level == LOW) {
-			for (int i = 0; i < digit.length; i++) {
-				digit[i] = BLANK;
-			}
+            Arrays.fill(digit, BLANK);
 		}
 	}
 

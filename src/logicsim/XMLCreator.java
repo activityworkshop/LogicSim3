@@ -21,9 +21,8 @@ import org.w3c.dom.Node;
 
 /**
  * XML Creator for circuit and module files
- * 
- * taken from https://argonrain.wordpress.com/2009/10/27/000/
- * 
+ * taken from <a href="https://argonrain.wordpress.com/2009/10/27/000/">https://argonrain.wordpress.com/2009/10/27/000/</a>
+ *
  * @author Peter Gabriel
  * @version 1.0
  */
@@ -52,14 +51,13 @@ public class XMLCreator {
 
 			if (f.info != null) {
 				Element node = doc.createElement("info");
-				for (Iterator<String> iterator = f.info.keySet().iterator(); iterator.hasNext();) {
-					String key = iterator.next();
-					String value = f.info.get(key);
-					Element n = doc.createElement("item");
+                for (String key : f.info.keySet()) {
+                    String value = f.info.get(key);
+                    Element n = doc.createElement("item");
                     n.setAttribute("key", key);
-					n.setTextContent(value);
-					node.appendChild(n);
-				}
+                    n.setTextContent(value);
+                    node.appendChild(n);
+                }
 				mainRootElement.appendChild(node);
 			}
 
@@ -89,10 +87,9 @@ public class XMLCreator {
 			if (f.fileName == null) {
 				StringWriter writer = new StringWriter();
 				transformer.transform(source, new StreamResult(writer));
-				String xmlString = writer.getBuffer().toString();
-				return xmlString;
+                return writer.getBuffer().toString();
 			} else {
-				FileOutputStream outStream = new FileOutputStream(new File(f.fileName));
+				FileOutputStream outStream = new FileOutputStream(f.fileName);
 				transformer.transform(source, new StreamResult(outStream));
 				f.changed = false;
 			}
@@ -105,7 +102,7 @@ public class XMLCreator {
 	public static Node createGateNode(Document doc, Gate g) {
 		Element node = doc.createElement("gate");
 		if (g instanceof Module) {
-			node.setAttribute("type", ((Module) g).type);
+			node.setAttribute("type", g.type);
 			node.setAttribute("module", "true");
 		} else {
 			node.setAttribute("type", g.type);
@@ -153,14 +150,14 @@ public class XMLCreator {
 	}
 
 	private static Node createSettingsNode(Document doc, Properties ps) {
-		if (ps.size() > 0) {
+		if (!ps.isEmpty()) {
 			Element node = doc.createElement("properties");
 			for (Object key : ps.keySet()) {
 				String keyS = (String) key;
 				Element n = doc.createElement("property");
 				n.setAttribute("key", keyS);
 				String value = ps.getProperty(keyS);
-				if (value == null || value.length() == 0)
+				if (value == null || value.isEmpty())
 					continue;
 				n.setTextContent(value);
 				node.appendChild(n);
@@ -203,14 +200,12 @@ public class XMLCreator {
 			Element n = doc.createElement("wire");
 			if (w.getFrom() != null) {
 				Element g = doc.createElement("from");
-				if (w.getFrom() instanceof Pin) {
-					Pin p = (Pin) w.getFrom();
-					g.setAttribute("type", "gate");
+				if (w.getFrom() instanceof Pin p) {
+                    g.setAttribute("type", "gate");
 					g.setAttribute("id", p.parent.getId());
 					g.setAttribute("number", String.valueOf(p.number));
-				} else if (w.getFrom() instanceof WirePoint) {
-					WirePoint wp = (WirePoint) w.getFrom();
-					String type = TYPE_WIRE;
+				} else if (w.getFrom() instanceof WirePoint wp) {
+                    String type = TYPE_WIRE;
 					if (wp.parent == null || w.equals(wp.parent))
 						type = TYPE_WIREPOINT;
 					g.setAttribute("type", type);
@@ -226,15 +221,13 @@ public class XMLCreator {
 
 			if (w.getTo() != null) {
 				Element g = doc.createElement("to");
-				if (w.getTo() instanceof Pin) {
-					Pin p = (Pin) w.getTo();
-					g.setAttribute("type", TYPE_GATE);
+				if (w.getTo() instanceof Pin p) {
+                    g.setAttribute("type", TYPE_GATE);
 					g.setAttribute("id", p.parent.getId());
 					g.setAttribute("number", String.valueOf(p.number));
-				} else if (w.getTo() instanceof WirePoint) {
+				} else if (w.getTo() instanceof WirePoint wp) {
 					// distinguish between own wirepoint and foreign wirepoint
-					WirePoint wp = (WirePoint) w.getTo();
-					String type = TYPE_WIRE;
+                    String type = TYPE_WIRE;
 					if (wp.parent == null || w.equals(wp.parent))
 						type = TYPE_WIREPOINT;
 					g.setAttribute("type", type);

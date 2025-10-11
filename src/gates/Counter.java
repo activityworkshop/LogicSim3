@@ -92,14 +92,12 @@ public class Counter extends Gate {
 		int y = getY();
 
 		g.setPaint(Color.BLACK);
-		String sval = "";
+		String sval;
 		if (DISPLAY_TYPE_DEC.equals(displayType)) {
 			sval = Integer.toString(value);
 		} else
 			sval = Integer.toHexString(value);
-		if (sval.length() == 0)
-			sval = "00";
-		if (sval.length() == 1)
+        if (sval.length() == 1)
 			sval = "0" + sval;
 
 		sval = sval.toUpperCase();
@@ -152,7 +150,7 @@ public class Counter extends Gate {
 		dlg.setResizable(true);
 		dlg.setSize(290, 180);
 		dlg.setVisible(true);
-		if (I18N.tr(Lang.OK).equals((String) pane.getValue())) {
+		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
 				displayType = DISPLAY_TYPE_HEX;
 			} else if (jRadioButton2.isSelected()) {

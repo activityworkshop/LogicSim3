@@ -77,9 +77,7 @@ public class BinDisp extends Gate {
 		else
 			sval = Integer.toHexString(value);
 		// draw display's value
-		if (sval.length() == 0)
-			sval = "00";
-		if (sval.length() == 1)
+        if (sval.length() == 1)
 			sval = "0" + sval;
 		sval = sval.toUpperCase();
 		WidgetHelper.drawString(g2, sval, xc, yc, WidgetHelper.ALIGN_CENTER);
@@ -122,7 +120,7 @@ public class BinDisp extends Gate {
 		dlg.setResizable(true);
 		dlg.setSize(320, 180);
 		dlg.setVisible(true);
-		if (I18N.tr(Lang.OK).equals((String) pane.getValue())) {
+		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
 				displayType = DISPLAY_TYPE_HEX;
 			} else if (jRadioButton2.isSelected()) {

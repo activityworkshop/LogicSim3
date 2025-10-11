@@ -9,7 +9,6 @@ import logicsim.WidgetHelper;
 
 /**
  * Segment Segment Driver for LogicSim
- * 
  * has 4 binary inputs and 8 outputs to connect to a seven segment display.
  * 
  * @author Peter Gabriel
@@ -54,8 +53,8 @@ public class SevenSegmentDriver extends Gate {
 	}
 
 	/**
-	 * https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d
-	 */
+     * <a href="https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d">https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d</a>
+     */
 	@Override
 	public void simulate() {
 		super.simulate();

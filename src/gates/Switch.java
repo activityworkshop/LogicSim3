@@ -30,7 +30,6 @@ import logicsim.Pin;
 
 /**
  * Switch Component for LogicSim
- * 
  * Simple Switch - can be configured as momentary or toggle button
  * 
  * @author Andreas Tetzl
@@ -70,7 +69,7 @@ public class Switch extends Gate {
 	@Override
 	protected void loadProperties() {
 		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
-		switchTypeMomentary = getPropertyWithDefault(SWITCH_TYPE, DEFAULT_SWITCH_TYPE).equals(TOGGLE) ? false : true;
+		switchTypeMomentary = !getPropertyWithDefault(SWITCH_TYPE, DEFAULT_SWITCH_TYPE).equals(TOGGLE);
 		int state = getPropertyIntWithDefault(STATE, 0);
 		if (state == 1) {
 			getPin(0).changedLevel(new LSLevelEvent(this, HIGH));
@@ -220,7 +219,7 @@ public class Switch extends Gate {
 		dlg.setResizable(true);
 		dlg.setSize(290, 180);
 		dlg.setVisible(true);
-		if (I18N.tr(Lang.OK).equals((String) pane.getValue())) {
+		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
 				switchTypeMomentary = false;
 			} else if (jRadioButton2.isSelected()) {

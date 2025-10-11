@@ -22,7 +22,7 @@ public class OR extends Gate {
 
 	public OR() {
 		super("basic");
-		label = "\u2265" + "1";
+		label = "≥1";
 		type = "or";
 		createOutputs(1);
 		createInputs(2);
@@ -34,7 +34,7 @@ public class OR extends Gate {
 		super.simulate();
 		boolean newLevel = false;
 		for (Pin c : getInputs()) {
-			newLevel = newLevel || c.getLevel();
+			newLevel = c.getLevel();
 			if (newLevel)
 				break;
 		}

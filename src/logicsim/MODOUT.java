@@ -9,7 +9,6 @@ import java.awt.Rectangle;
 
 /**
  * output gate for modules
- * 
  * will be created during module creation. connect outputs to define module
  * outputs.
  * 

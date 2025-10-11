@@ -16,13 +16,13 @@ public class LSButton extends JButton {
 	@Serial
     private static final long serialVersionUID = 4465562539140913810L;
     private final int size = 20;
-    private final int padding = 10;
 
-	public LSButton(String iconName, Lang toolTip) {
+    public LSButton(String iconName, Lang toolTip) {
 		this.setDoubleBuffered(true);
 		this.setIcon(getIcon(iconName));
 		this.setToolTipText(I18N.tr(toolTip));
 		this.setName(toolTip.toString());
+        int padding = 10;
         this.setMinimumSize(new Dimension(size + padding, size + padding));
         this.setMaximumSize(new Dimension(size + padding, size + padding));
         this.setPreferredSize(new Dimension(size + padding, size + padding));

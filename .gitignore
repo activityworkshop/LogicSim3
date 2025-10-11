@@ -3,6 +3,7 @@ dist/
 bin/
 tests/
 icons/
+.idea/
 logicsim.cfg
 .settings/
 .DS_Store

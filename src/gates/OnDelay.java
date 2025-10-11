@@ -24,8 +24,7 @@ public class OnDelay extends Gate implements Runnable {
 	static final String DELAY = "delay";
 	static final String DELAY_DEFAULT = "500";
 
-	private Thread thread;
-	int delayTime = 1000;
+    int delayTime = 1000;
 
 	public OnDelay() {
 		super("input");
@@ -45,7 +44,7 @@ public class OnDelay extends Gate implements Runnable {
 		if (e.source.equals(getPin(0))) {
 			if (e.level == HIGH) {
 				// rising edge detection of input
-				thread = new Thread(this);
+                Thread thread = new Thread(this);
 				thread.setPriority(Thread.MIN_PRIORITY);
 				thread.start();
 			} else {
@@ -60,7 +59,7 @@ public class OnDelay extends Gate implements Runnable {
 	public void run() {
 		try {
 			Thread.sleep(delayTime);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException _) {
 		}
 		LSLevelEvent evt = new LSLevelEvent(this, HIGH);
 		getPin(1).changedLevel(evt);
@@ -70,8 +69,8 @@ public class OnDelay extends Gate implements Runnable {
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
 		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, DELAY), I18N.tr(Lang.SETTINGS),
-				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString((int) delayTime));
-		if (h != null && h.length() > 0) {
+				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(delayTime));
+		if (h != null && !h.isEmpty()) {
 			delayTime = Integer.parseInt(h);
 			setPropertyInt(DELAY, delayTime);
 		}

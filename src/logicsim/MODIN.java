@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
 
 /**
  * input gate for modules
- * 
  * will be created during module creation. connect inputs to define module
  * inputs.
  * 
@@ -91,9 +90,9 @@ public class MODIN extends Gate {
 				for (int i = inputcount - 1; i >= pincount; i--) {
 					pins.remove(i + inputcount);
 				}
-				for (int i = inputcount - 1; i >= pincount; i--) {
-					pins.remove(i);
-				}
+                if (inputcount > pincount) {
+                    pins.subList(pincount, inputcount).clear();
+                }
 				for (int i = 0; i < pincount; i++) {
 					Pin p = pins.get(pincount + i);
 					p.number = pincount + i;
@@ -139,7 +138,7 @@ public class MODIN extends Gate {
 		super.showPropertiesUI(frame);
 		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, PINCOUNT), I18N.tr(Lang.SETTINGS),
 				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(pincount));
-		if (h != null && h.length() > 0) {
+		if (h != null && !h.isEmpty()) {
 			pincount = Integer.parseInt(h);
 			setPropertyInt(PINCOUNT, pincount);
 			loadProperties();

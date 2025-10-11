@@ -41,8 +41,7 @@ public class CLK extends Gate implements Runnable {
 	static final String HT_DEFAULT = "500";
 	static final String LT_DEFAULT = "500";
 
-	private Thread thread;
-	private boolean running = false;
+    private boolean running = false;
 
 	Rectangle auto = new Rectangle(39, 53, 30, 15);
 	Rectangle manual = new Rectangle(11, 53, 15, 15);
@@ -170,14 +169,14 @@ public class CLK extends Gate implements Runnable {
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
 		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERHIGH), I18N.tr(Lang.SETTINGS),
-				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString((int) highTime));
-		if (h != null && h.length() > 0) {
+				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(highTime));
+		if (h != null && !h.isEmpty()) {
 			highTime = Integer.parseInt(h);
 			setPropertyInt(HT, highTime);
 		}
 		h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERLOW), I18N.tr(Lang.SETTINGS),
-				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString((int) lowTime));
-		if (h != null && h.length() > 0) {
+				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(lowTime));
+		if (h != null && !h.isEmpty()) {
 			lowTime = Integer.parseInt(h);
 			setPropertyInt(LT, lowTime);
 		}
@@ -206,7 +205,7 @@ public class CLK extends Gate implements Runnable {
 	}
 
 	public void startClock() {
-		thread = new Thread(this);
+        Thread thread = new Thread(this);
 		thread.setPriority(Thread.MIN_PRIORITY);
 		thread.start();
 	}
@@ -215,7 +214,7 @@ public class CLK extends Gate implements Runnable {
 	public void run() {
 		running = true;
 		int ms = 10 * highTime / oszi.width;
-		Date temp = new Date();
+		Date temp;
 		long lastMS = new Date().getTime();
 		lastTime = new Date().getTime();
 		while (running) {
@@ -244,15 +243,11 @@ public class CLK extends Gate implements Runnable {
 					cout.changedLevel(new LSLevelEvent(this, LOW));
 					lastTime = new Date().getTime();
 				}
-			} else if (currentMode == MANUAL) {
-				// if (out && new Date().getTime() - lastTime > highTime) {
-				// cout.changedLevel(new LSLevelEvent(this, LOW));
-				// currentMode = PAUSE;
-				// }
 			}
-			try {
+
+            try {
 				Thread.sleep(8);
-			} catch (InterruptedException e) {
+			} catch (InterruptedException _) {
 			}
 			osz[pos] = cout.getLevel();
 		}

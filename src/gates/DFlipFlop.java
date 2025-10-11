@@ -44,8 +44,8 @@ public class DFlipFlop extends Gate {
 	}
 
 	/**
-	 * https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d
-	 */
+     * <a href="https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d">https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d</a>
+     */
 	@Override
 	public void changedLevel(LSLevelEvent e) {
 		if (e.source.equals(getPin(1)) && e.level == HIGH) {

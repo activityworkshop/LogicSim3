@@ -52,7 +52,6 @@ public class Gate extends CircuitPart {
 
 	/**
 	 * mirroring of part.
-	 * 
 	 * 0 is normal. 1 is mirrored in x-axis. 2 is mirrored in y-axis. 3 means
 	 * mirroring in both axes
 	 */
@@ -61,7 +60,6 @@ public class Gate extends CircuitPart {
 
 	/**
 	 * rotate in 90 degree steps clockwise (0-3).
-	 * 
 	 * so 0 is normal orientation, 1 is 90 degrees clockwise, 2 is 180, 3 is 270
 	 * degrees clockwise
 	 */
@@ -437,13 +435,7 @@ public class Gate extends CircuitPart {
 		return width;
 	}
 
-	/**
-	 * True zurückgeben, wenn Gatter Einstellungen hat. Wird benutzt, damit bei
-	 * Gattern ohne Einstellungen der Punkt "Properties" im Context-Menü
-	 * ausgeblendet wird
-	 */
-
-	/**
+    /**
 	 * true, wenn Koordinaten mx,my innerhalb der gate Area liegen
 	 */
 	public final boolean insideArea(int mx, int my) {
@@ -460,15 +452,7 @@ public class Gate extends CircuitPart {
 				.contains(mx, my);
 	}
 
-	/**
-	 * implement this in gates if some settings should be applied after setting
-	 * properties
-	 */
-	/*
-	 * protected void loadProperties() { }
-	 */
-
-	/**
+    /**
 	 * mirror the gate first in x-axis, then in y-axis, then both axes, then normal
 	 * so 0 is normal, 1 x, 2 y, 3 both
 	 */
@@ -496,11 +480,7 @@ public class Gate extends CircuitPart {
 		}
 	}
 
-	@Override
-	public void loadLanguage() {
-	}
-
-	@Override
+    @Override
 	public void mouseDragged(MouseEvent e) {
 		super.mouseDragged(e);
 
@@ -536,11 +516,7 @@ public class Gate extends CircuitPart {
 		 */
 	}
 
-	@Override
-	public void mousePressedSim(LSMouseEvent e) {
-	}
-
-	@Override
+    @Override
 	public void moveBy(int dx, int dy) {
 		if (xc == -1) {
 			xc = getX() + width / 2;
@@ -595,7 +571,7 @@ public class Gate extends CircuitPart {
 		}
 		rotatePins();
 		// set rotation center
-		Point center = new Point((int) xc, (int) yc);
+		Point center = new Point(xc, yc);
 		// compute new position and width, height
 		Point newPos = WidgetHelper.rotatePoint90(getX(), getY() + height, center);
 		this.setX(newPos.x);
@@ -622,7 +598,7 @@ public class Gate extends CircuitPart {
 			yc = getY() + height / 2;
 		}
 		// set rotation center
-		Point center = new Point((int) xc, (int) yc);
+		Point center = new Point(xc, yc);
 		// rotate everything around the center
 		for (Pin c : pins) {
 			c.paintDirection++;

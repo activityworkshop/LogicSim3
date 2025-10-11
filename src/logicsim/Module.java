@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 
 /**
  * Module implementation
- * 
  * taken from Orginal Module by Andreas Tetzl
  * 
  * @author Peter Gabriel
@@ -204,12 +203,7 @@ public class Module extends Gate {
 		super.drawLabel(g2, lbl, font);
 	}
 
-	@Override
-	public boolean hasPropertiesUI() {
-		return true;
-	}
-
-	@Override
+    @Override
 	public boolean showPropertiesUI(Component frame) {
 		if (moduleIn != null) {
             FileInfoDialog.showFileInfo(frame, lsFile);

@@ -29,10 +29,9 @@ public class Dialogs {
 
 	public static int confirmDiscardDialog(Component comp) {
 		Object[] options1 = { I18N.tr(Lang.YES), I18N.tr(Lang.NO) };
-		int result = JOptionPane.showOptionDialog(comp, I18N.tr(Lang.QUESTION_CONFIRMDISCARD), "LogicSim",
-				JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, options1[1]);
 
-		return result;
+        return JOptionPane.showOptionDialog(comp, I18N.tr(Lang.QUESTION_CONFIRMDISCARD), "LogicSim",
+                JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, options1[1]);
 	}
 
 	public static void messageDialog(Component comp, String msg) {

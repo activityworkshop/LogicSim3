@@ -34,7 +34,7 @@ public class AND extends Gate {
 		super.simulate();
 		boolean newLevel = true;
 		for (Pin c : getInputs()) {
-			newLevel = newLevel && c.getLevel();
+			newLevel = c.getLevel();
 			if (!newLevel)
 				break;
 		}

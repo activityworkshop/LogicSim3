@@ -1,6 +1,7 @@
 package logicsim.ui;
 
 import logicsim.App;
+import logicsim.LSFrame;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -16,6 +17,8 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
+import java.util.Objects;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -34,7 +37,7 @@ public class LSFrame_AboutBox extends JWindow {
 		Point pL;
 		int imgWidth, imgHeight;
 
-		this.imgSplash = new ImageIcon(logicsim.LSFrame.class.getResource("images/about.jpg")).getImage();
+		this.imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
 
 		imgWidth = imgSplash.getWidth(this);
 		imgHeight = imgSplash.getHeight(this) + 155;
@@ -59,7 +62,8 @@ public class LSFrame_AboutBox extends JWindow {
 	}
 
 	class SplashPanel extends JPanel {
-		private static final long serialVersionUID = 5564588819196489014L;
+		@Serial
+        private static final long serialVersionUID = 5564588819196489014L;
 
 		public void paint(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;

@@ -11,7 +11,6 @@ import logicsim.Pin;
 
 /**
  * 8bit Register
- * 
  * The register has 8 binary inputs and 8 outputs to connect to a bus. Clock,
  * output enable and load inputs ensure control of the register.
  * 
@@ -62,7 +61,7 @@ public class Register8 extends Gate {
 			getPin(i).setDirection(Pin.DOWN);
 			getPin(i).setY(getY());
 			getPin(i).setX(getX() + (10 * (7 - (i - INTOUT) + 2)));
-			getPin(i).setProperty(TEXT, "i" + String.valueOf(i - INTOUT));
+			getPin(i).setProperty(TEXT, "i" + (i - INTOUT));
 		}
 
 	}
@@ -175,7 +174,7 @@ public class Register8 extends Gate {
 		// if output enable is low, send content to bus
 		if (getPin(OE).getLevel() == LOW && getPin(LOAD).getLevel() == HIGH) {
 			for (int i = 0; i < 8; i++) {
-				LSLevelEvent evt = null;
+				LSLevelEvent evt;
 				int pot = (int) Math.pow(2, i);
 				evt = new LSLevelEvent(this, (content & pot) == pot);
 				getPin(i + DATA).changedLevel(evt);
