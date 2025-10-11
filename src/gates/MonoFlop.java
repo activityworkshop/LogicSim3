@@ -8,9 +8,9 @@ import java.awt.geom.Path2D;
 import javax.swing.JOptionPane;
 
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
-import logicsim.Lang;
+import logicsim.localization.Lang;
 
 /**
  * MonoFlop for LogicSim

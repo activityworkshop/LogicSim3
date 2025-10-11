@@ -1,7 +1,7 @@
 package gates;
 
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 

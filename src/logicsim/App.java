@@ -1,5 +1,7 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
@@ -141,9 +143,9 @@ public class App {
 		String[] list = mods.list();
 		Arrays.sort(list, String.CASE_INSENSITIVE_ORDER);
 		// prepare list for all loaded modules
-		ArrayList<String> loadedModules = new ArrayList<String>();
+		ArrayList<String> loadedModules = new ArrayList<>();
 		// prepare list of modules with sublist of needed modules
-		Map<String, ArrayList<String>> modules = new HashMap<String, ArrayList<String>>();
+		Map<String, ArrayList<String>> modules = new HashMap<>();
 
 		// now collect all modules with their needed modules
 		for (int i = 0; i < list.length; i++) {
@@ -155,7 +157,7 @@ public class App {
 				modules.put(type, XMLLoader.getModuleListFromFile(App.getModulePath() + "/" + filename));
 			}
 		}
-		int maxtries = modules.keySet().size();
+		int maxtries = modules.size();
 		int tries = 0;
 		while (tries < maxtries && maxtries != loadedModules.size()) {
 			for (String modname : modules.keySet()) {
@@ -182,7 +184,7 @@ public class App {
 		String fname = f.getAbsolutePath() + "/modules/";
 		f = new File(fname);
 		if (f != null && f.exists() && f.isDirectory()) {
-			return new String(f.getAbsolutePath() + "/");
+			return f.getAbsolutePath() + "/";
 		} else {
 			Dialogs.messageDialog(null, "Directory 'modules' not found.\nPlease run the program from its directory");
 			System.exit(0);

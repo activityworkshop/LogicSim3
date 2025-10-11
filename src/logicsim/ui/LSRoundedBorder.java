@@ -1,4 +1,4 @@
-package logicsim;
+package logicsim.ui;
 
 import javax.swing.border.Border;
 import java.awt.*;

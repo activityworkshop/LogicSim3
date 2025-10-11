@@ -1,5 +1,12 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+import logicsim.ui.LSButton;
+import logicsim.ui.LSFrame_AboutBox;
+import logicsim.ui.LSScrollBarUI;
+import logicsim.ui.LSToggleButton;
+
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -817,7 +824,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	 * set window title
 	 */
 	private void setAppTitle() {
-		String name = lsFile.extractFileName();
+		String name = lsFile.getName();
 		name = "LogicSim - " + name;
 		if (lsFile.changed)
 			name += "*";
@@ -831,13 +838,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	 */
 	void actionSave(ActionEvent e, boolean saveAs) {
 		String fileName = lsFile.fileName;
-		boolean unnamed = false;
-		if (lsFile.extractFileName().equals(I18N.tr(Lang.UNNAMED))) {
-			unnamed = true;
-		}
-		boolean showDialog = fileName == null || fileName.isEmpty();
-		showDialog = showDialog || unnamed;
-		showDialog = showDialog || saveAs;
+		boolean unnamed = lsFile.extractFileName().equals(I18N.tr(Lang.UNNAMED));
+        boolean showDialog = fileName == null || fileName.isEmpty() || unnamed || saveAs;
 
 		if (showDialog)
 			if (!showSaveDialog())

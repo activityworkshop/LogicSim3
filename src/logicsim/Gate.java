@@ -113,7 +113,8 @@ public class Gate extends CircuitPart {
 	}
 
 	public void createDynamicInputs(int total) {
-        if (total < 1) total = 1;
+        if (total < 2) total = 2;
+        if (total > 5) total = 5;
 		int numinputs = getInputs().size();
         if (total > numinputs) {
             // get max number

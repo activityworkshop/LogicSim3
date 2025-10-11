@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class LogicSimFile {
 	Circuit circuit = new Circuit();
-	Map<String, String> info = new HashMap<String, String>();
+	Map<String, String> info = new HashMap<>();
 	String fileName;
 	public boolean changed = false;
 	private Vector<String> errors = new Vector<String>();
@@ -18,8 +18,7 @@ public class LogicSimFile {
 
 	/**
 	 * extract the pure file name from an absolute path
-	 * 
-	 * @param fileName
+	 *
 	 * @return
 	 */
 	public String extractFileName() {
@@ -47,8 +46,12 @@ public class LogicSimFile {
 	}
 
 	private String getKey(String key) {
-		return info.containsKey(key) ? info.get(key) : null;
+		return info.getOrDefault(key, null);
 	}
+
+    public void setName(String value) {
+        info.put("name", value);
+    }
 
 	public void setLabel(String value) {
 		info.put("label", value);
@@ -57,6 +60,10 @@ public class LogicSimFile {
 	public void setDescription(String value) {
 		info.put("description", value);
 	}
+
+    public String getName() {
+        return getKey("name");
+    }
 
 	public String getLabel() {
 		return getKey("label");

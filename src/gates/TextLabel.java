@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.WidgetHelper;
 
 /**

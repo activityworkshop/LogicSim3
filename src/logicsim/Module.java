@@ -1,5 +1,8 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -64,6 +67,12 @@ public class Module extends Gate {
 		}
 
 		label = lsFile.getLabel();
+        if (label == null || label.isEmpty()) {
+            label = lsFile.extractFileName();
+        }
+        if (label.length() > 20) {
+            label = label.substring(0, 17) + "...";
+        }
 
 		// postprocessing: search for MODIN and MODOUT
 		for (CircuitPart g : lsFile.circuit.parts) {
@@ -109,7 +118,7 @@ public class Module extends Gate {
 		int numIn = getNumInputs();
 		int numOut = getNumOutputs();
 		int modoutNumOut = moduleOut.getNumInputs();
-		int max = (numIn > numOut) ? numIn : numOut;
+		int max = Math.max(numIn, numOut);
 		if (max > 5)
 			height = 10 * max + 10;
 		for (Pin c : getInputs()) {
@@ -173,12 +182,26 @@ public class Module extends Gate {
 		}
 	}
 
-	@Override
+    @Override
+    public void draw(Graphics2D g2) {
+        int sw = g2.getFontMetrics().stringWidth(label);
+        sw += 10 - (sw % 10);
+        if (width < sw + 20) {
+            width = sw + 20;
+        }
+        for (Pin p : pins) {
+            int x = getX();
+            if (!p.isInput()) {
+                x += width;
+            }
+            p.setX(x);
+        }
+        super.draw(g2);
+    }
+
+    @Override
 	protected void drawLabel(Graphics2D g2, String lbl, Font font) {
-		//super.drawLabel(g2, type, font);
-		g2.setFont(bigFont);
-		int sw = g2.getFontMetrics().stringWidth(type);
-		WidgetHelper.drawStringRotated(g2, type, getX() + 36, getY() + height / 2 + sw / 2, WidgetHelper.ALIGN_CENTER, -90);
+		super.drawLabel(g2, lbl, font);
 	}
 
 	@Override
@@ -189,9 +212,7 @@ public class Module extends Gate {
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		if (moduleIn != null) {
-			String content = I18N.tr(Lang.DESCRIPTION) + ":\n";
-			content += lsFile.getDescription();
-			JOptionPane.showMessageDialog(frame, content);
+            FileInfoDialog.showFileInfo(frame, lsFile);
 		}
 		return true;
 	}

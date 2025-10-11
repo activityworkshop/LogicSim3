@@ -8,9 +8,9 @@ import javax.swing.JColorChooser;
 
 import logicsim.ColorFactory;
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
-import logicsim.Lang;
+import logicsim.localization.Lang;
 
 /**
  * 8-fold LED

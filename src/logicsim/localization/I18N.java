@@ -8,7 +8,11 @@
  * Open. You can then make changes to the template in the Source Editor.
  */
 
-package logicsim;
+package logicsim.localization;
+
+import logicsim.App;
+import logicsim.Dialogs;
+import logicsim.LSProperties;
 
 import java.io.InputStream;
 import java.util.*;

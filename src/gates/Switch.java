@@ -22,10 +22,10 @@ import javax.swing.border.TitledBorder;
 
 import logicsim.ColorFactory;
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
-import logicsim.Lang;
+import logicsim.localization.Lang;
 import logicsim.Pin;
 
 /**

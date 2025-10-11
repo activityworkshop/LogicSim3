@@ -1,4 +1,7 @@
-package logicsim;
+package logicsim.ui;
+
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
 
 import java.awt.*;
 import java.io.Serial;
@@ -35,7 +38,7 @@ public class LSToggleButton extends JToggleButton {
 	}
 
 	private ImageIcon getIcon(String imgname) {
-		String filename = "images/" + imgname + ".png";
+		String filename = "/logicsim/images/" + imgname + ".png";
 		int is = size;
 		// return new ImageIcon(LSFrame.class.getResource(filename));
 		return new ImageIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage().getScaledInstance(is, is,

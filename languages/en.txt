@@ -92,3 +92,4 @@ text=Text
 expert=Expert
 wire=wire
 normal=Normal
+label=Label

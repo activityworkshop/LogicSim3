@@ -1,4 +1,6 @@
-package logicsim;
+package logicsim.ui;
+
+import logicsim.App;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;

@@ -92,3 +92,4 @@ text=Text
 expert=Experte
 wire=Kabel
 normal=Normal
+label=Beschriftung

@@ -54,3 +54,4 @@ removepoint=Supprimer un point de connexion
 cancel=Annuler
 no=Non
 yes=Oui
+label=Étiquette

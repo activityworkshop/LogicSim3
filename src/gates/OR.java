@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSProperties;
 

@@ -1,5 +1,8 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Vector;
@@ -287,7 +290,7 @@ public class XMLLoader {
 	}
 
 	public static ArrayList<String> getModuleListFromFile(String fileName) {
-		ArrayList<String> moduleList = new ArrayList<String>();
+		ArrayList<String> moduleList = new ArrayList<>();
 		Xml doc = new Xml(fileName, ROOT_STRING);
 		String version = doc.string("version");
 		if (!formatVersion.equals(version))

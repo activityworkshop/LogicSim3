@@ -55,7 +55,8 @@ public class XMLCreator {
 				for (Iterator<String> iterator = f.info.keySet().iterator(); iterator.hasNext();) {
 					String key = iterator.next();
 					String value = f.info.get(key);
-					Element n = doc.createElement(key);
+					Element n = doc.createElement("item");
+                    n.setAttribute("key", key);
 					n.setTextContent(value);
 					node.appendChild(n);
 				}

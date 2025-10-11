@@ -6,6 +6,9 @@
 
 package logicsim;
 
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+
 import javax.swing.*;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -14,8 +17,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.util.Objects;
 
 /**
  *

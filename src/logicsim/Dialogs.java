@@ -1,5 +1,8 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+
 import java.awt.Component;
 
 import javax.swing.JOptionPane;

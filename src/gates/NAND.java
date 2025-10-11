@@ -1,6 +1,6 @@
 package gates;
 
-import logicsim.I18N;
+import logicsim.localization.I18N;
 import logicsim.Pin;
 
 /**

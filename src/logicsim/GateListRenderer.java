@@ -1,5 +1,7 @@
 package logicsim;
 
+import logicsim.localization.I18N;
+
 import java.awt.*;
 import java.io.Serial;
 
