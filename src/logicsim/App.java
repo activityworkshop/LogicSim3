@@ -40,6 +40,7 @@ public class App {
         /*try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {}*/
+        setUIFont(new FontUIResource("Roboto", Font.PLAIN, 12));
 
 		// center the window and adjust dimensions
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
