@@ -61,11 +61,12 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 				part.draw(g2);
 			}
 
-			if (currentAction == ACTION_SELECT) {
-				g2.setStroke(dashed);
-				g2.setColor(Color.blue);
-				if (selectRect != null)
-					g2.draw(selectRect);
+			if (currentAction == ACTION_SELECT && selectRect != null) {
+				g2.setStroke(new BasicStroke());
+				g2.setColor(new Color(0, 115, 255));
+                g2.draw(selectRect); //Border
+                g2.setColor(new Color(0, 115, 255, 115));
+                g2.fill(selectRect); //Fill
 			}
 		}
 	}
@@ -194,9 +195,11 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 			if (simRunning) {
 				currentAction = ACTION_NONE;
 				//fireStatusText(NOTHING);
-			}
+			} else if (e.getButton() == MouseEvent.BUTTON3) {
+                currentAction = ACTION_SELECT;
+            }
 
-			if (currentAction == ACTION_SELECT) {
+            if (currentAction == ACTION_SELECT) {
 				selectRect = new Rectangle2D.Double(e.getX(), e.getY(), 0, 0);
 			}
 

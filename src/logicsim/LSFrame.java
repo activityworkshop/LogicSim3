@@ -447,33 +447,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		LSToggleButton btnToggle = new LSToggleButton("play", Lang.SIMULATE);
 		btnToggle.addActionListener(this::actionSimulate);
 		btnBar.add(btnToggle, null);
-        btnBar.add(getSmallMenuGap());
-
-        btnToggle = new LSToggleButton("select", Lang.SELECT);
-        btnToggle.addActionListener(e -> {
-            lspanel.setAction(LSPanel.ACTION_SELECT);
-            lspanel.requestFocusInWindow();
-        });
-        btnBar.add(btnToggle, null);
-
         btnBar.add(getMenuGap());
-
-		/*btnLS = new LSButton("rotate", Lang.ROTATE);
-		btnLS.addActionListener(e -> {
-            lspanel.rotateSelected();
-            lspanel.requestFocusInWindow();
-        });
-		btnBar.add(btnLS, null);
-        btnBar.add(getSmallMenuGap());
-
-		btnLS = new LSButton("mirror", Lang.MIRROR);
-		btnLS.addActionListener(e -> {
-            lspanel.mirrorSelected();
-            lspanel.requestFocusInWindow();
-        });
-		btnBar.add(btnLS);
-
-		btnBar.add(getMenuGap());*/
 
 		btnLS = new LSButton("inputnorm", Lang.INPUTNORM);
 		btnLS.addActionListener(e -> {
