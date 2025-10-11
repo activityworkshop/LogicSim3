@@ -111,57 +111,35 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		JMenu mnu = new JMenu(I18N.tr(Lang.FILE));
 
 		JMenuItem m = createMenuItem(Lang.NEW, KeyEvent.VK_N, false);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionNew(e);
-			}
-		});
+		m.addActionListener(this::actionNew);
 		mnu.add(m);
 
 		m = createMenuItem(Lang.OPEN, KeyEvent.VK_O, true);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionOpen(e);
-			}
-		});
+		m.addActionListener(this::actionOpen);
 		mnu.add(m);
 
 		mnu.addSeparator();
 
 		m = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionSave(e, false);
-			}
-		});
+		m.addActionListener(e -> actionSave(e, false));
 		mnu.add(m);
 
 		m = createMenuItem(Lang.SAVEAS, 0, true);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionSave(e, true);
-			}
-		});
+		m.addActionListener(e -> actionSave(e, true));
 		mnu.add(m);
 
 		mnu.addSeparator();
 
 		m = createMenuItem(Lang.MODULECREATE, 0, true);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionCreateModule(e);
-			}
-		});
+		m.addActionListener(this::actionCreateModule);
 		mnu.add(m);
 
 		m = createMenuItem(Lang.PROPERTIES, 0, true);
-		m.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
-					setAppTitle();
-				}
-			}
-		});
+		m.addActionListener(e -> {
+            if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
+                setAppTitle();
+            }
+        });
 		mnu.add(m);
 
 		mnu.addSeparator();
@@ -585,11 +563,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		menuItem_mirror.addActionListener(this);
 		popup.add(menuItem_mirror);
 
-        menuItem_increase_inputs = new JMenuItem(I18N.tr(Lang.INCREASEINPUTS));
+        menuItem_increase_inputs = new JMenuItem(I18N.tr(Lang.ADDINPUT));
         menuItem_increase_inputs.addActionListener(this);
         popup.add(menuItem_increase_inputs);
 
-        menuItem_decrease_inputs = new JMenuItem(I18N.tr(Lang.DECREASEINPUTS));
+        menuItem_decrease_inputs = new JMenuItem(I18N.tr(Lang.REMOVEINPUT));
         menuItem_decrease_inputs.addActionListener(this);
         popup.add(menuItem_decrease_inputs);
 		// Add listener to components that can bring up popup menus.

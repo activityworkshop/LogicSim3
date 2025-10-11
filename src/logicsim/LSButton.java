@@ -1,6 +1,8 @@
 package logicsim;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.util.Objects;
 
@@ -22,12 +24,12 @@ public class LSButton extends JButton {
         this.setMaximumSize(new Dimension(size + padding, size + padding));
         this.setPreferredSize(new Dimension(size + padding, size + padding));
         this.setBorder(new LSRoundedBorder(5));
-        this.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
                 setBackground(Color.LIGHT_GRAY);
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 setBackground(UIManager.getColor("control"));
             }
         });

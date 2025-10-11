@@ -46,7 +46,7 @@ public class I18N {
 	public static Properties load(String lang) {
 		Properties properties = new Properties();
 
-        String path = "languages/" + lang + ".txt";
+        String path = "/languages/" + lang + ".txt";
         try {
             properties.load(App.class.getResourceAsStream(path));
         } catch (Exception e) {
@@ -102,7 +102,7 @@ public class I18N {
 	public static List<String> getLanguages() {
 		List<String> langs = new ArrayList<>();
 		try {
-		    String path = "languages/";
+		    String path = "/languages/";
 		    InputStream in = App.class.getResourceAsStream(path);
 		    if (in != null) {
 		        try (Scanner scanner = new Scanner(in)) {

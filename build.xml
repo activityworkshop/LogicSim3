@@ -33,7 +33,7 @@
 		<copy todir="${classes.dir}/logicsim/images">
 			<fileset dir="${src.dir}/logicsim/images" />
 		</copy>
-        <copy todir="${classes.dir}/logicsim/languages">
+        <copy todir="${classes.dir}/languages">
             <fileset dir="languages" />
         </copy>
         <copy todir="${classes.dir}/docs">

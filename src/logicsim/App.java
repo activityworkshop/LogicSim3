@@ -1,16 +1,13 @@
 package logicsim;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 public class App {
 
@@ -61,7 +58,17 @@ public class App {
 		Wire.setColorMode();
 	}
 
-	private static void addToCategory(Gate g) {
+    private static void setUIFont(FontUIResource f){
+        Enumeration keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof FontUIResource)
+                UIManager.put(key, f);
+        }
+    }
+
+    private static void addToCategory(Gate g) {
 		String cattitle = g.category;
 		if (g.category == null)
 			cattitle = "hidden";
