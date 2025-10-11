@@ -195,7 +195,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 			if (simRunning) {
 				currentAction = ACTION_NONE;
 				//fireStatusText(NOTHING);
-			} else if (e.getButton() == MouseEvent.BUTTON3) {
+			} else if (currentAction == ACTION_NONE && e.getButton() == MouseEvent.BUTTON3) {
                 currentAction = ACTION_SELECT;
             }
 
