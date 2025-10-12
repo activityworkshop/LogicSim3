@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -65,6 +66,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	JMenuItem menuItem_mirror;
     JMenuItem menuItem_increase_inputs;
     JMenuItem menuItem_decrease_inputs;
+
+    int mouseX, mouseY;
 
 	public LSFrame(String title) {
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
@@ -674,26 +677,19 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 			maybeShowPopup(e);
 		}
 
-		private void maybeShowPopup(MouseEvent e) {
-			if (e.isPopupTrigger()) {
-				if (e.getSource() == lspanel) {
-					for (int i = 0; i < lspanel.circuit.getParts().size(); i++) {
-						CircuitPart part = lspanel.circuit.getParts().get(i);
-						if (part instanceof Gate g) {
-                            if (g.insideFrame(e.getX(), e.getY())) {
-								popupGateIdx = i;
-								menuItem_properties.setEnabled(g.hasPropertiesUI());
-								// enable rotate/mirror only when simulation is not running
-								boolean simRunning = Simulation.getInstance().isRunning();
-								menuItem_rotate.setEnabled(!simRunning);
-								menuItem_mirror.setEnabled(!simRunning);
-								popup.show(e.getComponent(), e.getX(), e.getY());
-								break;
-							}
-						}
-					}
-				}
-			}
+		private void maybeShowPopup(MouseEvent mouseEvent) {
+			if (!mouseEvent.isPopupTrigger()) return;
+            if (mouseEvent.getSource() != lspanel) return;
+            for (CircuitPart part : lspanel.circuit.getParts()) {
+                if (!(part instanceof Gate g)) continue;
+                if (!g.insideFrame(mouseX, mouseY)) continue;
+                popupGateIdx = lspanel.circuit.getParts().indexOf(part);
+                menuItem_properties.setEnabled(g.hasPropertiesUI());
+                menuItem_decrease_inputs.setEnabled(g.variableInputCountSupported);
+                menuItem_increase_inputs.setEnabled(g.variableInputCountSupported);
+                popup.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
+                break;
+            }
 		}
 	}
 
@@ -1171,6 +1167,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 	@Override
 	public void changedZoomPos(double zoom, Point pos) {
+        mouseX = pos.x;
+        mouseY = pos.y;
 		sbCoordinates.setText(
 				"X: " + pos.x / 10 * 10 + ", Y: " + pos.y / 10 * 10 + "   Zoom: " + Math.round(zoom * 100) + "%");
 	}

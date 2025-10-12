@@ -32,6 +32,8 @@ import java.io.Serial;
 import javax.swing.event.MouseInputAdapter;
 
 public class LSPanel extends Viewer implements Printable, CircuitChangedListener, LSRepaintListener {
+
+
 	public class LogicSimPainterGraphics implements Painter {
 		@Override
 		public void paint(Graphics2D g2, AffineTransform at, int w, int h) {

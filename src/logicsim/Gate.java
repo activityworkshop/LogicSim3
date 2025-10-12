@@ -447,8 +447,12 @@ public class Gate extends CircuitPart {
 	 * true, wenn Koordinaten mx,my innerhalb des Gatters liegen
 	 */
 	public boolean insideFrame(int mx, int my) {
-		return new Rectangle(getX() + CONN_SIZE, getY() + CONN_SIZE, width - 2 * CONN_SIZE, height - 2 * CONN_SIZE)
-				.contains(mx, my);
+		return new Rectangle(
+                getX() + CONN_SIZE,
+                getY() + CONN_SIZE,
+                width - 2 * CONN_SIZE,
+                height - 2 * CONN_SIZE
+        ).contains(mx, my);
 	}
 
     /**
