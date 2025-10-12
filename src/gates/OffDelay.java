@@ -19,8 +19,6 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class OffDelay extends Gate implements Runnable {
-	static final long serialVersionUID = 3185172056863740651L;
-
 	static final String DELAY = "delay";
 
 	static final String DELAY_DEFAULT = "500";

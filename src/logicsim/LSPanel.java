@@ -27,6 +27,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.Serial;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -439,7 +440,8 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	static final short ACTION_SELECT = 1;
 
     public static final Color gridColor = Color.black;
-	private static final long serialVersionUID = -6414072156700139318L;
+	@Serial
+    private static final long serialVersionUID = -6414072156700139318L;
 
 	public static final String MSG_ABORTED = "MSG_DESELECT_BUTTONS";
 

@@ -20,9 +20,6 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class MonoFlop extends Gate implements Runnable {
-
-	static final long serialVersionUID = -6063406618533983926L;
-
     static final String HT = "hightime";
 
 	static final String HT_DEFAULT = "1000";

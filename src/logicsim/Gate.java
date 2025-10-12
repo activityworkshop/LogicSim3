@@ -28,7 +28,6 @@ public class Gate extends CircuitPart {
 	public static final int HORIZONTAL = 0;
 	public static final int NORMAL = 0;
 
-	static final long serialVersionUID = -6775454761569297690L;
 	public static final int VERTICAL = 1;
 	public static final int XAXIS = 1;
 	public static final int YAXIS = 2;

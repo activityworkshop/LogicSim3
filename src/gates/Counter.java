@@ -28,8 +28,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Counter extends Gate {
-	static final long serialVersionUID = 3971572931629721831L;
-
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";

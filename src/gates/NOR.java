@@ -11,8 +11,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class NOR extends OR {
-	static final long serialVersionUID = -6728388521484380234L;
-
 	public NOR() {
 		super();
 		type = "nor";

@@ -24,6 +24,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,8 +36,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class LSFrame extends JFrame implements ActionListener, CircuitChangedListener {
-
-	private static final long serialVersionUID = -5281157929385660575L;
+	@Serial
+    private static final long serialVersionUID = -5281157929385660575L;
 
 	LogicSimFile lsFile;
 

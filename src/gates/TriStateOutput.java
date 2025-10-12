@@ -18,8 +18,6 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class TriStateOutput extends Gate {
-	static final long serialVersionUID = 4521959944440523564L;
-
 	public TriStateOutput() {
 		super("output");
 		type = "triout";

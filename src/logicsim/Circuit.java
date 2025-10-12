@@ -14,8 +14,6 @@ import java.util.Vector;
  */
 
 public class Circuit implements LSRepaintListener {
-	static final long serialVersionUID = 3458986578856078326L;
-
 	Vector<CircuitPart> parts;
 
 	private LSRepaintListener repaintListener;

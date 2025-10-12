@@ -17,7 +17,6 @@ import java.awt.Rectangle;
  * @version 2.0
  */
 public class MODOUT extends Gate {
-	static final long serialVersionUID = 1824440628969344103L;
 	private static final String INPUT_LABEL = "inputlabel";
 	private int pincount;
 	private static final String PINCOUNT = "pincount";

@@ -3,6 +3,8 @@ package gates;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
+import java.io.Serial;
+import java.io.Serializable;
 
 import logicsim.Gate;
 import logicsim.localization.I18N;
@@ -18,8 +20,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class AND extends Gate {
-	static final long serialVersionUID = 4521959944440523564L;
-
 	public AND() {
 		super("basic");
 		label = "&";

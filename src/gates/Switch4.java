@@ -20,8 +20,6 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class Switch4 extends Gate {
-	static final long serialVersionUID = 2459367526586913840L;
-
 	long clickCountDown = 0;
 	boolean mouseDown = false;
 

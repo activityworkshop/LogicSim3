@@ -19,8 +19,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Display4d extends Gate {
-	static final long serialVersionUID = -6532037559895208921L;
-
 	private static final int BLANK = 17;
 	private static final int MINUS = 16;
 

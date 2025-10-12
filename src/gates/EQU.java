@@ -13,8 +13,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class EQU extends Gate {
-	static final long serialVersionUID = 521585027776705481L;
-
 	public EQU() {
 		super("basic");
 		label = "=";

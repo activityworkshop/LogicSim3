@@ -25,8 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 public class LSFrame_AboutBox extends JWindow {
-
-	private static final long serialVersionUID = -3193728228853983319L;
+	@Serial
+    private static final long serialVersionUID = -3193728228853983319L;
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	Image imgSplash;
 	SplashPanel splashPanel = new SplashPanel();

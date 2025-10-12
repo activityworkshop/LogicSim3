@@ -37,8 +37,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Switch extends Gate {
-	static final long serialVersionUID = 2459367526586913840L;
-
 	private static final String SWITCH_TYPE = "type";
 	private static final String STATE = "state";
 	private static final String TOGGLE = "toggle";

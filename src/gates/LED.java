@@ -21,9 +21,6 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class LED extends Gate {
-
-	static final long serialVersionUID = 6576677427368074734L;
-
 	private static final String COLOR = "color";
 	private static final String DEFAULT_COLOR = "#ff0000";
 

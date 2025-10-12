@@ -16,8 +16,6 @@ import logicsim.Wire;
  * @version 2.0
  */
 public class SRLatch extends Gate {
-	static final long serialVersionUID = 1049162074522360589L;
-
 	Gate nor1 = new NOR();
 	Gate nor2 = new NOR();
 	// Circuit c = new Circuit();

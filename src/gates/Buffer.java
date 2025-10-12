@@ -16,8 +16,6 @@ import logicsim.LSProperties;
  * @version 1.0
  */
 public class Buffer extends Gate {
-	static final long serialVersionUID = 3351085067064933298L;
-
 	public Buffer() {
 		super("basic");
 		label = "1";

@@ -14,8 +14,6 @@ import logicsim.LSLevelEvent;
  * @version 2.0
  */
 public class JKFlipFlop extends Gate {
-	static final long serialVersionUID = -5614329713407328370L;
-
 	static final int CLK = 1;
 	static final int J = 0;
 	static final int K = 2;

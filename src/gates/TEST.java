@@ -15,8 +15,6 @@ import logicsim.LSLevelEvent;
  * @version 2.0
  */
 public class TEST extends Gate {
-	static final long serialVersionUID = 4521959944440523564L;
-
 	public TEST() {
 		super("test");
 		label = "TEST";

@@ -16,8 +16,6 @@ import logicsim.localization.I18N;
  * @version 2.0
  */
 public class SevenSegment extends Gate {
-	static final long serialVersionUID = 8068938713485037151L;
-
 	public SevenSegment() {
 		super("output");
 		type = "sevenseg";

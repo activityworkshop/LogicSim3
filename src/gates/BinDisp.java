@@ -27,8 +27,6 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class BinDisp extends Gate {
-	static final long serialVersionUID = -6532037559895208921L;
-
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";

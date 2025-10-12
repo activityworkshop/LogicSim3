@@ -17,8 +17,6 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class SRFlipFlop extends Gate {
-	static final long serialVersionUID = 1049162074522360589L;
-
 	Color bg = Color.white;
 
 	public SRFlipFlop() {

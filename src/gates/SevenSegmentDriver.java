@@ -8,7 +8,7 @@ import logicsim.LSLevelEvent;
 import logicsim.WidgetHelper;
 
 /**
- * Segment Segment Driver for LogicSim
+ * Seven Segment Driver for LogicSim
  * has 4 binary inputs and 8 outputs to connect to a seven segment display.
  * 
  * @author Peter Gabriel

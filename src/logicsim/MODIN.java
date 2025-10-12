@@ -21,7 +21,6 @@ import javax.swing.JOptionPane;
  * @version 2.0
  */
 public class MODIN extends Gate {
-	static final long serialVersionUID = -2338870902247206767L;
 	private int pincount;
 	private static final String PINCOUNT = "pincount";
 	private static final int PINCOUNT_DEFAULT = 16;

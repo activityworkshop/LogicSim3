@@ -16,8 +16,6 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class TextLabel extends Gate {
-	static final long serialVersionUID = 6576677427368074734L;
-
 	static final String TEXTLABEL_DEFAULT = "Text";
 
 	public TextLabel() {

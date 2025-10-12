@@ -19,8 +19,6 @@ import java.util.Iterator;
 import java.util.Vector;
 
 public class Wire extends CircuitPart implements Cloneable {
-	static final long serialVersionUID = -7554728800898882892L;
-
 	public static float SEL_WIDTH = 3f;
 
 	public static float WIDTH = 1.0f;

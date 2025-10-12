@@ -14,12 +14,14 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 public class Splash extends JWindow implements Runnable {
-	private static final long serialVersionUID = -5516536327616468376L;
+	@Serial
+    private static final long serialVersionUID = -5516536327616468376L;
 	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	Image imgSplash;
 	SplashPanel splashPanel = new SplashPanel();
@@ -72,7 +74,8 @@ public class Splash extends JWindow implements Runnable {
 	}
 
 	class SplashPanel extends JPanel {
-		private static final long serialVersionUID = -8616776231981337004L;
+		@Serial
+        private static final long serialVersionUID = -8616776231981337004L;
 
 		public void paint(Graphics g) {
 			g.drawImage(imgSplash, 0, 0, this);

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.io.Serial;
 
 import javax.swing.JPanel;
 
@@ -106,7 +107,8 @@ public class Viewer extends JPanel {
 	/**
 	 * Serial UID
 	 */
-	private static final long serialVersionUID = -3252732941609348700L;
+	@Serial
+    private static final long serialVersionUID = -3252732941609348700L;
 
 	/**
 	 * The current zooming speed

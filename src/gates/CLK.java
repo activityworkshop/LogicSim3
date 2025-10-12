@@ -26,8 +26,6 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class CLK extends Gate implements Runnable {
-	static final long serialVersionUID = 3971572931629721831L;
-
 	private static final String ENTERLOW = "enterlow";
 	private static final String ENTERHIGH = "enterhigh";
 

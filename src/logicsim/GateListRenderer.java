@@ -8,7 +8,7 @@ import java.io.Serial;
 import javax.swing.*;
 
 public class GateListRenderer extends JLabel implements ListCellRenderer<Object> {
-	@Serial
+    @Serial
     private static final long serialVersionUID = -361281475843085219L;
 
 	@Override
