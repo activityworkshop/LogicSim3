@@ -75,7 +75,7 @@ public class MODIN extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		pincount = getPropertyIntWithDefault(PINCOUNT, PINCOUNT_DEFAULT);
 		int inputcount = getInputs().size();
 		if (pincount != inputcount) {

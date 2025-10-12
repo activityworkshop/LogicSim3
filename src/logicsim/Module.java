@@ -2,6 +2,7 @@ package logicsim;
 
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
+import logicsim.xml.XMLLoader;
 
 import java.awt.Component;
 import java.awt.Font;

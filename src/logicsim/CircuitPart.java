@@ -54,7 +54,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	/**
 	 * if part is currently being edited
 	 */
-	protected boolean selected = false;
+    public boolean selected = false;
 
 	private int x;
 
@@ -78,15 +78,15 @@ public abstract class CircuitPart implements LSLevelListener {
 		return properties;
 	}
 
-	protected String getProperty(String string) {
+    public String getProperty(String string) {
 		return properties.getProperty(string);
 	}
 
-	protected int getPropertyInt(String string) {
+    public int getPropertyInt(String string) {
 		return Integer.parseInt(getProperty(string));
 	}
 
-	protected int getPropertyIntWithDefault(String string, int idefault) {
+    public int getPropertyIntWithDefault(String string, int idefault) {
 		String value = getProperty(string);
 		if (value == null)
 			return idefault;
@@ -94,14 +94,14 @@ public abstract class CircuitPart implements LSLevelListener {
 			return Integer.parseInt(value);
 	}
 
-	protected String getPropertyWithDefault(String key, String sdefault) {
+    public String getPropertyWithDefault(String key, String sdefault) {
 		String s = getProperty(key);
 		if (s == null)
 			return sdefault;
 		return s;
 	}
 
-	protected void loadProperties() {
+    public void loadProperties() {
 		text = getPropertyWithDefault(TEXT, TEXT_DEFAULT);
 	}
 

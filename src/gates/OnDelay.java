@@ -33,7 +33,7 @@ public class OnDelay extends Gate implements Runnable {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		delayTime = Integer.parseInt(getPropertyWithDefault(DELAY, DELAY_DEFAULT));
 	}
 

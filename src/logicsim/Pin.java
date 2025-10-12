@@ -51,7 +51,7 @@ public class Pin extends CircuitPart {
 	/**
 	 * type can be HIGH, LOW, INVERTED or NORMAL
 	 */
-	int levelType = NORMAL;
+    public int levelType = NORMAL;
 
 	public Pin(int x, int y, Gate gate, int number) {
 		super(x, y);

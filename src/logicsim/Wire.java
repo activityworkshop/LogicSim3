@@ -21,9 +21,7 @@ import java.util.Vector;
 public class Wire extends CircuitPart implements Cloneable {
 	public static float SEL_WIDTH = 3f;
 
-	public static float WIDTH = 1.0f;
-
-	private static Color LOW_COLOR = Color.black;
+    private static Color LOW_COLOR = Color.black;
 
 	private static Color HIGH_COLOR = Color.red;
 
@@ -38,7 +36,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	/**
 	 * data structure to hold the wire points
 	 */
-	private Vector<WirePoint> points = new Vector<WirePoint>();
+	private Vector<WirePoint> points = new Vector<>();
 
 	private Point tempPoint = null;
 
@@ -52,8 +50,8 @@ public class Wire extends CircuitPart implements Cloneable {
 	/**
 	 * constructor specifying the origin and the end
 	 * 
-	 * @param fromPart
-	 * @param toPart
+	 * @param fromPart From which Part the wire is coming
+	 * @param toPart To which Part the wire is going
 	 */
 	public Wire(CircuitPart fromPart, CircuitPart toPart) {
 		this(0, 0);
@@ -76,25 +74,20 @@ public class Wire extends CircuitPart implements Cloneable {
 		loadProperties();
 	}
 
-	@Override
-	protected void loadProperties() {
-		text = getPropertyWithDefault(TEXT, TEXT_DEFAULT);
-	}
-
-	public void addPoint(int x, int y) {
+    public void addPoint(int x, int y) {
 		WirePoint wp = new WirePoint(x, y);
 		addPoint(wp);
 	}
 
 	@SuppressWarnings("unchecked")
 	public Object clone() {
-		Wire clone = null;
+		Wire clone;
 		try {
 			clone = (Wire) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError();
 		}
-		// Kopie von poly & nodes anlegen, Gate bleibt die selbe Referenz wie beim
+		// Kopie von poly & nodes anlegen, Gate bleibt dieselbe Referenz wie beim
 		// Original
 		clone.points = (Vector<WirePoint>) points.clone();
 		return clone;

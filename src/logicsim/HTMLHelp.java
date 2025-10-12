@@ -8,6 +8,7 @@ package logicsim;
 
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
+import logicsim.ui.LSScrollBarUI;
 
 import javax.swing.*;
 import java.awt.AWTEvent;
@@ -18,13 +19,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.io.Serial;
+import java.net.URL;
 
 /**
  *
  * @author atetzl
  */
-public class HTMLHelp extends javax.swing.JFrame implements ActionListener {
+public class HTMLHelp extends JFrame implements ActionListener {
 	@Serial
     private static final long serialVersionUID = 4292051858178374722L;
     private JTextPane jTextPane1;
@@ -48,14 +51,14 @@ public class HTMLHelp extends javax.swing.JFrame implements ActionListener {
 
 		try {
 			String resourcePath = "/docs/" + language + ".html";
-			java.net.URL url = getClass().getResource(resourcePath);
+			URL url = getClass().getResource(resourcePath);
 			if (url == null) {
 				url = getClass().getResource("/docs/en.html");
 			}
 			if (url != null) {
 				jTextPane1.setPage(url);
 			} else {
-				throw new java.io.FileNotFoundException("Docs file not found: " + resourcePath);
+				throw new FileNotFoundException("Docs file not found: " + resourcePath);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -92,21 +95,28 @@ public class HTMLHelp extends javax.swing.JFrame implements ActionListener {
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code
 	// ">//GEN-BEGIN:initComponents
 	private void initComponents() {
-        JButton jButton_ok = new JButton();
         JScrollPane jScrollPane1 = new JScrollPane();
-		jTextPane1 = new javax.swing.JTextPane();
+		jTextPane1 = new JTextPane();
 		jTextPane1.setContentType("text/html;charset=UTF-8");
-		
-		jButton_ok.setText("OK");
-		jButton_ok.addActionListener(this::jButton_okActionPerformed);
 
-		getContentPane().add(jButton_ok, java.awt.BorderLayout.SOUTH);
+        // Custom ScrollBar UI
+        JScrollBar scrollBarVert = new JScrollBar(JScrollBar.VERTICAL);
+        scrollBarVert.setUI(new LSScrollBarUI());
+        scrollBarVert.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
+        jScrollPane1.setVerticalScrollBar(scrollBarVert);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(32);
+
+        JScrollBar scrollBarHor = new JScrollBar(JScrollBar.HORIZONTAL);
+        scrollBarHor.setUI(new LSScrollBarUI());
+        scrollBarHor.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
+        jScrollPane1.setHorizontalScrollBar(scrollBarHor);
+        jScrollPane1.getHorizontalScrollBar().setUnitIncrement(32);
 
 		jTextPane1.setEditable(false);
-		jTextPane1.setMinimumSize(new java.awt.Dimension(400, 300));
+		jTextPane1.setMinimumSize(new Dimension(400, 300));
 		jScrollPane1.setViewportView(jTextPane1);
 
-		getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
+		getContentPane().add(jScrollPane1, BorderLayout.CENTER);
 
 		pack();
 	}

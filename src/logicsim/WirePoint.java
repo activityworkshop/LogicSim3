@@ -16,7 +16,7 @@ public class WirePoint extends CircuitPart {
 
 	public static final int POINT_SIZE = 7;
 
-	protected boolean show = false;
+    public boolean show = false;
 
 	private boolean level = false;
 

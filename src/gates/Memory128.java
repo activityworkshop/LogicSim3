@@ -139,7 +139,7 @@ public class Memory128 extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		for (int i = 0; i < mem.length; i++) {
 			mem[i] = (byte) getPropertyIntWithDefault(STATE + i, 0);
 		}

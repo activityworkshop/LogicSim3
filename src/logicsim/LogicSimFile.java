@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Vector;
 
 public class LogicSimFile {
-	Circuit circuit = new Circuit();
-	Map<String, String> info = new HashMap<>();
-	String fileName;
+    public Circuit circuit = new Circuit();
+    public Map<String, String> info = new HashMap<>();
+    public String fileName;
 	public boolean changed = false;
 	private final Vector<String> errors = new Vector<>();
 

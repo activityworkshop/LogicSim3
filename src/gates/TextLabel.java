@@ -27,7 +27,7 @@ public class TextLabel extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		text = getPropertyWithDefault(TEXT, TEXTLABEL_DEFAULT);
 	}
 

@@ -65,7 +65,7 @@ public class Switch extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
 		switchTypeMomentary = !getPropertyWithDefault(SWITCH_TYPE, DEFAULT_SWITCH_TYPE).equals(TOGGLE);
 		int state = getPropertyIntWithDefault(STATE, 0);

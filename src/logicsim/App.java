@@ -1,6 +1,7 @@
 package logicsim;
 
 import logicsim.localization.I18N;
+import logicsim.xml.XMLLoader;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;

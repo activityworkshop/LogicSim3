@@ -76,7 +76,7 @@ public class CLK extends Gate implements Runnable {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		highTime = Integer.parseInt(getPropertyWithDefault(HT, HT_DEFAULT));
 		lowTime = Integer.parseInt(getPropertyWithDefault(LT, LT_DEFAULT));
 	}

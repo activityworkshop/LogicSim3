@@ -64,7 +64,7 @@ public class Gate extends CircuitPart {
 	 */
 	public int rotate90 = 0;
 
-	protected String type;
+	public String type;
 
 	protected boolean variableInputCountSupported = false;
 

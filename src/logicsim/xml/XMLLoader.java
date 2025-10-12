@@ -1,5 +1,6 @@
-package logicsim;
+package logicsim.xml;
 
+import logicsim.*;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 

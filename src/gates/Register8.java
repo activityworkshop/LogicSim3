@@ -82,7 +82,7 @@ public class Register8 extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		content = getPropertyIntWithDefault(STATE, 0);
 		updateInternalOutputs();
 	}

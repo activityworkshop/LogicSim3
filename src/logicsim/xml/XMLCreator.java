@@ -1,9 +1,7 @@
-package logicsim;
+package logicsim.xml;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -15,6 +13,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import logicsim.*;
+import logicsim.Module;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

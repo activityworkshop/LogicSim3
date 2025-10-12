@@ -81,7 +81,7 @@ public class ProgramCounter4 extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		content = getPropertyIntWithDefault(STATE, 0);
 		updateInternalOutputs();
 	}

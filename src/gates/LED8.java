@@ -42,7 +42,7 @@ public class LED8 extends Gate {
 	}
 
 	@Override
-	protected void loadProperties() {
+	public void loadProperties() {
 		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
 	}
 

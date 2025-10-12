@@ -6,6 +6,8 @@ import logicsim.ui.LSButton;
 import logicsim.ui.LSFrame_AboutBox;
 import logicsim.ui.LSScrollBarUI;
 import logicsim.ui.LSToggleButton;
+import logicsim.xml.XMLCreator;
+import logicsim.xml.XMLLoader;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
@@ -27,7 +29,6 @@ import java.io.IOException;
 import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -385,6 +386,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		lstParts.addMouseListener(new PopupListener());
 		lstParts.setCellRenderer(new GateListRenderer());
 		lstParts.addListSelectionListener(this::actionLstGatesSelected);
+        lstParts.setDragEnabled(true);
 
 		String[] gateInputNums = new String[4];
 		for (int i = 0; i < 4; i++) {
@@ -402,6 +404,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         gateScrollBar.setUI(new LSScrollBarUI());
         gateScrollBar.setPreferredSize(new Dimension(8, Integer.MAX_VALUE));
         gateScrollPane.setVerticalScrollBar(gateScrollBar);
+        gateScrollPane.getVerticalScrollBar().setUnitIncrement(32);
 		pnlGateList.add(gateScrollPane, BorderLayout.CENTER);
 		pnlGateList.add(cbNumInputs, BorderLayout.SOUTH);
 

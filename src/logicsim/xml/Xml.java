@@ -1,4 +1,4 @@
-package logicsim;
+package logicsim.xml;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,18 +20,17 @@ import org.xml.sax.SAXException;
 
 /**
  * XML Component
- * 
- * taken from https://argonrain.wordpress.com/2009/10/27/000/
- * 
+ * taken from <a href="https://argonrain.wordpress.com/2009/10/27/000/">https://argonrain.wordpress.com/2009/10/27/000/</a>
+ *
  * @author unknown
  * @version 1.0
  */
 public class Xml {
 
-	private String name;
+	private final String name;
 	private String content;
-	private Map<String, String> nameAttributes = new HashMap<String, String>();
-	private Map<String, ArrayList<Xml>> nameChildren = new HashMap<String, ArrayList<Xml>>();
+	private final Map<String, String> nameAttributes = new HashMap<String, String>();
+	private final Map<String, ArrayList<Xml>> nameChildren = new HashMap<String, ArrayList<Xml>>();
 
 	public Xml(InputStream inputStream, String rootName) {
 		this(rootElement(inputStream, rootName));
@@ -83,7 +82,7 @@ public class Xml {
 	private void addChild(String name, Xml child) {
 		ArrayList<Xml> children = nameChildren.get(name);
 		if (children == null) {
-			children = new ArrayList<Xml>();
+			children = new ArrayList<>();
 			nameChildren.put(name, children);
 		}
 		children.add(child);
@@ -122,7 +121,7 @@ public class Xml {
 		int n = children.size();
 		if (n > 1)
 			throw new RuntimeException("Could not find individual child node: " + name);
-		return n == 0 ? null : children.get(0);
+		return n == 0 ? null : children.getFirst();
 	}
 
 	public boolean option(String name) {
@@ -181,11 +180,7 @@ public class Xml {
 			if (!rootElement.getNodeName().equals(rootName))
 				throw new RuntimeException("Could not find root node: " + rootName);
 			return rootElement;
-		} catch (IOException exception) {
-			throw new RuntimeException(exception);
-		} catch (ParserConfigurationException exception) {
-			throw new RuntimeException(exception);
-		} catch (SAXException exception) {
+		} catch (IOException | ParserConfigurationException | SAXException exception) {
 			throw new RuntimeException(exception);
 		} finally {
 			if (inputStream != null) {
