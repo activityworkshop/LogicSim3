@@ -26,7 +26,7 @@ public class Viewer extends JPanel {
 	/**
 	 * Interface for all classes that may perform painting operations. Instances of
 	 * classes implementing this interface may be passed to the
-	 * {@link Viewer#addPainter(Painter)} method.
+	 * method.
 	 */
 	public interface Painter {
 		/**
@@ -195,7 +195,7 @@ public class Viewer extends JPanel {
 			return pDst;
 		}
 
-	};
+	}
 
 	/**
 	 * Creates a new Viewer.

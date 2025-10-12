@@ -181,6 +181,7 @@ public class Gate extends CircuitPart {
 
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
+        drawIO(g2);
 		drawFrame(g2);
 		AffineTransform old = null;
 		if (rotate90 != 0) {
@@ -194,7 +195,6 @@ public class Gate extends CircuitPart {
 		if (rotate90 != 0) {
 			g2.setTransform(old);
 		}
-		drawIO(g2);
 	}
 
 	protected void drawRotated(Graphics2D g2) {

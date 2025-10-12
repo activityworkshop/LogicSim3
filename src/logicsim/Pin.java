@@ -79,7 +79,7 @@ public class Pin extends CircuitPart {
 		int y = getY();
 
 		g2.setFont(smallFont);
-		if (text != null && text.length() > 0) {
+		if (text != null && !text.isEmpty()) {
 			if (paintDirection == RIGHT) {
 				if (POS_EDGE_TRIG.equals(text)) {
 					Polygon tr = new Polygon();
@@ -142,158 +142,111 @@ public class Pin extends CircuitPart {
 		int offset = 0;
 
 		if (levelType == INVERTED) {
+            //Inverted Circle
+
             int ovalSize = CONN_SIZE;
+            Color bgColor = Color.lightGray;
+            Color borderColor = Color.black;
             if (paintDirection == LEFT) {
-                g2.drawOval(x - ovalSize, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.setPaint(bgColor);
                 g2.fillOval(x - ovalSize, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.setPaint(borderColor);
+                g2.drawOval(x - ovalSize, y - ovalSize / 2, ovalSize, ovalSize);
             } else if (paintDirection == RIGHT) {
-                g2.drawOval(x, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.setPaint(bgColor);
                 g2.fillOval(x, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.setPaint(borderColor);
+                g2.drawOval(x, y - ovalSize / 2, ovalSize, ovalSize);
             } else if (paintDirection == DOWN) {
-                g2.drawOval(x - ovalSize / 2, y, ovalSize, ovalSize);
+                g2.setPaint(bgColor);
                 g2.fillOval(x - ovalSize / 2, y, ovalSize, ovalSize);
+                g2.setPaint(borderColor);
+                g2.drawOval(x - ovalSize / 2, y, ovalSize, ovalSize);
             } else {// UP
-                g2.drawOval(x - ovalSize / 2, y - ovalSize, ovalSize, ovalSize);
+                g2.setPaint(bgColor);
                 g2.fillOval(x - ovalSize / 2, y - ovalSize, ovalSize, ovalSize);
+                g2.setPaint(borderColor);
+                g2.drawOval(x - ovalSize / 2, y - ovalSize, ovalSize, ovalSize);
             }
-		} else if (levelType == HIGH) {
+		} else if (levelType == HIGH || levelType == LOW) {
+            // High/Low Input Label
+
+            String label = (levelType == HIGH) ? "1" : "0";
 			if (ioType == OUTPUT)
-				throw new RuntimeException("OUTPUT may not be set HIGH");
+				throw new RuntimeException("OUTPUT may not be set HIGH/LOW");
 			int xp = x + 2;
 			int yp = y - 2;
 			if (paintDirection == LEFT)
-				WidgetHelper.drawStringCentered(g2, "1", xp + 2, yp);
+				WidgetHelper.drawStringCentered(g2, label, xp + 2, yp);
 			else if (paintDirection == RIGHT)
-				WidgetHelper.drawStringCentered(g2, "1", xp - 5, yp);
+				WidgetHelper.drawStringCentered(g2, label, xp - 7, yp);
 			else if (paintDirection == DOWN)
-				WidgetHelper.drawStringCentered(g2, "1", xp - 2, yp - 6);
+				WidgetHelper.drawStringCentered(g2, label, xp - 2, yp - 6);
 			else // UP
-				WidgetHelper.drawStringCentered(g2, "1", xp - 2, yp + 6);
-		} else if (levelType == LOW) {
-			if (ioType == OUTPUT)
-				throw new RuntimeException("OUTPUT may not be set LOW");
-			int xp = x + 2;
-			int yp = y - 2;
-			if (paintDirection == LEFT)
-				WidgetHelper.drawStringCentered(g2, "0", xp + 3, yp);
-			else if (paintDirection == RIGHT)
-				WidgetHelper.drawStringCentered(g2, "0", xp - 6, yp);
-			else if (paintDirection == DOWN)
-				WidgetHelper.drawStringCentered(g2, "0", xp - 2, yp - 6);
-			else // UP
-				WidgetHelper.drawStringCentered(g2, "0", xp - 2, yp + 6);
+				WidgetHelper.drawStringCentered(g2, label, xp - 2, yp + 6);
 		}
+
+
 		if (levelType == HIGH || levelType == LOW || levelType == NORMAL) {
-			// normal
+			// Default Pin Line
 			g2.setStroke(new BasicStroke(1));
 			if (paintDirection == LEFT || paintDirection == RIGHT) {
-				if (paintDirection == LEFT) {
-					offset = -CONN_SIZE - 1;
-				} else {
-					offset = -1;
-				}
+                //LEFT or RIGHT
+                offset = (paintDirection == LEFT) ? -CONN_SIZE - 1 : -1;
+
 				if (ioType == HIGHIMP) {
 					if (paintDirection == LEFT) {
+                        //LEFT
 						g2.setPaint(level ? Color.red : Color.black);
-						g2.fillRect(x + offset + 1 + 4, y - 1, CONN_SIZE + 1 - 4, 3);
-						g2.setColor(Color.black);
-						g2.fillRect(x + offset + 1, y - 1, 2, 3);
+						g2.fillRoundRect(x + offset + 5, y - 1, CONN_SIZE + 1 - 4, 3, 3, 3);
 					} else {
+                        //RIGHT
 						g2.setPaint(level ? Color.red : Color.black);
-						g2.fillRect(x + offset + 1, y - 1, 2, 3);
-						g2.setColor(Color.black);
-						g2.fillRect(x + offset + 1 + 4, y - 1, CONN_SIZE + 1 - 4, 3);
+						g2.fillRoundRect(x + offset + 1, y - 1, 2, 3, 3, 3);
 					}
 				} else {
 					g2.setPaint(getLevel() ? Color.red : Color.black);
-					g2.fillRect(x + offset + 1, y - 1, CONN_SIZE + 1, 3);
-					Path2D p = new Path2D.Double();
-					if (isOutput()) {
-						if (paintDirection == LEFT) {
-							p.moveTo(x-2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x, y+1);
-							p.lineTo(x-2, y+3);
-						} else {
-							p.moveTo(x+2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x, y+1);
-							p.lineTo(x+2, y+3);
-						}
-						//g2.drawString("O", x, y);
-					} else {
-						if (paintDirection == LEFT) {
-							p.moveTo(x+2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x, y+1);
-							p.lineTo(x+2, y+3);
-						} else {
-							p.moveTo(x-2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x, y+1);
-							p.lineTo(x-2, y+3);
-						}
-						//g2.drawString("I", x, y);	
-					}
-					g2.draw(p);
+					g2.fillRoundRect(x + offset + 1, y - 1, CONN_SIZE + 1, 3, 3, 3);
 				}
 			} else {
+                //UP or DOWN
 				if (paintDirection == UP) {
 					offset = -CONN_SIZE;
 				}
 				if (ioType == HIGHIMP) {
 					if (paintDirection == UP) {
 						g2.setPaint(level ? Color.red : Color.black);
-						g2.fillRect(x - 1, y + offset + 4, 3, CONN_SIZE + 1 - 4);
-						g2.setColor(Color.black);
-						g2.fillRect(x - 1, y + offset, 3, 2);
+						g2.fillRoundRect(x - 1, y + offset + 4, 3, CONN_SIZE - 3, 3, 3);
 					} else {
 						g2.setPaint(level ? Color.red : Color.black);
-						g2.fillRect(x - 1, y + offset, 3, 2);
-						g2.setColor(Color.black);
-						g2.fillRect(x - 1, y + offset + 4, 3, CONN_SIZE + 1 - 4);
+						g2.fillRoundRect(x - 1, y + offset, 3, 2, 3, 3);
 					}
 				} else {
 					g2.setPaint(getLevel() ? Color.red : Color.black);
-					g2.fillRect(x - 1, y + offset, 3, CONN_SIZE + 1);
-					
-					Path2D p = new Path2D.Double();
-					if (isOutput()) {
-						if (paintDirection == UP) {
-							p.moveTo(x-2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x+1, y);
-							p.lineTo(x+3, y-2);
-						} else {
-							p.moveTo(x-2, y+2);
-							p.lineTo(x, y);
-							p.moveTo(x+1, y);
-							p.lineTo(x+3, y+2);
-						}
-						//g2.drawString("O", x, y);
-					} else {
-						if (paintDirection == UP) {
-							p.moveTo(x-2, y+2);
-							p.lineTo(x, y);
-							p.moveTo(x+1, y);
-							p.lineTo(x+3, y+2);
-						} else {
-							p.moveTo(x-2, y-2);
-							p.lineTo(x, y);
-							p.moveTo(x+1, y);
-							p.lineTo(x+3, y-2);
-						}
-						//g2.drawString("I", x, y);	
-					}
-					g2.draw(p);
+					g2.fillRoundRect(x - 1, y + offset, 3, CONN_SIZE + 1, 3, 3);
 				}
 			}
+
+
+
+            if (levelType == HIGH || levelType == LOW) {
+                // Draw a small line to indicate HIGH/LOW input
+                g2.setPaint(getLevel() ? Color.red : Color.black);
+                if (paintDirection == DOWN) {
+                    g2.drawLine(x - 2, y + offset + 2, x + 3, y + offset + 2);
+                } else if (paintDirection == RIGHT) {
+                    g2.drawLine(x + offset + 3, y - 2, x + offset + 3, y + 3);
+                } else if (paintDirection == LEFT) {
+                    g2.drawLine(x + offset + 6, y - 2, x + offset + 6, y + 3);
+                } else if (paintDirection == UP) {
+                    g2.drawLine(x - 2, y + offset + 5, x + 3, y + offset + 5);
+                }
+            }
 		}
 	}
 
 	public void setLevelType(int levelType) {
-		// TODO if we set a level type of type HIGH or LOW we have to remove the wire
-		// completely
+		// TODO if we set a level type of type HIGH or LOW we have to remove the wire completely
 		this.levelType = levelType;
 	}
 
@@ -410,11 +363,9 @@ public class Pin extends CircuitPart {
 	public void disconnect() {
 		for (int i = 0; i < getListeners().size(); i++) {
 			LSLevelListener l = ((ArrayList<LSLevelListener>) getListeners()).get(i);
-			if (l instanceof Wire) {
-				Wire w = (Wire) l;
-				w.disconnect(null);
-				w = null;
-				i--;
+			if (l instanceof Wire w) {
+                w.disconnect(null);
+                i--;
 			}
 		}
 	}
