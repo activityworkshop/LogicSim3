@@ -56,7 +56,7 @@ public class Simulation implements Runnable {
 	public synchronized void run() {
 		int mode = WIRE;
 		while (true) {
-			if (queue.size() == 0) {
+			if (queue.isEmpty()) {
 				try {
 					wait();
 				} catch (InterruptedException e1) {

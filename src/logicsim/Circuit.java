@@ -397,7 +397,7 @@ public class Circuit implements LSRepaintListener {
 	}
 
 	public boolean isEmpty() {
-		return parts.size() == 0;
+		return parts.isEmpty();
 	}
 
 	public Rectangle getBoundingBox() {

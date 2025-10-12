@@ -25,7 +25,7 @@ public class Pin extends CircuitPart {
 	public static final int UP = 0xa3;
 
 	public static final int BOUNDING_SPACE = 5;
-	public static final int CONN_SIZE = 5;
+	public static final int CONN_SIZE = 6;
 	public static final String POS_EDGE_TRIG = "PosEdgeTrig";
 
 	public int number;
@@ -142,15 +142,20 @@ public class Pin extends CircuitPart {
 		int offset = 0;
 
 		if (levelType == INVERTED) {
-			int ovalSize = CONN_SIZE;
-			if (paintDirection == LEFT)
-				g2.drawOval(x + offset - ovalSize - 1, y - 1 - ovalSize / 2, ovalSize + 1, ovalSize + 1);
-			else if (paintDirection == RIGHT)
-				g2.drawOval(x + offset, y - 1 - ovalSize / 2, ovalSize + 1, ovalSize + 1);
-			else if (paintDirection == DOWN)
-				g2.drawOval(x + offset + 2 - ovalSize, y + 2 - ovalSize / 2, ovalSize + 1, ovalSize + 1);
-			else // UP
-				g2.drawOval(x + offset + 2 - ovalSize, y - 4 - ovalSize / 2, ovalSize + 1, ovalSize + 1);
+            int ovalSize = CONN_SIZE;
+            if (paintDirection == LEFT) {
+                g2.drawOval(x - ovalSize, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.fillOval(x - ovalSize, y - ovalSize / 2, ovalSize, ovalSize);
+            } else if (paintDirection == RIGHT) {
+                g2.drawOval(x, y - ovalSize / 2, ovalSize, ovalSize);
+                g2.fillOval(x, y - ovalSize / 2, ovalSize, ovalSize);
+            } else if (paintDirection == DOWN) {
+                g2.drawOval(x - ovalSize / 2, y, ovalSize, ovalSize);
+                g2.fillOval(x - ovalSize / 2, y, ovalSize, ovalSize);
+            } else {// UP
+                g2.drawOval(x - ovalSize / 2, y - ovalSize, ovalSize, ovalSize);
+                g2.fillOval(x - ovalSize / 2, y - ovalSize, ovalSize, ovalSize);
+            }
 		} else if (levelType == HIGH) {
 			if (ioType == OUTPUT)
 				throw new RuntimeException("OUTPUT may not be set HIGH");

@@ -1,12 +1,5 @@
 package logicsim;
 
-/**
- * Wire represention
- * 
- * @author Andreas Tetzl
- * @author Peter Gabriel
- * @version 2.0
- */
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -18,6 +11,13 @@ import java.awt.geom.Path2D;
 import java.util.Iterator;
 import java.util.Vector;
 
+/**
+ * Wire represention
+ *
+ * @author Andreas Tetzl
+ * @author Peter Gabriel
+ * @version 2.0
+ */
 public class Wire extends CircuitPart implements Cloneable {
 	public static float SEL_WIDTH = 3f;
 
@@ -147,7 +147,7 @@ public class Wire extends CircuitPart implements Cloneable {
 		g2.draw(convertPointsToPath());
 
 		// draw points
-		if (points.size() > 0) {
+		if (!points.isEmpty()) {
 			for (WirePoint point : points) {
 				//point.show || 
 				if (selected || point.isSelected() || point.getListeners().size() > 1) {
@@ -168,9 +168,9 @@ public class Wire extends CircuitPart implements Cloneable {
 
 		g2.setColor(Color.black);
 
-		if (points.size() > 0) {
-			g2.drawString(text, (getFrom().getX() + points.get(0).getX()) / 2,
-					(getFrom().getY() + points.get(0).getY()) / 2);
+		if (!points.isEmpty()) {
+			g2.drawString(text, (getFrom().getX() + points.getFirst().getX()) / 2,
+					(getFrom().getY() + points.getFirst().getY()) / 2);
 		} else {
 			if (getFrom() != null && getTo() == null && tempPoint != null) {
 				g2.drawString(text, (getFrom().getX() + tempPoint.x) / 2, (getFrom().getY() + tempPoint.y) / 2);
@@ -226,8 +226,8 @@ public class Wire extends CircuitPart implements Cloneable {
 	WirePoint getLastPoint() {
 		if (getTo() != null) {
 			return getPointTo();
-		} else if (points.size() > 0) {
-			return points.get(points.size() - 1);
+		} else if (!points.isEmpty()) {
+			return points.getLast();
 		} else if (getFrom() != null) {
 			return getPointFrom();
 		}
@@ -246,7 +246,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	 * @return -1 if no point is near to given position, else number of node
 	 */
 	public int getNodeIndexAt(int mx, int my) {
-		if (points.size() == 0)
+		if (points.isEmpty())
 			return -1;
 
 		for (int i = 0; i < points.size(); i++) {
@@ -401,7 +401,7 @@ public class Wire extends CircuitPart implements Cloneable {
 			setTo(null);
 			// points + first point
 			return points.size() + 1;
-		} else if (points.size() == 0) {
+		} else if (points.isEmpty()) {
 			if (getFrom() == null)
 				throw new RuntimeException("wire is completely empty, may not be");
 			getFrom().removeLevelListener(this);
@@ -415,7 +415,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	public WirePoint removePoint(int n) {
-		if (points.size() == 0)
+		if (points.isEmpty())
 			return null;
 		return points.remove(n);
 	}
@@ -442,14 +442,7 @@ public class Wire extends CircuitPart implements Cloneable {
 
 	@Override
 	public String toString() {
-		String s = getId();
-//		if (getListeners().size() > 0) {
-//			s += "\n send updates to\n";
-//			for (LSLevelListener l : getListeners())
-//				s += indent(((CircuitPart) l).getId(), 3) + "\n";
-//		}
-//		s += "-----------------";
-		return s;
+		return getId();
 	}
 
 	/**
