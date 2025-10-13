@@ -1,5 +1,6 @@
 package logicsim;
 
+import logicsim.controlles.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.xml.XMLLoader;
 
@@ -209,6 +210,7 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		instance = new App();
+        ShortCuts.init();
 	}
 
 }

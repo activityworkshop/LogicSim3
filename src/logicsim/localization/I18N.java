@@ -105,23 +105,15 @@ public class I18N {
 
 	public static List<String> getLanguages() {
 		List<String> langs = new ArrayList<>();
-		try {
-		    String path = "/languages/";
-		    InputStream in = App.class.getResourceAsStream(path);
-		    if (in != null) {
-		        try (Scanner scanner = new Scanner(in)) {
-		            while (scanner.hasNextLine()) {
-		                String file = scanner.nextLine();
-		                if (file.endsWith(".txt")) {
-		                    String name = file.substring(0, file.length() - 4);
-		                    langs.add(name);
-		                }
-		            }
-		        }
-		    }
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+        langs.add("de");
+		langs.add("en");
+        langs.add("es");
+        langs.add("fr");
+        langs.add("it");
+        langs.add("nl");
+        langs.add("pl");
+        langs.add("sv");
+        langs.add("tr");
 		return langs;
 	}
 

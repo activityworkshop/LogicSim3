@@ -250,81 +250,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		mnu.add(m);
 
 		mnuBar.add(mnu);
-
-		// ------------------------------------------------------------------
-		// EDIT
-		/*mnu = new JMenu(I18N.tr(Lang.EDIT));
-
-		m = createMenuItem(Lang.SELECTALL, KeyEvent.VK_A, false);
-		m.addActionListener(_ -> {
-            lspanel.circuit.selectAll();
-            lspanel.repaint();
-        });
-		mnu.add(m);
-
-		m = createMenuItem(Lang.SELECT, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.setAction(LSPanel.ACTION_SELECT);
-            lspanel.requestFocusInWindow();
-        });
-		mnu.add(m);
-
-		m = createMenuItem(Lang.SELECTNONE, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.circuit.deselectAll();
-            lspanel.repaint();
-        });
-		mnu.add(m);
-
-		mnu.addSeparator();
-
-		m = createMenuItem(Lang.WIRENEW, KeyEvent.VK_W, false);
-		//m.addActionListener(e -> Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).doClick());
-		m.setEnabled(LSProperties.MODE_EXPERT.equals(mode));
-		mnu.add(m);
-
-		mnu.addSeparator();
-
-		m = createMenuItem(Lang.INPUTHIGH, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.setAction(Pin.HIGH);
-            setStatusText(I18N.tr(Lang.INPUTHIGH_HELP));
-        });
-		mnu.add(m);
-
-		m = createMenuItem(Lang.INPUTLOW, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.setAction(Pin.LOW);
-            setStatusText(I18N.tr(Lang.INPUTLOW_HELP));
-        });
-		mnu.add(m);
-
-		m = createMenuItem(Lang.INPUTINV, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.setAction(Pin.INVERTED);
-            setStatusText(I18N.tr(Lang.INPUTINV_HELP));
-        });
-		mnu.add(m);
-
-		m = createMenuItem(Lang.INPUTNORM, 0, false);
-		m.addActionListener(_ -> {
-            lspanel.setAction(Pin.NORMAL);
-            setStatusText(I18N.tr(Lang.INPUTNORM_HELP));
-        });
-		mnu.add(m);
-
-		mnu.addSeparator();
-
-		m = createMenuItem(Lang.ROTATE, 0, false);
-		m.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK, false));
-		m.addActionListener(_ -> lspanel.rotateSelected());
-		mnu.add(m);
-
-		m = createMenuItem(Lang.MIRROR, KeyEvent.VK_M, false);
-		m.addActionListener(_ -> lspanel.mirrorSelected());
-		mnu.add(m);*/
-
-		//mnuBar.add(mnu);
 		// ------------------------------------------------------------------
 		// SETTINGS
 		mnu = new JMenu(I18N.tr(Lang.SETTINGS));
@@ -387,8 +312,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 		mnu.add(mnuMode);
 
-		// ---------------------------------------------------------------
-
 		m = new JMenu(I18N.tr(Lang.COLORMODE));
 		btnGroup = new ButtonGroup();
 		String cMode = LSProperties.getInstance().getProperty(LSProperties.COLORMODE, LSProperties.COLORMODE_ON);
@@ -414,12 +337,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		String currentLanguage = LSProperties.getInstance().getProperty(LSProperties.LANGUAGE, "de");
 		createLanguageMenu(mnuLang, currentLanguage);
 		mnu.add(mnuLang);
-
-		mnu.addSeparator();
-
-		m = createMenuItem(Lang.GATESETTINGS, 0, true);
-		m.addActionListener(_ -> lspanel.gateSettings());
-		mnu.add(m);
 
 		mnuBar.add(mnu);
 
@@ -646,18 +563,22 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		// rotate and mirror actions for popup
 		menuItem_rotate = new JMenuItem(I18N.tr(Lang.ROTATE));
 		menuItem_rotate.addActionListener(this);
+        menuItem_rotate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK, false));
 		popup.add(menuItem_rotate);
 
 		menuItem_mirror = new JMenuItem(I18N.tr(Lang.MIRROR));
 		menuItem_mirror.addActionListener(this);
+        menuItem_mirror.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK, false));
 		popup.add(menuItem_mirror);
 
         menuItem_increase_inputs = new JMenuItem(I18N.tr(Lang.ADDINPUT));
         menuItem_increase_inputs.addActionListener(this);
+        menuItem_increase_inputs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK, false));
         popup.add(menuItem_increase_inputs);
 
         menuItem_decrease_inputs = new JMenuItem(I18N.tr(Lang.REMOVEINPUT));
         menuItem_decrease_inputs.addActionListener(this);
+        menuItem_decrease_inputs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK, false));
         popup.add(menuItem_decrease_inputs);
 		// Add listener to components that can bring up popup menus.
 		lspanel.addMouseListener(new PopupListener());
@@ -702,103 +623,125 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 				lspanel.repaint();
 			}
 		} else if (source == menuItem_rotate) {
-			if (popupGateIdx >= 0) {
-				Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-				// if multiple parts selected and the clicked gate is part of the selection,
-				// rotate all selected; otherwise rotate only the clicked gate
-				CircuitPart[] sel = lspanel.circuit.getSelected();
-				boolean clickedInSelection = false;
-				for (CircuitPart p : sel) {
-					if (p == g) {
-						clickedInSelection = true;
-						break;
-					}
-				}
-				if (clickedInSelection && sel.length > 1) {
-					lspanel.rotateSelected();
-				} else {
-					g.rotate();
-					lspanel.changedCircuit();
-				}
-				lspanel.repaint();
-			}
-		} else if (source == menuItem_mirror) {
-			if (popupGateIdx >= 0) {
-				Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-				CircuitPart[] sel = lspanel.circuit.getSelected();
-				boolean clickedInSelection = false;
-				for (CircuitPart p : sel) {
-					if (p == g) {
-						clickedInSelection = true;
-						break;
-					}
-				}
-				if (clickedInSelection && sel.length > 1) {
-					lspanel.mirrorSelected();
-				} else {
-					g.mirror();
-					lspanel.changedCircuit();
-				}
-				lspanel.repaint();
-			}
-		} else if (source == menuItem_increase_inputs) {
-            if (popupGateIdx >= 0) {
-                Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-                CircuitPart[] sel = lspanel.circuit.getSelected();
-                boolean clickedInSelection = false;
-                for (CircuitPart p : sel) {
-                    if (p == g) {
-                        clickedInSelection = true;
-                        break;
-                    }
-                }
-                if (clickedInSelection && sel.length > 1) {
-                    for (CircuitPart p : sel) {
-                        if (p instanceof Gate g2) {
-                            if (g2.variableInputCountSupported) {
-                                g2.createDynamicInputs(g2.getNumInputs() + 1);
-                            }
-                        }
-                    }
-                } else {
-                    if (g.variableInputCountSupported) {
-                        g.createDynamicInputs(g.getNumInputs() + 1);
-                    }
-                    lspanel.changedCircuit();
-                }
-                lspanel.repaint();
-            }
+            rotateSelected();
+        } else if (source == menuItem_mirror) {
+            mirrorSelected();
+        } else if (source == menuItem_increase_inputs) {
+            increaseInputsForSelected();
         } else if (source == menuItem_decrease_inputs) {
-            if (popupGateIdx >= 0) {
-                Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-                CircuitPart[] sel = lspanel.circuit.getSelected();
-                boolean clickedInSelection = false;
-                for (CircuitPart p : sel) {
-                    if (p == g) {
-                        clickedInSelection = true;
-                        break;
-                    }
-                }
-                if (clickedInSelection && sel.length > 1) {
-                    for (CircuitPart p : sel) {
-                        if (p instanceof Gate g2) {
-                            if (g2.variableInputCountSupported) {
-                                g2.createDynamicInputs(g2.getNumInputs() - 1);
-                            }
-                        }
-                    }
-                } else {
-                    if (g.variableInputCountSupported) {
-                        g.createDynamicInputs(g.getNumInputs() - 1);
-                    }
-                    lspanel.changedCircuit();
-                }
-                lspanel.repaint();
-            }
+            decreaseInputsForSelected();
         }
     }
 
-	class PopupListener extends MouseAdapter {
+    public void rotateSelected() {
+        if (popupGateIdx >= 0) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            CircuitPart[] sel = lspanel.circuit.getSelected();
+            if (sel == null || sel.length == 0) return;
+            boolean clickedInSelection = false;
+            for (CircuitPart p : sel) {
+                if (p == g) {
+                    clickedInSelection = true;
+                    break;
+                }
+            }
+            if (clickedInSelection && sel.length > 1) {
+                lspanel.rotateSelected();
+            } else {
+                g.rotate();
+                lspanel.changedCircuit();
+            }
+            lspanel.repaint();
+        }
+    }
+
+    public void decreaseInputsForSelected() {
+        if (popupGateIdx >= 0) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            CircuitPart[] sel = lspanel.circuit.getSelected();
+            if (sel == null || sel.length == 0) return;
+            boolean clickedInSelection = false;
+            for (CircuitPart p : sel) {
+                if (p == g) {
+                    clickedInSelection = true;
+                    break;
+                }
+            }
+            if (clickedInSelection && sel.length > 1) {
+                for (CircuitPart p : sel) {
+                    if (p instanceof Gate g2) {
+                        if (g2.variableInputCountSupported) {
+                            g2.createDynamicInputs(g2.getNumInputs() - 1);
+                        }
+                    }
+                }
+            } else {
+                if (g.variableInputCountSupported) {
+                    g.createDynamicInputs(g.getNumInputs() - 1);
+                }
+                lspanel.changedCircuit();
+            }
+            lspanel.repaint();
+        }
+    }
+
+    public void increaseInputsForSelected() {
+        if (popupGateIdx >= 0) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            CircuitPart[] sel = lspanel.circuit.getSelected();
+            if (sel == null || sel.length == 0) return;
+            boolean clickedInSelection = false;
+            for (CircuitPart p : sel) {
+                if (p == g) {
+                    clickedInSelection = true;
+                    break;
+                }
+            }
+            if (clickedInSelection && sel.length > 1) {
+                for (CircuitPart p : sel) {
+                    if (p instanceof Gate g2) {
+                        if (g2.variableInputCountSupported) {
+                            g2.createDynamicInputs(g2.getNumInputs() + 1);
+                        }
+                    }
+                }
+            } else {
+                if (g.variableInputCountSupported) {
+                    g.createDynamicInputs(g.getNumInputs() + 1);
+                }
+                lspanel.changedCircuit();
+            }
+            lspanel.repaint();
+        }
+    }
+
+    public void mirrorSelected() {
+        if (popupGateIdx >= 0) {
+            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
+            CircuitPart[] sel = lspanel.circuit.getSelected();
+            if (sel == null || sel.length == 0) return;
+            boolean clickedInSelection = false;
+            for (CircuitPart p : sel) {
+                if (p == g) {
+                    clickedInSelection = true;
+                    break;
+                }
+            }
+            if (clickedInSelection && sel.length > 1) {
+                lspanel.mirrorSelected();
+            } else {
+                g.mirror();
+                lspanel.changedCircuit();
+            }
+            lspanel.repaint();
+        }
+    }
+
+    public int getSelectedCount() {
+        return lspanel.circuit.getSelected().length;
+    }
+
+    class PopupListener extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
 			maybeShowPopup(e);
 		}

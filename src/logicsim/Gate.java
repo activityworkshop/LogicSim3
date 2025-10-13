@@ -113,7 +113,7 @@ public class Gate extends CircuitPart {
         if (total < 2) total = 2;
         if (total > 5) total = 5;
 		int numinputs = getInputs().size();
-        if (total > numinputs) {
+        if (total > numinputs) { //Add inputs
             // get max number
             int num = -1;
             for (Pin c : pins)
@@ -123,21 +123,39 @@ public class Gate extends CircuitPart {
             // add new connectors - total times
             for (int i = numinputs; i < total; i++) {
                 num++;
-                int pos = getX();
-                int ioType = Pin.INPUT;
-                Pin c = new Pin(pos, 0, this, num);
-                c.paintDirection = ioType == Pin.INPUT ? Pin.RIGHT : Pin.LEFT;
-                c.setIoType(ioType);
+                Pin c = new Pin(0, 0, this, num);
+                switch (rotate90) {
+                    case 0 -> {
+                        c.setX(getX());
+                        c.setDirection(Pin.RIGHT);
+                    }
+                    case 1 ->{
+                        c.setY(getY());
+                        c.setDirection(Pin.DOWN);
+                    }
+                    case 2 -> {
+                        c.setX(getX() + width);
+                        c.setDirection(Pin.LEFT);
+                    }
+                    case 3 ->{
+                        c.setY(getY() + height);
+                        c.setDirection(Pin.UP);
+                    }
+                }
+                c.setIoType(Pin.INPUT);
                 pins.add(c);
             }
 
             // reposition all inputs
             num = 0;
             for (Pin p : getInputs()) {
-                p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                if (rotate90 % 2 == 0)
+                    p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                else
+                    p.setX(getX() + getConnectorPosition(num, total, HORIZONTAL));
                 num++;
             }
-        } else if (total < numinputs) {
+        } else if (total < numinputs) { //Remove inputs
             for (int i = numinputs - 1; i >= total; i--) {
                 Pin p = getInputs().get(i);
                 pins.remove(p);
@@ -145,7 +163,10 @@ public class Gate extends CircuitPart {
 
             int num = 0;
             for (Pin p : getInputs()) {
-                p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                if (rotate90 % 2 == 0)
+                    p.setY(getY() + getConnectorPosition(num, total, VERTICAL));
+                else
+                    p.setX(getX() + getConnectorPosition(num, total, HORIZONTAL));
                 num++;
             }
         }

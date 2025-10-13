@@ -1,5 +1,6 @@
 package logicsim;
 
+import logicsim.controlles.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 
@@ -32,7 +33,6 @@ import java.io.Serial;
 import javax.swing.event.MouseInputAdapter;
 
 public class LSPanel extends Viewer implements Printable, CircuitChangedListener, LSRepaintListener {
-
 
 	public class LogicSimPainterGraphics implements Painter {
 		@Override
@@ -476,6 +476,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+                ShortCuts.keyPressed(e);
 				myKeyPressed(e);
 			}
 		});
@@ -662,6 +663,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	 */
 	public void rotateSelected() {
 		CircuitPart[] parts = circuit.getSelected();
+        if (parts.length == 0) return;
 		for (CircuitPart part : parts) {
 			if (part instanceof Gate) {
 				((Gate) part).rotate();
