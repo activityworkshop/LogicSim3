@@ -774,4 +774,21 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		}
 	}
 
+	public void addGateAt(Gate g, int worldX, int worldY) {
+		if (g == null) return;
+		if (Simulation.getInstance().isRunning()) return;
+		circuit.deselectAll();
+		int posX = CircuitPart.round(worldX);
+		int posY = CircuitPart.round(worldY);
+		while (circuit.isPartAtCoordinates(posX, posY)) {
+			posX += 40;
+			posY += 40;
+		}
+		g.moveTo(posX, posY);
+		circuit.addGate(g);
+		g.select();
+		fireStatusText("MSG_ADD_NEW_GATE");
+		fireCircuitChanged();
+		repaint();
+	}
 }

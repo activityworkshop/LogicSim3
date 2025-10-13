@@ -36,6 +36,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.datatransfer.*;
 
 public class LSFrame extends JFrame implements ActionListener, CircuitChangedListener {
 	@Serial
@@ -69,6 +70,77 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     JMenuItem menuItem_decrease_inputs;
 
     int mouseX, mouseY;
+
+    int lastPressedListIndex = -1;
+    boolean listDragArmed = false;
+
+	/** Transferable für GateDragInfo */
+	private static class GateInfoTransferable implements Transferable {
+		private final GateDragInfo info;
+		private final DataFlavor[] flavors = new DataFlavor[]{GateDragInfo.FLAVOR};
+		GateInfoTransferable(GateDragInfo info) { this.info = info; }
+		@Override public DataFlavor[] getTransferDataFlavors() { return flavors; }
+		@Override public boolean isDataFlavorSupported(DataFlavor flavor) { return flavor.equals(GateDragInfo.FLAVOR); }
+		@Override public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException { if (!isDataFlavorSupported(flavor)) throw new UnsupportedFlavorException(flavor); return info; }
+	}
+
+	/** TransferHandler für die Gate-Liste (Quelle) */
+	private class GateListTransferHandler extends TransferHandler {
+		@Override
+		public int getSourceActions(JComponent c) { return COPY; }
+
+		@Override
+		protected Transferable createTransferable(JComponent c) {
+			Object o;
+			int idx = lastPressedListIndex >= 0 ? lastPressedListIndex : lstParts.getSelectedIndex();
+			if (idx < 0 || idx >= partListModel.getSize()) return null;
+			o = partListModel.getElementAt(idx);
+			if (!(o instanceof Gate gate)) return null;
+			// Eingangsanzahl aus ComboBox
+			int numInputs = 2;
+			try {
+				String sel = Objects.requireNonNull(cbNumInputs.getSelectedItem()).toString();
+				numInputs = Integer.parseInt(sel.substring(0, 1));
+			} catch (Exception ignored) {}
+			return new GateInfoTransferable(new GateDragInfo(gate, numInputs));
+		}
+
+		@Override
+		public boolean canImport(TransferSupport support) { return false; }
+	}
+
+	/** TransferHandler für das Canvas (Ziel) */
+	private class CanvasTransferHandler extends TransferHandler {
+		@Override
+		public boolean canImport(TransferSupport support) {
+			if (Simulation.getInstance().isRunning()) return false;
+			return support.isDataFlavorSupported(GateDragInfo.FLAVOR);
+		}
+
+		@Override
+		public boolean importData(TransferSupport support) {
+			if (!canImport(support)) return false;
+			try {
+				GateDragInfo info = (GateDragInfo) support.getTransferable().getTransferData(GateDragInfo.FLAVOR);
+				if (info == null || info.getPrototype() == null) return false;
+				Gate prototype = info.getPrototype();
+				Gate gate = GateLoaderHelper.create(prototype);
+				// Eingänge ggf. setzen
+				if (gate.supportsVariableInputs()) {
+					gate.createDynamicInputs(info.getNumInputs());
+				}
+				// Drop-Position (Component-Koordinaten -> Weltkoordinaten)
+				Point p = support.getDropLocation().getDropPoint();
+				int worldX = (int) lspanel.getTransformer().screenToWorldX(p.x);
+				int worldY = (int) lspanel.getTransformer().screenToWorldY(p.y);
+				lspanel.addGateAt(gate, worldX, worldY);
+				return true;
+			} catch (UnsupportedFlavorException | IOException ex) {
+				ex.printStackTrace();
+				return false;
+			}
+		}
+	}
 
 	public LSFrame(String title) {
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
@@ -387,6 +459,32 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		lstParts.setCellRenderer(new GateListRenderer());
 		lstParts.addListSelectionListener(this::actionLstGatesSelected);
         lstParts.setDragEnabled(true);
+        lstParts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        lstParts.setTransferHandler(new GateListTransferHandler());
+        // Track Mausindex für robustes DnD
+        lstParts.addMouseListener(new MouseAdapter() {
+            @Override public void mousePressed(MouseEvent e) {
+                lastPressedListIndex = lstParts.locationToIndex(e.getPoint());
+                Object o = (lastPressedListIndex >= 0 && lastPressedListIndex < partListModel.size())
+                        ? partListModel.getElementAt(lastPressedListIndex) : null;
+                listDragArmed = (o instanceof Gate);
+            }
+            @Override public void mouseReleased(MouseEvent e) {
+                lastPressedListIndex = -1;
+                listDragArmed = false;
+            }
+        });
+        lstParts.addMouseMotionListener(new MouseAdapter() {
+            @Override public void mouseDragged(MouseEvent e) {
+                if (listDragArmed) {
+                    TransferHandler th = lstParts.getTransferHandler();
+                    if (th != null) {
+                        th.exportAsDrag(lstParts, e, TransferHandler.COPY);
+                    }
+                    listDragArmed = false;
+                }
+            }
+        });
 
 		String[] gateInputNums = new String[4];
 		for (int i = 0; i < 4; i++) {
@@ -413,6 +511,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		splitPane.setDividerLocation(170);
 		splitPane.add(pnlGateList, JSplitPane.LEFT);
 		splitPane.add(lspanel, JSplitPane.RIGHT);
+
+        // Drag-and-Drop Ziel für Canvas
+        lspanel.setTransferHandler(new CanvasTransferHandler());
 
 		getContentPane().add(splitPane, BorderLayout.CENTER);
 
@@ -962,31 +1063,14 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	void actionLstGatesSelected(ListSelectionEvent e) {
 		if (Simulation.getInstance().isRunning())
 			return;
-		
+		if (e.getValueIsAdjusting()) return;
 		int sel = lstParts.getSelectedIndex();
 		if (sel < 0)
 			return;
-		int numInputs = Integer.parseInt(Objects.requireNonNull(cbNumInputs.getSelectedItem()).toString().substring(0, 1));
-
 		Object o = lstParts.getSelectedValue();
 		if (!(o instanceof Gate gate))
 			return;
-
-        // gate is normal gate or module
-		gate = GateLoaderHelper.create((Gate) o);
-		if (gate instanceof Module m) {
-            lspanel.setAction(m);
-			if (m.lsFile.getDescription() != null)
-				setStatusText(m.lsFile.getDescription());
-			else
-				setStatusText(m.type);
-			lspanel.requestFocusInWindow();
-		} else {
-			// gate is normal Gate-Object
-			if (gate.supportsVariableInputs())
-				gate.createDynamicInputs(numInputs);
-			lspanel.setAction(gate);
-
+		if (gate.type != null) {
 			if (gate.type.contains("test"))
 				setStatusText(gate.type);
 			else if (I18N.hasString(gate.type, "description")) {
@@ -994,9 +1078,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 			} else {
 				setStatusText(I18N.getString(gate.type, "title"));
 			}
-			lspanel.requestFocusInWindow();
 		}
-		lstParts.clearSelection();
 	}
 
 	/**
