@@ -931,6 +931,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	 */
 	private void setAppTitle() {
 		String name = lsFile.getName();
+        if (name == null) {
+            this.setTitle("LogicSim");
+            return;
+        }
 		name = "LogicSim - " + name;
 		if (lsFile.changed)
 			name += "*";
