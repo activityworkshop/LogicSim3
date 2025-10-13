@@ -157,4 +157,22 @@ public class MODIN extends Gate {
 		I18N.addGate("de", type, PINCOUNT, "Anzahl Eingänge");
 	}
 
+	@Override
+	public void mousePressed(LSMouseEvent e) {
+		super.mousePressed(e);
+		// Check if user clicked on one of the green label areas
+		int numberOfInputs = getInputs().size();
+		for (Pin p : getInputs()) {
+			Pin pout = getPin(p.number + numberOfInputs);
+			if (pout.isConnected()) {
+				// Create a rectangle for the clickable area
+				Rectangle clickArea = new Rectangle(getX() + CONN_SIZE + 1, p.getY() - 4, 8, 8);
+				if (clickArea.contains(e.getX(), e.getY())) {
+					p.showPropertiesUI(App.instance.lsframe);
+                    return;
+				}
+			}
+		}
+	}
+
 }

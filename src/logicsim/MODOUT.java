@@ -1,11 +1,14 @@
 package logicsim;
 
 import logicsim.localization.I18N;
+import logicsim.localization.Lang;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+
+import javax.swing.JOptionPane;
 
 /**
  * output gate for modules
@@ -92,6 +95,24 @@ public class MODOUT extends Gate {
 		I18N.addGate(I18N.ALL, type, INPUT_LABEL, "Label");
 		I18N.addGate("de", type, I18N.TITLE, "Modulausgänge");
 		I18N.addGate("de", type, I18N.DESCRIPTION, "Ausgangsgatter für Module");
+	}
+
+	@Override
+	public void mousePressed(LSMouseEvent e) {
+		super.mousePressed(e);
+		// Check if user clicked on one of the green label areas
+		int numberOfInputs = getInputs().size();
+		for (Pin p : getOutputs()) {
+			Pin pin = getPin(p.number - numberOfInputs);
+			if (pin.isConnected()) {
+				// Create a rectangle for the clickable area
+				Rectangle clickArea = new Rectangle(getX() + width - CONN_SIZE - 9, p.getY() - 4, 8, 8);
+				if (clickArea.contains(e.getX(), e.getY())) {
+                    p.showPropertiesUI(App.instance.lsframe);
+                    return;
+				}
+			}
+		}
 	}
 
 }

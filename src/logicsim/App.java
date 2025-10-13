@@ -20,7 +20,9 @@ public class App {
 	public static final String GRAPHICS_FORMAT = "png";
 	public static boolean Running_From_Jar = false;
 
-	LSFrame lsframe;
+    public static App instance;
+
+	public LSFrame lsframe;
 
 	static long timer = 0;
 	
@@ -206,7 +208,7 @@ public class App {
 	 * Main method
 	 */
 	public static void main(String[] args) {
-		new App();
+		instance = new App();
 	}
 
 }
