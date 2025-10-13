@@ -75,9 +75,6 @@
 		<copy todir="${dist.dir}/modules">
 			<fileset dir="modules" />
 		</copy>
-		<copy todir="${dist.dir}/circuits">
-			<fileset dir="circuits" />
-		</copy>
 		<zip destfile="${release.dir}/LogicSim-${version}.zip" basedir="${dist.dir}" />
 	</target>
 
