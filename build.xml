@@ -61,6 +61,7 @@
 
 	<target name="dist" depends="jar">
 		<mkdir dir="${dist.dir}" />
+        <delete dir="${dist.dir}/gates" />
 		<copy todir="${dist.dir}" flatten="true">
 			<resources>
 				<file file="${jar.dir}/${ant.project.name}.jar" />
@@ -75,6 +76,9 @@
 		<copy todir="${dist.dir}/modules">
 			<fileset dir="modules" />
 		</copy>
+        <copy todir="${dist.dir}/circuits">
+            <fileset dir="circuits" />
+        </copy>
 		<zip destfile="${release.dir}/LogicSim-${version}.zip" basedir="${dist.dir}" />
 	</target>
 
