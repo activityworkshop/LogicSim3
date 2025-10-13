@@ -218,13 +218,4 @@ public class Module extends Gate {
 	protected void drawLabel(Graphics2D g2, String lbl, Font font) {
 		super.drawLabel(g2, lbl, font);
 	}
-
-    @Override
-	public boolean showPropertiesUI(Component frame) {
-		if (moduleIn != null) {
-            FileInfoDialog.showFileInfo(frame, lsFile);
-		}
-		return true;
-	}
-
 }

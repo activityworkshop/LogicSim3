@@ -217,7 +217,12 @@ public class Gate extends CircuitPart {
 			g2.setTransform(old);
 		}
         drawIOLabels(g2);
+        drawText(g2);
 	}
+
+    public void drawText(Graphics2D g2) {
+        drawLabelWithOffset(g2, getProperty(TEXT), bigFont, labelOffsetX, labelOffsetY + height/2 + 10);
+    }
 
 	protected void drawRotated(Graphics2D g2) {
 	}
