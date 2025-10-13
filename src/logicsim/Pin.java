@@ -74,7 +74,7 @@ public class Pin extends CircuitPart {
 	 * 
 	 * @param g2
 	 */
-	private void drawLabel(Graphics2D g2) {
+    public void drawLabel(Graphics2D g2) {
 		int x = getX();
 		int y = getY();
 
@@ -83,45 +83,41 @@ public class Pin extends CircuitPart {
 			if (paintDirection == RIGHT) {
 				if (POS_EDGE_TRIG.equals(text)) {
 					Polygon tr = new Polygon();
-					tr.addPoint(x + 1 + CONN_SIZE, y - 4);
-					tr.addPoint(x + 1 + CONN_SIZE, y + 4);
-					tr.addPoint(x + 1 + CONN_SIZE + 9, y);
+					tr.addPoint(x + 1 + CONN_SIZE, y - 3);
+					tr.addPoint(x + 1 + CONN_SIZE, y + 3);
+					tr.addPoint(x + 1 + CONN_SIZE + 6, y);
 					g2.draw(tr);
 				} else {
-					WidgetHelper.drawString(g2, text, x + CONN_SIZE + 3, y + 4, WidgetHelper.ALIGN_LEFT);
+					WidgetHelper.drawString(g2, text, x + CONN_SIZE + 3, y + 3, WidgetHelper.ALIGN_LEFT);
 				}
 			} else if (paintDirection == LEFT) {
 				if (POS_EDGE_TRIG.equals(text)) {
 					Polygon tr = new Polygon();
-					tr.addPoint(x - 1 - CONN_SIZE, y - 4);
-					tr.addPoint(x - 1 - CONN_SIZE, y + 4);
-					tr.addPoint(x - 1 - CONN_SIZE - 9, y);
+					tr.addPoint(x - 1 - CONN_SIZE, y - 3);
+					tr.addPoint(x - 1 - CONN_SIZE, y + 3);
+					tr.addPoint(x - 1 - CONN_SIZE - 6, y);
 					g2.draw(tr);
 				} else {
-					WidgetHelper.drawString(g2, text, x - CONN_SIZE - 2, y + 4, WidgetHelper.ALIGN_RIGHT);
+					WidgetHelper.drawString(g2, text, x - CONN_SIZE - 3, y + 3, WidgetHelper.ALIGN_RIGHT);
 				}
 			} else if (paintDirection == UP) {
 				if (POS_EDGE_TRIG.equals(text)) {
 					Polygon tr = new Polygon();
-					tr.addPoint(x - 4, y - 1 - CONN_SIZE);
-					tr.addPoint(x + 4, y - 1 - CONN_SIZE);
-					tr.addPoint(x, y - 1 - CONN_SIZE - 8);
+					tr.addPoint(x - 3, y - 1 - CONN_SIZE);
+					tr.addPoint(x + 3, y - 1 - CONN_SIZE);
+					tr.addPoint(x, y - 1 - CONN_SIZE - 6);
 					g2.draw(tr);
 				} else {
-					// WidgetHelper.drawString(g2, text, x, y - CONN_SIZE - 3,
-					// WidgetHelper.ALIGN_CENTER);
 					WidgetHelper.drawStringRotated(g2, text, x + 3, y - CONN_SIZE - 3, WidgetHelper.ALIGN_LEFT, -90);
 				}
 			} else if (paintDirection == DOWN) {
 				if (POS_EDGE_TRIG.equals(text)) {
 					Polygon tr = new Polygon();
-					tr.addPoint(x - 4, y + 1 + CONN_SIZE);
-					tr.addPoint(x + 4, y + 1 + CONN_SIZE);
-					tr.addPoint(x, y + 1 + CONN_SIZE + 8);
+					tr.addPoint(x - 3, y + 1 + CONN_SIZE);
+					tr.addPoint(x + 3, y + 1 + CONN_SIZE);
+					tr.addPoint(x, y + 1 + CONN_SIZE + 6);
 					g2.draw(tr);
 				} else {
-					// WidgetHelper.drawString(g2, text, x, y + CONN_SIZE + 10,
-					// WidgetHelper.ALIGN_CENTER);
 					WidgetHelper.drawStringRotated(g2, text, x + 3, y + CONN_SIZE + 3, WidgetHelper.ALIGN_RIGHT, -90);
 				}
 			}
@@ -136,8 +132,6 @@ public class Pin extends CircuitPart {
 
 		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.BLACK);
-
-		drawLabel(g2);
 
 		int offset = 0;
 
@@ -243,10 +237,13 @@ public class Pin extends CircuitPart {
                 }
             }
 		}
+        //drawLabel(g2);
 	}
 
 	public void setLevelType(int levelType) {
-		// TODO if we set a level type of type HIGH or LOW we have to remove the wire completely
+        if (levelType == HIGH || levelType == LOW) {
+            // TODO if we set a level type of type HIGH or LOW we have to remove the wire completely
+        }
 		this.levelType = levelType;
 	}
 

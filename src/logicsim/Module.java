@@ -68,8 +68,8 @@ public class Module extends Gate {
         if (label == null || label.isEmpty()) {
             label = lsFile.extractFileName();
         }
-        if (label.length() > 20) {
-            label = label.substring(0, 17) + "...";
+        if (label.length() > 15) {
+            label = label.substring(0, 12) + "...";
         }
 
 		// postprocessing: search for MODIN and MODOUT
@@ -183,16 +183,33 @@ public class Module extends Gate {
     @Override
     public void draw(Graphics2D g2) {
         int sw = g2.getFontMetrics().stringWidth(label);
-        sw += 10 - (sw % 10);
-        if (width < sw + 20) {
-            width = sw + 20;
-        }
-        for (Pin p : pins) {
-            int x = getX();
-            if (!p.isInput()) {
-                x += width;
+        sw += 10 - (sw % 10); // round to next multiple of 10
+        sw += 40; // padding
+        int width_diff = Math.max(width, (sw)) - width;
+        int height_diff = 60 - height;
+        width = Math.max(width, (sw));
+        height = 60;
+        if (width_diff != 0 || height_diff != 0) {
+            int inputPinCount = moduleOut.getInputs().size();
+            for (Pin p : pins) {
+                int number = p.number;
+                if (!p.isInput()) {
+                    number -= inputPinCount;
+                }
+                if (p.paintDirection == Pin.LEFT) {
+                    p.setX(getX() + width);
+                    p.setY(getY() + 10 + number * 10);
+                } else if (p.paintDirection == Pin.RIGHT) {
+                    p.setX(getX());
+                    p.setY(getY() + 10 + number * 10);
+                } else if (p.paintDirection == Pin.UP) {
+                    p.setX(getX() + 10 + number * 10);
+                    p.setY(getY() + height);
+                } else if (p.paintDirection == Pin.DOWN) {
+                    p.setX(getX() + 10 + number * 10);
+                    p.setY(getY());
+                }
             }
-            p.setX(x);
         }
         super.draw(g2);
     }

@@ -195,6 +195,7 @@ public class Gate extends CircuitPart {
 		if (rotate90 != 0) {
 			g2.setTransform(old);
 		}
+        drawIOLabels(g2);
 	}
 
 	protected void drawRotated(Graphics2D g2) {
@@ -234,6 +235,11 @@ public class Gate extends CircuitPart {
 		for (Pin c : pins)
 			c.draw(g2);
 	}
+
+    protected void drawIOLabels(Graphics2D g2) {
+        for (Pin c : pins)
+            c.drawLabel(g2);
+    }
 
 	protected void drawLabel(Graphics2D g2, String lbl, Font font) {
 		if (lbl != null) {
