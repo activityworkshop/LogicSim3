@@ -3,20 +3,13 @@ package logicsim;
 import java.awt.datatransfer.DataFlavor;
 
 /**
- * Payload-Objekt für Drag & Drop eines Gates aus der Liste ins Canvas.
- * Enthält das Gate-Prototype-Objekt und die gewünschte Eingangsanzahl.
+ * Datenobjekt für Drag-and-Drop aus der Gate-Liste ins Canvas.
+ * Enthält den Gate-Prototyp und die gewünschte Eingangsanzahl.
  */
 public class GateDragInfo {
-    public static final String MIME = DataFlavor.javaJVMLocalObjectMimeType + ";class=logicsim.GateDragInfo";
-    public static final DataFlavor FLAVOR = createFlavor();
-
-    private static DataFlavor createFlavor() {
-        try {
-            return new DataFlavor(MIME);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public static final DataFlavor FLAVOR = new DataFlavor(
+            DataFlavor.javaJVMLocalObjectMimeType + ";class=" + GateDragInfo.class.getName(),
+            "GateDragInfo");
 
     private final Gate prototype;
     private final int numInputs;
@@ -34,4 +27,3 @@ public class GateDragInfo {
         return numInputs;
     }
 }
-

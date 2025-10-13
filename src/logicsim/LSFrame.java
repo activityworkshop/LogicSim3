@@ -473,6 +473,28 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 lastPressedListIndex = -1;
                 listDragArmed = false;
             }
+            @Override public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(e)) {
+                    if (Simulation.getInstance().isRunning()) return;
+                    int idx = lstParts.locationToIndex(e.getPoint());
+                    if (idx < 0 || idx >= partListModel.getSize()) return;
+                    Object o = partListModel.getElementAt(idx);
+                    if (!(o instanceof Gate gateProto)) return;
+                    // Neues Gate aus Prototyp erstellen
+                    Gate gate = GateLoaderHelper.create(gateProto);
+                    // Eingänge gemäß Auswahl
+                    int numInputs = 2;
+                    try {
+                        String sel = Objects.requireNonNull(cbNumInputs.getSelectedItem()).toString();
+                        numInputs = Integer.parseInt(sel.substring(0, 1));
+                    } catch (Exception ignored) {}
+                    if (gate.supportsVariableInputs()) {
+                        gate.createDynamicInputs(numInputs);
+                    }
+                    // Direkt aufs Canvas setzen (Standardposition anhand Offset)
+                    lspanel.setAction(gate);
+                }
+            }
         });
         lstParts.addMouseMotionListener(new MouseAdapter() {
             @Override public void mouseDragged(MouseEvent e) {
