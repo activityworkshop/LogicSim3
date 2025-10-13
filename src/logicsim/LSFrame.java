@@ -196,10 +196,12 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		JMenu mnu = new JMenu(I18N.tr(Lang.FILE));
 
 		JMenuItem m = createMenuItem(Lang.NEW, KeyEvent.VK_N, false);
+        m.setEnabled(!Simulation.getInstance().isRunning());
 		m.addActionListener(this::actionNew);
 		mnu.add(m);
 
 		m = createMenuItem(Lang.OPEN, KeyEvent.VK_O, true);
+        m.setEnabled(!Simulation.getInstance().isRunning());
 		m.addActionListener(this::actionOpen);
 		mnu.add(m);
 
@@ -251,7 +253,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 		// ------------------------------------------------------------------
 		// EDIT
-		mnu = new JMenu(I18N.tr(Lang.EDIT));
+		/*mnu = new JMenu(I18N.tr(Lang.EDIT));
 
 		m = createMenuItem(Lang.SELECTALL, KeyEvent.VK_A, false);
 		m.addActionListener(_ -> {
@@ -277,7 +279,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		mnu.addSeparator();
 
 		m = createMenuItem(Lang.WIRENEW, KeyEvent.VK_W, false);
-		m.addActionListener(e -> Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).doClick());
+		//m.addActionListener(e -> Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).doClick());
 		m.setEnabled(LSProperties.MODE_EXPERT.equals(mode));
 		mnu.add(m);
 
@@ -320,9 +322,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 		m = createMenuItem(Lang.MIRROR, KeyEvent.VK_M, false);
 		m.addActionListener(_ -> lspanel.mirrorSelected());
-		mnu.add(m);
+		mnu.add(m);*/
 
-		mnuBar.add(mnu);
+		//mnuBar.add(mnu);
 		// ------------------------------------------------------------------
 		// SETTINGS
 		mnu = new JMenu(I18N.tr(Lang.SETTINGS));
@@ -542,11 +544,13 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		btnBar = new JToolBar();
 
 		LSButton btnLS = new LSButton("new", Lang.NEW);
+        btnLS.setEnabled(!Simulation.getInstance().isRunning());
 		btnLS.addActionListener(this::actionNew);
 		btnBar.add(btnLS, null);
         btnBar.add(getSmallMenuGap());
 
 		btnLS = new LSButton("open", Lang.OPEN);
+        btnLS.setEnabled(!Simulation.getInstance().isRunning());
 		btnLS.addActionListener(this::actionOpen);
 		btnBar.add(btnLS);
         btnBar.add(getSmallMenuGap());
@@ -599,7 +603,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		btnBar.add(getMenuGap());
 
 		btnLS = new LSButton("newwire", Lang.WIRENEW);
-		btnLS.setEnabled(Objects.requireNonNull(getMenuWidget(Lang.WIRENEW)).isEnabled());
+		btnLS.setEnabled(LSProperties.MODE_EXPERT.equals(mode));
 		btnLS.addActionListener(_ -> {
             lspanel.setAction(LSPanel.ACTION_ADDWIRE);
             setStatusText(I18N.tr(Lang.WIRENEW_HELP));
@@ -806,13 +810,14 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		private void maybeShowPopup(MouseEvent mouseEvent) {
 			if (!mouseEvent.isPopupTrigger()) return;
             if (mouseEvent.getSource() != lspanel) return;
+            if (Simulation.getInstance().isRunning()) return;
             for (CircuitPart part : lspanel.circuit.getParts()) {
                 if (!(part instanceof Gate g)) continue;
                 if (!g.insideFrame(mouseX, mouseY)) continue;
                 popupGateIdx = lspanel.circuit.getParts().indexOf(part);
                 menuItem_properties.setEnabled(g.hasPropertiesUI());
-                menuItem_decrease_inputs.setEnabled(g.variableInputCountSupported);
-                menuItem_increase_inputs.setEnabled(g.variableInputCountSupported);
+                menuItem_decrease_inputs.setEnabled(g.variableInputCountSupported && g.getNumInputs() > 2);
+                menuItem_increase_inputs.setEnabled(g.variableInputCountSupported && g.getNumInputs() < 5);
                 popup.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
                 break;
             }
@@ -839,6 +844,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 splitPane.setDividerLocation(dividerLocation);
 			}
 		}
+
+        Objects.requireNonNull(getMenuWidget(Lang.OPEN)).setEnabled(!Simulation.getInstance().isRunning());
+        Objects.requireNonNull(getButtonWidget(Lang.OPEN)).setEnabled(!Simulation.getInstance().isRunning());
+        Objects.requireNonNull(getMenuWidget(Lang.NEW)).setEnabled(!Simulation.getInstance().isRunning());
+        Objects.requireNonNull(getButtonWidget(Lang.NEW)).setEnabled(!Simulation.getInstance().isRunning());
 	}
 
 	boolean showDiscardDialog(String title) {
@@ -855,6 +865,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	 * @param e Event
 	 */
 	void actionNew(ActionEvent e) {
+        if (Simulation.getInstance().isRunning())
+            return;
 		if (!showDiscardDialog(I18N.tr(Lang.NEW)))
 			return;
 		lsFile = new LogicSimFile(defaultCircuitFileName());
@@ -870,7 +882,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 	 */
 	void actionOpen(ActionEvent e) {
 		if (Simulation.getInstance().isRunning())
-			Simulation.getInstance().stop();
+			return;
 
 		if (!showDiscardDialog(I18N.tr(Lang.OPEN)))
 			return;
@@ -1178,8 +1190,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		LSProperties.getInstance().setProperty(LSProperties.MODE, mode);
 
 		// activate widgets
-		Objects.requireNonNull(getMenuWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
-		Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
+		//Objects.requireNonNull(getMenuWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
+		//Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
 
 		this.lspanel.repaint();
 	}
