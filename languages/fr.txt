@@ -3,53 +3,53 @@ new=Nouveau
 open=Ouvrir...
 save=Enregistrer
 saveas=Enregistrer sous...
-modulecreate=Créer un module
-properties=Caractéristiques
+modulecreate=Cr\u00E9er un module
+properties=Caract\u00E9ristiques
 export=Exporter...
 print=Imprimer...
 exit=Quitter
 
-settings=Réglage
+settings=R\u00E9glage
 paintgrid=Dessiner la grille
-gatedesign=Représentation
+gatedesign=Repr\u00E9sentation
 gatedesign.iec=IEC
 gatedesign.ansi=ANSI
 language=Langue
 help=Aide
-about=À propos de LogicSim
+about=\u00C0 propos de LogicSim
 
 removegate=Effacer le composant
-addinput=Ajouter une entrée
-removeinput=Supprimer une entrée
+addinput=Ajouter une entr\u00E9e
+removeinput=Supprimer une entr\u00E9e
 
-inputs=Entrée
+inputs=Entr\u00E9e
 
 simulate=Simuler
-inputnorm=Entrée normale
-inputinv=Entrée inversée
-inputhigh=Entrée au niveau haut
-inputlow=Entrée au niveau bas
+inputnorm=Entr\u00E9e normale
+inputinv=Entr\u00E9e invers\u00E9e
+inputhigh=Entr\u00E9e au niveau haut
+inputlow=Entr\u00E9e au niveau bas
 addpoint=Ajouter un point de connexion
 removepoint=Supprimer un point de connexion
 
-inputnorm.help=Sélectionnez l'entrée pour effacer la configuration actuelle
-inputinv.help=Sélectionnez l'entrée pour l'inverser
-inputhigh.help=Sélectionnez l'entrée pour la mettre au niveau haut
-inputlow.help=Sélectionnez l'entrée pour la mettre au niveau bas
-addpoint.help=Sélectionnez un fil pour rajouter un point
-removepoint=Sélectionnez un point de connexion pour le supprimer
-saved=Le schéma %s a été enregistré
-aborted=Abandonné
+inputnorm.help=S\u00E9lectionnez l'entr\u00E9e pour effacer la configuration actuelle
+inputinv.help=S\u00E9lectionnez l'entr\u00E9e pour l'inverser
+inputhigh.help=S\u00E9lectionnez l'entr\u00E9e pour la mettre au niveau haut
+inputlow.help=S\u00E9lectionnez l'entr\u00E9e pour la mettre au niveau bas
+addpoint.help=S\u00E9lectionnez un fil pour rajouter un point
+removepoint=S\u00E9lectionnez un point de connexion pour le supprimer
+saved=Le sch\u00E9ma %s a \u00E9t\u00E9 enregistr\u00E9
+aborted=Abandonn\u00E9
 module=Module
 
 label=Étiquette
 name=Nom
 description=Description
 
-question.confirmdiscard=Le circuit a été modifie.\nVoulez vous vraiment perdre ce circuit?
-lsrestart=LogicSim doit etre redémarré.
-modulenotfound=Le module \n%s n'a pas été trouvé.\nCopiez le module dans le répertoire approprié.
-nomodule=Ce schéma n'est pas un module
+question.confirmdiscard=Le circuit a \u00E9t\u00E9 modifie.\nVoulez vous vraiment perdre ce circuit?
+lsrestart=LogicSim doit \u00EAtre red\u00E9marr\u00E9.
+modulenotfound=Le module \n%s n'a pas \u00E9t\u00E9 trouv\u00E9.\nCopiez le module dans le r\u00E9pertoire appropri\u00E9.
+nomodule=Ce sch\u00E9ma n'est pas un module
 readerror=Erreur de lecture
 saveerror=Erreur pendant la sauvegarde
 

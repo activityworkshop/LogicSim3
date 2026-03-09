@@ -43,18 +43,18 @@ aborted=abortado
 module=Modulo
 
 label=Etiqueta
-name=nombre
-description=comentario
+name=Nombre
+description=Comentario
 
 savecircuit=Guardar circuito en un fichero
 
 question.confirmdiscard=El circuito se ha modificado.\nRealmente desea descartar los cambios?
 lsrestart=Necesita reiniciar LogicSim.
 modulenotfound=No puedo encontrar el m\u00F3dulo\n%s\npor favor copia el m\u00F3dulo correcto en el directorio de m\u00F3dulos
-nomodule=el circuito no es un m\u00F3dulo
+nomodule=El circuito no es un m\u00F3dulo
 readerror=Error leyendo el fichero (\u00BFcreado con otra versi\u00F3n de LogicSim?)
 saveerror=Error guardando el fichero
 
 cancel=Cancelar
-yes=sí
-no=no
+yes=S\u00ED
+no=No
