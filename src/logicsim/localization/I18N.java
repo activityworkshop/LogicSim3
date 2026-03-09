@@ -1,13 +1,3 @@
-/*
- * I18N.java
- *
- * Created on 29. Dezember 2005, 15:27
- *
- * To change this template, choose Tools | Options and locate the template under
- * the Source Creation and Management node. Right-click the template and choose
- * Open. You can then make changes to the template in the Source Editor.
- */
-
 package logicsim.localization;
 
 import logicsim.App;
@@ -18,7 +8,6 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- *
  * @author atetzl
  */
 public class I18N {
@@ -60,17 +49,11 @@ public class I18N {
 		return properties;
 	}
 
-	public static String langToStr(Lang l) {
-		String key = l.toString();
-		key = key.toLowerCase();
-		key = key.replace("_", ".");
-		return key;
-	}
-
 	public static String tr(Lang langkey) {
-		if (prop == null)
+		if (prop == null) {
 			return "- I18N not initialized -";
-		return tr(langToStr(langkey));
+		}
+		return tr(langkey.getKey());
 	}
 
 	public static String tr(String key) {
@@ -117,39 +100,6 @@ public class I18N {
 		return langs;
 	}
 
-	public static void main(String[] args) {
-		List<Lang> langList = new ArrayList<>(EnumSet.allOf(Lang.class));
-
-		List<String> list = new ArrayList<>();
-		for (Lang l : langList) {
-			String key = langToStr(l);
-			list.add(key);
-		}
-		// get all languages from folder
-		List<String> langs = I18N.getLanguages();
-		// langs = new ArrayList<String>();
-		// langs.add("fr");
-		for (String lang : langs) {
-			System.out.println(lang);
-			System.out.println("-------------------------");
-			Properties ps = load(lang);
-			for (String key : list) {
-				if (!ps.containsKey(key)) {
-					System.err.println(key + " is missing in langfile");
-				}
-			}
-			for (Object obj : ps.keySet()) {
-				String key = (String) obj;
-				if (key.startsWith("gate."))
-					continue;
-				// check if the langfile key is in the list
-				if (!list.contains(key)) {
-					System.err.println("key '" + key + "' is not specified");
-				}
-			}
-		}
-	}
-
 	public static void addGate(String langGate, String type, String key, String value) {
 		if (!langGate.equals(lang) && !langGate.equals(ALL))
 			return;
@@ -161,5 +111,4 @@ public class I18N {
 			return;
 		prop.setProperty(key, value);
 	}
-
 }

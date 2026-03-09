@@ -1115,8 +1115,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 	/**
 	 * handles mode (normal/expert)
-	 * 
-	 * @param e Event
 	 */
 	void actionMode(ActionEvent e) {
 		String mode;
@@ -1209,16 +1207,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 	@Override
 	public void changedStatusText(String text) {
-		// this is a hack - maybe it is ok...
-		if (LSPanel.NOTHING.equals(text)) {
-			for (Component c : btnBar.getComponents()) {
-				if (c instanceof LSToggleButton b) {
-                    if (!b.id.equals(I18N.langToStr(Lang.SIMULATE)))
-						b.setSelected(false);
-				}
-			}
-			return;
-		}
 		if (LSPanel.MSG_ABORTED.equals(text)) {
 			for (Component c : btnBar.getComponents()) {
 				if (c instanceof LSToggleButton b) {

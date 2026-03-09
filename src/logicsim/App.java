@@ -25,15 +25,6 @@ public class App {
 
 	public LSFrame lsframe;
 
-	static long timer = 0;
-	
-	public static void time() {
-		long newtime = System.nanoTime();
-		if (timer != 0) {
-			System.out.println("measure " + (newtime - timer) + " ns");
-		}
-		timer = newtime;
-	}
 	static ArrayList<Category> cats = new ArrayList<>();
 
 	public App() {
