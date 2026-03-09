@@ -59,7 +59,7 @@ public class MonoFlop extends Gate implements Runnable {
 	public void run() {
 		try {
 			Thread.sleep(highTime);
-		} catch (InterruptedException _) {
+		} catch (InterruptedException ignored) {
 		}
 		LSLevelEvent evt = new LSLevelEvent(this, LOW);
 		getPin(1).changedLevel(evt);

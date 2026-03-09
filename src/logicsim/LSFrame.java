@@ -222,7 +222,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		mnu.add(m);
 
 		m = createMenuItem(Lang.PROPERTIES, 0, true);
-		m.addActionListener(_ -> {
+		m.addActionListener(e -> {
             if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
                 setAppTitle();
             }
@@ -236,7 +236,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		mnu.add(m);
 
 		m = createMenuItem(Lang.PRINT, 0, true);
-		m.addActionListener(_ -> lspanel.doPrint());
+		m.addActionListener(e -> lspanel.doPrint());
 		mnu.add(m);
 
 		mnu.addSeparator();
@@ -345,11 +345,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 		mnu = new JMenu(I18N.tr(Lang.HELP));
 
 		m = createMenuItem(Lang.HELP, 0, true);
-		m.addActionListener(_ -> new HTMLHelp());
+		m.addActionListener(e -> new HTMLHelp());
 		mnu.add(m);
 
 		m = createMenuItem(Lang.ABOUT, 0, true);
-		m.addActionListener(_ -> new LSFrame_AboutBox(LSFrame.this));
+		m.addActionListener(e -> new LSFrame_AboutBox(LSFrame.this));
 		mnu.add(m);
 
 		mnuBar.add(mnu);
@@ -484,7 +484,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         btnBar.add(getMenuGap());
 
 		btnLS = new LSButton("inputnorm", Lang.INPUTNORM);
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(Pin.NORMAL);
             setStatusText(I18N.tr(Lang.INPUTNORM_HELP));
             lspanel.requestFocusInWindow();
@@ -493,7 +493,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         btnBar.add(getSmallMenuGap());
 
 		btnLS = new LSButton("inputinv", Lang.INPUTINV);
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(Pin.INVERTED);
             setStatusText(I18N.tr(Lang.INPUTINV_HELP));
             lspanel.requestFocusInWindow();
@@ -502,7 +502,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         btnBar.add(getSmallMenuGap());
 
 		btnLS = new LSButton("inputhigh", Lang.INPUTHIGH);
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(Pin.HIGH);
             setStatusText(I18N.tr(Lang.INPUTHIGH_HELP));
         });
@@ -510,7 +510,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         btnBar.add(getSmallMenuGap());
 
 		btnLS = new LSButton("inputlow", Lang.INPUTLOW);
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(Pin.LOW);
             setStatusText(I18N.tr(Lang.INPUTLOW_HELP));
             lspanel.requestFocusInWindow();
@@ -521,7 +521,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
 		btnLS = new LSButton("newwire", Lang.WIRENEW);
 		btnLS.setEnabled(LSProperties.MODE_EXPERT.equals(mode));
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(LSPanel.ACTION_ADDWIRE);
             setStatusText(I18N.tr(Lang.WIRENEW_HELP));
             lspanel.requestFocusInWindow();
@@ -530,7 +530,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         btnBar.add(getSmallMenuGap());
 
 		btnLS = new LSButton("addpoint", Lang.ADDPOINT);
-		btnLS.addActionListener(_ -> {
+		btnLS.addActionListener(e -> {
             lspanel.setAction(LSPanel.ACTION_ADDPOINT);
             setStatusText(I18N.tr(Lang.ADDPOINT_HELP));
             lspanel.requestFocusInWindow();

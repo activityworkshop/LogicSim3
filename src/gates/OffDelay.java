@@ -58,7 +58,7 @@ public class OffDelay extends Gate implements Runnable {
 	public void run() {
 		try {
 			Thread.sleep(delayTime);
-		} catch (InterruptedException _) {
+		} catch (InterruptedException ignored) {
 		}
 		LSLevelEvent evt = new LSLevelEvent(this, LOW);
 		getPin(1).changedLevel(evt);

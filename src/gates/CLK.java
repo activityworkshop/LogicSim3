@@ -245,7 +245,7 @@ public class CLK extends Gate implements Runnable {
 
             try {
 				Thread.sleep(8);
-			} catch (InterruptedException _) {
+			} catch (InterruptedException ignored) {
 			}
 			osz[pos] = cout.getLevel();
 		}

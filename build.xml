@@ -20,7 +20,7 @@
 
 	<target name="compile">
 		<mkdir dir="${classes.dir}" />
-		<javac target="24" source="24" srcdir="${src.dir}" destdir="${classes.dir}">
+		<javac target="21" source="21" srcdir="${src.dir}" destdir="${classes.dir}">
 			<exclude name="test/**" />
 		</javac>
 	</target>
