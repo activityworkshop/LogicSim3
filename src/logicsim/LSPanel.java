@@ -1,6 +1,6 @@
 package logicsim;
 
-import logicsim.controlles.ShortCuts;
+import logicsim.controllers.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 

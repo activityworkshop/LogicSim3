@@ -1,4 +1,4 @@
-package logicsim.controlles;
+package logicsim.controllers;
 
 public class KeyCombination {
     public final int keycode;

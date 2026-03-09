@@ -1,4 +1,4 @@
-package logicsim.controlles;
+package logicsim.controllers;
 
 import logicsim.App;
 
