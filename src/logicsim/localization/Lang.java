@@ -6,13 +6,11 @@ public enum Lang {
 	OPEN("open"),
 	SAVE("save"),
 	SAVEAS("saveas"),
+	MODULECREATE("modulecreate"),
+	PROPERTIES("properties"),
 	EXPORT("export"),
 	PRINT("print"),
 	EXIT("exit"),
-
-	MODULE("module"),
-	MODULECREATE("modulecreate"),
-	PROPERTIES("properties"),
 
 	SETTINGS("settings"),
 	PAINTGRID("paintgrid"),
@@ -66,6 +64,7 @@ public enum Lang {
 	WIREEDIT("wireedit"),
 	PARTSDELETED("partsdeleted"),
 	PARTSSELECTED("partsselected"),
+	MODULE("module"),
 
 	LABEL("label"),
 	NAME("name"),

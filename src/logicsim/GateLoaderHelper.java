@@ -51,7 +51,6 @@ public class GateLoaderHelper {
         classes.add(gates.Switch.class);
         classes.add(gates.Switch4.class);
         classes.add(gates.Switch8.class);
-        classes.add(gates.TEST.class);
         classes.add(gates.TextLabel.class);
         classes.add(gates.TriStateOutput.class);
         classes.add(gates.XOR.class);

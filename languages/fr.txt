@@ -3,37 +3,35 @@ new=Nouveau
 open=Ouvrir...
 save=Enregistrer
 saveas=Enregistrer sous...
+modulecreate=Créer un module
+properties=Caractéristiques
 export=Exporter...
 print=Imprimer...
 exit=Quitter
 
-module=Module
-modulecreate=Créer un module
-properties=Caractéristiques
 settings=Réglage
 paintgrid=Dessiner la grille
 gatedesign=Représentation
 gatedesign.iec=IEC
-gatedesign.ansi=US
+gatedesign.ansi=ANSI
 language=Langue
-
 help=Aide
-addinput=Ajouter une entrée
-removeinput=Supprimer une entrée
-about=à propos de LogicSim
+about=À propos de LogicSim
 
 removegate=Effacer le composant
+addinput=Ajouter une entrée
+removeinput=Supprimer une entrée
 
 inputs=Entrée
-lsrestart=LogicSim doit etre redémarré.
-name=Nom
-description=Description
-question.confirmdiscard=Le circuit a été modifie.\nVoulez vous vraiment perdre ce circuit?
-addpoint=Ajouter un point de connexion
+
+simulate=Simuler
 inputnorm=Entrée normale
 inputinv=Entrée inversée
 inputhigh=Entrée au niveau haut
 inputlow=Entrée au niveau bas
+addpoint=Ajouter un point de connexion
+removepoint=Supprimer un point de connexion
+
 inputnorm.help=Sélectionnez l'entrée pour effacer la configuration actuelle
 inputinv.help=Sélectionnez l'entrée pour l'inverser
 inputhigh.help=Sélectionnez l'entrée pour la mettre au niveau haut
@@ -41,17 +39,20 @@ inputlow.help=Sélectionnez l'entrée pour la mettre au niveau bas
 addpoint.help=Sélectionnez un fil pour rajouter un point
 removepoint=Sélectionnez un point de connexion pour le supprimer
 saved=Le schéma %s a été enregistré
-connected=Connecté
 aborted=Abandonné
+module=Module
+
+label=Étiquette
+name=Nom
+description=Description
+
+question.confirmdiscard=Le circuit a été modifie.\nVoulez vous vraiment perdre ce circuit?
+lsrestart=LogicSim doit etre redémarré.
+modulenotfound=Le module \n%s n'a pas été trouvé.\nCopiez le module dans le répertoire approprié.
 nomodule=Ce schéma n'est pas un module
-filenotfound=Donnée non trouvée
 readerror=Erreur de lecture
 saveerror=Erreur pendant la sauvegarde
-modulenotfound=Le module \n%s n'a pas été trouvé.\nCopiez le module dans le répertoire approprié.
-simulate=Simuler
-reset=RAZ
-removepoint=Supprimer un point de connexion
+
 cancel=Annuler
-no=Non
 yes=Oui
-label=Étiquette
+no=Non
