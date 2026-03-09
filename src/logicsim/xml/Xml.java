@@ -68,11 +68,9 @@ public class Xml {
 
 	@Override
 	public String toString() {
-		String s = "[Xml: ";
-		s += name != null ? name : "";
-		s += "/" + content != null ? content : "";
-		s += "]";
-		return s;
+		return "[Xml: "
+				+ (name != null ? name : "")
+				+ "/" + (content != null ? content : "") + "]";
 	}
 
 	public void addAttribute(String name, String value) {

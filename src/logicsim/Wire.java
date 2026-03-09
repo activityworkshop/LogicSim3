@@ -201,7 +201,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	private Vector<WirePoint> getAllPoints() {
-		Vector<WirePoint> ps = new Vector<WirePoint>();
+		Vector<WirePoint> ps = new Vector<>();
 		ps.add(getPointFrom());
 		ps.addAll(points);
 		if (getTo() != null)
@@ -451,8 +451,6 @@ public class Wire extends CircuitPart implements Cloneable {
 	 * 
 	 * if this method is called from a connector, the calling connector has to be
 	 * given as parameter and must remove the wire from itself.
-	 * 
-	 * @param connector
 	 */
 	public void disconnect(Pin connector) {
 		if (getTo() != null) {
@@ -469,7 +467,6 @@ public class Wire extends CircuitPart implements Cloneable {
 
 	@Override
 	public void changedLevel(LSLevelEvent e) {
-		// System.out.println(getId() + ": got event " + e);
 		// a wire can get a level change from a pin or another wire
 		if (level != e.level || e.force) {
 			level = e.level;

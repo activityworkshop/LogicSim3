@@ -3,8 +3,8 @@ package logicsim;
 import java.util.ArrayList;
 
 public class Category {
-	String title;
-	ArrayList<Gate> gates = new ArrayList<Gate>();
+	private final String title;
+	private final ArrayList<Gate> gates = new ArrayList<>();
 
 	public Category(String title) {
 		this.title = title;
@@ -24,8 +24,6 @@ public class Category {
 
 	@Override
 	public String toString() {
-		String s = "[Category: " + title + "/#gates: " + gates.size();
-		s += "]";
-		return s;
+		return "[Category: " + title + "/#gates: " + gates.size() + "]";
 	}
 }

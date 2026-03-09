@@ -27,22 +27,18 @@ import javax.swing.JWindow;
 public class LSFrame_AboutBox extends JWindow {
 	@Serial
     private static final long serialVersionUID = -3193728228853983319L;
-	Toolkit toolkit = Toolkit.getDefaultToolkit();
 	Image imgSplash;
 	SplashPanel splashPanel = new SplashPanel();
 
 	public LSFrame_AboutBox(Frame parent) {
 		super(parent);
-		Dimension pS;
-		Point pL;
-		int imgWidth, imgHeight;
 
 		this.imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
 
-		imgWidth = imgSplash.getWidth(this);
-		imgHeight = imgSplash.getHeight(this) + 155;
-		pS = parent.getSize();
-		pL = parent.getLocation();
+		final int imgWidth = imgSplash.getWidth(this);
+		final int imgHeight = imgSplash.getHeight(this) + 155;
+		Dimension pS = parent.getSize();
+		Point pL = parent.getLocation();
 		setLocation(pL.x + pS.width / 2 - imgWidth / 2, pL.y + pS.height / 2 - imgHeight / 2);
 		setSize(imgWidth, imgHeight);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -81,11 +77,11 @@ public class LSFrame_AboutBox extends JWindow {
 
 			String version = App.class.getPackage().getImplementationVersion();
 			g2.drawString("Version " + version, 10, 240);
-			g2.drawString("Programmed 2020 by Peter Gabriel - http://sis.schule", 10, 260);
-			g2.drawString("Based on LogicSim 2.4 (2009) by Andreas Tetzl - http://tetzl.de", 10, 290);
-			g2.drawString("About Graphic by Jens Borsdorf, http://jens.borsdorf.name", 10, 310);
+			g2.drawString("Programmed 2020 by Peter Gabriel", 10, 260);
+			g2.drawString("Based on LogicSim 2.4 (2009) by Andreas Tetzl - https://tetzl.de", 10, 290);
+			g2.drawString("About Graphic by Jens Borsdorf, https://jens.borsdorf.name", 10, 310);
 			g2.drawString("Contributions by Matthew Lister (chocolatepatty@github)", 10, 330);
-			g2.drawString("LogicSim is free software-Released under the GPL-Download on Github", 10, 360);
+			g2.drawString("LogicSim is free software - Released under the GPL", 10, 360);
 		}
 	}
 

@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShortCuts {
+
+    private record KeyCombination(int keycode, int modifiers) {}
+
     public static void keyPressed(KeyEvent keyEvent) {
         for (KeyCombination kc : shortcuts.keySet()) {
             if (kc.keycode == keyEvent.getKeyCode() && kc.modifiers == keyEvent.getModifiersEx()) {
@@ -15,9 +18,9 @@ public class ShortCuts {
         }
     }
 
-    public static Map<KeyCombination, Runnable> shortcuts = new HashMap<>();
+    private static final Map<KeyCombination, Runnable> shortcuts = new HashMap<>();
 
-    public static void addShortcut(KeyCombination keys, Runnable action) {
+    private static void addShortcut(KeyCombination keys, Runnable action) {
         shortcuts.put(keys, action);
     }
 

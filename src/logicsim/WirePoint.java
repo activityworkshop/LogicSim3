@@ -6,7 +6,6 @@ import java.awt.event.MouseEvent;
 
 /**
  * WirePoint substructure class for Wire Objects
- * 
  * taken from https://argonrain.wordpress.com/2009/10/27/000/
  * 
  * @author Peter Gabriel
@@ -16,7 +15,7 @@ public class WirePoint extends CircuitPart {
 
 	public static final int POINT_SIZE = 7;
 
-    public boolean show = false;
+	public boolean show = false;
 
 	private boolean level = false;
 
@@ -47,9 +46,10 @@ public class WirePoint extends CircuitPart {
 	}
 
 	public boolean isAt(int x, int y) {
-		if (x > getX() - 4 && x < getX() + 4 && y > getY() - 4 && y < getY() + 4)
-			return true;
-		return false;
+		return x > getX() - 4
+				&& x < getX() + 4
+				&& y > getY() - 4
+				&& y < getY() + 4;
 	}
 
 	@Override
@@ -57,13 +57,7 @@ public class WirePoint extends CircuitPart {
 		super.mousePressed(e);
 		notifyMessage("WIREPOINT_CLICKED");
 		// Auf Punkt eines Wires geklickt ?
-		if (!e.isShiftDown()) {
-			select();
-		} else {
-			select();
-			// Wire newWire = ((Wire) currentPart).clone();
-			// newWire.activate();
-		}
+		select();
 		notifyRepaint();
 	}
 

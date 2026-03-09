@@ -330,7 +330,7 @@ public class Circuit implements LSRepaintListener {
 		for (Wire w : getWires()) {
 			s += "\n" + w;
 		}
-		return s = "Circuit:" + CircuitPart.indent(s, 3);
+		return "Circuit:" + CircuitPart.indent(s, 3);
 	}
 
 	public CircuitPart[] findParts(Rectangle2D selectRect) {
@@ -363,8 +363,6 @@ public class Circuit implements LSRepaintListener {
 
 	/**
 	 * replace a wirepoint by a pin
-	 * 
-	 * @param wp
 	 */
 	public void checkWirePoint(WirePoint wp) {
 		// check for Pin
