@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 /**
- * Wire represention
+ * Wire representation
  *
  * @author Andreas Tetzl
  * @author Peter Gabriel
@@ -234,8 +234,6 @@ public class Wire extends CircuitPart implements Cloneable {
 	/**
 	 * checks if given point is near polygon node, except first and last
 	 * 
-	 * @param mx
-	 * @param my
 	 * @return -1 if no point is near to given position, else number of node
 	 */
 	public int getNodeIndexAt(int mx, int my) {
@@ -277,8 +275,6 @@ public class Wire extends CircuitPart implements Cloneable {
 	 * if the distance between the clicked point and the wire is small enough the
 	 * point number is returned
 	 * 
-	 * @param x
-	 * @param y
 	 * @return the number of the point from which the line segment is starting
 	 */
 	public int isAt(int x, int y) {

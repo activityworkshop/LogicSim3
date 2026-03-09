@@ -13,10 +13,6 @@ public class GateLoaderHelper {
 	/**
 	 * Scans all classes accessible from the context class loader which belong to
 	 * the given package and subpackages.
-	 *
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws IOException
 	 */
 	static List<Class<?>> getClasses() throws ClassNotFoundException, IOException {
 		List<Class<?>> classes = getClassesOutsideJar();
@@ -100,9 +96,6 @@ public class GateLoaderHelper {
     }
 
 	/**
-	 * 
-	 * @param g
-	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
 	public static Gate create(Gate g) {

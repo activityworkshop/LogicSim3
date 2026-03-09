@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 public class Pin extends CircuitPart {
@@ -71,8 +70,6 @@ public class Pin extends CircuitPart {
 
 	/**
 	 * draw pin label (inside gate frame)
-	 * 
-	 * @param g2
 	 */
     public void drawLabel(Graphics2D g2) {
 		int x = getX();

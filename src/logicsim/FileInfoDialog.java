@@ -14,9 +14,9 @@ public class FileInfoDialog {
 		JPanel panel = new JPanel();
 
         //Label
-        JLabel lblLable = new JLabel();
-        lblLable.setText(I18N.tr(Lang.LABEL));
-        lblLable.setBounds(new Rectangle(15, 15, 100, 23));
+        JLabel lblLabel = new JLabel();
+		lblLabel.setText(I18N.tr(Lang.LABEL));
+		lblLabel.setBounds(new Rectangle(15, 15, 100, 23));
 
         JTextField txtLabel = new JTextField(lsFile.getLabel());
         txtLabel.setBounds(new Rectangle(120, 15, 235, 23));
@@ -39,7 +39,7 @@ public class FileInfoDialog {
         txtDescription.setBorder(new LineBorder(Color.gray, 1));
 
 		panel.setLayout(null);
-        panel.add(lblLable, null);
+        panel.add(lblLabel, null);
         panel.add(txtLabel, null);
         panel.add(lblName, null);
         panel.add(txtName, null);

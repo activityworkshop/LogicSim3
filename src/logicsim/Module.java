@@ -13,10 +13,9 @@ import javax.swing.JOptionPane;
 
 /**
  * Module implementation
- * taken from Orginal Module by Andreas Tetzl
+ * taken from Original Module by Andreas Tetzl
  * 
  * @author Peter Gabriel
- *
  */
 public class Module extends Gate {
 	private MODIN moduleIn = null;
@@ -26,13 +25,11 @@ public class Module extends Gate {
 	private boolean embedded = true;
 
 	public Module(String type) {
-		super();
 		this.type = type;
 		loadModule();
 	}
 
 	public Module(String type, boolean embedded) {
-		super();
 		this.type = type;
 		this.embedded = embedded;
 		loadModule();

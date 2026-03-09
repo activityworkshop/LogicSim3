@@ -48,7 +48,7 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 
             return panel;
 		} else
-			throw new RuntimeException("unknown format of object in getcelllistrenderer");
+			throw new RuntimeException("unknown format of object in getListCellRendererComponent");
 	}
 
 }
