@@ -1,26 +1,27 @@
 [menu]
-MENU_FILE=Bestand
-MENU_NEW=Nieuw
-MENU_OPEN=Open...
-MENU_SAVE=Opslaan
-MENU_SAVEAS=Opslaan Als...
-MENU_EXPORT=Exporteer...
-MENU_PRINT=Afdrukken...
-MENU_EXIT=Afsluiten
+menu.file=Bestand
+menu.file.new=Nieuw
+menu.file.open=Open
+menu.file.save=Opslaan
+menu.file.saveas=Opslaan Als
+menu.file.modulecreate=Maak Module
+menu.file.properties=Eigenschappen
+menu.file.export=Exporteer
+menu.file.print=Afdrukken
+menu.file.exit=Afsluiten
 
 MENU_MODULE=Module
-MENU_CREATEMODULE=Maak Module
-MENU_MODULEPROPERTIES=Module Eigenschappen
 
-MENU_SETTINGS=Voorkeuren
-MENU_PAINTGRID=toon raster
-MENU_GATEDESIGN=poortsymbolen
-MENU_GATEDESIGN_DIN=Europees
-MENU_GATEDESIGN_ISO=Amerikaans
-MENU_LANGUAGE=Taal
+menu.settings=Voorkeuren
+menu.settings.paintgrid=toon raster
+menu.settings.gatedesign=poortsymbolen
+menu.settings.gatedesign.iec=IEC
+menu.settings.gatedesign.ansi=ANSI
+menu.settings.language=Taal
 
-MENU_HELP=Help
-MENU_ABOUT=Over LogicSim
+menu.help=Help
+menu.help.help=Help
+menu.help.about=Over LogicSim
 
 [context menu]
 MENU_REMOVEGATE=Verwijder Poort
@@ -64,7 +65,6 @@ ERROR_FILECORRUPTED=bestand beschadigd (verkeerde LogicSim-versie?)
 ERROR_CLASS=klasse niet gevonden
 ERROR_SAVE=Fout tijdens opslaan bestand
 ERROR_MODULENOTFOUND=Kan Module\n%s niet vinden\nKopieer a.u.b. de juiste Module naar de modulenmap
-ERROR_APPLET=Deze functie is niet beschikbaar als LogiSim als applet wordt uitgevoerd.\nDownload LogicSim en voer het uit als losse applicatie.
 
 [BUTTONS]
 BUTTON_SIMULATE=simuleer

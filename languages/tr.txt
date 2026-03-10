@@ -1,26 +1,27 @@
 [menu]
-MENU_FILE=Dosya
-MENU_NEW=Yeni
-MENU_OPEN=Aç
-MENU_SAVE=Kaydet
-MENU_SAVEAS=Farkl\u0131 Kaydet
-MENU_EXPORT=Ç\u0131kart
-MENU_PRINT=Yazd\u0131r
-MENU_EXIT=Ç\u0131k\u0131\u015f
+menu.file=Dosya
+menu.file.new=Yeni
+menu.file.open=Aç
+menu.file.save=Kaydet
+menu.file.saveas=Farkl\u0131 Kaydet
+menu.file.modulecreate=Mod\u00fcl Olu\u015ftur
+menu.file.properties=Mod\u00fcl Özellikleri
+menu.file.export=Ç\u0131kart
+menu.file.print=Yazd\u0131r
+menu.file.exit=Ç\u0131k\u0131\u015f
 
 MENU_MODULE=Mod\u00fcl
-MENU_CREATEMODULE=Mod\u00fcl Olu\u015ftur
-MENU_MODULEPROPERTIES=Mod\u00fcl Özellikleri
 
-MENU_SETTINGS=Ayarlar
-MENU_PAINTGRID=Izgara çiz
-MENU_GATEDESIGN=Kap\u0131 stili
-MENU_GATEDESIGN_DIN=IEC
-MENU_GATEDESIGN_ISO=US
-MENU_LANGUAGE=Dil
+menu.settings=Ayarlar
+menu.settings.paintgrid=Izgara çiz
+menu.settings.gatedesign=Kap\u0131 stili
+menu.settings.gatedesign.iec=IEC
+menu.settings.gatedesign.ansi=ANSI
+menu.settings.language=Dil
 
-MENU_HELP=Yard\u0131m
-MENU_ABOUT=LogicSim Hakk\u0131nda
+menu.help=Yard\u0131m
+menu.help.help=Yard\u0131m
+menu.help.about=LogicSim Hakk\u0131nda
 
 [context menu]
 MENU_REMOVEGATE=Kap\u0131y\u0131 kald\u0131r
@@ -64,7 +65,6 @@ ERROR_FILECORRUPTED=Dosya bozuk.(wrong LogicSim-version?)
 ERROR_CLASS=S\u0131n\u0131f bulunamad\u0131.
 ERROR_SAVE=Dosya kaydetme hatas\u0131.
 ERROR_MODULENOTFOUND=Mod\u00fcl bulunamad\u0131\n%s\nL\u00fctfen do\u011fru mod\u00fcl\u00fc mod\u00fcl klasör\u00fcnden kopyalay\u0131n\u0131z.
-ERROR_APPLET=Bu fonksiyon applet'ler ile desteklenmiyor..\nL\u00fctfen LogicSim masa\u00fcst\u00fc uygulamas\u0131n\u0131 kullan\u0131n..
 
 [BUTTONS]
 BUTTON_SIMULATE=Çal\u0131\u015ft\u0131r

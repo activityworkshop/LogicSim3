@@ -1,26 +1,27 @@
 [menu]
-MENU_FILE=Arkiv
-MENU_NEW=Nytt
-MENU_OPEN=Öppna...
-MENU_SAVE=Spara
-MENU_SAVEAS=Spara som...
-MENU_EXPORT=Exportera...
-MENU_PRINT=Skriv ut...
-MENU_EXIT=Avsluta
+menu.file=Arkiv
+menu.file.new=Nytt
+menu.file.open=Öppna
+menu.file.save=Spara
+menu.file.saveas=Spara som
+menu.file.modulecreate=Bygg modul
+menu.file.properties=Egenskaper
+menu.file.export=Exportera
+menu.file.print=Skriv ut
+menu.file.exit=Avsluta
 
 MENU_MODULE=Modul
-MENU_CREATEMODULE=Bygg modul
-MENU_MODULEPROPERTIES=Modulens egenskaper
 
-MENU_SETTINGS=Inställningar
-MENU_PAINTGRID=Visa grid
-MENU_GATEDESIGN=Grindstandard
-MENU_GATEDESIGN_DIN=IEC
-MENU_GATEDESIGN_ISO=US
-MENU_LANGUAGE=Språk
+menu.settings.=Inställningar
+menu.settings.paintgrid=Visa grid
+menu.settings.gatedesign=Grindstandard
+menu.settings.gatedesign.iec=IEC
+menu.settings.gatedesign.ansi=ANSI
+menu.settings.language=Språk
 
-MENU_HELP=Hjälp
-MENU_ABOUT=Om LogicSim
+menu.help=Hjälp
+menu.help.help=Hjälp
+menu.help.about=Om LogicSim
 
 [context menu]
 MENU_REMOVEGATE=Ta bort grind
@@ -64,7 +65,6 @@ ERROR_FILECORRUPTED=Felaktigt filformat (fel version av LogicSim?)
 ERROR_CLASS=Java-klass kunde inte hittas
 ERROR_SAVE=Filen kunde inte sparas
 ERROR_MODULENOTFOUND=Modulen %s\nkunde inte hittas.\nKopiera modulfilen till katalogen modules.
-ERROR_APPLET=Denna funktion är inte tillgänglig i appletversionen.\nLadda ner LogicSim och starta programmet som applikation.
 
 [BUTTONS]
 BUTTON_SIMULATE=Simulera

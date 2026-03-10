@@ -1,26 +1,26 @@
 [menu]
-MENU_FILE=File
-MENU_NEW=Nuovo
-MENU_OPEN=Apri...
-MENU_SAVE=Salva
-MENU_SAVEAS=Salva con nome...
-MENU_EXPORT=Export...
-MENU_PRINT=Stampa...
-MENU_EXIT=Esci
+menu.file=File
+menu.file.new=Nuovo
+menu.file.open=Apri...
+menu.file.save=Salva
+menu.file.saveas=Salva con nome...
+menu.file.export=Export...
+menu.file.print=Stampa...
+menu.file.exit=Esci
 
 MENU_MODULE=Modulo
 MENU_CREATEMODULE=Crea Modulo
 MENU_MODULEPROPERTIES=Proprietà modulo
 
-MENU_SETTINGS=Impostazioni
-MENU_PAINTGRID=Visualizza Griglia
-MENU_GATEDESIGN=Impostazioni Porte
-MENU_GATEDESIGN_DIN=Simboli IEC
-MENU_GATEDESIGN_ISO=Simboli US
-MENU_LANGUAGE=Lingua
+menu.settings=Impostazioni
+menu.settings.paintgrid=Visualizza Griglia
+menu.settings.gatedesign=Impostazioni Porte
+menu.settings.gatedesign.iec=Simboli IEC
+menu.settings.gatedesign.ansi=Simboli ANSI
+menu.settings.language=Lingua
 
-MENU_HELP=Help
-MENU_ABOUT=About LogicSim
+menu.help=Aiuto
+menu.help.help=Aiuto
 
 [context menu]
 MENU_REMOVEGATE=Elimina
@@ -39,7 +39,6 @@ MESSAGE_MODULE_DESCRIPTION=Descrizione
 MESSAGE_MODULE_LABEL=Etichetta Modulo
 MESSAGE_MODULE_IMAGE=Immagine Modulo
 MESSAGE_ENTER_LABEL=Inserisci Etichetta
-MESSAGE_REALLYNEW=The circuit has been modified.\nDo you really want to discard the current circuit?
 
 [tooltip texts]
 TOOLTIP_ADDPOINT=Aggiungi giunzione
@@ -64,11 +63,9 @@ ERROR_FILECORRUPTED=File rovinato (errata versione di LogicSim?)
 ERROR_CLASS=Classe non trovata
 ERROR_SAVE=Errore di scrittura file
 ERROR_MODULENOTFOUND=Impossibile trovare il Modulo\n%s\ncopiare il modulo corretto nella cartella moduli
-ERROR_APPLET=This function is not available when running as applet.\nPlease download LogicSim and run it as application.
 
 [BUTTONS]
 BUTTON_SIMULATE=Avvia Simulazione
-BUTTON_RESET=risistemazione
 BUTTON_REMOVE_WIRE_POINT=Rimuovi giunzione
 BUTTON_USE=OK
 BUTTON_CANCEL=Annulla
