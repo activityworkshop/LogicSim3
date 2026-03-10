@@ -1,15 +1,15 @@
-[menu]
 menu.file=File
 menu.file.new=Nuovo
-menu.file.open=Apri...
+menu.file.open=Apri
 menu.file.save=Salva
-menu.file.saveas=Salva con nome...
-menu.file.export=Export...
-menu.file.print=Stampa...
+menu.file.saveas=Salva con nome
+menu.file.modulecreate=Crea Modulo
+menu.file.properties=Proprietà
+menu.file.export=Export
+menu.file.print=Stampa
 menu.file.exit=Esci
 
 MENU_MODULE=Modulo
-MENU_CREATEMODULE=Crea Modulo
 MENU_MODULEPROPERTIES=Proprietà modulo
 
 menu.settings=Impostazioni
@@ -22,10 +22,15 @@ menu.settings.language=Lingua
 menu.help=Aiuto
 menu.help.help=Aiuto
 
-[context menu]
-MENU_REMOVEGATE=Elimina
-MENU_PROPERTIES=Proprietà
-MENU_DELETEMODULE=Elimina Modulo
+popup.removegate=Elimina
+popup.properties=Proprietà
+
+[toolbar]
+toolbar.new=Nuovo
+toolbar.open=Apri
+toolbar.save=Salva
+toolbar.simulate=Avvia Simulazione
+toolbar.removepoint=Rimuovi giunzione
 
 [messages]
 MESSAGE_INPUTS=Ingressi
@@ -65,8 +70,6 @@ ERROR_SAVE=Errore di scrittura file
 ERROR_MODULENOTFOUND=Impossibile trovare il Modulo\n%s\ncopiare il modulo corretto nella cartella moduli
 
 [BUTTONS]
-BUTTON_SIMULATE=Avvia Simulazione
-BUTTON_REMOVE_WIRE_POINT=Rimuovi giunzione
 BUTTON_USE=OK
 BUTTON_CANCEL=Annulla
 
@@ -112,4 +115,3 @@ GATE_MONOFLOP_PROPERTIES=Proprietà MonoFlop
 
 GATE_TURNONDELAY_TIME=Inserisci Tempo di Ritardo (ms)
 GATE_TURNOFFDELAY_TIME=Inserisci Tempo di Ritardo (ms)
-

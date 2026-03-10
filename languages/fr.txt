@@ -1,12 +1,12 @@
 menu.file=Fichier
 menu.file.new=Nouveau
-menu.file.open=Ouvrir...
+menu.file.open=Ouvrir
 menu.file.save=Enregistrer
-menu.file.saveas=Enregistrer sous...
+menu.file.saveas=Enregistrer sous
 menu.file.modulecreate=Cr\u00E9er un module
 menu.file.properties=Caract\u00E9ristiques
-menu.file.export=Exporter...
-menu.file.print=Imprimer...
+menu.file.export=Exporter
+menu.file.print=Imprimer
 menu.file.exit=Quitter
 
 menu.settings=R\u00E9glage
@@ -19,19 +19,23 @@ menu.help=Aide
 menu.help.help=Aide
 menu.help.about=\u00C0 propos de LogicSim
 
-removegate=Effacer le composant
-addinput=Ajouter une entr\u00E9e
-removeinput=Supprimer une entr\u00E9e
+popup.removegate=Effacer le composant
+popup.properties=Caract\u00E9ristiques
+popup.addinput=Ajouter une entr\u00E9e
+popup.removeinput=Supprimer une entr\u00E9e
 
 inputs=Entr\u00E9e
 
-simulate=Simuler
-inputnorm=Entr\u00E9e normale
-inputinv=Entr\u00E9e invers\u00E9e
-inputhigh=Entr\u00E9e au niveau haut
-inputlow=Entr\u00E9e au niveau bas
-addpoint=Ajouter un point de connexion
-removepoint=Supprimer un point de connexion
+toolbar.new=Nouveau
+toolbar.open=Ouvrir
+toolbar.save=Enregistrer
+toolbar.simulate=Simuler
+toolbar.inputnorm=Entr\u00E9e normale
+toolbar.inputinv=Entr\u00E9e invers\u00E9e
+toolbar.inputhigh=Entr\u00E9e au niveau haut
+toolbar.inputlow=Entr\u00E9e au niveau bas
+toolbar.addpoint=Ajouter un point de connexion
+toolbar.removepoint=Supprimer un point de connexion
 
 inputnorm.help=S\u00E9lectionnez l'entr\u00E9e pour effacer la configuration actuelle
 inputinv.help=S\u00E9lectionnez l'entr\u00E9e pour l'inverser

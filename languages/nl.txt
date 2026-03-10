@@ -24,9 +24,16 @@ menu.help.help=Help
 menu.help.about=Over LogicSim
 
 [context menu]
-MENU_REMOVEGATE=Verwijder Poort
-MENU_PROPERTIES=Eigenschappen
-MENU_DELETEMODULE=Verwijder Module
+popup.removegate=Verwijder Poort
+popup.properties=Eigenschappen
+
+[toolbar]
+toolbar.new=Nieuw
+toolbar.open=Open
+toolbar.save=Opslaan
+toolbar.simulate=Simuleer
+toolbar.addpoint=Voeg punt aan draad toe
+toolbar.removepoint=Verwijder punt van draad
 
 [messages]
 MESSAGE_INPUTS=Inputs
@@ -41,9 +48,6 @@ MESSAGE_MODULE_LABEL=module label
 MESSAGE_MODULE_IMAGE=module afbeelding
 MESSAGE_ENTER_LABEL=Geef Label
 MESSAGE_REALLYNEW=De schakeling is gewijzigd.\nWil je de schakeling werkelijk niet bewaren?
-
-[tooltip texts]
-TOOLTIP_ADDPOINT=voeg punt aan draad toe
 
 [messages in status bar]
 STATUS_INPUTNORMAL=klik op input om input instelling te verwijderen
@@ -67,9 +71,6 @@ ERROR_SAVE=Fout tijdens opslaan bestand
 ERROR_MODULENOTFOUND=Kan Module\n%s niet vinden\nKopieer a.u.b. de juiste Module naar de modulenmap
 
 [BUTTONS]
-BUTTON_SIMULATE=simuleer
-BUTTON_RESET=reset
-BUTTON_REMOVE_WIRE_POINT=verwijder punt van draad
 BUTTON_USE=Gebruik dit
 BUTTON_CANCEL=Annuleer
 

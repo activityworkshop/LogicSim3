@@ -26,24 +26,28 @@ menu.help=Hilfe
 menu.help.help=Hilfe
 menu.help.about=\u00DCber LogicSim
 
-removegate=Gatter l\u00F6schen
-mirror=Spiegeln
-rotate=Rotieren
-addinput=Eingang hinzuf\u00FCgen
-removeinput=Eingang entfernen
+popup.removegate=Gatter l\u00F6schen
+popup.properties=Eigenschaften
+popup.mirror=Spiegeln
+popup.rotate=Rotieren
+popup.addinput=Eingang hinzuf\u00FCgen
+popup.removeinput=Eingang entfernen
 
 inputs=Eing\u00E4nge
 
-simulate=Simulieren
-inputnorm=Normaler Eingang
-inputinv=Invertierter Eingang
-inputhigh=High Eingang
-inputlow=Low Eingang
-wirenew=Neues Kabel
-addpoint=Punkt zu Kabel hinzuf\u00FCgen
-removepoint=Punkt von Kabel entfernen
-zoomin=Hereinzoomen
-zoomout=Herauszoomen
+toolbar.new=Neu
+toolbar.open=\u00D6ffnen
+toolbar.save=Speichern
+toolbar.simulate=Simulieren
+toolbar.inputnorm=Normaler Eingang
+toolbar.inputinv=Invertierter Eingang
+toolbar.inputhigh=High Eingang
+toolbar.inputlow=Low Eingang
+toolbar.wirenew=Neues Kabel
+toolbar.addpoint=Punkt zu Kabel hinzuf\u00FCgen
+toolbar.removepoint=Punkt von Kabel entfernen
+toolbar.zoomin=Hereinzoomen
+toolbar.zoomout=Herauszoomen
 
 inputnorm.help=Klicke auf einen Input, um ihn auf NORMAL zu setzen
 inputinv.help=Klicke auf einen Input, um ihn zu invertieren

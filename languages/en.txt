@@ -26,24 +26,28 @@ menu.help=Help
 menu.help.help=Help
 menu.help.about=About LogicSim
 
-removegate=Delete Gate
-mirror=Mirror
-rotate=Rotate
-addinput=Add Input
-removeinput=Remove Input
+popup.removegate=Delete Gate
+popup.properties=Properties
+popup.mirror=Mirror
+popup.rotate=Rotate
+popup.addinput=Add Input
+popup.removeinput=Remove Input
 
 inputs=Inputs
 
-simulate=Simulate
-inputnorm=Normal Input
-inputinv=Inverted Input
-inputhigh=High Input
-inputlow=Low Input
-wirenew=New Wire
-addpoint=Add Point to Wire
-removepoint=remove point from wire
-zoomin=Zoom In
-zoomout=Zoom Out
+toolbar.new=New
+toolbar.open=Open
+toolbar.save=Save
+toolbar.simulate=Simulate
+toolbar.inputnorm=Normal Input
+toolbar.inputinv=Inverted Input
+toolbar.inputhigh=High Input
+toolbar.inputlow=Low Input
+toolbar.wirenew=New Wire
+toolbar.addpoint=Add Point to Wire
+toolbar.removepoint=Remove point from wire
+toolbar.zoomin=Zoom In
+toolbar.zoomout=Zoom Out
 
 inputnorm.help=click on input to reset to normal mode
 inputinv.help=click on input to set inverter

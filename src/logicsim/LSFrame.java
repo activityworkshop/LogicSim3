@@ -301,7 +301,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         menuItem_remove.addActionListener(this);
         popup.add(menuItem_remove);
 
-        menuItem_properties = new JMenuItem(I18N.tr(Lang.PROPERTIES));
+        menuItem_properties = new JMenuItem(I18N.tr(Lang.POPUP_PROPERTIES));
         menuItem_properties.addActionListener(this);
         popup.add(menuItem_properties);
 
@@ -512,19 +512,19 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
 
-        LSButton btnLS = new LSButton("new", Lang.NEW);
+        LSButton btnLS = new LSButton("new", Lang.TOOLBAR_NEW);
         btnLS.setEnabled(!Simulation.getInstance().isRunning());
         btnLS.addActionListener(this::actionNew);
         toolbar.add(btnLS, null);
         toolbar.add(getSmallMenuGap());
 
-        btnLS = new LSButton("open", Lang.OPEN);
+        btnLS = new LSButton("open", Lang.TOOLBAR_OPEN);
         btnLS.setEnabled(!Simulation.getInstance().isRunning());
         btnLS.addActionListener(this::actionOpen);
         toolbar.add(btnLS);
         toolbar.add(getSmallMenuGap());
 
-        btnLS = new LSButton("save", Lang.SAVE);
+        btnLS = new LSButton("save", Lang.TOOLBAR_SAVE);
         btnLS.addActionListener(e -> actionSave(e, false));
         toolbar.add(btnLS);
 

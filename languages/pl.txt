@@ -20,10 +20,16 @@ menu.help=Pomoc
 menu.help.help=Pomoc
 menu.help.about=LogicSim - informacje
 
-BUTTON_CANCEL=Anuluj
-BUTTON_REMOVE_WIRE_POINT=Usu\u0144 punkt z przewodu
-BUTTON_RESET=Reset
-BUTTON_SIMULATE=Symuluj
+popup.removegate=Usu\u0144 Bramk\u0119
+popup.properties=W\u0142asciwo\u015bci
+
+toolbar.new=Nowy
+toolbar.open=Otw\u00F3rz
+toolbar.save=Zapisz
+toolbar.simulate=Symuluj
+toolbar.addpoint=Dodaj punkt do przewodu
+toolbar.removepoint=Usu\u0144 punkt z przewodu
+
 BUTTON_USE=U\u017cyj
 ERROR_CLASS=Nie znaleziono klasy
 ERROR_FILECORRUPTED=Plik jest uszkodzony (Niepoprawna wesja programu LogicSim?)
@@ -74,7 +80,6 @@ MENU_DELETEMODULE=Usu\u0144 Modu\u0142
 MENU_MODULE=Modu\u0142
 MENU_MODULEPROPERTIES=W\u0142a\u015bciwo\u015bci Modu\u0142u
 
-MENU_REMOVEGATE=Usu\u0144 Bramk\u0119
 MESSAGE_DELETE=Czy napewno chcesz usun\u0105\u0107\n%s ?
 MESSAGE_ENTER_LABEL=Wpisz etykietk\u0119
 MESSAGE_ENTER_TIME_HIGH=Wpisz czas dla poziomu MAX (ms)
@@ -97,4 +102,4 @@ STATUS_INPUTNORMAL=Kliknij na wej\u015bciu aby ustawi\u0107 normalne wej\u015bci
 STATUS_REMOVEPOINT=Kliknij na przewodzie aby usun\u0105\u0107 punkt
 STATUS_SAVED=Obw\u00F3d zosta\u0142 zapisany do %s
 STATUS_SETINPUT=Kliknij na wej\u015bciu aby pol\u0105czy\u0107
-TOOLTIP_ADDPOINT=Dodaj punkt do przewodu
+BUTTON_CANCEL=Anuluj

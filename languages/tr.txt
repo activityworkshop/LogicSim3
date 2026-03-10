@@ -24,9 +24,16 @@ menu.help.help=Yard\u0131m
 menu.help.about=LogicSim Hakk\u0131nda
 
 [context menu]
-MENU_REMOVEGATE=Kap\u0131y\u0131 kald\u0131r
-MENU_PROPERTIES=Öznitelikler
-MENU_DELETEMODULE=Mod\u00fcl\u00fc sil
+popup.removegate=Kap\u0131y\u0131 kald\u0131r
+popup.properties=Öznitelikler
+
+[toolbar]
+toolbar.new=Yeni
+toolbar.open=Aç
+toolbar.save=Kaydet
+toolbar.simulate=Çal\u0131\u015ft\u0131r
+toolbar.addpoint=Hat \u00fczerine nokta ekle
+toolbar.removepoint=Noktay\u0131 hat \u00fczerinden kald\u0131r
 
 [messages]
 MESSAGE_INPUTS=Giri\u015fler
@@ -41,9 +48,6 @@ MESSAGE_MODULE_LABEL=modul label
 MESSAGE_MODULE_IMAGE=modul resmi
 MESSAGE_ENTER_LABEL=Label giriniz.
 MESSAGE_REALLYNEW=Devrede de\u011fi\u015fiklikler yap\u0131ld\u0131.\nKaydetmeden ç\u0131kmak istiyor musunuz??
-
-[tooltip texts]
-TOOLTIP_ADDPOINT=Hat \u00fczerine nokta ekle
 
 [messages in status bar]
 STATUS_INPUTNORMAL=giri\u015f ayar\u0131n\u0131 kald\u0131rmak için giri\u015fi t\u0131klay\u0131n
@@ -67,9 +71,6 @@ ERROR_SAVE=Dosya kaydetme hatas\u0131.
 ERROR_MODULENOTFOUND=Mod\u00fcl bulunamad\u0131\n%s\nL\u00fctfen do\u011fru mod\u00fcl\u00fc mod\u00fcl klasör\u00fcnden kopyalay\u0131n\u0131z.
 
 [BUTTONS]
-BUTTON_SIMULATE=Çal\u0131\u015ft\u0131r
-BUTTON_RESET=Reset
-BUTTON_REMOVE_WIRE_POINT=Noktay\u0131 hat \u00fczerinden kald\u0131r
 BUTTON_USE=Kullan
 BUTTON_CANCEL=\u0130ptal
 
@@ -115,4 +116,3 @@ GATE_MONOFLOP_PROPERTIES=MonoFlop Özellikler
 
 GATE_TURNONDELAY_TIME=Gecikme s\u00fcresini giriniz (ms)
 GATE_TURNOFFDELAY_TIME=Gecikme s\u00fcresini giriniz (ms)
-

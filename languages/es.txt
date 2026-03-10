@@ -19,19 +19,23 @@ menu.help=Ayuda
 menu.help.help=Ayuda
 menu.help.about=Acerca de LogicSim
 
-removegate=Borrar Componente
-addinput=A\u00F1adir Entrada
-removeinput=Quitar Entrada
+popup.removegate=Borrar Componente
+popup.properties=Propiedades
+popup.addinput=A\u00F1adir Entrada
+popup.removeinput=Quitar Entrada
 
 inputs=Entradas
 
-simulate=Simular
-inputnorm=Entrada normal
-inputinv=Entrada invertida
-inputhigh=Entrada a 1
-inputlow=Entrada a 0
-addpoint=A\u00F1ade punto de conexi\u00F3n
-removepoint=eliminar punto de conexi\u00F3n
+toolbar.new=Nuevo
+toolbar.open=Abrir
+toolbar.save=Guardar
+toolbar.simulate=Simular
+toolbar.inputnorm=Entrada normal
+toolbar.inputinv=Entrada invertida
+toolbar.inputhigh=Entrada a 1
+toolbar.inputlow=Entrada a 0
+toolbar.addpoint=A\u00F1ade punto de conexi\u00F3n
+toolbar.removepoint=Eliminar punto de conexi\u00F3n
 
 inputnorm.help=pulsa en la entrada para eliminar sus ajustes
 inputinv.help=pulsa en la entrada para invertirla

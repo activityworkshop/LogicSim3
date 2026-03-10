@@ -12,7 +12,7 @@ menu.file.exit=Avsluta
 
 MENU_MODULE=Modul
 
-menu.settings.=Inställningar
+menu.settings=Inställningar
 menu.settings.paintgrid=Visa grid
 menu.settings.gatedesign=Grindstandard
 menu.settings.gatedesign.iec=IEC
@@ -24,9 +24,16 @@ menu.help.help=Hjälp
 menu.help.about=Om LogicSim
 
 [context menu]
-MENU_REMOVEGATE=Ta bort grind
-MENU_PROPERTIES=Egenskaper
-MENU_DELETEMODULE=Ta bort modul
+popup.removegate=Ta bort grind
+popup.properties=Egenskaper
+
+[toolbar]
+toolbar.new=Nytt
+toolbar.open=Öppna
+toolbar.save=Spara
+toolbar.simulate=Simulera
+toolbar.addpoint=Lägga till en punkt till en ledning
+toolbar.removepoint=Ta bort punkt från ledningen
 
 [messages]
 MESSAGE_INPUTS=Ingångar
@@ -41,9 +48,6 @@ MESSAGE_MODULE_LABEL=Moduletikett
 MESSAGE_MODULE_IMAGE=Modulbild
 MESSAGE_ENTER_LABEL=Skriv texten
 MESSAGE_REALLYNEW=Kretsen har modifierats.\nVill du verkligen inte spara dina ändringar?
-
-[tooltip texts]
-TOOLTIP_ADDPOINT=Lägga till en punkt till en ledning
 
 [messages in status bar]
 STATUS_INPUTNORMAL=Klicka på ingången för att ta bort nuvarande inställningar
@@ -67,9 +71,6 @@ ERROR_SAVE=Filen kunde inte sparas
 ERROR_MODULENOTFOUND=Modulen %s\nkunde inte hittas.\nKopiera modulfilen till katalogen modules.
 
 [BUTTONS]
-BUTTON_SIMULATE=Simulera
-BUTTON_RESET=Återställ
-BUTTON_REMOVE_WIRE_POINT=Ta bort punkt från ledningen
 BUTTON_USE=Använd
 BUTTON_CANCEL=Avbryt
 
