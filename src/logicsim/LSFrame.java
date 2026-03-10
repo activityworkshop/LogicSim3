@@ -793,9 +793,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         }
 
         Objects.requireNonNull(getMenuWidget(Lang.OPEN)).setEnabled(!Simulation.getInstance().isRunning());
-        Objects.requireNonNull(getButtonWidget(Lang.OPEN)).setEnabled(!Simulation.getInstance().isRunning());
+        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_OPEN)).setEnabled(!Simulation.getInstance().isRunning());
         Objects.requireNonNull(getMenuWidget(Lang.NEW)).setEnabled(!Simulation.getInstance().isRunning());
-        Objects.requireNonNull(getButtonWidget(Lang.NEW)).setEnabled(!Simulation.getInstance().isRunning());
+        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_NEW)).setEnabled(!Simulation.getInstance().isRunning());
     }
 
     boolean showDiscardDialog(String title) {

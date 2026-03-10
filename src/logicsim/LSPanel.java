@@ -289,7 +289,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                     }
                     case WirePoint clickedWP -> {
                         // check if the clicked point belongs to another wire
-                        if (clickedWP.parent.equals(wire)) {
+                        if (clickedWP.parent != null && clickedWP.parent.equals(wire)) {
                             // the clicked wirepoint belongs to the editing wire...
                             // so check if we clicked the last point of the wire to finish it
                             WirePoint lp = wire.getLastPoint();
@@ -465,7 +465,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		circuit.setRepaintListener(this);
 
-		// setZoomingSpeed(0.02);
 		setPainter(new LogicSimPainterGraphics());
 
 		MouseControl mouseControl = new MouseControl();
