@@ -81,19 +81,19 @@ public enum Lang {
 
 	QUESTION_CONFIRMDISCARD("question.confirmdiscard"),
 	QUESTION_CONFIRMSAVE("question.confirmsave"),
-	QUESTION_DELETE("question.delete"),
-	LSRESTART("lsrestart"),
+	QUESTION_DELETE("question.confirmdelete"),
+	LSRESTART("info.needtorestart"),
 	ALREADYMODULE("alreadymodule"),
 	MODULENOTFOUND("modulenotfound"),
 	NOMODULE("nomodule"),
 	READERROR("readerror"),
 	SAVEERROR("saveerror"),
 
-	OK("ok"),
-	CANCEL("cancel"),
-	YES("yes"),
-	NO("no"),
-	DONTSAVE("dontsave");
+	OK("button.ok"),
+	CANCEL("button.cancel"),
+	YES("button.yes"),
+	NO("button.no"),
+	DONTSAVE("button.dontsave");
 
 	private final String key;
 

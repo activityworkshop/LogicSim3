@@ -30,12 +30,13 @@ toolbar.new=Nuovo
 toolbar.open=Apri
 toolbar.save=Salva
 toolbar.simulate=Avvia Simulazione
+toolbar.addpoint=Aggiungi giunzione
 toolbar.removepoint=Rimuovi giunzione
 
 [messages]
 MESSAGE_INPUTS=Ingressi
-MESSAGE_DELETE=Confermi eliminazione\n%s ?
-MESSAGE_LANGUAGE_RESTART=LogicSim deve essere riavviato.
+question.confirmdelete=Confermi eliminazione\n%s ?
+info.needtorestart=LogicSim deve essere riavviato.
 MESSAGE_SAVEDIALOG=Salva il Circuito
 MESSAGE_ENTER_TIME_HIGH=Inserisci tempo per livello ALTO (ms)
 MESSAGE_ENTER_TIME_LOW=Inserisci il tempo per livello BASSO (ms)
@@ -44,9 +45,6 @@ MESSAGE_MODULE_DESCRIPTION=Descrizione
 MESSAGE_MODULE_LABEL=Etichetta Modulo
 MESSAGE_MODULE_IMAGE=Immagine Modulo
 MESSAGE_ENTER_LABEL=Inserisci Etichetta
-
-[tooltip texts]
-TOOLTIP_ADDPOINT=Aggiungi giunzione
 
 [messages in status bar]
 STATUS_INPUTNORMAL=Click sull'ingresso per rimuovere le impostazioni
@@ -64,14 +62,12 @@ STATUS_ABORTED=Annullato
 ERROR_NOMODULE=Il circuito non è un modulo
 ERROR_FILENOTFOUND=File non trovato
 ERROR_READ=Errore di lettura file (errata versione di LogicSim?)
-ERROR_FILECORRUPTED=File rovinato (errata versione di LogicSim?)
-ERROR_CLASS=Classe non trovata
 ERROR_SAVE=Errore di scrittura file
 ERROR_MODULENOTFOUND=Impossibile trovare il Modulo\n%s\ncopiare il modulo corretto nella cartella moduli
 
 [BUTTONS]
-BUTTON_USE=OK
-BUTTON_CANCEL=Annulla
+button.ok=OK
+button.cancel=Annulla
 
 [GATES]
 GATE_SWITCH=Switch

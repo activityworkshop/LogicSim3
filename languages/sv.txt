@@ -37,8 +37,8 @@ toolbar.removepoint=Ta bort punkt från ledningen
 
 [messages]
 MESSAGE_INPUTS=Ingångar
-MESSAGE_DELETE=Vill du verkligen ta bort filen %s ?
-MESSAGE_LANGUAGE_RESTART=LogicSim måste startas om.
+question.confirmdelete=Vill du verkligen ta bort filen %s ?
+info.needtorestart=LogicSim måste startas om.
 MESSAGE_SAVEDIALOG=Spara kretsen
 MESSAGE_ENTER_TIME_HIGH=Tidslängd Högnivå (ms)
 MESSAGE_ENTER_TIME_LOW=Tidslängd Lågnivå (ms)
@@ -47,7 +47,7 @@ MESSAGE_MODULE_DESCRIPTION=Beskrivning
 MESSAGE_MODULE_LABEL=Moduletikett
 MESSAGE_MODULE_IMAGE=Modulbild
 MESSAGE_ENTER_LABEL=Skriv texten
-MESSAGE_REALLYNEW=Kretsen har modifierats.\nVill du verkligen inte spara dina ändringar?
+question.confirmdiscard=Kretsen har modifierats.\nVill du verkligen inte spara dina ändringar?
 
 [messages in status bar]
 STATUS_INPUTNORMAL=Klicka på ingången för att ta bort nuvarande inställningar
@@ -65,14 +65,12 @@ STATUS_ABORTED=Avbruten
 ERROR_NOMODULE=Kretsen är ingen modul
 ERROR_FILENOTFOUND=Filen kunde inte hittas
 ERROR_READ=Filen kunde inte läsas (fel version av LogicSim?)
-ERROR_FILECORRUPTED=Felaktigt filformat (fel version av LogicSim?)
-ERROR_CLASS=Java-klass kunde inte hittas
 ERROR_SAVE=Filen kunde inte sparas
 ERROR_MODULENOTFOUND=Modulen %s\nkunde inte hittas.\nKopiera modulfilen till katalogen modules.
 
 [BUTTONS]
-BUTTON_USE=Använd
-BUTTON_CANCEL=Avbryt
+button.ok=Använd
+button.cancel=Avbryt
 
 [GATES]
 GATE_SWITCH=Brytare

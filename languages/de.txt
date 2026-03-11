@@ -82,16 +82,16 @@ savecircuit=Schaltplandatei speichern
 
 question.confirmdiscard=Der Schaltplan wurde ver\u00E4ndert.\nM\u00F6chtest Du die \u00C4nderungen wirklich verwerfen?
 question.confirmsave=Speichern vor dem Schließen?
-question.delete=Wirklich %s l\u00F6schen?
-lsrestart=LogicSim muss neu gestartet werden
+question.confirmdelete=Wirklich %s l\u00F6schen?
+info.needtorestart=LogicSim muss neu gestartet werden
 alreadymodule=Der Schaltkreis ist bereits ein Modul. Abbruch!
 modulenotfound=Kann das Modul %s nicht finden. Bitte kopiere die Moduldatei in das modules-Unterverzeichnis.
 nomodule=Die Schaltplandatei ist kein Modul
 readerror=Fehler beim Laden der Datei (falsche LogicSim-Version?)
 saveerror=Fehler beim Speichern
 
-ok=OK
-cancel=Abbruch
-yes=Ja
-no=Nein
-dontsave=Nicht Speichern
+button.ok=OK
+button.cancel=Abbruch
+button.yes=Ja
+button.no=Nein
+button.dontsave=Nicht Speichern

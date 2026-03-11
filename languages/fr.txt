@@ -52,12 +52,12 @@ name=Nom
 description=Description
 
 question.confirmdiscard=Le circuit a \u00E9t\u00E9 modifi\u00E9.\nVoulez vous vraiment perdre ce circuit?
-lsrestart=LogicSim doit \u00EAtre red\u00E9marr\u00E9.
+info.needtorestart=LogicSim doit \u00EAtre red\u00E9marr\u00E9.
 modulenotfound=Le module \n%s n'a pas \u00E9t\u00E9 trouv\u00E9.\nCopiez le module dans le r\u00E9pertoire appropri\u00E9.
 nomodule=Ce sch\u00E9ma n'est pas un module
 readerror=Erreur de lecture
 saveerror=Erreur pendant la sauvegarde
 
-cancel=Annuler
-yes=Oui
-no=Non
+button.cancel=Annuler
+button.yes=Oui
+button.no=Non

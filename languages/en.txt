@@ -82,16 +82,16 @@ savecircuit=Save Circuit file
 
 question.confirmdiscard=The circuit has been modified.\nDo you really want to discard the changes?
 question.confirmsave=Save before exit?
-question.delete=Do you really want to delete %s?
-lsrestart=LogicSim needs to be restarted.
+question.confirmdelete=Do you really want to delete %s?
+info.needtorestart=LogicSim needs to be restarted.
 alreadymodule=The circuit is already a module. Abort!
 modulenotfound=Could not find Module\n%s\nplease copy the correct Module to the modules directory
 nomodule=circuit is not a module
 readerror=error reading file (wrong LogicSim-version?)
 saveerror=Error saving file
 
-ok=OK
-cancel=Cancel
-yes=Yes
-no=No
-dontsave=Don't Save
+button.ok=OK
+button.cancel=Cancel
+button.yes=Yes
+button.no=No
+button.dontsave=Don't Save

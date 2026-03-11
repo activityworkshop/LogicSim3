@@ -4,7 +4,6 @@ import logicsim.App;
 import logicsim.Dialogs;
 import logicsim.LSProperties;
 
-import java.io.InputStream;
 import java.util.*;
 
 /**
