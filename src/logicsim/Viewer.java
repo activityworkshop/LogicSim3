@@ -311,11 +311,6 @@ public class Viewer extends JPanel {
 	protected void translate(int dx, int dy) {
 		offsetX += dx / scaleX;
 		offsetY += dy / scaleY;
-//		if (offsetX > 0)
-//			offsetX = 0;
-//		if (offsetY > 0)
-//			offsetY = 0;
 		repaint();
 	}
-
 }

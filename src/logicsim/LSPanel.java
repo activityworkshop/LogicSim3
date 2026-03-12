@@ -725,7 +725,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	public void zoomOut() {
 		int x = (int) getTransformer().screenToWorldX(getWidth() / 2);
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
-		zoomBy(x, y, -0.5f);
+		zoomBy(x, y, -0.2f);
 		notifyZoomPos(scaleX, new Point(x, y));
 	}
 
@@ -735,7 +735,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	public void zoomIn() {
 		int x = (int) getTransformer().screenToWorldX(getWidth() / 2);
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
-		zoomBy(x, y, 0.5f);
+		zoomBy(x, y, 0.2f);
 		notifyZoomPos(scaleX, new Point(x, y));
 	}
 

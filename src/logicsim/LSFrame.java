@@ -596,6 +596,19 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
             lspanel.requestFocusInWindow();
         });
         toolbar.add(btnLS, null);
+
+        toolbar.add(getSmallMenuGap());
+        // Zoom in and out
+        final LSButton zoomOutButton = new LSButton("zoomout", Lang.ZOOMOUT);
+        zoomOutButton.addActionListener(e -> {
+            lspanel.zoomOut();
+        });
+        toolbar.add(zoomOutButton, null);
+        final LSButton zoomInButton = new LSButton("zoomin", Lang.ZOOMIN);
+        zoomInButton.addActionListener(e -> {
+            lspanel.zoomIn();
+        });
+        toolbar.add(zoomInButton, null);
         return toolbar;
     }
 
