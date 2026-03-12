@@ -18,8 +18,6 @@ public class App {
 	public static final String APP_TITLE = "LogicSim";
 	public static final String CIRCUIT_FILE_SUFFIX = "lsc";
 	public static final String MODULE_FILE_SUFFIX = "lsm";
-	public static final String GRAPHICS_FORMAT = "png";
-	public static boolean Running_From_Jar = false;
 
     public static App instance;
 
@@ -28,9 +26,6 @@ public class App {
 	static ArrayList<Category> cats = new ArrayList<>();
 
 	public App() {
-		String protocol = Objects.requireNonNull(this.getClass().getResource("")).getProtocol();
-		if (Objects.equals(protocol, "jar"))
-			Running_From_Jar = true;
 		new I18N();
 		initializeGateCategories();
 
@@ -53,7 +48,7 @@ public class App {
 		Wire.setColorMode();
 	}
 
-    private static void setUIFont(FontUIResource f){
+    private static void setUIFont(FontUIResource f) {
         Enumeration<Object> keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
@@ -64,19 +59,19 @@ public class App {
     }
 
     private static void addToCategory(Gate g) {
-		String cattitle = g.category;
+		String catTitle = g.category;
 		if (g.category == null)
-			cattitle = "hidden";
+			catTitle = "hidden";
 
 		Category cat = null;
 		for (Category c : cats) {
-			if (c.getTitle().equals(cattitle)) {
+			if (c.getTitle().equals(catTitle)) {
 				cat = c;
 				break;
 			}
 		}
 		if (cat == null) {
-			cat = new Category(cattitle);
+			cat = new Category(catTitle);
 			cats.add(cat);
 		}
 		cat.addGate(g);
@@ -92,10 +87,10 @@ public class App {
 		cat.addGate(g);
 		cats.add(cat);
 
-		cats.add(new Category("basic"));
-		cats.add(new Category("input"));
-		cats.add(new Category("output"));
-		cats.add(new Category("flipflops"));
+		cats.add(new Category("category.basic"));
+		cats.add(new Category("category.inputs"));
+		cats.add(new Category("category.outputs"));
+		cats.add(new Category("category.flipflops"));
 
 		List<Class<?>> classes;
 		try {
@@ -132,13 +127,12 @@ public class App {
             if (filename.endsWith(App.MODULE_FILE_SUFFIX)) {
                 String type = new File(filename).getName();
                 type = type.substring(0, type.lastIndexOf("."));
-                //type = type.toLowerCase();
                 modules.put(type, XMLLoader.getModuleListFromFile(App.getModulePath() + "/" + filename));
             }
         }
-		int maxtries = modules.size();
+		int maxTries = modules.size();
 		int tries = 0;
-		while (tries < maxtries && maxtries != loadedModules.size()) {
+		while (tries < maxTries && maxTries != loadedModules.size()) {
 			for (String modname : modules.keySet()) {
 				boolean load = true;
 				for (String neededModuleName : modules.get(modname)) {
@@ -149,7 +143,7 @@ public class App {
 				}
 				if (load && !loadedModules.contains(modname.toLowerCase())) {
 					Module mod = new Module(modname);
-					mod.category = "module";
+					mod.category = "category.modules";
 					addToCategory(mod);
 					loadedModules.add(modname.toLowerCase());
 				}
@@ -159,10 +153,9 @@ public class App {
 	}
 
 	public static String getModulePath() {
-		File f = new File("");
-		String fname = f.getAbsolutePath() + "/modules/";
-		f = new File(fname);
-		if (f != null && f.exists() && f.isDirectory()) {
+		String fName = new File("").getAbsolutePath() + "/modules/";
+		final File f = new File(fName);
+		if (f.exists() && f.isDirectory()) {
 			return f.getAbsolutePath() + "/";
 		} else {
 			Dialogs.messageDialog(null, "Directory 'modules' not found.\nPlease run the program from its directory");
@@ -173,10 +166,9 @@ public class App {
 	}
 
 	public static String getCircuitPath() {
-		File f = new File("");
-		String fname = f.getAbsolutePath() + "/circuits/";
-		f = new File(fname);
-		if (f != null && f.exists() && f.isDirectory()) {
+		String fName = new File("").getAbsolutePath() + "/circuits/";
+		final File f = new File(fName);
+		if (f.exists() && f.isDirectory()) {
 			return f.getAbsolutePath() + "/";
 		} else {
 			Dialogs.messageDialog(null, "Directory 'circuits' not found.\nPlease run the program from its directory");
@@ -203,5 +195,4 @@ public class App {
 		instance = new App();
         ShortCuts.init();
 	}
-
 }

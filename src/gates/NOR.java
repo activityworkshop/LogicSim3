@@ -12,7 +12,6 @@ import logicsim.Pin;
  */
 public class NOR extends OR {
 	public NOR() {
-		super();
 		type = "nor";
 		getPin(0).setLevelType(Pin.INVERTED);
 	}

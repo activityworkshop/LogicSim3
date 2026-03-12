@@ -22,7 +22,7 @@ public class SevenSegmentDriver extends Gate {
 	boolean force = false;
 
 	public SevenSegmentDriver() {
-		super("output");
+		super("outputs");
 		type = "sevendrv";
 		height = 80;
 		createInputs(4);

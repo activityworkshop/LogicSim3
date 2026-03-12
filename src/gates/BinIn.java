@@ -45,7 +45,7 @@ public class BinIn extends Gate {
 	Rectangle rect4 = new Rectangle(47, 67, 15, 15);
 
 	public BinIn() {
-		super("input");
+		super("inputs");
 		type = "binin";
 		height = 90;
 		width=90;

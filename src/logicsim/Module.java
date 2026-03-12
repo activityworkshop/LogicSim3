@@ -124,7 +124,7 @@ public class Module extends Gate {
 
 		if (moduleIn == null || moduleOut == null) {
 			JOptionPane.showMessageDialog(null, I18N.tr(Lang.NOMODULE));
-			throw new RuntimeException("no module - does not contain both moduleio components: " + type);
+			throw new RuntimeException("no module - does not contain both module i/o components: " + type);
 		}
 
 		if (embedded) {

@@ -19,7 +19,7 @@ public class Simulation implements Runnable {
 	public static final int WIRE = 0;
 	public static final int GATE = 1;
 
-	Vector<LSLevelEvent> queue = new Vector<LSLevelEvent>();
+	Vector<LSLevelEvent> queue = new Vector<>();
 
 	public static Simulation getInstance() {
 		if (instance == null)

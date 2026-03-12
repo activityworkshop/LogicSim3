@@ -1,6 +1,5 @@
 package gates;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
@@ -16,7 +15,6 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class SRRFlipFlop extends Gate {
-	Color bg = Color.white;
 
 	public SRRFlipFlop() {
 		super("flipflops");

@@ -86,45 +86,26 @@ public class GateLoaderHelper {
                 classes.add(cls);
             }
             cl.close();
-        } catch (MalformedURLException e) {
-        } catch (ClassNotFoundException e) {
+        } catch (MalformedURLException | ClassNotFoundException e) {
         } catch (IOException e) {
             e.printStackTrace();
         }
         return classes;
     }
 
-	/**
-	 */
-	@SuppressWarnings("rawtypes")
 	public static Gate create(Gate g) {
-		Gate gate = null;
 		try {
 			Class<? extends Gate> c = g.getClass();
-			Object obj;
 			if (g instanceof Module) {
-				Class[] cArg = new Class[] { String.class, Boolean.TYPE };
-				obj = c.getDeclaredConstructor(cArg).newInstance(g.type, true);
-				gate = (Module) obj;
+				Class<?>[] cArg = new Class<?>[] { String.class, Boolean.TYPE };
+				return c.getDeclaredConstructor(cArg).newInstance(g.type, true);
 			} else {
-				obj = c.getDeclaredConstructor().newInstance();
-				gate = (Gate) obj;
+				return c.getDeclaredConstructor().newInstance();
 			}
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (NoSuchMethodException e) {
-			throw new RuntimeException(e.getMessage());
-		} catch (SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException |
+                 InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			throw new RuntimeException(e.getMessage());
 		}
-	
-		return gate;
-	}
+    }
 
 }

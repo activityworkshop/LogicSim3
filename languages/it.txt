@@ -9,7 +9,7 @@ menu.file.export=Export
 menu.file.print=Stampa
 menu.file.exit=Esci
 
-MENU_MODULE=Modulo
+menu.module=Modulo
 MENU_MODULEPROPERTIES=Proprietà modulo
 
 menu.settings=Impostazioni
@@ -34,36 +34,34 @@ toolbar.addpoint=Aggiungi giunzione
 toolbar.removepoint=Rimuovi giunzione
 
 [messages]
-MESSAGE_INPUTS=Ingressi
+mainpanel.combo.inputs=Ingressi
 question.confirmdelete=Confermi eliminazione\n%s ?
 info.needtorestart=LogicSim deve essere riavviato.
-MESSAGE_SAVEDIALOG=Salva il Circuito
+dialog.savecircuit.title=Salva il Circuito
 MESSAGE_ENTER_TIME_HIGH=Inserisci tempo per livello ALTO (ms)
 MESSAGE_ENTER_TIME_LOW=Inserisci il tempo per livello BASSO (ms)
-MESSAGE_MODULE_NAME=Nome Modulo
-MESSAGE_MODULE_DESCRIPTION=Descrizione
-MESSAGE_MODULE_LABEL=Etichetta Modulo
-MESSAGE_MODULE_IMAGE=Immagine Modulo
+dialog.fileinfo.name=Nome Modulo
+dialog.fileinfo.description=Descrizione
+dialog.fileinfo.label=Etichetta Modulo
 MESSAGE_ENTER_LABEL=Inserisci Etichetta
 
 [messages in status bar]
-STATUS_INPUTNORMAL=Click sull'ingresso per rimuovere le impostazioni
-STATUS_INPUTINV=Click sull'ingresso per impostare la negazione
-STATUS_INPUTHIGH=Click sull'ingresso per impostarlo a livello ALTO
-STATUS_INPUTLOW=Click sull'ingresso per impostarlo a livello BASSO
-STATUS_ADDPOINT=Click sul filo per aggiungere una giunzione
-STATUS_REMOVEPOINT=Click sulla giunzione per rimuoverla
-STATUS_SAVED=Il circuito %s è stato salvato
-STATUS_SETINPUT=Click sull'ingresso per effettuare la connessione
-STATUS_CONNECTED=Connesso
-STATUS_ABORTED=Annullato
+status.inputnormal.help=Click sull'ingresso per rimuovere le impostazioni
+status.inputinv.help=Click sull'ingresso per impostare la negazione
+status.inputhigh.help=Click sull'ingresso per impostarlo a livello ALTO
+status.inputlow.help=Click sull'ingresso per impostarlo a livello BASSO
+status.addpoint.help=Click sul filo per aggiungere una giunzione
+status.removepoint.help=Click sulla giunzione per rimuoverla
+status.saved=Il circuito %s è stato salvato
+status.aborted=Annullato
+status.module=Modulo
+
 
 [error messages]
-ERROR_NOMODULE=Il circuito non è un modulo
-ERROR_FILENOTFOUND=File non trovato
-ERROR_READ=Errore di lettura file (errata versione di LogicSim?)
-ERROR_SAVE=Errore di scrittura file
-ERROR_MODULENOTFOUND=Impossibile trovare il Modulo\n%s\ncopiare il modulo corretto nella cartella moduli
+error.nomodule=Il circuito non è un modulo
+error.readerror=Errore di lettura file (errata versione di LogicSim?)
+error.saveerror=Errore di scrittura file
+error.modulenotfound=Impossibile trovare il Modulo\n%s\ncopiare il modulo corretto nella cartella moduli
 
 [BUTTONS]
 button.ok=OK

@@ -62,7 +62,7 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	public static final String TEXT = "text";
 
-	public String TEXT_DEFAULT = "";
+	private static final String TEXT_DEFAULT = "";
 
 	public String text;
 
@@ -159,7 +159,6 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public void clear() {
-
 	}
 
 	public void deselect() {
@@ -360,19 +359,6 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	public Collection<LSLevelListener> getListeners() {
 		return listeners;
-	}
-
-	public String toStringAll() {
-		StringBuilder s = new StringBuilder("-----------------------------\n");
-		s.append(toString());
-		s.append("PARENT : ").append(parent).append("\n");
-		s.append("\n-- LISTENERS: \n");
-		for (LSLevelListener l : getListeners()) {
-			s.append(l.toString());
-			s.append(" with parent ").append(((CircuitPart) l).parent);
-		}
-		s.append("-----------------------------\n");
-		return s.toString();
 	}
 
 	protected void clearListeners() {

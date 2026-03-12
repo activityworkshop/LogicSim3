@@ -53,7 +53,7 @@ public class Switch extends Gate {
 	private Color color = null;
 
 	public Switch() {
-		super("input");
+		super("inputs");
 		type = "switch";
 		width = 40;
 		height = 40;
@@ -198,8 +198,6 @@ public class Switch extends Gate {
 		TitledBorder titledBorder1;
 		BorderLayout borderLayout1 = new BorderLayout();
 
-		// Border border1 = new EtchedBorder(EtchedBorder.RAISED, Color.white, new
-		// Color(142, 142, 142));
 		titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
 				I18N.getString(type, SWITCH_TYPE));
 		jRadioButton1.setText(I18N.getString(type, TOGGLE));

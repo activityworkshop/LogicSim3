@@ -17,7 +17,7 @@ import logicsim.localization.I18N;
  */
 public class SevenSegment extends Gate {
 	public SevenSegment() {
-		super("output");
+		super("outputs");
 		type = "sevenseg";
 		height = 80;
 		width = 80;

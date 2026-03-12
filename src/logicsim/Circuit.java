@@ -1,6 +1,5 @@
 package logicsim;
 
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.Vector;
@@ -12,14 +11,13 @@ import java.util.Vector;
  * @author Peter Gabriel
  * @version 2.0
  */
-
 public class Circuit implements LSRepaintListener {
 	Vector<CircuitPart> parts;
 
 	private LSRepaintListener repaintListener;
 
 	public Circuit() {
-		parts = new Vector<CircuitPart>();
+		parts = new Vector<>();
 	}
 
 	public void clear() {
@@ -71,7 +69,7 @@ public class Circuit implements LSRepaintListener {
 	}
 
 	public Vector<Gate> getGates() {
-		Vector<Gate> gates = new Vector<Gate>();
+		Vector<Gate> gates = new Vector<>();
 		for (CircuitPart part : parts) {
 			if (part instanceof Gate) {
 				gates.add((Gate) part);
@@ -81,7 +79,7 @@ public class Circuit implements LSRepaintListener {
 	}
 
 	public Vector<Wire> getWires() {
-		Vector<Wire> wires = new Vector<Wire>();
+		Vector<Wire> wires = new Vector<>();
 		for (CircuitPart part : parts) {
 			if (part instanceof Wire) {
 				wires.add((Wire) part);
@@ -142,8 +140,9 @@ public class Circuit implements LSRepaintListener {
 		return null;
 	}
 
+	// TODO: Store this array so that it doesn't have to be recreated while dragging
 	public CircuitPart[] getSelected() {
-		Vector<CircuitPart> selParts = new Vector<CircuitPart>();
+		Vector<CircuitPart> selParts = new Vector<>();
 		for (Gate g : getGates()) {
 			if (g.selected && !selParts.contains(g))
 				selParts.add(g);
@@ -249,17 +248,8 @@ public class Circuit implements LSRepaintListener {
 		return removeGate(g);
 	}
 
-	public Gate findGateById(String fromGateId) {
-		for (CircuitPart p : parts) {
-			if (p.getId().equals(fromGateId))
-				return (Gate) p;
-		}
-		return null;
-	}
-
 	@Override
 	public void needsRepaint(CircuitPart circuitPart) {
-		// forward
 		if (repaintListener != null)
 			repaintListener.needsRepaint(circuitPart);
 	}
@@ -334,7 +324,7 @@ public class Circuit implements LSRepaintListener {
 	}
 
 	public CircuitPart[] findParts(Rectangle2D selectRect) {
-		Vector<CircuitPart> findParts = new Vector<CircuitPart>();
+		Vector<CircuitPart> findParts = new Vector<>();
 		for (CircuitPart p : parts) {
 			if (selectRect.contains(p.getBoundingBox())) {
 				p.select();
@@ -397,17 +387,4 @@ public class Circuit implements LSRepaintListener {
 	public boolean isEmpty() {
 		return parts.isEmpty();
 	}
-
-	public Rectangle getBoundingBox() {
-		Rectangle2D r2d = null;
-		for (CircuitPart part : parts) {
-			Rectangle r2 = part.getBoundingBox();
-			Rectangle2D r22d = new Rectangle2D.Double(r2.x, r2.y, r2.width, r2.height);
-			if (r2d == null)
-				r2d = (Rectangle2D) r22d.clone();
-			r2d.add(r22d);
-		}
-		return new Rectangle((int) r2d.getX(), (int) r2d.getY(), (int) r2d.getWidth(), (int) r2d.getHeight());
-	}
-
 }

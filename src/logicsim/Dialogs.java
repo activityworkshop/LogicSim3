@@ -34,8 +34,11 @@ public class Dialogs {
                 JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options1, options1[1]);
 	}
 
+	public static void messageDialog(Component comp, String msg, String title) {
+		JOptionPane.showMessageDialog(comp, msg, title, JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	public static void messageDialog(Component comp, String msg) {
 		JOptionPane.showMessageDialog(comp, msg);
 	}
-
 }

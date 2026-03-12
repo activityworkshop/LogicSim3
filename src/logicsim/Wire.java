@@ -122,7 +122,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
-		float width = 0;
+		final float width;
 		if (getLevel()) {
 			g2.setColor(HIGH_COLOR);
 			width = HIGH_WIDTH;
@@ -142,7 +142,6 @@ public class Wire extends CircuitPart implements Cloneable {
 		// draw points
 		if (!points.isEmpty()) {
 			for (WirePoint point : points) {
-				//point.show || 
 				if (selected || point.isSelected() || point.getListeners().size() > 1) {
 					point.draw(g2);
 				}
@@ -211,9 +210,7 @@ public class Wire extends CircuitPart implements Cloneable {
 
 	@Override
 	public Rectangle getBoundingBox() {
-		Path2D path = convertPointsToPath();
-		Rectangle rect = path.getBounds();
-		return rect;
+		return convertPointsToPath().getBounds();
 	}
 
 	WirePoint getLastPoint() {
@@ -248,14 +245,12 @@ public class Wire extends CircuitPart implements Cloneable {
 		return -1;
 	}
 
-	WirePoint getPointFrom() {
-		WirePoint wp = new WirePoint(getFrom().getX(), getFrom().getY(), false);
-		return wp;
+	private WirePoint getPointFrom() {
+        return new WirePoint(getFrom().getX(), getFrom().getY(), false);
 	}
 
 	private WirePoint getPointTo() {
-		WirePoint wp = new WirePoint(getTo().getX(), getTo().getY(), false);
-		return wp;
+        return new WirePoint(getTo().getX(), getTo().getY(), false);
 	}
 
 	public void insertPointAfter(int n, int mx, int my) {
@@ -264,10 +259,10 @@ public class Wire extends CircuitPart implements Cloneable {
 		points.insertElementAt(wp, n);
 	}
 
-	public void insertPointAfterStart(int x, int y) {
-		WirePoint wp = new WirePoint(x, y, false);
-		points.insertElementAt(wp, 0);
-	}
+//	public void insertPointAfterStart(int x, int y) {
+//		WirePoint wp = new WirePoint(x, y, false);
+//		points.insertElementAt(wp, 0);
+//	}
 
 	/**
 	 * check if the wire is near given coordinates
@@ -482,11 +477,9 @@ public class Wire extends CircuitPart implements Cloneable {
 
 	@Override
 	public String getId() {
-		String s = "";
-		s += (getFrom() != null ? getFrom().getId() : "");
-		s += "-";
-		s += (getTo() != null ? getTo().getId() : "");
-		return s;
+		return (getFrom() != null ? getFrom().getId() : "")
+				+ "-"
+				+ (getTo() != null ? getTo().getId() : "");
 	}
 
 	public void addPointFitting(int x, int y) {
@@ -572,19 +565,17 @@ public class Wire extends CircuitPart implements Cloneable {
 	@Override
 	public void reset() {
 		super.reset();
-		if (from != null) {
-			if (from instanceof Wire) {
-				Wire w = (Wire) from;
-				from.fireChangedLevel(new LSLevelEvent(from, w.getLevel()));
-			} else if (from instanceof Pin) {
-				Pin p = (Pin) from;
-				from.fireChangedLevel(new LSLevelEvent(from, p.getLevel()));
-			} else if (from instanceof WirePoint) {
-				WirePoint wp = (WirePoint) from;
-				if (wp.parent != null) {
-					Wire w = (Wire) wp.parent;
-					wp.parent.fireChangedLevel(new LSLevelEvent(wp.parent, w.getLevel()));
-				}
+		if (from instanceof Wire) {
+			Wire w = (Wire) from;
+			from.fireChangedLevel(new LSLevelEvent(from, w.getLevel()));
+		} else if (from instanceof Pin) {
+			Pin p = (Pin) from;
+			from.fireChangedLevel(new LSLevelEvent(from, p.getLevel()));
+		} else if (from instanceof WirePoint) {
+			WirePoint wp = (WirePoint) from;
+			if (wp.parent != null) {
+				Wire w = (Wire) wp.parent;
+				wp.parent.fireChangedLevel(new LSLevelEvent(wp.parent, w.getLevel()));
 			}
 		}
 	}

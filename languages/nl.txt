@@ -10,7 +10,7 @@ menu.file.export=Exporteer
 menu.file.print=Afdrukken
 menu.file.exit=Afsluiten
 
-MENU_MODULE=Module
+menu.module=Module
 
 menu.settings=Voorkeuren
 menu.settings.paintgrid=toon raster
@@ -36,37 +36,34 @@ toolbar.addpoint=Voeg punt aan draad toe
 toolbar.removepoint=Verwijder punt van draad
 
 [messages]
-MESSAGE_INPUTS=Inputs
+mainpanel.combo.inputs=Inputs
 question.confirmdelete=Wil je\n%s werkelijk verwijderen ?
 info.needtorestart=LogicSim moet opnieuw gestart worden.
-MESSAGE_SAVEDIALOG=Opslaan Circuit bestand
+dialog.savecircuit.title=Opslaan Circuit bestand
 MESSAGE_ENTER_TIME_HIGH=Geef de tijd voor hoog signaal (ms)
 MESSAGE_ENTER_TIME_LOW=Geef de de tijd voor laag signaal (ms)
-MESSAGE_MODULE_NAME=module naam
-MESSAGE_MODULE_DESCRIPTION=omschrijving
-MESSAGE_MODULE_LABEL=module label
-MESSAGE_MODULE_IMAGE=module afbeelding
+dialog.fileinfo.name=module naam
+dialog.fileinfo.description=omschrijving
+dialog.fileinfo.label=module label
 MESSAGE_ENTER_LABEL=Geef Label
 question.confirmdiscard=De schakeling is gewijzigd.\nWil je de schakeling werkelijk niet bewaren?
 
 [messages in status bar]
-STATUS_INPUTNORMAL=klik op input om input instelling te verwijderen
-STATUS_INPUTINV=klik op input om inverter in te stellen
-STATUS_INPUTHIGH=klik op input om hoog niveau in te stellen
-STATUS_INPUTLOW=klik op input om laag niveau in te stellen
-STATUS_ADDPOINT=klik op de draad om een punt toe te voegen
-STATUS_REMOVEPOINT=klik op de draad om hem te verwijderen
-STATUS_SAVED=Schakeling bewaard als %s
-STATUS_SETINPUT=Klik op input om te verbinden
-STATUS_CONNECTED=verbonden
-STATUS_ABORTED=afgebroken
+status.inputnormal.help=klik op input om input instelling te verwijderen
+status.inputinv.help=klik op input om inverter in te stellen
+status.inputhigh.help=klik op input om hoog niveau in te stellen
+status.inputlow.help=klik op input om laag niveau in te stellen
+status.addpoint.help=klik op de draad om een punt toe te voegen
+status.removepoint.help=klik op de draad om hem te verwijderen
+status.saved=Schakeling bewaard als %s
+status.aborted=afgebroken
+status.module=Module
 
 [error messages]
-ERROR_NOMODULE=schakeling is geen module
-ERROR_FILENOTFOUND=Bestand niet gevonden
-ERROR_READ=fout tijdens lezen bestand (verkeerde LogicSim-versie?)
-ERROR_SAVE=Fout tijdens opslaan bestand
-ERROR_MODULENOTFOUND=Kan Module\n%s niet vinden\nKopieer a.u.b. de juiste Module naar de modulenmap
+error.nomodule=schakeling is geen module
+error.readerror=fout tijdens lezen bestand (verkeerde LogicSim-versie?)
+error.saveerror=Fout tijdens opslaan bestand
+error.modulenotfound=Kan Module\n%s niet vinden\nKopieer a.u.b. de juiste Module naar de modulenmap
 
 [BUTTONS]
 button.ok=Gebruik dit

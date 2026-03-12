@@ -23,7 +23,7 @@ public class Switch8 extends Gate {
 	private Color color = null;
 
 	public Switch8() {
-		super("input");
+		super("inputs");
 		type = "switch8";
 		setWidth(20);
 		setHeight(90);

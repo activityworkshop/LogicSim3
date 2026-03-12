@@ -257,32 +257,27 @@ public final class ColorFactory {
 		int len = color.length();
 
 		try {
-			int r;
-			int g;
-			int b;
-			int a;
-
 			if (len == 3) {
-				r = Integer.parseInt(color.substring(0, 1), 16);
-				g = Integer.parseInt(color.substring(1, 2), 16);
-				b = Integer.parseInt(color.substring(2, 3), 16);
+				final int r = Integer.parseInt(color.substring(0, 1), 16);
+				final int g = Integer.parseInt(color.substring(1, 2), 16);
+				final int b = Integer.parseInt(color.substring(2, 3), 16);
 				return new Color(r / 15.0f, g / 15.0f, b / 15.0f, (float) opacity);
 			} else if (len == 4) {
-				r = Integer.parseInt(color.substring(0, 1), 16);
-				g = Integer.parseInt(color.substring(1, 2), 16);
-				b = Integer.parseInt(color.substring(2, 3), 16);
-				a = Integer.parseInt(color.substring(3, 4), 16);
+				final int r = Integer.parseInt(color.substring(0, 1), 16);
+				final int g = Integer.parseInt(color.substring(1, 2), 16);
+				final int b = Integer.parseInt(color.substring(2, 3), 16);
+				final int a = Integer.parseInt(color.substring(3, 4), 16);
 				return new Color(r / 15.0f, g / 15.0f, b / 15.0f, (float) (opacity * a / 15.0));
 			} else if (len == 6) {
-				r = Integer.parseInt(color.substring(0, 2), 16);
-				g = Integer.parseInt(color.substring(2, 4), 16);
-				b = Integer.parseInt(color.substring(4, 6), 16);
+				final int r = Integer.parseInt(color.substring(0, 2), 16);
+				final int g = Integer.parseInt(color.substring(2, 4), 16);
+				final int b = Integer.parseInt(color.substring(4, 6), 16);
 				return new Color(r, g, b, (int) (opacity * 255 + 0.5));
 			} else if (len == 8) {
-				r = Integer.parseInt(color.substring(0, 2), 16);
-				g = Integer.parseInt(color.substring(2, 4), 16);
-				b = Integer.parseInt(color.substring(4, 6), 16);
-				a = Integer.parseInt(color.substring(6, 8), 16);
+				final int r = Integer.parseInt(color.substring(0, 2), 16);
+				final int g = Integer.parseInt(color.substring(2, 4), 16);
+				final int b = Integer.parseInt(color.substring(4, 6), 16);
+				final int a = Integer.parseInt(color.substring(6, 8), 16);
 				return new Color(r, g, b, (float) (opacity * a / 255.0));
 			}
 		} catch (NumberFormatException nfe) {
@@ -351,14 +346,14 @@ public final class ColorFactory {
 		}
 		double c = ((type == PARSE_COMPONENT) ? Integer.parseInt(color) : Double.parseDouble(color));
 		switch (type) {
-		case PARSE_ALPHA:
-			return (c < 0.0) ? 0.0 : ((c > 1.0) ? 1.0 : c);
-		case PARSE_PERCENT:
-			return (c <= 0.0) ? 0.0 : ((c >= 100.0) ? 1.0 : (c / 100.0));
-		case PARSE_COMPONENT:
-			return (c <= 0.0) ? 0.0 : ((c >= 255.0) ? 1.0 : (c / 255.0));
-		case PARSE_ANGLE:
-			return ((c < 0.0) ? ((c % 360.0) + 360.0) : ((c > 360.0) ? (c % 360.0) : c));
+			case PARSE_ALPHA:
+				return (c < 0.0) ? 0.0 : ((c > 1.0) ? 1.0 : c);
+			case PARSE_PERCENT:
+				return (c <= 0.0) ? 0.0 : ((c >= 100.0) ? 1.0 : (c / 100.0));
+			case PARSE_COMPONENT:
+				return (c <= 0.0) ? 0.0 : ((c >= 255.0) ? 1.0 : (c / 255.0));
+			case PARSE_ANGLE:
+				return ((c < 0.0) ? ((c % 360.0) + 360.0) : ((c > 360.0) ? (c % 360.0) : c));
 		}
 
 		throw new IllegalArgumentException("Invalid color specification");
@@ -1618,7 +1613,7 @@ public final class ColorFactory {
 		}
 
 		private static Map<String, Color> createNamedColors() {
-			Map<String, Color> colors = new HashMap<String, Color>(256);
+			Map<String, Color> colors = new HashMap<>(256);
 
 			colors.put("aliceblue", ALICEBLUE);
 			colors.put("antiquewhite", ANTIQUEWHITE);

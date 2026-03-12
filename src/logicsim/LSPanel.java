@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -445,6 +444,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 
 	public static final String MSG_ABORTED = "MSG_DESELECT_BUTTONS";
 
+	// TODO: Remove or replace
 	public static final String NOTHING = "NOTHING";
 
 	CircuitChangedListener changeListener;
@@ -736,32 +736,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		int x = (int) getTransformer().screenToWorldX(getWidth() / 2);
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
 		zoomBy(x, y, 0.5f);
-		notifyZoomPos(scaleX, new Point(x, y));
-	}
-
-	/**
-	 * zoom to all
-	 */
-	public void zoomAll() {
-		Rectangle r = circuit.getBoundingBox();
-		double zx = (double) this.getWidth() / (double) r.width;
-		double zy = (double) this.getHeight() / (double) r.height;
-		double zf = Math.min(zx, zy);
-		int cx = r.x + r.width / 2;
-		int cy = r.y + r.height / 2;
-
-		// calculate the circuit's center point
-		int x = (int) getTransformer().screenToWorldX(cx);
-		int y = (int) getTransformer().screenToWorldY(cy);
-
-		// calculate the current screen center point
-		int curx = (int) getTransformer().screenToWorldX(getWidth() / 2);
-		int cury = (int) getTransformer().screenToWorldY(getHeight() / 2);
-
-		int dx = curx - x;
-		int dy = cury - y;
-		translate(dx, dy);
-		zoomTo(x, y, zf);
 		notifyZoomPos(scaleX, new Point(x, y));
 	}
 

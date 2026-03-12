@@ -18,7 +18,6 @@ import logicsim.Wire;
 public class SRLatch extends Gate {
 	Gate nor1 = new NOR();
 	Gate nor2 = new NOR();
-	// Circuit c = new Circuit();
 
 	public SRLatch() {
 		super("flipflops");

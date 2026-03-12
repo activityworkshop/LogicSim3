@@ -40,7 +40,7 @@ public class Counter extends Gate {
 	int value = 0;
 
 	public Counter() {
-		super("output");
+		super("outputs");
 		type = "counter";
 		height = 90;
 		createInputs(1);

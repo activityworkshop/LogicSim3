@@ -92,7 +92,7 @@ public class Gate extends CircuitPart {
 
 	public Gate(String category) {
 		this(0, 0);
-		this.category = category;
+		this.category = "category." + category;
 	}
 
 	public Gate(String type, int actionid) {

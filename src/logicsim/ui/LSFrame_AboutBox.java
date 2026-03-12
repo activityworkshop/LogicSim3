@@ -15,7 +15,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.util.Objects;
@@ -27,13 +26,13 @@ import javax.swing.JWindow;
 public class LSFrame_AboutBox extends JWindow {
 	@Serial
     private static final long serialVersionUID = -3193728228853983319L;
-	Image imgSplash;
-	SplashPanel splashPanel = new SplashPanel();
 
-	public LSFrame_AboutBox(Frame parent) {
+	private final Image imgSplash;
+
+    public LSFrame_AboutBox(Frame parent) {
 		super(parent);
 
-		this.imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
+		imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
 
 		final int imgWidth = imgSplash.getWidth(this);
 		final int imgHeight = imgSplash.getHeight(this) + 155;
@@ -42,10 +41,10 @@ public class LSFrame_AboutBox extends JWindow {
 		setLocation(pL.x + pS.width / 2 - imgWidth / 2, pL.y + pS.height / 2 - imgHeight / 2);
 		setSize(imgWidth, imgHeight);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		getContentPane().add(splashPanel, "Center");
-		this.enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        getContentPane().add(new SplashPanel(), BorderLayout.CENTER);
+		enableEvents(AWTEvent.MOUSE_EVENT_MASK);
 
-		this.setVisible(true);
+		setVisible(true);
 	}
 
 	protected void processMouseEvent(MouseEvent e) {
@@ -57,7 +56,7 @@ public class LSFrame_AboutBox extends JWindow {
 		}
 	}
 
-	class SplashPanel extends JPanel {
+	private class SplashPanel extends JPanel {
 		@Serial
         private static final long serialVersionUID = 5564588819196489014L;
 
@@ -77,10 +76,10 @@ public class LSFrame_AboutBox extends JWindow {
 
 			String version = App.class.getPackage().getImplementationVersion();
 			g2.drawString("Version " + version, 10, 240);
-			g2.drawString("Programmed 2020 by Peter Gabriel", 10, 260);
-			g2.drawString("Based on LogicSim 2.4 (2009) by Andreas Tetzl - https://tetzl.de", 10, 290);
-			g2.drawString("About Graphic by Jens Borsdorf, https://jens.borsdorf.name", 10, 310);
-			g2.drawString("Contributions by Matthew Lister (chocolatepatty@github)", 10, 330);
+			g2.drawString("Created by Andreas Tetzl (tetzl.de) in 1995 - 2009.", 10, 270);
+			g2.drawString("Developed further by Peter 'codepiet' Gabriel in 2020,", 10, 290);
+			g2.drawString("also Matthew 'chocolatepatty' Lister in 2020,", 10, 310);
+			g2.drawString("and Benkralex in 2025", 10, 330);
 			g2.drawString("LogicSim is free software - Released under the GPL", 10, 360);
 		}
 	}

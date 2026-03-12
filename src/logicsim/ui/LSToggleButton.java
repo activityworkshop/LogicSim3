@@ -35,8 +35,8 @@ public class LSToggleButton extends JToggleButton {
         });
 	}
 
-	private ImageIcon getIcon(String imgname) {
-		final String filename = "/logicsim/images/" + imgname + ".png";
+	private ImageIcon getIcon(String imgName) {
+		final String filename = "/logicsim/images/" + imgName + ".png";
         final Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage();
         return new ImageIcon(image.getScaledInstance(size, size, Image.SCALE_AREA_AVERAGING));
 	}

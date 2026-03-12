@@ -12,7 +12,6 @@ import logicsim.Pin;
  */
 public class NAND extends AND {
 	public NAND() {
-		super();
 		type = "nand";
 		getPin(0).setLevelType(Pin.INVERTED);
 	}

@@ -24,41 +24,41 @@ popup.properties=Propiedades
 popup.addinput=A\u00F1adir Entrada
 popup.removeinput=Quitar Entrada
 
-inputs=Entradas
+mainpanel.combo.inputs=Entradas
 
 toolbar.new=Nuevo
 toolbar.open=Abrir
 toolbar.save=Guardar
 toolbar.simulate=Simular
-toolbar.inputnorm=Entrada normal
+toolbar.inputnormal=Entrada normal
 toolbar.inputinv=Entrada invertida
 toolbar.inputhigh=Entrada a 1
 toolbar.inputlow=Entrada a 0
 toolbar.addpoint=A\u00F1ade punto de conexi\u00F3n
 toolbar.removepoint=Eliminar punto de conexi\u00F3n
 
-inputnorm.help=pulsa en la entrada para eliminar sus ajustes
-inputinv.help=pulsa en la entrada para invertirla
-inputhigh.help=pulsa en la entrada para colocarla a nivel alto
-inputlow.help=pulsa en la entrada para colocarla a nivel bajo
-addpoint.help=pulsa en el cable para colocar conexi\u00F3n
-removepoint.help=pulsa en la conexi\u00F3n para eliminarla
-saved=Circuito guardado como %s
-aborted=abortado
-module=Modulo
+status.inputnorm.help=pulsa en la entrada para eliminar sus ajustes
+status.inputinv.help=pulsa en la entrada para invertirla
+status.inputhigh.help=pulsa en la entrada para colocarla a nivel alto
+status.inputlow.help=pulsa en la entrada para colocarla a nivel bajo
+status.addpoint.help=pulsa en el cable para colocar conexi\u00F3n
+status.removepoint.help=pulsa en la conexi\u00F3n para eliminarla
+status.saved=Circuito guardado como %s
+status.aborted=abortado
+status.module=Modulo
 
-label=Etiqueta
-name=Nombre
-description=Comentario
+dialog.fileinfo.label=Etiqueta
+dialog.fileinfo.name=Nombre
+dialog.fileinfo.description=Comentario
 
-savecircuit=Guardar circuito en un fichero
+dialog.savecircuit.title=Guardar circuito en un fichero
 
 question.confirmdiscard=El circuito se ha modificado.\nRealmente desea descartar los cambios?
 info.needtorestart=Necesita reiniciar LogicSim.
-modulenotfound=No puedo encontrar el m\u00F3dulo\n%s\npor favor copia el m\u00F3dulo correcto en el directorio de m\u00F3dulos
-nomodule=El circuito no es un m\u00F3dulo
-readerror=Error leyendo el fichero (\u00BFcreado con otra versi\u00F3n de LogicSim?)
-saveerror=Error guardando el fichero
+error.modulenotfound=No puedo encontrar el m\u00F3dulo\n%s\npor favor copia el m\u00F3dulo correcto en el directorio de m\u00F3dulos
+error.nomodule=El circuito no es un m\u00F3dulo
+error.readerror=Error leyendo el fichero (\u00BFcreado con otra versi\u00F3n de LogicSim?)
+error.saveerror=Error guardando el fichero
 
 button.cancel=Cancelar
 button.yes=S\u00ED

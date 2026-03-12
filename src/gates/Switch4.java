@@ -26,7 +26,7 @@ public class Switch4 extends Gate {
 	Rectangle[] areaRect;
 
 	public Switch4() {
-		super("input");
+		super("inputs");
 		type = "switch4";
 		width = 80;
 		height = 40;

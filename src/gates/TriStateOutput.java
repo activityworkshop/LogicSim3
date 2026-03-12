@@ -19,7 +19,7 @@ import logicsim.Pin;
  */
 public class TriStateOutput extends Gate {
 	public TriStateOutput() {
-		super("output");
+		super("outputs");
 		type = "triout";
 		createInputs(2);
 		createOutputs(1);

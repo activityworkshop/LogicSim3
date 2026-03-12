@@ -56,7 +56,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     JPanel pnlGateList = new JPanel();
     int dividerLocation;
 
-
     JLabel sbText = new JLabel();
     JLabel sbCoordinates = new JLabel();
 
@@ -1054,28 +1053,28 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      * handles gate design (IEC/ISO)
      */
     void actionGateDesign(ActionEvent e) {
-        String gatedesign;
+        final String gateDesign;
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
         if (src.getText().equals(I18N.tr(Lang.GATEDESIGN_IEC))) {
             if (src.isSelected())
-                gatedesign = LSProperties.GATEDESIGN_IEC;
+                gateDesign = LSProperties.GATEDESIGN_IEC;
             else
-                gatedesign = LSProperties.GATEDESIGN_ANSI;
+                gateDesign = LSProperties.GATEDESIGN_ANSI;
         } else {
             if (src.isSelected())
-                gatedesign = LSProperties.GATEDESIGN_ANSI;
+                gateDesign = LSProperties.GATEDESIGN_ANSI;
             else
-                gatedesign = LSProperties.GATEDESIGN_IEC;
+                gateDesign = LSProperties.GATEDESIGN_IEC;
         }
-        LSProperties.getInstance().setProperty(LSProperties.GATEDESIGN, gatedesign);
-        this.lspanel.repaint();
+        LSProperties.getInstance().setProperty(LSProperties.GATEDESIGN, gateDesign);
+        lspanel.repaint();
     }
 
     /**
      * handles color mode (on-redblack / off - blackwhite for printing)
      */
     private void actionColorMode(ActionEvent e) {
-        String mode;
+        final String mode;
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
         if (src.getText().equals(I18N.tr(Lang.COLORMODE_ON))) {
             if (src.isSelected())
@@ -1101,7 +1100,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      * handles mode (normal/expert)
      */
     void actionMode(ActionEvent e) {
-        String mode;
+        final String mode;
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
         if (src.getText().equals(I18N.tr(Lang.NORMAL))) {
             if (src.isSelected())
@@ -1219,5 +1218,4 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     @Override
     public void needsRepaint(CircuitPart circuitPart) {
     }
-
 }

@@ -64,11 +64,9 @@ public class WirePoint extends CircuitPart {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		super.mouseDragged(e);
-		int mx = e.getX();
-		int my = e.getY();
 
-		int dx = round(mx - mousePos.x);
-		int dy = round(my - mousePos.y);
+		int dx = round(e.getX() - mousePos.x);
+		int dy = round(e.getY() - mousePos.y);
 
 		if (dx != 0 || dy != 0) {
 			if (e.isShiftDown()) {
