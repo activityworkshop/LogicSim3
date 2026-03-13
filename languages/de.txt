@@ -28,7 +28,6 @@ menu.help.about=\u00DCber LogicSim
 
 popup.removegate=Gatter l\u00F6schen
 popup.properties=Eigenschaften
-popup.mirror=Spiegeln
 popup.rotate=Rotieren
 popup.addinput=Eingang hinzuf\u00FCgen
 popup.removeinput=Eingang entfernen

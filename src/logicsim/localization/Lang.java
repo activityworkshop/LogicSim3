@@ -31,7 +31,6 @@ public enum Lang {
 
 	REMOVEGATE("popup.removegate"),
 	POPUP_PROPERTIES("popup.properties"),
-	MIRROR("popup.mirror"),
 	ROTATE("popup.rotate"),
 	ADDINPUT("popup.addinput"),
 	REMOVEINPUT("popup.removeinput"),

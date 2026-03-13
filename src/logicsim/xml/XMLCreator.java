@@ -113,18 +113,6 @@ public class XMLCreator {
 		if (g.rotate90 != 0) {
 			node.setAttribute("rotate", String.valueOf(g.rotate90 * 90));
 		}
-		if (g.mirror != 0) {
-			String val = null;
-			if (g.mirror == Gate.XAXIS)
-				val = "x";
-			else if (g.mirror == Gate.YAXIS)
-				val = "y";
-			else if (g.mirror == Gate.BOTH_AXES)
-				val = "xy";
-			if (val != null) {
-				node.setAttribute("mirror", val);
-			}
-		}
 
 		if (g.supportsVariableInputs() && g.getNumInputs() != 2)
 			node.setAttribute("inputs", String.valueOf(g.getNumInputs()));

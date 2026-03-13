@@ -28,7 +28,6 @@ menu.help.about=About LogicSim
 
 popup.removegate=Delete Gate
 popup.properties=Properties
-popup.mirror=Mirror
 popup.rotate=Rotate
 popup.addinput=Add Input
 popup.removeinput=Remove Input

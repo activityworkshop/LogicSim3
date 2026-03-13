@@ -64,7 +64,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     JMenuItem menuItem_remove;
     JMenuItem menuItem_properties;
     JMenuItem menuItem_rotate;
-    JMenuItem menuItem_mirror;
     JMenuItem menuItem_increase_inputs;
     JMenuItem menuItem_decrease_inputs;
 
@@ -304,16 +303,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         menuItem_properties.addActionListener(this);
         popup.add(menuItem_properties);
 
-        // rotate and mirror actions for popup
         menuItem_rotate = new JMenuItem(I18N.tr(Lang.ROTATE));
         menuItem_rotate.addActionListener(this);
         menuItem_rotate.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK, false));
         popup.add(menuItem_rotate);
-
-        menuItem_mirror = new JMenuItem(I18N.tr(Lang.MIRROR));
-        menuItem_mirror.addActionListener(this);
-        menuItem_mirror.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK, false));
-        popup.add(menuItem_mirror);
 
         menuItem_increase_inputs = new JMenuItem(I18N.tr(Lang.ADDINPUT));
         menuItem_increase_inputs.addActionListener(this);
@@ -640,8 +633,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
             }
         } else if (source == menuItem_rotate) {
             rotateSelected();
-        } else if (source == menuItem_mirror) {
-            mirrorSelected();
         } else if (source == menuItem_increase_inputs) {
             increaseInputsForSelected();
         } else if (source == menuItem_decrease_inputs) {
@@ -725,28 +716,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 if (g.variableInputCountSupported) {
                     g.createDynamicInputs(g.getNumInputs() + 1);
                 }
-                lspanel.changedCircuit();
-            }
-            lspanel.repaint();
-        }
-    }
-
-    public void mirrorSelected() {
-        if (popupGateIdx >= 0) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            CircuitPart[] sel = lspanel.circuit.getSelected();
-            if (sel == null || sel.length == 0) return;
-            boolean clickedInSelection = false;
-            for (CircuitPart p : sel) {
-                if (p == g) {
-                    clickedInSelection = true;
-                    break;
-                }
-            }
-            if (clickedInSelection && sel.length > 1) {
-                lspanel.mirrorSelected();
-            } else {
-                g.mirror();
                 lspanel.changedCircuit();
             }
             lspanel.repaint();

@@ -537,22 +537,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	}
 
 	/**
-	 * mirror a part if selected
-	 */
-	public void mirrorSelected() {
-		CircuitPart[] parts = circuit.getSelected();
-		for (CircuitPart part : parts) {
-			if (part instanceof Gate) {
-				((Gate) part).mirror();
-			}
-		}
-		repaint();
-	}
-
-	/**
 	 * check for escape, delete and space key
-	 * 
-	 * @param e the key event
 	 */
 	protected void myKeyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();

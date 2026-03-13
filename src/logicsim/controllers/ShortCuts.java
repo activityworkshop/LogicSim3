@@ -37,16 +37,6 @@ public class ShortCuts {
         );
         addShortcut(
             new KeyCombination(
-                KeyEvent.VK_M,
-                KeyEvent.CTRL_DOWN_MASK
-            ),
-            () -> {
-                if (App.instance.lsframe.getSelectedCount() == 0) return;
-                App.instance.lsframe.mirrorSelected();
-            }
-        );
-        addShortcut(
-            new KeyCombination(
                 KeyEvent.VK_I,
                 KeyEvent.CTRL_DOWN_MASK
             ),

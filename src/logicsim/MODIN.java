@@ -57,11 +57,6 @@ public class MODIN extends Gate {
 	}
 
 	@Override
-	public void mirror() {
-		// don't mirror
-	}
-
-	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
 		int numberOfInputs = getInputs().size();

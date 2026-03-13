@@ -49,12 +49,6 @@ public class Gate extends CircuitPart {
 	protected int origx = 0;
 	protected int origy = 0;
 
-	/**
-	 * mirroring of part.
-	 * 0 is normal. 1 is mirrored in x-axis. 2 is mirrored in y-axis. 3 means
-	 * mirroring in both axes
-	 */
-	public int mirror = 0;
 	protected Vector<Pin> pins = new Vector<>();
 
 	/**
@@ -485,34 +479,6 @@ public class Gate extends CircuitPart {
                 width - 2 * CONN_SIZE,
                 height - 2 * CONN_SIZE
         ).contains(mx, my);
-	}
-
-    /**
-	 * mirror the gate first in x-axis, then in y-axis, then both axes, then normal
-	 * so 0 is normal, 1 x, 2 y, 3 both
-	 */
-	public void mirror() {
-		mirror = (mirror + 1) % 4;
-		for (Pin p : pins) {
-			// now check the coordinates and if the current mirror-state is normal, x, y, or
-			// both
-			if (p.getX() == this.getX()) {
-				p.setX(p.getX() + width);
-				p.setDirection(Pin.LEFT);
-			} else if (p.getX() == this.getX() + width) {
-				p.setX(p.getX() - width);
-				p.setDirection(Pin.RIGHT);
-			}
-			if (mirror == NORMAL || mirror == YAXIS) {
-				if (p.getY() == this.getY()) {
-					p.setY(p.getY() + height);
-					p.setDirection(Pin.UP);
-				} else if (p.getY() == this.getY() + height) {
-					p.setY(p.getY() - height);
-					p.setDirection(Pin.DOWN);
-				}
-			}
-		}
 	}
 
     @Override

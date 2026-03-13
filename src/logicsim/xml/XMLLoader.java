@@ -160,7 +160,6 @@ public class XMLLoader {
 		int x = Integer.parseInt(gnode.string("x"));
 		int y = Integer.parseInt(gnode.string("y"));
 		String optRotate = gnode.optString("rotate");
-		String optMirror = gnode.optString("mirror");
 		String optInputs = gnode.optString("inputs");
 
 		Gate gate;
@@ -179,20 +178,6 @@ public class XMLLoader {
 			int rot = Integer.parseInt(optRotate) / 90;
 			for (int i = 0; i < rot; i++)
 				gate.rotate();
-		}
-		if (optMirror != null) {
-            switch (optMirror) {
-                case "x" -> gate.mirror();
-                case "y" -> {
-                    gate.mirror();
-                    gate.mirror();
-                }
-                case "xy" -> {
-                    gate.mirror();
-                    gate.mirror();
-                    gate.mirror();
-                }
-            }
 		}
 		gate.moveTo(x, y);
 

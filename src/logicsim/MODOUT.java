@@ -82,11 +82,6 @@ public class MODOUT extends Gate {
 	}
 
 	@Override
-	public void mirror() {
-		// don't mirror
-	}
-
-	@Override
 	public void loadLanguage() {
 		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Outputs");
 		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Output Gate for Modules");
