@@ -1,5 +1,3 @@
-![](../src/logicsim/images/about.jpg?raw=true)
-
 ## Introduction
 
 LogicSim is a simulation tool for digital circuits.
@@ -33,6 +31,14 @@ If you just want to start LogicSim3:
 3. start App.java in logicsim-package
 4. build your distro via ant-file build.xml
 5. if you fix something, raise an Issue or a Pull Request
+
+## Translations
+The easiest way to contribute to the translations is by using the Translatinator:
+https://activityworkshop.net/translate/project?id=logicsim
+
+With this tool, anyone can help to correct or enhance the existing translations,
+add new translations in any of the supported languages, or request that a new
+language be added.
 
 ## Create the jar file / the distro
 Create the jar and complete distribution file via ant-build.

@@ -1,58 +1,58 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title>LogicSim snabbmanual</title>
+    <meta charset="utf-8"/>
+    <title>LogicSim snabbmanual</title>
+    <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 
-<body bgcolor=#ffffff>
-<h2>LogicSim snabbmanual</h2>
+<body>
+<h1>LogicSim snabbmanual</h1>
 
-<p>Grindar väljs från listan på vänstra sidan och placeras på arbetsytan.</p>
-<p>Ledningar dras genom att klicka på utgången (på högra sidan) av en grind, sedan dras ledningen fram till ingången
-(vänstra sidan) av en annan grind där man klickar en gång till. Med hjälp av ESC-tangenten kan en kabeldragning 
-avbrytas. Med shift-klick på en redan dragen ledning kan en förgrening av denna ledning genereras.</p>
+<p>Grindar vÃ¤ljs frÃ¥n listan pÃ¥ vÃ¤nstra sidan och placeras pÃ¥ arbetsytan.</p>
+<p>Ledningar dras genom att klicka pÃ¥ utgÃ¥ngen (pÃ¥ hÃ¶gra sidan) av en grind, sedan dras ledningen fram till ingÃ¥ngen
+(vÃ¤nstra sidan) av en annan grind dÃ¤r man klickar en gÃ¥ng till. Med hjÃ¤lp av ESC-tangenten kan en kabeldragning 
+avbrytas. Med shift-klick pÃ¥ en redan dragen ledning kan en fÃ¶rgrening av denna ledning genereras.</p>
 <p>Grindar och ledningar kan aktiveras med en musklick och sen tas bort med DEL-tangenten.</p>
-<p>Vissa grindar (t.ex. Clock, Monoflop, LCD, TextLabel) har egenskaper som kan ändras via punkten "Properties" i
-grindens snabbmeny (höger musklick).</p>
+<p>Vissa grindar (t.ex. Clock, Monoflop, LCD, TextLabel) har egenskaper som kan Ã¤ndras via punkten "Properties" i
+grindens snabbmeny (hÃ¶ger musklick).</p>
 <br><br>
 
-<p>För enkla grindar (AND, OR, XOR, osv) kan man välja antalet ingångar i boxen under 
-komponentlistan. Detta görs innan man väljer grinden från komponentlistan, dvs det går inte att i efterhand 
-byta antalet ingångar. Grindar med fler än två ingångar beter sig i simuleringen som flera kaskadkopplade grindar:</p>
-<img src="images/and4input.gif">
+<p>FÃ¶r enkla grindar (AND, OR, XOR, osv) kan man vÃ¤lja antalet ingÃ¥ngar i boxen under 
+komponentlistan. Detta gÃ¶rs innan man vÃ¤ljer grinden frÃ¥n komponentlistan, dvs det gÃ¥r inte att i efterhand 
+byta antalet ingÃ¥ngar. Grindar med fler Ã¤n tvÃ¥ ingÃ¥ngar beter sig i simuleringen som flera kaskadkopplade grindar:</p>
+<img src="images/and4input.png">
 <br clear=all>
 
-
-<h4>Grindingångar</h4>
-<img src="images/input.gif" align=right valign=top>
-<p>Funktionen "input inverter" gör det möjligt att invertera ingången av en grind som redan finns placerad på
-arbetsytan. Först aktiveras funktionen genom att klicka på punkten i komponentlistan, sedan väljer man grindens ingång
-och klickar på ingångssymbolen.<br>
-Funktionerna "input high" och "input low" används på ett liknanden sätt för att definera signalen på oanvända 
-ingångar.<br>
-För att återgå till det normala beteende av en ingång används funktionen "normal input".</p>
+<h2>GrindingÃ¥ngar</h2>
+<img src="images/input.gif" align="right" valign="top">
+<p>Funktionen "input inverter" gÃ¶r det mÃ¶jligt att invertera ingÃ¥ngen av en grind som redan finns placerad pÃ¥
+arbetsytan. FÃ¶rst aktiveras funktionen genom att klicka pÃ¥ punkten i komponentlistan, sedan vÃ¤ljer man grindens ingÃ¥ng
+och klickar pÃ¥ ingÃ¥ngssymbolen.<br>
+Funktionerna "input high" och "input low" anvÃ¤nds pÃ¥ ett liknanden sÃ¤tt fÃ¶r att definera signalen pÃ¥ oanvÃ¤nda 
+ingÃ¥ngar.<br>
+FÃ¶r att Ã¥tergÃ¥ till det normala beteende av en ingÃ¥ng anvÃ¤nds funktionen "normal input".</p>
 <br clear=all>
 <br>
 
-
-<h4>Bygga en modul</h4>
-<p>En modul är en koppling som kan användas som en grind med ingångar och utgångar
+<h2>Bygga en modul</h2>
+<p>En modul Ã¤r en koppling som kan anvÃ¤ndas som en grind med ingÃ¥ngar och utgÃ¥ngar
 i en annan koppling</p>
-<p>För att bygga en modul väljs punkten "Create Module" ur menyn "Module". I
-dialogrutan fylls i modulens beskrivning. "Module Name" blir modulens filnamn när den
+<p>FÃ¶r att bygga en modul vÃ¤ljs punkten "Create Module" ur menyn "Module". I
+dialogrutan fylls i modulens beskrivning. "Module Name" blir modulens filnamn nÃ¤r den
 sparas. "Module Label" syns som text vid grinden i kopplingsschemat.</p>
-<p>Efter aktivering av rutan "Use" skapas två till block på arbetsytan, input- och output-grindar. Dessa block
-representerar modulens in- och utgångar. Mellan dessa block och kopplingen dras ledningar för
-in- och utgångssignaler till modulen.
-In- och utgångarna kan testas genom att koppla dit brytare och LEDar.</p>
-<p>Modulen sparas i underkatalogen "modules". Därefter finns modulen med längst ner i komponentlistan och kan användas i
+<p>Efter aktivering av rutan "Use" skapas tvÃ¥ till block pÃ¥ arbetsytan, input- och output-grindar. Dessa block
+representerar modulens in- och utgÃ¥ngar. Mellan dessa block och kopplingen dras ledningar fÃ¶r
+in- och utgÃ¥ngssignaler till modulen.
+In- och utgÃ¥ngarna kan testas genom att koppla dit brytare och LEDar.</p>
+<p>Modulen sparas i underkatalogen "modules". DÃ¤refter finns modulen med lÃ¤ngst ner i komponentlistan och kan anvÃ¤ndas i
 nya kopplingar.</p>
-<p>Ett exempel på moduler finns i komponenten "FullAdder" som finns som modulfil "FullAdder.mod" i 
-katalogen "modules". Modulfilen kan öppnas direkt i LogicSim. Modulen "FullAdder" används i
+<p>Ett exempel pÃ¥ moduler finns i komponenten "FullAdder" som finns som modulfil "FullAdder.mod" i 
+katalogen "modules". Modulfilen kan Ã¶ppnas direkt i LogicSim. Modulen "FullAdder" anvÃ¤nds i
 exempelkopplingen "5 Bit Adder.lsim".</p>
 <br>
-<img src="images/ls1.gif"><br>5 bit adderare som innehåller fem "FullAdder" moduler.<br><br>
+<img src="images/ls1.gif"><br>5 bit adderare som innehÃ¥ller fem "FullAdder" moduler.<br><br>
 <img src="images/ls2.gif"><br>Kopplingen i modulen "FullAdder".
 
 </body>
 </html>
-

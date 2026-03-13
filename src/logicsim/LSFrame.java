@@ -590,7 +590,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         });
         toolbar.add(btnLS, null);
 
-        toolbar.add(getSmallMenuGap());
+        toolbar.add(getMenuGap());
         // Zoom in and out
         final LSButton zoomOutButton = new LSButton("zoomout", Lang.ZOOMOUT);
         zoomOutButton.addActionListener(e -> {
