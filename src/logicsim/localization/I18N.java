@@ -29,7 +29,7 @@ public class I18N {
 			prop = load("en");
 			if (prop == null) {
 				Dialogs.messageDialog(null,
-						"Language file languages/en.txt not found.\nPlease run the program from its directory.");
+						"Language file languages/en.properties not found.\nPlease run the program from its directory.");
 				System.exit(5);
 			}
 		}
@@ -38,7 +38,7 @@ public class I18N {
 	public static Properties load(String lang) {
 		Properties properties = new Properties();
 
-        String path = "/languages/" + lang + ".txt";
+        String path = "/languages/" + lang + ".properties";
         try {
             properties.load(App.class.getResourceAsStream(path));
         } catch (Exception e) {
