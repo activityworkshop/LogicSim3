@@ -24,12 +24,12 @@ public class Module extends Gate {
 	private boolean embedded = true;
 
 	public Module(String type) {
-		this.type = type;
+		super(type);
 		loadModule();
 	}
 
 	public Module(String type, boolean embedded) {
-		this.type = type;
+		super(type);
 		this.embedded = embedded;
 		loadModule();
 	}

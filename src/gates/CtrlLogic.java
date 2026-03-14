@@ -74,8 +74,7 @@ public class CtrlLogic extends Gate {
 	private int instruction = 0;
 
 	public CtrlLogic() {
-		super("cpu");
-		type = "ctrllogic";
+		super("cpu", "ctrllogic");
 		height = 60;
 		width = 170;
 

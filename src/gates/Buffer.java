@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSProperties;
 
@@ -17,15 +16,14 @@ import logicsim.LSProperties;
  */
 public class Buffer extends Gate {
 	public Buffer() {
-		super("basic");
-		label = "1";
-		type = "buffer";
-		createInputs(1);
-		createOutputs(1);
+		this("buffer");
 	}
 
-	public Buffer(String string) {
-		super(string);
+	protected Buffer(String type) {
+		super("basic", type);
+		label = "1";
+		createInputs(1);
+		createOutputs(1);
 	}
 
 	@Override
@@ -90,12 +88,5 @@ public class Buffer extends Gate {
 			}
 			super.drawFrame(g2);
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Buffer");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Buffer Gate");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Puffer Gatter");
 	}
 }

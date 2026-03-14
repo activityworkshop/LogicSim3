@@ -17,13 +17,13 @@ import logicsim.localization.I18N;
  */
 public class SevenSegment extends Gate {
 	public SevenSegment() {
-		super("outputs");
-		type = "sevenseg";
+		super("outputs", "sevenseg");
 		height = 80;
 		width = 80;
 		createInputs(7);
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < 7; i++) {
 			getPin(i).setProperty(TEXT, String.valueOf((char) (((int) 'a') + i)));
+		}
 		reset();
 	}
 

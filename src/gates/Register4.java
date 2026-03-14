@@ -30,8 +30,7 @@ public class Register4 extends Gate {
 	private static final int INTOUT = 8;
 
 	public Register4() {
-		super("cpu");
-		type = "register4";
+		super("cpu", "register4");
 		height = 70;
 		width = 70;
 		createInputs(8);

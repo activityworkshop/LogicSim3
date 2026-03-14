@@ -7,11 +7,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-
 /**
  * output gate for modules
- * will be created during module creation. connect outputs to define module
- * outputs.
+ * will be created during module creation. connect outputs to define module outputs.
  * 
  * @author Andreas Tetzl
  * @author Peter Gabriel
@@ -24,8 +22,7 @@ public class MODOUT extends Gate {
 	private static final int PINCOUNT_DEFAULT = 16;
 
 	public MODOUT() {
-		super();
-		type = "modout";
+		super("modout");
 		label = "OUTPUTS";
 		backgroundColor = Color.LIGHT_GRAY;
 		height = 170;

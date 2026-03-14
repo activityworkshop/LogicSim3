@@ -26,8 +26,7 @@ public class OffDelay extends Gate implements Runnable {
     int delayTime = 1000;
 
 	public OffDelay() {
-		super("inputs");
-		type = "offdelay";
+		super("inputs", "offdelay");
 		createInputs(1);
 		createOutputs(1);
 		loadProperties();

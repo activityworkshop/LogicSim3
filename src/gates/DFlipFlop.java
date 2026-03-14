@@ -18,8 +18,7 @@ import logicsim.Pin;
 public class DFlipFlop extends Gate {
 
 	public DFlipFlop() {
-		super("flipflops");
-		type = "dff";
+		super("flipflops", "dff");
 		createInputs(2);
 		createOutputs(2);
 

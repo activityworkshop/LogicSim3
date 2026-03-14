@@ -4,7 +4,6 @@ package gates;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSProperties;
 import logicsim.Pin;
@@ -19,18 +18,19 @@ import logicsim.Pin;
 public class XOR extends OR {
 
 	public XOR() {
-		super();
+		super("xor");
 		label = "=1";
-		type = "xor";
 	}
 
 	@Override
 	public void simulate() {
 		super.simulate();
 		int n = 0;
-		for (Pin p : getInputs())
-			if (p.getLevel())
+		for (Pin p : getInputs()) {
+			if (p.getLevel()) {
 				n++;
+			}
+		}
 		// ungerade ??
 		boolean b = n % 2 > 0;
 		getPin(0).changedLevel(new LSLevelEvent(this, b, force));
@@ -45,8 +45,9 @@ public class XOR extends OR {
 	@Override
 	protected void drawFrame(Graphics2D g2) {
 		String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
-		if (gateType.equals(LSProperties.GATEDESIGN_IEC))
+		if (gateType.equals(LSProperties.GATEDESIGN_IEC)) {
 			super.drawFrame(g2);
+		}
 	}
 
 	@Override
@@ -73,14 +74,5 @@ public class XOR extends OR {
 
 			g2.draw(p);
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "XOR");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "XOR Gate");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "XOR Gatter (Antivalenz, einstellbare Eingangsanzahl)");
-		I18N.addGate("es", type, I18N.TITLE, "XOR (O exclusiva)");
-		I18N.addGate("fr", type, I18N.TITLE, "Ou exclusif (XOR)");
 	}
 }

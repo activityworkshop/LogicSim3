@@ -20,8 +20,7 @@ public class SRLatch extends Gate {
 	Gate nor2 = new NOR();
 
 	public SRLatch() {
-		super("flipflops");
-		type = "srl";
+		super("flipflops", "srl");
 		createInputs(2);
 		createOutputs(2);
 

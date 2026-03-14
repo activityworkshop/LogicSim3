@@ -26,8 +26,7 @@ public class MODIN extends Gate {
 	private static final int PINCOUNT_DEFAULT = 16;
 
 	public MODIN() {
-		super();
-		type = "modin";
+		super("modin");
 		label = "INPUTS";
 		height = 170;
 		backgroundColor = Color.LIGHT_GRAY;

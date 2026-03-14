@@ -19,8 +19,7 @@ import logicsim.Pin;
  */
 public class TriStateOutput extends Gate {
 	public TriStateOutput() {
-		super("outputs");
-		type = "triout";
+		super("outputs", "triout");
 		createInputs(2);
 		createOutputs(1);
 		width = 40;
@@ -66,8 +65,6 @@ public class TriStateOutput extends Gate {
 			g2.setStroke(new BasicStroke(3));
 			g2.setColor(getPin(0).getLevel() ? Color.red : Color.black);
 			g2.drawLine(xc, yc - 15, xc, yc - 10);
-			// g2.drawLine(getPin(0).getX(), getPin(0).getY() + 5, getPin(0).getX(),
-			// getPin(0).getY() + 10);
 
 			Path2D p = new Path2D.Double();
 			double yu = getY() + 3;

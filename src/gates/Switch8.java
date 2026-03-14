@@ -23,8 +23,7 @@ public class Switch8 extends Gate {
 	private Color color = null;
 
 	public Switch8() {
-		super("inputs");
-		type = "switch8";
+		super("inputs", "switch8");
 		setWidth(20);
 		setHeight(90);
 		createOutputs(8);
@@ -84,9 +83,9 @@ public class Switch8 extends Gate {
 		for (int i = 0; i < 8; i++) {
 			Color c = getPin(i).getLevel() ? color : Color.LIGHT_GRAY;
 			g2.setPaint(c);
-			g2.fillRect(origx + CONN_SIZE - 1, origy + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
+			g2.fillRect(origX + CONN_SIZE - 1, origY + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
 			g2.setPaint(Color.BLACK);
-			g2.drawRect(origx + CONN_SIZE - 1, origy + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
+			g2.drawRect(origX + CONN_SIZE - 1, origY + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
 		}
 	}
 

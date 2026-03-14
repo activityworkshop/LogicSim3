@@ -23,8 +23,7 @@ public class DRFlipFlop extends Gate {
 	boolean out1 = true;
 
 	public DRFlipFlop() {
-		super("flipflops");
-		type = "drff";
+		super("flipflops", "drff");
 		createInputs(3);
 		createOutputs(2);
 

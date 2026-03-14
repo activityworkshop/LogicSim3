@@ -19,8 +19,7 @@ public class TextLabel extends Gate {
 	static final String TEXTLABEL_DEFAULT = "Text";
 
 	public TextLabel() {
-		super("outputs"); // not really an output!
-		type = "label";
+		super("outputs", "label"); // not really an output!
 		width = 60;
 		height = 20;
 		loadProperties();

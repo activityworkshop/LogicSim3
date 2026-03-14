@@ -36,8 +36,7 @@ public class BinDisp extends Gate {
 	String displayType;
 
 	public BinDisp() {
-		super("outputs");
-		type = "bindisp";
+		super("outputs", "bindisp");
 		height = 90;
 		backgroundColor = Color.LIGHT_GRAY;
 		createInputs(8);

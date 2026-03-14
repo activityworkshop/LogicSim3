@@ -32,8 +32,7 @@ public class ALU8 extends Gate {
 	private static final int ZF = 28;
 
 	public ALU8() {
-		super("cpu");
-		type = "alu8";
+		super("cpu", "alu8");
 		height = 110;
 		width = 110;
 		createOutputs(8);

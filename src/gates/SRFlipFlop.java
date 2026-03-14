@@ -18,8 +18,7 @@ import logicsim.Pin;
 public class SRFlipFlop extends Gate {
 
 	public SRFlipFlop() {
-		super("flipflops");
-		type = "srff";
+		super("flipflops", "srff");
 		createInputs(3);
 		createOutputs(2);
 

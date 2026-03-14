@@ -1,6 +1,5 @@
 package gates;
 
-import logicsim.localization.I18N;
 import logicsim.Pin;
 
 /**
@@ -13,20 +12,7 @@ import logicsim.Pin;
 public class NOT extends Buffer {
 
 	public NOT() {
-		super("basic");
-		label = "1";
-		type = "not";
-		createInputs(1);
-		createOutputs(1);
+		super("not");
 		getPin(1).setLevelType(Pin.INVERTED);
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "NOT");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "NOT Gate (Inverter)");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "NOT Gatter (Inverter/Negator)");
-		I18N.addGate("es", type, I18N.TITLE, "NOT (Inversor)");
-		I18N.addGate("fr", type, I18N.TITLE, "Non (NOT)");
 	}
 }

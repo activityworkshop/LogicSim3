@@ -27,8 +27,7 @@ public class LED extends Gate {
 	private Color color = null;
 
 	public LED() {
-		super("outputs");
-		type = "led";
+		super("outputs", "led");
 		width = 40;
 		height = 40;
 		createInputs(1);

@@ -35,6 +35,7 @@ public abstract class CircuitPart implements LSLevelListener {
 		return s + string.replaceAll("\n", "\n" + s);
 	}
 
+	// TODO: Clarify what this means
 	protected boolean busted = false;
 
 	public static int round(int num) {

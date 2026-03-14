@@ -21,8 +21,7 @@ public class JKFlipFlop extends Gate {
 	static final int OI = 4;
 	
 	public JKFlipFlop() {
-		super("flipflops");
-		type = "jkff";
+		super("flipflops", "jkff");
 		label = "JK";
 		createInputs(3);
 		createOutputs(2);

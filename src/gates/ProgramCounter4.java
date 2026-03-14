@@ -30,8 +30,7 @@ public class ProgramCounter4 extends Gate {
 	private static final int INTOUT = 9;
 
 	public ProgramCounter4() {
-		super("cpu");
-		type = "pgmcnt4";
+		super("cpu", "pgmcnt4");
 		height = 70;
 		width = 70;
 		createInputs(9);

@@ -58,8 +58,7 @@ public class CLK extends Gate implements Runnable {
 	private static final int HLT = 2;
 
 	public CLK() {
-		super("inputs");
-		type = "clock";
+		super("inputs", "clock");
 		width = 80;
 		height = 80;
 		createOutputs(2);

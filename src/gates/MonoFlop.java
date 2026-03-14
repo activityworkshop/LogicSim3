@@ -27,8 +27,7 @@ public class MonoFlop extends Gate implements Runnable {
 	int highTime;
 
 	public MonoFlop() {
-		super("flipflops");
-		type = "monoflop";
+		super("flipflops", "monoflop");
 		createInputs(1);
 		createOutputs(1);
 		reset();

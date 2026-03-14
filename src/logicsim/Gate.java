@@ -21,19 +21,12 @@ import java.util.Vector;
  */
 public class Gate extends CircuitPart {
 
-	public static final int BOTH_AXES = 3;
-
 	protected static final int CONN_SIZE = 7;
 
 	public static final int HORIZONTAL = 0;
-	public static final int NORMAL = 0;
-
 	public static final int VERTICAL = 1;
-	public static final int XAXIS = 1;
-	public static final int YAXIS = 2;
 
 	protected boolean force = false;
-	protected int actionid = 0;
 	protected Color backgroundColor = Color.white;
 
 	public String category;
@@ -46,8 +39,8 @@ public class Gate extends CircuitPart {
 
 	protected int labelOffsetY;
 
-	protected int origx = 0;
-	protected int origy = 0;
+	protected int origX = 0;
+	protected int origY = 0;
 
 	protected Vector<Pin> pins = new Vector<>();
 
@@ -58,7 +51,7 @@ public class Gate extends CircuitPart {
 	 */
 	public int rotate90 = 0;
 
-	public String type;
+	public final String type;
 
 	protected boolean variableInputCountSupported = false;
 
@@ -68,8 +61,8 @@ public class Gate extends CircuitPart {
 
 	protected int yc = -1;
 
-	public Gate() {
-		this(0, 0);
+	public Gate(String type) {
+		this(type, 0, 0);
 		selected = true;
 	}
 
@@ -80,34 +73,35 @@ public class Gate extends CircuitPart {
 			p.deselect();
 	}
 
-	public Gate(int x, int y) {
+	public Gate(String type, int x, int y) {
 		super(x, y);
+		this.type = type;
 	}
 
-	public Gate(String category) {
-		this(0, 0);
+	public Gate(String category, String type) {
+		this(type, 0, 0);
 		this.category = "category." + category;
 	}
 
-	public Gate(String type, int actionid) {
-		this(0, 0);
-		this.type = type;
-		this.actionid = actionid;
-	}
+//	public Gate(String type, int actionid) {
+//		this(0, 0);
+//		this.type = type;
+//		this.actionid = actionid;
+//	}
 
-	public void addConnector(Pin conn) {
-		for (Pin c : pins)
-			if (c.number == conn.number)
-				throw new RuntimeException("Connector number " + c.number + " is already there in gate " + type);
-		// check if number is present
-		pins.add(conn);
-	}
+//	public void addConnector(Pin conn) {
+//		for (Pin c : pins)
+//			if (c.number == conn.number)
+//				throw new RuntimeException("Connector number " + c.number + " is already there in gate " + type);
+//		// check if number is present
+//		pins.add(conn);
+//	}
 
 	public void createDynamicInputs(int total) {
         if (total < 2) total = 2;
         if (total > 5) total = 5;
-		int numinputs = getInputs().size();
-        if (total > numinputs) { //Add inputs
+		int numInputs = getInputs().size();
+        if (total > numInputs) { //Add inputs
             // get max number
             int num = -1;
             for (Pin c : pins)
@@ -115,7 +109,7 @@ public class Gate extends CircuitPart {
                     num = c.number;
 
             // add new connectors - total times
-            for (int i = numinputs; i < total; i++) {
+            for (int i = numInputs; i < total; i++) {
                 num++;
                 Pin c = new Pin(0, 0, this, num);
                 switch (rotate90) {
@@ -149,8 +143,8 @@ public class Gate extends CircuitPart {
                     p.setX(getX() + getConnectorPosition(num, total, HORIZONTAL));
                 num++;
             }
-        } else if (total < numinputs) { //Remove inputs
-            for (int i = numinputs - 1; i >= total; i--) {
+        } else if (total < numInputs) { //Remove inputs
+            for (int i = numInputs - 1; i >= total; i--) {
                 Pin p = getInputs().get(i);
                 pins.remove(p);
             }
@@ -376,7 +370,6 @@ public class Gate extends CircuitPart {
 
 	@Override
 	public String getId() {
-		// return type + "@" + origx + ":" + origy;
 		return type + "@" + super.getId();
 	}
 
@@ -531,8 +524,8 @@ public class Gate extends CircuitPart {
 		}
 		xc += dx;
 		yc += dy;
-		origx += dx;
-		origy += dy;
+		origX += dx;
+		origY += dy;
 	}
 
 	@Override
@@ -542,13 +535,13 @@ public class Gate extends CircuitPart {
 		moveBy(dx, dy);
 	}
 
-	protected int pX(int percent) {
-		return percent * width / 100;
-	}
+//	protected int pX(int percent) {
+//		return percent * width / 100;
+//	}
 
-	protected int pY(int percent) {
-		return percent * height / 100;
-	}
+//	protected int pY(int percent) {
+//		return percent * height / 100;
+//	}
 
 	/**
 	 * Reset Gate: query all Inputs and generate Events for all outputs this should

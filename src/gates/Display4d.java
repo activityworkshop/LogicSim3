@@ -39,8 +39,7 @@ public class Display4d extends Gate {
 	private static final int CLR = 11;
 
 	public Display4d() {
-		super("cpu");
-		type = "disp4d";
+		super("cpu", "disp4d");
 		height = 90;
 		width = 150;
 		createInputs(12);

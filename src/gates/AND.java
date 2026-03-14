@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSProperties;
 import logicsim.Pin;
@@ -18,10 +17,14 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class AND extends Gate {
+
 	public AND() {
-		super("basic");
-		label = "&";
-		type = "and";
+		this("and");
+	}
+
+	protected AND(String type) {
+		super("basic", type);
+		this.label = "&";
 		createOutputs(1);
 		createInputs(2);
 		variableInputCountSupported = true;
@@ -71,14 +74,4 @@ public class AND extends Gate {
 		if (gateType.equals(LSProperties.GATEDESIGN_IEC))
 			super.drawFrame(g2);
 	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "AND");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "AND Gate (variable Inputcount)");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "AND Gatter mit einstellbarer Eingangsanzahl");
-		I18N.addGate("es", type, I18N.TITLE, "AND (Y)");
-		I18N.addGate("fr", type, I18N.TITLE, "Et (AND)");
-	}
-
 }

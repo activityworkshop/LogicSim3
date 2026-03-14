@@ -40,8 +40,7 @@ public class Memory128 extends Gate {
 	private static final String PROGRAM = "program";
 
 	public Memory128() {
-		super("cpu");
-		type = "memory128";
+		super("cpu", "memory128");
 		height = 110;
 		width = 110;
 		// 8 tri-state in/outputs for data

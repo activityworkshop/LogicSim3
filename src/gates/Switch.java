@@ -53,8 +53,7 @@ public class Switch extends Gate {
 	private Color color = null;
 
 	public Switch() {
-		super("inputs");
-		type = "switch";
+		super("inputs", "switch");
 		width = 40;
 		height = 40;
 		createOutputs(1);

@@ -27,8 +27,7 @@ public class LED8 extends Gate {
 	private Color color = null;
 
 	public LED8() {
-		super("outputs");
-		type = "led8";
+		super("outputs", "led8");
 		setWidth(20);
 		setHeight(90);
 		createInputs(8);
@@ -51,9 +50,9 @@ public class LED8 extends Gate {
 		for (int i = 0; i < 8; i++) {
 			Color c = getPin(i).getLevel() ? color : Color.LIGHT_GRAY;
 			g2.setPaint(c);
-			g2.fillOval(origx + CONN_SIZE - 1, origy + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
+			g2.fillOval(origX + CONN_SIZE - 1, origY + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
 			g2.setPaint(Color.BLACK);
-			g2.drawOval(origx + CONN_SIZE - 1, origy + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
+			g2.drawOval(origX + CONN_SIZE - 1, origY + i * 10 + 6, OVAL_RADIUS, OVAL_RADIUS);
 		}
 	}
 
