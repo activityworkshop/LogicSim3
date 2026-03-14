@@ -44,20 +44,41 @@ language be added.
 Create the jar and complete distribution file via ant-build.
 In the ant file the manifest will be added which is necessary for any jar.
 
-## Manual
-As well as this Readme, there are also two other kinds of documentation:
- * Within the program, there's a short user guide in Html format (see the 'docs' folder).
-This is rather brief and could benefit from better pictures,
-but it is available in German, English, French and Italian.
- * Outside the program, there's a 'manual' folder containing a Handbuch Pdf in German.
-This seems to be rather outdated, and hasn't been updated for years. Maybe this should be
-in Html or Markdown or something else instead, and maybe in more than one language?
+## Help / Manual
+As well as this Readme, there is a short user guide in Html format, available from the "Help"
+menu within the program. (For the sources, see the 'docs' folder).
+This is rather brief and could benefit from being updated and from having better pictures,
+but it is available in German, English, French and Italian. Not all of these versions are
+consistent with each other though, especially regarding screenshots. If you're using LogicSim in
+another language, then the English help will be shown.
 
-There's some overlap between these two, and maybe we don't need both?
+For earlier versions of the program, there used to be a 'manual' folder containing a Handbuch Pdf
+in German, built from `tex` sources. Unfortunately this has fallen out of date and is no longer
+provided. If something like this is desired (with a clear reader focus separating developer
+concerns from user concerns) then help would be very welcome. But such a manual / handbook could be
+in Html or Markdown or something else instead of tex/pdf, and should probably be available in more
+than one language?
+
+## Program complexity
+It has been mentioned a few times that LogicSim could become a useful educational tool, but
+unfortunately the initial complexity could be quite overwhelming. That was one reason why the
+`gates` directory was used to dynamically load a smaller selection of components, perhaps
+targeted towards a specific teaching goal.
+
+Instead of this, it would be nice if the "mode" selection could be expanded with more options.
+Currently only "normal" and "expert" are available, but one could imagine having many more
+gradations inbetween. An absolute beginner would not need to have anything to do with modules
+or Flip-Flops but would benefit from a simplified list just showing basic gates with switches
+and LEDs. A subsequent lesson might then introduce clocks and counters, gradually expanding
+the complexity. CPU stuff and half-adders could then come later.
+
+It would be good to get some feedback from teachers or students who have used LogicSim in
+such a setting, to see what simplifications would make sense.
 
 ## Contributing
 If you find problems or you have suggestions for improvements, please just raise a new Issue.
 
 If you can help with fixing, expanding or translating any of the documentation,
 that would be very welcome. Again, either raise an Issue if you're not sure how to help,
-or create a Pull Request directly. That also applies to the translations within the program.
+or create a Pull Request directly. That also applies to the translations within the program,
+although probably it's simpler to just use the Translatinator (see above).
