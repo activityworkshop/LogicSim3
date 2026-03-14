@@ -71,6 +71,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
     int lastPressedListIndex = -1;
     boolean listDragArmed = false;
+    final AppTitleManager appTitleManager = new AppTitleManager();
+
 
     /** Transferable für GateDragInfo */
     private static class GateInfoTransferable implements Transferable {
@@ -89,10 +91,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         @Override
         protected Transferable createTransferable(JComponent c) {
-            Object o;
             int idx = lastPressedListIndex >= 0 ? lastPressedListIndex : lstParts.getSelectedIndex();
             if (idx < 0 || idx >= partListModel.getSize()) return null;
-            o = partListModel.getElementAt(idx);
+            final Object o = partListModel.getElementAt(idx);
             if (!(o instanceof Gate gate)) return null;
             // Eingangsanzahl aus ComboBox
             int numInputs = 2;
@@ -852,15 +853,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      * set window title
      */
     private void setAppTitle() {
-        String name = lsFile.getName();
-        if (name == null) {
-            this.setTitle("LogicSim");
-            return;
-        }
-        name = "LogicSim - " + name;
-        if (lsFile.changed)
-            name += "*";
-        this.setTitle(name);
+        String circuitName = (lsFile == null ? null : lsFile.getName());
+        // Could also use the filename if the name is blank, but then
+        // we'd get lots of "Unnamed" if the file hasn't been saved
+        appTitleManager.setAppTitleIfChanged(circuitName, lsFile.changed);
     }
 
     /**
@@ -1199,5 +1195,28 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
     @Override
     public void needsRepaint(CircuitPart circuitPart) {
+    }
+
+    private class AppTitleManager {
+        private String circuitName = null;
+        private boolean fileChanged = false;
+        private boolean titleSet = false;
+
+        private void setAppTitleIfChanged(String currentName, boolean isChanged) {
+            if (Objects.equals(circuitName, currentName) && (fileChanged == isChanged) && titleSet) {
+                return;
+            }
+            circuitName = currentName;
+            fileChanged = isChanged;
+            titleSet = true;
+            setTitle(makeAppTitle());
+        }
+
+        private String makeAppTitle() {
+            if (circuitName == null || circuitName.isEmpty()) {
+                return "LogicSim";
+            }
+            return "LogicSim - " + circuitName + (fileChanged ? "*" : "");
+        }
     }
 }
