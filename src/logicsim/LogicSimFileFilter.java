@@ -46,7 +46,7 @@ public class LogicSimFileFilter extends FileFilter {
 	public String getDescription() {
 		if (fullDescription == null) {
 			if (description == null) {
-				fullDescription = description == null ? "(" : description + " (";
+				fullDescription = "(";
 				// build the description from the extension list
 				Enumeration<String> extensions = filters.keys();
 				if (extensions != null) {

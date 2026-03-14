@@ -867,9 +867,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         boolean unnamed = lsFile.extractFileName().equals(I18N.tr(Lang.UNNAMED));
         boolean showDialog = fileName == null || fileName.isEmpty() || unnamed || saveAs;
 
-        if (showDialog)
-            if (!showSaveDialog())
+        if (showDialog) {
+            if (!showSaveDialog()) {
                 return;
+            }
+        }
         lsFile.circuit = lspanel.circuit;
         try {
             XMLCreator.createXML(lsFile);

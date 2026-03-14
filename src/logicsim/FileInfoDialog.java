@@ -12,39 +12,54 @@ public class FileInfoDialog {
 
 	public static boolean showFileInfo(Component frame, LogicSimFile lsFile) {
 		JPanel panel = new JPanel();
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 
-        //Label
-        JLabel lblLabel = new JLabel();
-		lblLabel.setText(I18N.tr(Lang.LABEL));
-		lblLabel.setBounds(new Rectangle(15, 15, 100, 23));
+        // Label
+		c.gridx = 0; c.gridy = 0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+		c.weightx = 0.0; c.weighty = 0.0;
+		c.ipadx = 5; c.ipady = 5;
+		c.insets = new Insets(5, 5, 5, 5);
+		panel.add(new JLabel(I18N.tr(Lang.LABEL)), c);
 
-        JTextField txtLabel = new JTextField(lsFile.getLabel());
-        txtLabel.setBounds(new Rectangle(120, 15, 235, 23));
+		c.gridx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 1.0;
+        final JTextField txtLabel = new JTextField(lsFile.getLabel());
+        panel.add(txtLabel, c);
 
-        //Name
-        JLabel lblName = new JLabel();
-        lblName.setText(I18N.tr(Lang.NAME));
-        lblName.setBounds(new Rectangle(15, 56, 100, 23));
+        // Name
+		c.gridx = 0; c.gridy = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+		c.weightx = 0.0;
+        panel.add(new JLabel(I18N.tr(Lang.NAME)), c);
 
-        JTextField txtName = new JTextField(lsFile.getName());
-        txtName.setBounds(new Rectangle(120, 56, 235, 23));
+		c.gridx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 1.0;
+        final JTextField txtName = new JTextField(lsFile.getName());
+        panel.add(txtName, c);
 
-        //Description
-		JLabel lblDescription = new JLabel();
-		lblDescription.setText(I18N.tr(Lang.DESCRIPTION));
-		lblDescription.setBounds(new Rectangle(15, 96, 100, 23));
+        // Description
+		c.gridx = 0; c.gridy = 2;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.FIRST_LINE_END;
+		c.weightx = 0.0;
+		panel.add(new JLabel(I18N.tr(Lang.DESCRIPTION)), c);
 
-		JTextArea txtDescription = new JTextArea(lsFile.getDescription());
-		txtDescription.setBounds(new Rectangle(120, 96, 235, 88));
-        txtDescription.setBorder(new LineBorder(Color.gray, 1));
-
-		panel.setLayout(null);
-        panel.add(lblLabel, null);
-        panel.add(txtLabel, null);
-        panel.add(lblName, null);
-        panel.add(txtName, null);
-		panel.add(lblDescription, null);
-		panel.add(txtDescription, null);
+		c.gridx = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 1.0; c.weighty = 1.0;
+		final JTextArea txtDescription = new JTextArea(lsFile.getDescription());
+		txtDescription.setLineWrap(true);
+		panel.add(new JScrollPane(txtDescription), c);
 
 		JOptionPane pane = new JOptionPane(panel);
 		pane.setMessageType(JOptionPane.QUESTION_MESSAGE);
