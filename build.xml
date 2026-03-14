@@ -34,7 +34,7 @@
 			<fileset dir="${src.dir}/logicsim/images" />
 		</copy>
         <copy todir="${classes.dir}/languages">
-            <fileset dir="languages" />
+            <fileset dir="resources/languages" />
         </copy>
         <copy todir="${classes.dir}/docs">
             <fileset dir="docs" />
