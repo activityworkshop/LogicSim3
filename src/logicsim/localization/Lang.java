@@ -46,7 +46,7 @@ public enum Lang {
 	TOOLBAR_OPEN("toolbar.open"),
 	TOOLBAR_SAVE("toolbar.save"),
 	SIMULATE("toolbar.simulate"),
-	INPUTNORM("toolbar.inputnorm"),
+	INPUTNORM("toolbar.inputnormal"),
 	INPUTINV("toolbar.inputinv"),
 	INPUTHIGH("toolbar.inputhigh"),
 	INPUTLOW("toolbar.inputlow"),
