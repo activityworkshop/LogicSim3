@@ -76,7 +76,7 @@ public class OnDelay extends Gate implements Runnable {
 
 	@Override
 	protected void drawRotated(Graphics2D g2) {
-		int cd = 15;
+		final int cd = 15;
 		g2.drawOval(xc - cd / 2, yc - cd / 2 + 5, cd, cd);
 		g2.drawLine(getX() + cd, getY() + cd, getX() + width - cd, getY() + cd);
 		g2.drawString("0", getX() + cd, getY() + cd + 12);
@@ -86,22 +86,5 @@ public class OnDelay extends Gate implements Runnable {
 		ptr.lineTo(xc, yc + 5);
 		ptr.lineTo(xc + 3, yc + 5);
 		g2.draw(ptr);
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "On Delay");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Delays the signal when turning to HIGH");
-		I18N.addGate(I18N.ALL, type, DELAY, "Time of delay (ms)");
-
-		I18N.addGate("de", type, I18N.TITLE, "Einschaltverzögerung");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Verzögert das High-Signal");
-		I18N.addGate("de", type, DELAY, "Verzögerungszeit (ms)");
-
-		I18N.addGate("es", type, I18N.TITLE, "Retardo de 0 a 1");
-		I18N.addGate("es", type, DELAY, "Introduce tiempo de retardo (ms)");
-
-		I18N.addGate("fr", type, I18N.TITLE, "Temporisation travail");
-		I18N.addGate("fr", type, DELAY, "Décalage (ms)");
 	}
 }

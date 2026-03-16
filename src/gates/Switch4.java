@@ -7,7 +7,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
 import logicsim.Pin;
@@ -90,14 +89,5 @@ public class Switch4 extends Gate {
 			r = WidgetHelper.rotateRectangle(r, ctr);
 			areaRect[i] = r;
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "DIP-Switch (4-fold)");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "4 Toggle Switches in one package");
-
-		I18N.addGate("de", type, I18N.TITLE, "DIP-Schalter (4-fach)");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "4 Umschalter in einer Einheit - ähnlich DIP Schalter");
 	}
 }

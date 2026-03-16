@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 import logicsim.ColorFactory;
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
 
@@ -96,14 +95,5 @@ public class Switch8 extends Gate {
 	@Override
 	public void loadProperties() {
 		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Switch (8-fold)");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "8 Toggle Switches in one package");
-
-		I18N.addGate("de", type, I18N.TITLE, "Schalter (8-fach)");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "8 Umschalter in einer Einheit - ähnlich DIP Schalter");
 	}
 }

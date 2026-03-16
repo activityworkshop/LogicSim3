@@ -39,10 +39,10 @@ public class BinIn extends Gate {
 
 	String displayType;
 
-	Rectangle rect1 = new Rectangle(27, 32, 15, 15);
-	Rectangle rect2 = new Rectangle(47, 32, 15, 15);
-	Rectangle rect3 = new Rectangle(27, 67, 15, 15);
-	Rectangle rect4 = new Rectangle(47, 67, 15, 15);
+	private static final Rectangle rect1 = new Rectangle(27, 32, 15, 15);
+	private static final Rectangle rect2 = new Rectangle(47, 32, 15, 15);
+	private static final Rectangle rect3 = new Rectangle(27, 67, 15, 15);
+	private static final Rectangle rect4 = new Rectangle(47, 67, 15, 15);
 
 	public BinIn() {
 		super("inputs", "binin");
@@ -61,16 +61,18 @@ public class BinIn extends Gate {
 	public void interact() {
 		int value = getValue();
 		value++;
-		if (value > 0xff)
+		if (value > 0xff) {
 			value = 0;
+		}
 		setValue(value);
 	}
 
 	private int getValue() {
 		int value = 0;
 		for (int i = 0; i < 8; i++) {
-			if (getPin(i).getLevel())
+			if (getPin(i).getLevel()) {
 				value += (1 << i);
+			}
 		}
 		return value;
 	}
@@ -92,25 +94,29 @@ public class BinIn extends Gate {
 		boolean dHex = DISPLAY_TYPE_HEX.equals(displayType);
 
 		if (rect1.contains(dx, dy)) {
-			if (dHex)
+			if (dHex) {
 				value += 16;
-			else
+			} else {
 				value += 10;
+			}
 		} else if (rect2.contains(dx, dy)) {
 			value += 1;
 		} else if (rect3.contains(dx, dy)) {
-			if (dHex)
+			if (dHex) {
 				value -= 16;
-			else
+			} else {
 				value -= 10;
+			}
 		} else if (rect4.contains(dx, dy)) {
 			value -= 1;
 		}
 
-		if (value < 0)
+		if (value < 0) {
 			value = 0xff + value + 1;
-		if (value > 0xff)
+		}
+		if (value > 0xff) {
 			value = value - 0xff - 1;
+		}
 
 		setValue(value);
 	}
@@ -125,8 +131,9 @@ public class BinIn extends Gate {
 
 		int value = 0;
 		for (int i = 0; i < 8; i++) {
-			if (getOutputs().get(i).getLevel())
+			if (getOutputs().get(i).getLevel()) {
 				value += (1 << i);
+			}
 		}
 
 		// draw triangles
@@ -157,12 +164,14 @@ public class BinIn extends Gate {
 		g.setPaint(Color.BLACK);
 		String sval;
 
-		if (dHex)
+		if (dHex) {
 			sval = Integer.toHexString(value);
-		else
+		} else {
 			sval = Integer.toString(value);
-        if (sval.length() == 1)
+		}
+        if (sval.length() == 1) {
 			sval = "0" + sval;
+		}
 
 		sval = sval.toUpperCase();
 		g.setFont(bigFont);
@@ -188,10 +197,11 @@ public class BinIn extends Gate {
 		group.add(jRadioButton1);
 		group.add(jRadioButton2);
 
-		if (DISPLAY_TYPE_HEX.equals(displayType))
+		if (DISPLAY_TYPE_HEX.equals(displayType)) {
 			jRadioButton1.setSelected(true);
-		else
+		} else {
 			jRadioButton2.setSelected(true);
+		}
 
 		JPanel jPanel1 = new JPanel();
 		TitledBorder titledBorder1;
@@ -223,28 +233,5 @@ public class BinIn extends Gate {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Binary Input");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Binary Input (input hex or binary)");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_DEC, "Decimal (00..255)");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_HEX, "Hexadecimal (00..FF)");
-		I18N.addGate(I18N.ALL, type, TYPE, "Type");
-
-		I18N.addGate("de", type, I18N.TITLE, "Binäreingabe");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Binäreingabe (Hex und Binär)");
-		I18N.addGate("de", type, DISPLAY_TYPE_DEC, "Dezimal (00..255)");
-		I18N.addGate("de", type, DISPLAY_TYPE_HEX, "Hexadezimal (00..FF)");
-
-		I18N.addGate("es", type, I18N.TITLE, "Entrada binaria");
-		I18N.addGate("es", type, TYPE, "Tipo de Visualizador");
-
-		I18N.addGate("fr", type, I18N.TITLE, "roue codeuse");
-		I18N.addGate("fr", type, TYPE, "Type d'affichage");
-		I18N.addGate("fr", type, DISPLAY_TYPE_DEC, "Décimal (00..99)");
-		I18N.addGate("fr", type, DISPLAY_TYPE_HEX, "Hexadécimal (00..FF)");
-
 	}
 }

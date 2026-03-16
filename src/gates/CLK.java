@@ -126,16 +126,18 @@ public class CLK extends Gate implements Runnable {
 		int x = getX();
 		int y = getY();
 
-		if (Simulation.getInstance().isRunning() && !this.running)
+		if (Simulation.getInstance().isRunning() && !this.running) {
 			startClock();
+		}
 
-		if (!Simulation.getInstance().isRunning())
+		if (!Simulation.getInstance().isRunning()) {
 			running = false;
+		}
 		
 		g2.setPaint(Color.black);
 		g2.setFont(Pin.smallFont);
 		String s = "CLK";
-		int sw = g2.getFontMetrics().stringWidth(s);
+		final int sw = g2.getFontMetrics().stringWidth(s);
 		g2.drawString(s, x + getWidth() / 2 - sw / 2, y + 18);
 
 		g2.setStroke(new BasicStroke(1));
@@ -151,10 +153,9 @@ public class CLK extends Gate implements Runnable {
 		g2.setPaint(Color.green);
 		g2.setStroke(new BasicStroke(1));
 		boolean level1 = osz[0];
-		boolean level2;
-		int offset = 6;
+		final int offset = 6;
 		for (int i = 1; i < pos; i++) {
-			level2 = osz[i];
+			final boolean level2 = osz[i];
 
 			g2.drawLine(x + oszi.x + i, y + oszi.y + offset + (oszi.height - 2 * offset) * (level1 ? 0 : 1),
 					x + oszi.x + i, y + oszi.y + offset + (oszi.height - 2 * offset) * (level2 ? 0 : 1));
@@ -180,27 +181,6 @@ public class CLK extends Gate implements Runnable {
 		return true;
 	}
 
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Clock");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION,
-				"Clock with configurable low and high time - press SPACE to start the Clock");
-		I18N.addGate(I18N.ALL, type, ENTERHIGH, "Time High-Level (ms)");
-		I18N.addGate(I18N.ALL, type, ENTERLOW, "Time Low-Level (ms)");
-
-		I18N.addGate("de", type, I18N.TITLE, "Taktgeber");
-		I18N.addGate("de", type, I18N.DESCRIPTION,
-				"Taktgeber (Clock) mit einstellbaren LOW- und HIGH-Zeiten - Leertaste drücken zum Starten");
-		I18N.addGate("de", type, ENTERHIGH, "Dauer High-Pegel (ms)");
-		I18N.addGate("de", type, ENTERLOW, "Dauer Low-Pegel (ms)");
-
-		I18N.addGate("es", type, I18N.TITLE, "Reloj");
-
-		I18N.addGate("fr", type, I18N.TITLE, "Horloge");
-		I18N.addGate("fr", type, ENTERHIGH, "Durée du palier haut (ms)");
-		I18N.addGate("fr", type, ENTERLOW, "Durée du palier bas (ms)");
-	}
-
 	public void startClock() {
         Thread thread = new Thread(this);
 		thread.setPriority(Thread.MIN_PRIORITY);
@@ -210,15 +190,15 @@ public class CLK extends Gate implements Runnable {
 	@Override
 	public void run() {
 		running = true;
-		int ms = 10 * highTime / oszi.width;
-		Date temp;
+		final int intervalMs = 10 * highTime / oszi.width;
 		long lastMS = new Date().getTime();
 		lastTime = new Date().getTime();
 		while (running) {
 			// advance oszilloscope's position
-			if ((temp = new Date()).getTime() - lastMS > ms) {
+			final long nowMs = new Date().getTime();
+			if ((nowMs - lastMS) > intervalMs) {
 				pos++;
-				lastMS = temp.getTime();
+				lastMS = nowMs;
 				fireRepaint();
 			}
 
@@ -249,5 +229,4 @@ public class CLK extends Gate implements Runnable {
 			osz[pos] = cout.getLevel();
 		}
 	}
-
 }

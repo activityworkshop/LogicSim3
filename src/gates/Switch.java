@@ -1,4 +1,3 @@
-
 package gates;
 
 import java.awt.BasicStroke;
@@ -232,30 +231,5 @@ public class Switch extends Gate {
 
 	@Override
 	protected void drawFrame(Graphics2D g2) {
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Switch");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Toggle or Momentary Switch");
-		I18N.addGate(I18N.ALL, type, SWITCH_TYPE, "type");
-		I18N.addGate(I18N.ALL, type, MOMENTARY, "momentary switch");
-		I18N.addGate(I18N.ALL, type, TOGGLE, "toggle switch");
-
-		I18N.addGate("de", type, I18N.TITLE, "Schalter");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Schalter (Taster oder Umschalter)");
-		I18N.addGate("de", type, SWITCH_TYPE, "Typ");
-		I18N.addGate("de", type, MOMENTARY, "Taster");
-		I18N.addGate("de", type, TOGGLE, "Umschalter");
-
-		I18N.addGate("es", type, I18N.TITLE, "Pulsador");
-		I18N.addGate("es", type, SWITCH_TYPE, "Tipo de pulsador");
-		I18N.addGate("es", type, MOMENTARY, "Momentáneo");
-		I18N.addGate("es", type, TOGGLE, "Con enclavamiento");
-
-		I18N.addGate("fr", type, I18N.TITLE, "Bouton");
-		I18N.addGate("fr", type, SWITCH_TYPE, "Type de bouton");
-		I18N.addGate("fr", type, MOMENTARY, "Bouton poussoir");
-		I18N.addGate("fr", type, TOGGLE, "Interrupteur");
 	}
 }
