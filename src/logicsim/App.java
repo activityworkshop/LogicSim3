@@ -80,10 +80,8 @@ public class App {
 	private static void initializeGateCategories() {
 		Category cat = new Category("hidden");
 		Gate g = new MODIN();
-		g.loadLanguage();
 		cat.addGate(g);
 		g = new MODOUT();
-		g.loadLanguage();
 		cat.addGate(g);
 		cats.add(cat);
 
@@ -97,7 +95,6 @@ public class App {
 			classes = GateLoaderHelper.getClasses();
 			for (Class<?> c : classes) {
 				Gate gate = (Gate) c.getDeclaredConstructor().newInstance();
-				gate.loadLanguage();
 				addToCategory(gate);
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IOException |

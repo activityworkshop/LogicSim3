@@ -87,6 +87,7 @@ public abstract class CircuitPart implements LSLevelListener {
 		return Integer.parseInt(getProperty(string));
 	}
 
+	// TODO: Catch parse exceptions
     public int getPropertyIntWithDefault(String string, int idefault) {
 		String value = getProperty(string);
 		if (value == null)
@@ -194,17 +195,6 @@ public abstract class CircuitPart implements LSLevelListener {
 		}
 	}
 
-	protected void drawBounds(Graphics2D g2) {
-		int cd = 3;
-		int co = cd / 2;
-		Rectangle rect = getBoundingBox();
-		g2.setPaint(Color.red);
-		g2.fillOval(rect.x - co, rect.y - co, cd, cd);
-		g2.fillOval(rect.x - co + rect.width, y - co, cd, cd);
-		g2.fillOval(rect.x - co, rect.y - co + rect.height, cd, cd);
-		g2.fillOval(rect.x - co + rect.width, y - co + rect.height, cd, cd);
-	}
-
 	public abstract Rectangle getBoundingBox();
 
 	public String getId() {
@@ -226,14 +216,6 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	public boolean isSelected() {
 		return selected;
-	}
-
-	/**
-	 * if this part is dragged
-	 * 
-	 */
-
-	public void loadLanguage() {
 	}
 
 	public void mouseDragged(MouseEvent e) {

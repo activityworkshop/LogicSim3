@@ -140,18 +140,6 @@ public class MODIN extends Gate {
 	}
 
 	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Inputs");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION,
-				"Input Gate for Modules - click label area to set an input pin's label");
-		I18N.addGate(I18N.ALL, type, PINCOUNT, "Number of Input Pins");
-		I18N.addGate("de", type, I18N.TITLE, "Moduleingänge");
-		I18N.addGate("de", type, I18N.DESCRIPTION,
-				"Eingangsgatter für Module - klicke den Labelbereich um einen Pin zu benennen.");
-		I18N.addGate("de", type, PINCOUNT, "Anzahl Eingänge");
-	}
-
-	@Override
 	public void mousePressed(LSMouseEvent e) {
 		super.mousePressed(e);
 		// Check if user clicked on one of the green label areas
@@ -168,5 +156,4 @@ public class MODIN extends Gate {
 			}
 		}
 	}
-
 }

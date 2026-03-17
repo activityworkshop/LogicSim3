@@ -1,7 +1,5 @@
 package logicsim;
 
-import logicsim.localization.I18N;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -16,10 +14,10 @@ import java.awt.Rectangle;
  * @version 2.0
  */
 public class MODOUT extends Gate {
-	private static final String INPUT_LABEL = "inputlabel";
-	private int pincount;
 	private static final String PINCOUNT = "pincount";
 	private static final int PINCOUNT_DEFAULT = 16;
+
+	private int pincount;
 
 	public MODOUT() {
 		super("modout");
@@ -79,15 +77,6 @@ public class MODOUT extends Gate {
 	}
 
 	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Outputs");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Output Gate for Modules");
-		I18N.addGate(I18N.ALL, type, INPUT_LABEL, "Label");
-		I18N.addGate("de", type, I18N.TITLE, "Modulausgänge");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Ausgangsgatter für Module");
-	}
-
-	@Override
 	public void mousePressed(LSMouseEvent e) {
 		super.mousePressed(e);
 		// Check if user clicked on one of the green label areas
@@ -104,5 +93,4 @@ public class MODOUT extends Gate {
 			}
 		}
 	}
-
 }
