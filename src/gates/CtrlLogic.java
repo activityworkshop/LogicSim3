@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
 import logicsim.Pin;
@@ -240,11 +239,5 @@ public class CtrlLogic extends Gate {
 	private void checkValue(int data, int check, int pinNr) {
 		boolean b = (data & check) == check;
 		getPin(pinNr).changedLevel(new LSLevelEvent(this, b));
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Control Logic");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Control Logic");
 	}
 }

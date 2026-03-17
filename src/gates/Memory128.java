@@ -80,7 +80,6 @@ public class Memory128 extends Gate {
 		getPin(CLK).setX(getX());
 		getPin(CLK).setY(getY() + 70);
 		getPin(CLK).paintDirection = Pin.RIGHT;
-
 	}
 
 	@Override
@@ -224,14 +223,5 @@ public class Memory128 extends Gate {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.add(I18N.ALL, "cpu", "CPU");
-		I18N.addGate(I18N.ALL, type, PROGRAM,
-				"Program (instructions divided by SPACE) - 0 NOP, 1 LDA, 2 ADD, 3 SUB, 4 STA, 5 LDI, 6 JMP, 7 JC, 8 JZ, 14 OUT, 15 HLT");
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Memory 16Byte");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Static RAM: 16 x 8 bit registers");
 	}
 }

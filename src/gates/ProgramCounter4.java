@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
 import logicsim.Pin;
@@ -195,13 +194,5 @@ public class ProgramCounter4 extends Gate {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "ProgramCounter 4bit");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "4 bit Program Counter");
-		I18N.addGate("de", type, I18N.TITLE, "Programmzähler 4bit");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "4 bit Programmzähler");
 	}
 }

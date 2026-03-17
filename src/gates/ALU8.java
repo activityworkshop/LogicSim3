@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 
@@ -172,12 +171,5 @@ public class ALU8 extends Gate {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.add(I18N.ALL, "cpu", "CPU");
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "ALU 8bit");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "8 bit Algorithmic Logic Unit");
 	}
 }

@@ -7,7 +7,6 @@ import java.awt.geom.Path2D;
 import java.util.Arrays;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 
@@ -22,12 +21,14 @@ public class Display4d extends Gate {
 	private static final int BLANK = 17;
 	private static final int MINUS = 16;
 
+	private static final Color OFF_COLOR = new Color(0xE0, 0xE0, 0xE0);
+	private static final Color ON_COLOR = Color.RED;
+
 	int[] out = new int[] { 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1,
 			0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1,
 			1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
 
-	String displayType;
 	int value;
 	int[] digit = new int[] { BLANK, BLANK, BLANK, BLANK };
 
@@ -117,40 +118,40 @@ public class Display4d extends Gate {
 	}
 
 	public void drawDigit(Graphics2D g, int num) {
-		int xoffset = xc + ((num - 2) * 30);
-		int yoffset = yc - 23;
+		final int xOffset = xc + ((num - 2) * 30);
+		final int yOffset = yc - 23;
 		g.setStroke(new BasicStroke(1));
 
 		for (int i = 0; i < 7; i++) {
-			g.setColor(out[digit[num] * 7 + i] == 1 ? Color.red : new Color(0xE0, 0xE0, 0xE0));
+			g.setColor(out[digit[num] * 7 + i] == 1 ? ON_COLOR : OFF_COLOR);
 			switch (i) {
 			case 0:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 1);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 1);
 				break;
 			case 1:
-				drawVerticalSegment(g, xoffset + 23, yoffset + 2);
+				drawVerticalSegment(g, xOffset + 23, yOffset + 2);
 				break;
 			case 2:
-				drawVerticalSegment(g, xoffset + 23, yoffset + 25);
+				drawVerticalSegment(g, xOffset + 23, yOffset + 25);
 				break;
 			case 3:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 47);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 47);
 				break;
 			case 4:
-				drawVerticalSegment(g, xoffset, yoffset + 25);
+				drawVerticalSegment(g, xOffset, yOffset + 25);
 				break;
 			case 5:
-				drawVerticalSegment(g, xoffset, yoffset + 2);
+				drawVerticalSegment(g, xOffset, yOffset + 2);
 				break;
 			case 6:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 24);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 24);
 				break;
 			}
 		}
 	}
 
 	private void drawHorizontalSegment(Graphics2D g2, int x, int y) {
-		Path2D path = new Path2D.Double();
+		final Path2D path = new Path2D.Double();
 		path.moveTo(x, y);
 		path.lineTo(x + 2, y - 2);
 		path.lineTo(x + 19, y - 2);
@@ -161,7 +162,7 @@ public class Display4d extends Gate {
 	}
 
 	private void drawVerticalSegment(Graphics2D g2, int x, int y) {
-		Path2D path = new Path2D.Double();
+		final Path2D path = new Path2D.Double();
 		path.moveTo(x, y);
 		path.lineTo(x + 2, y + 2);
 		path.lineTo(x + 2, y + 19);
@@ -177,11 +178,5 @@ public class Display4d extends Gate {
 		for (int i = 0; i < 4; i++) {
 			drawDigit(g2, i);
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "4 digit Display");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "4 digit decimal Display");
 	}
 }

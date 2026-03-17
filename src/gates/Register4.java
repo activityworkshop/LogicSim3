@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSMouseEvent;
 import logicsim.Pin;
@@ -60,7 +59,6 @@ public class Register4 extends Gate {
 			getPin(i).setX(getX() + (10 * (4 - (i - INTOUT) + 1)));
 			getPin(i).setProperty(TEXT, "i" + (i - INTOUT));
 		}
-
 	}
 
 	@Override
@@ -182,21 +180,12 @@ public class Register4 extends Gate {
 				LSLevelEvent evt = new LSLevelEvent(this, LOW);
 				getPin(i + INTOUT).changedLevel(evt);
 			}
-			if (getPin(OE).getLevel() == LOW)
+			if (getPin(OE).getLevel() == LOW) {
 				for (int i = 0; i < 4; i++) {
 					LSLevelEvent evt = new LSLevelEvent(this, LOW);
 					getPin(i + DATA).changedLevel(evt);
 				}
+			}
 		}
-
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.add(I18N.ALL, "cpu", "CPU");
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Register 4bit");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "4 bit register");
-		I18N.addGate("de", type, I18N.TITLE, "Register 4bit");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "4 bit Register");
 	}
 }
