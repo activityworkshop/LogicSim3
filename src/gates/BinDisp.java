@@ -14,7 +14,6 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import logicsim.Gate;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 import logicsim.WidgetHelper;
@@ -26,17 +25,16 @@ import logicsim.WidgetHelper;
  * @author Peter Gabriel
  * @version 2.0
  */
-public class BinDisp extends Gate {
+public class BinDisp extends BinaryOutput {
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";
 	private static final String DISPLAY_TYPE_DEFAULT = "hex";
-	private static final String UI_TYPE = "ui.type";
+	private static final String UI_TYPE = "type";
 
-	String displayType;
 
 	public BinDisp() {
-		super("outputs", "bindisp");
+		super("bindisp");
 		height = 90;
 		backgroundColor = Color.LIGHT_GRAY;
 		createInputs(8);
@@ -45,14 +43,18 @@ public class BinDisp extends Gate {
 
 	@Override
 	public void loadProperties() {
-		displayType = getPropertyWithDefault(DISPLAY_TYPE, DISPLAY_TYPE_DEFAULT);
+		String displayType = getPropertyWithDefault(DISPLAY_TYPE, DISPLAY_TYPE_DEFAULT);
+		setDisplayType(switch(displayType) {
+			case DISPLAY_TYPE_DEC -> DisplayType.DECIMAL;
+			default -> DisplayType.HEXADECIMAL;
+		});
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
 
-		Rectangle r = new Rectangle(xc - 20, yc - 15, 40, 30);
+		final Rectangle r = new Rectangle(xc - 20, yc - 15, 40, 30);
 		g2.setColor(Color.white);
 		g2.fill(r);
 		g2.setColor(Color.black);
@@ -60,83 +62,61 @@ public class BinDisp extends Gate {
 		
 		int value = 0;
 		for (int i = 0; i < 8; i++) {
-			if (getPin(i).getLevel())
+			if (getPin(i).getLevel()) {
 				value += (1 << i);
+			}
 		}
 
-		String sval = displayType.toUpperCase();
 		g2.setFont(smallFont);
-		WidgetHelper.drawString(g2, sval, xc, getY() + 10, WidgetHelper.ALIGN_CENTER);
+		WidgetHelper.drawString(g2, getDisplayType(),
+				xc, getY() + 10, WidgetHelper.ALIGN_CENTER);
 
 		g2.setFont(hugeFont);
-		if (DISPLAY_TYPE_DEC.equals(displayType))
-			sval = Integer.toString(value);
-		else
-			sval = Integer.toHexString(value);
-		// draw display's value
-        if (sval.length() == 1)
-			sval = "0" + sval;
-		sval = sval.toUpperCase();
-		WidgetHelper.drawString(g2, sval, xc, yc, WidgetHelper.ALIGN_CENTER);
+		WidgetHelper.drawString(g2, getValueAsString(value), xc, yc, WidgetHelper.ALIGN_CENTER);
 	}
 
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		JRadioButton jRadioButton1 = new JRadioButton();
-		JRadioButton jRadioButton2 = new JRadioButton();
+		JRadioButton jRadioButton1 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_HEX));
+		JRadioButton jRadioButton2 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_DEC));
 
 		// Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
 		group.add(jRadioButton1);
 		group.add(jRadioButton2);
 
-		if (DISPLAY_TYPE_HEX.equals(displayType))
+		if (displayType == DisplayType.HEXADECIMAL) {
 			jRadioButton1.setSelected(true);
-		else
+		} else {
 			jRadioButton2.setSelected(true);
+		}
 
-		JPanel jPanel1 = new JPanel();
-		TitledBorder titledBorder1;
-		BorderLayout borderLayout1 = new BorderLayout();
+		final JPanel jPanel1 = new JPanel();
 
-		titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
-				I18N.getString(type, UI_TYPE));
-		jRadioButton1.setText(I18N.getString(type, DISPLAY_TYPE_HEX));
-		jRadioButton2.setText(I18N.getString(type, DISPLAY_TYPE_DEC));
+		final TitledBorder titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white,
+				new Color(142, 142, 142)), I18N.getString(type, UI_TYPE));
 		jPanel1.setBorder(titledBorder1);
 		jPanel1.setBounds(new Rectangle(11, 11, 171, 150));
-		jPanel1.setLayout(borderLayout1);
+		jPanel1.setLayout(new BorderLayout());
 		jPanel1.add(jRadioButton1, BorderLayout.NORTH);
 		jPanel1.add(jRadioButton2, BorderLayout.CENTER);
 
-		JOptionPane pane = new JOptionPane(jPanel1);
+		final JOptionPane pane = new JOptionPane(jPanel1);
 		pane.setMessageType(JOptionPane.QUESTION_MESSAGE);
 		pane.setOptions(new String[] { I18N.tr(Lang.OK), I18N.tr(Lang.CANCEL) });
-		JDialog dlg = pane.createDialog(frame, I18N.tr(Lang.SETTINGS));
+		final JDialog dlg = pane.createDialog(frame, I18N.tr(Lang.SETTINGS));
 		dlg.setResizable(true);
 		dlg.setSize(320, 180);
 		dlg.setVisible(true);
 		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
-				displayType = DISPLAY_TYPE_HEX;
+				setDisplayType(DisplayType.HEXADECIMAL);
 			} else if (jRadioButton2.isSelected()) {
-				displayType = DISPLAY_TYPE_DEC;
+				setDisplayType(DisplayType.DECIMAL);
 			}
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Binary Display");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Binary Display (output in hex or binary)");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_DEC, "Decimal (00..255)");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_HEX, "Hexadecimal (00..FF)");
-		I18N.addGate(I18N.ALL, type, UI_TYPE, "Type");
-
-		I18N.addGate("de", type, I18N.TITLE, "Binärdisplay");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Binärdisplay (Hex und Binär)");
 	}
 }

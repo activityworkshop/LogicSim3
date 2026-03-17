@@ -16,10 +16,10 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class TextLabel extends Gate {
-	static final String TEXTLABEL_DEFAULT = "Text";
+	private static final String TEXTLABEL_DEFAULT = "Text";
 
 	public TextLabel() {
-		super("outputs", "label"); // not really an output!
+		super("outputs", "label"); // not really an output, not really a Gate either!
 		width = 60;
 		height = 20;
 		loadProperties();
@@ -64,23 +64,5 @@ public class TextLabel extends Gate {
             yc = getY() + height / 2;
 			WidgetHelper.drawString(g2, text, xc, yc, WidgetHelper.ALIGN_CENTER);
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Textfield");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION,
-				"Textfield just for displaying text on the drawing surface - for documentation purposes");
-		I18N.addGate(I18N.ALL, type, TEXT, "input Text");
-
-		I18N.addGate("de", type, I18N.TITLE, "Textfeld");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Textfeld für Dokumentationszwecke oder Hilfetexte");
-		I18N.addGate("de", type, TEXT, "Text eingeben");
-
-		I18N.addGate("es", type, I18N.TITLE, "Etiqueta de texto");
-
-		I18N.addGate("fr", type, I18N.TITLE, "Étiquette");
-		I18N.addGate("fr", type, TEXT, "Entrer le texte");
-
 	}
 }

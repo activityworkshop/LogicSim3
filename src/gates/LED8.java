@@ -70,10 +70,4 @@ public class LED8 extends Gate {
 	@Override
 	protected void drawFrame(Graphics2D g2) {
 	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Oct LED");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "eight LEDs in one package");
-	}
 }

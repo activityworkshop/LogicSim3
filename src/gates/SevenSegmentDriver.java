@@ -3,7 +3,6 @@ package gates;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.WidgetHelper;
 
@@ -17,7 +16,6 @@ import logicsim.WidgetHelper;
 public class SevenSegmentDriver extends Gate {
 
 	boolean out0 = false;
-	boolean lastClock = false;
 	int[] out;
 	boolean force = false;
 
@@ -63,70 +61,70 @@ public class SevenSegmentDriver extends Gate {
 		int b8 = getPin(3).getLevel() ? 1 : 0;
 		int value = b1 + (b2 << 1) + (b4 << 2) + (b8 << 3);
 		switch (value) {
-		case 0: {
-			out = new int[] { 1, 1, 1, 1, 1, 1, 0 };
-			break;
-		}
-		case 1: {
-			out = new int[] { 0, 1, 1, 0, 0, 0, 0 };
-			break;
-		}
-		case 2: {
-			out = new int[] { 1, 1, 0, 1, 1, 0, 1 };
-			break;
-		}
-		case 3: {
-			out = new int[] { 1, 1, 1, 1, 0, 0, 1 };
-			break;
-		}
-		case 4: {
-			out = new int[] { 0, 1, 1, 0, 0, 1, 1 };
-			break;
-		}
-		case 5: {
-			out = new int[] { 1, 0, 1, 1, 0, 1, 1 };
-			break;
-		}
-		case 6: {
-			out = new int[] { 1, 0, 1, 1, 1, 1, 1 };
-			break;
-		}
-		case 7: {
-			out = new int[] { 1, 1, 1, 0, 0, 0, 0 };
-			break;
-		}
-		case 8: {
-			out = new int[] { 1, 1, 1, 1, 1, 1, 1 };
-			break;
-		}
-		case 9: {
-			out = new int[] { 1, 1, 1, 1, 0, 1, 1 };
-			break;
-		}
-		case 0xa: {
-			out = new int[] { 1, 1, 1, 0, 1, 1, 1 };
-			break;
-		}
-		case 0xb: {
-			out = new int[] { 0, 0, 1, 1, 1, 1, 1 };
-			break;
-		}
-		case 0xc: {
-			out = new int[] { 1, 0, 0, 1, 1, 1, 0 };
-			break;
-		}
-		case 0xd: {
-			out = new int[] { 0, 1, 1, 1, 1, 0, 1 };
-			break;
-		}
-		case 0xe: {
-			out = new int[] { 1, 0, 0, 1, 1, 1, 1 };
-			break;
-		}
-		default: {
-			out = new int[] { 1, 0, 0, 0, 1, 1, 1 };
-			break;
-		}
+			case 0: {
+				out = new int[] { 1, 1, 1, 1, 1, 1, 0 };
+				break;
+			}
+			case 1: {
+				out = new int[] { 0, 1, 1, 0, 0, 0, 0 };
+				break;
+			}
+			case 2: {
+				out = new int[] { 1, 1, 0, 1, 1, 0, 1 };
+				break;
+			}
+			case 3: {
+				out = new int[] { 1, 1, 1, 1, 0, 0, 1 };
+				break;
+			}
+			case 4: {
+				out = new int[] { 0, 1, 1, 0, 0, 1, 1 };
+				break;
+			}
+			case 5: {
+				out = new int[] { 1, 0, 1, 1, 0, 1, 1 };
+				break;
+			}
+			case 6: {
+				out = new int[] { 1, 0, 1, 1, 1, 1, 1 };
+				break;
+			}
+			case 7: {
+				out = new int[] { 1, 1, 1, 0, 0, 0, 0 };
+				break;
+			}
+			case 8: {
+				out = new int[] { 1, 1, 1, 1, 1, 1, 1 };
+				break;
+			}
+			case 9: {
+				out = new int[] { 1, 1, 1, 1, 0, 1, 1 };
+				break;
+			}
+			case 0xa: {
+				out = new int[] { 1, 1, 1, 0, 1, 1, 1 };
+				break;
+			}
+			case 0xb: {
+				out = new int[] { 0, 0, 1, 1, 1, 1, 1 };
+				break;
+			}
+			case 0xc: {
+				out = new int[] { 1, 0, 0, 1, 1, 1, 0 };
+				break;
+			}
+			case 0xd: {
+				out = new int[] { 0, 1, 1, 1, 1, 0, 1 };
+				break;
+			}
+			case 0xe: {
+				out = new int[] { 1, 0, 0, 1, 1, 1, 1 };
+				break;
+			}
+			default: {
+				out = new int[] { 1, 0, 0, 0, 1, 1, 1 };
+				break;
+			}
 		}
 		setOutputs();
 	}
@@ -149,13 +147,5 @@ public class SevenSegmentDriver extends Gate {
 		force = true;
 		simulate();
 		force = false;
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "7-Segment-driver");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "binary to 7-Segment-display driver");
-		I18N.addGate("de", type, I18N.TITLE, "7-Segment-Treiber");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Binärzahl-zu-7Segment-Anzeige Konverter");
 	}
 }

@@ -14,7 +14,6 @@ import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import logicsim.Gate;
 import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.localization.Lang;
@@ -27,20 +26,16 @@ import logicsim.Pin;
  * @author Peter Gabriel
  * @version 2.0
  */
-public class Counter extends Gate {
+public class Counter extends BinaryOutput {
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";
 	private static final String DISPLAY_TYPE_DEFAULT = "hex";
 
-	String displayType;
-
-	boolean lastInputState = true;
-
 	int value = 0;
 
 	public Counter() {
-		super("outputs", "counter");
+		super("counter");
 		height = 90;
 		createInputs(1);
 		createOutputs(8);
@@ -50,7 +45,11 @@ public class Counter extends Gate {
 
 	@Override
 	public void loadProperties() {
-		displayType = getPropertyWithDefault(DISPLAY_TYPE, DISPLAY_TYPE_DEFAULT);
+		String displayType = getPropertyWithDefault(DISPLAY_TYPE, DISPLAY_TYPE_DEFAULT);
+		setDisplayType(switch(displayType) {
+			case DISPLAY_TYPE_DEC -> DisplayType.DECIMAL;
+			default -> DisplayType.HEXADECIMAL;
+		});
 	}
 
 	@Override
@@ -68,8 +67,9 @@ public class Counter extends Gate {
 		if (e.source.equals(getPin(0)) && e.level == HIGH) {
 			// rising edge detection
 			value++;
-			if (value > 0xff)
+			if (value > 0xff) {
 				value = 0;
+			}
 			setOutputs();
 		}
 	}
@@ -89,85 +89,61 @@ public class Counter extends Gate {
 		int y = getY();
 
 		g.setPaint(Color.BLACK);
-		String sval;
-		if (DISPLAY_TYPE_DEC.equals(displayType)) {
-			sval = Integer.toString(value);
-		} else
-			sval = Integer.toHexString(value);
-        if (sval.length() == 1)
-			sval = "0" + sval;
-
-		sval = sval.toUpperCase();
+		final String sval = getDisplayType();
 		g.setFont(bigFont);
 		int sw = g.getFontMetrics().stringWidth(sval);
 		g.drawString(sval, x + getWidth() / 2 - sw / 2, y + height / 2 + 18);
 		g.setFont(Pin.smallFont);
-		String s = "CNT";
-		sw = g.getFontMetrics().stringWidth(s);
-		g.drawString(s, x + getWidth() / 2 - sw / 2, y + 16);
-		s = displayType.toUpperCase();
-		sw = g.getFontMetrics().stringWidth(s);
-		g.drawString(s, x + getWidth() / 2 - sw / 2, y + 27);
+		final String gateType = "CNT";
+		sw = g.getFontMetrics().stringWidth(gateType);
+		g.drawString(gateType, x + getWidth() / 2 - sw / 2, y + 16);
+		final String dispType = getDisplayType();
+		sw = g.getFontMetrics().stringWidth(dispType);
+		g.drawString(dispType, x + getWidth() / 2 - sw / 2, y + 27);
 	}
 
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		JRadioButton jRadioButton1 = new JRadioButton();
-		JRadioButton jRadioButton2 = new JRadioButton();
+		JRadioButton jRadioButton1 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_HEX));
+		JRadioButton jRadioButton2 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_DEC));
 
 		// Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
 		group.add(jRadioButton1);
 		group.add(jRadioButton2);
 
-		if (DISPLAY_TYPE_HEX.equals(displayType))
+		if (displayType == DisplayType.HEXADECIMAL) {
 			jRadioButton1.setSelected(true);
-		else
+		} else {
 			jRadioButton2.setSelected(true);
+		}
 
-		JPanel jPanel1 = new JPanel();
-		TitledBorder titledBorder1;
-		BorderLayout borderLayout1 = new BorderLayout();
+		final JPanel jPanel1 = new JPanel();
 
-		titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
-				I18N.getString(type, DISPLAY_TYPE));
-		jRadioButton1.setText(I18N.getString(type, DISPLAY_TYPE_HEX));
-		jRadioButton2.setText(I18N.getString(type, DISPLAY_TYPE_DEC));
+		final TitledBorder titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white,
+				new Color(142, 142, 142)), I18N.getString(type, DISPLAY_TYPE));
 		jPanel1.setBorder(titledBorder1);
 		jPanel1.setBounds(new Rectangle(11, 11, 171, 150));
-		jPanel1.setLayout(borderLayout1);
+		jPanel1.setLayout(new BorderLayout());
 		jPanel1.add(jRadioButton1, BorderLayout.NORTH);
 		jPanel1.add(jRadioButton2, BorderLayout.CENTER);
 
-		JOptionPane pane = new JOptionPane(jPanel1);
+		final JOptionPane pane = new JOptionPane(jPanel1);
 		pane.setMessageType(JOptionPane.QUESTION_MESSAGE);
 		pane.setOptions(new String[] { I18N.tr(Lang.OK), I18N.tr(Lang.CANCEL) });
-		JDialog dlg = pane.createDialog(frame, I18N.tr(Lang.SETTINGS));
+		final JDialog dlg = pane.createDialog(frame, I18N.tr(Lang.SETTINGS));
 		dlg.setResizable(true);
 		dlg.setSize(290, 180);
 		dlg.setVisible(true);
 		if (I18N.tr(Lang.OK).equals(pane.getValue())) {
 			if (jRadioButton1.isSelected()) {
-				displayType = DISPLAY_TYPE_HEX;
+				setDisplayType(DisplayType.HEXADECIMAL);
 			} else if (jRadioButton2.isSelected()) {
-				displayType = DISPLAY_TYPE_DEC;
+				setDisplayType(DisplayType.DECIMAL);
 			}
-			label = displayType.toUpperCase();
 			return true;
 		}
 		return false;
 	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Counter");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Counter counts positive edges");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE, "Type");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_DEC, "Decimal (00..255)");
-		I18N.addGate(I18N.ALL, type, DISPLAY_TYPE_HEX, "Hexadecimal (00..FF)");
-		I18N.addGate("de", type, I18N.TITLE, "Zähler");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Zählmodul (positive Flanke)");
-	}
-
 }

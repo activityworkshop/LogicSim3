@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 
 /**
  * Seven Segment Display for LogicSim
@@ -16,6 +15,9 @@ import logicsim.localization.I18N;
  * @version 2.0
  */
 public class SevenSegment extends Gate {
+	private static final Color OFF_COLOR = new Color(0xE0, 0xE0, 0xE0);
+	private static final Color ON_COLOR = Color.RED;
+
 	public SevenSegment() {
 		super("outputs", "sevenseg");
 		height = 80;
@@ -30,39 +32,39 @@ public class SevenSegment extends Gate {
 	@Override
 	public void draw(Graphics2D g) {
 		super.draw(g);
-		int xoffset = getX() + 29;
-		int yoffset = getY() + 16;
+		final int xOffset = getX() + 29;
+		final int yOffset = getY() + 16;
 		g.setStroke(new BasicStroke(1));
 		for (int i = 0; i < getNumInputs(); i++) {
-			g.setColor(getPin(i).getLevel() ? Color.red : new Color(0xE0, 0xE0, 0xE0));
+			g.setColor(getPin(i).getLevel() ? ON_COLOR : OFF_COLOR);
 			switch (i) {
 			case 0:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 1);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 1);
 				break;
 			case 1:
-				drawVerticalSegment(g, xoffset + 23, yoffset + 2);
+				drawVerticalSegment(g, xOffset + 23, yOffset + 2);
 				break;
 			case 2:
-				drawVerticalSegment(g, xoffset + 23, yoffset + 25);
+				drawVerticalSegment(g, xOffset + 23, yOffset + 25);
 				break;
 			case 3:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 47);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 47);
 				break;
 			case 4:
-				drawVerticalSegment(g, xoffset, yoffset + 25);
+				drawVerticalSegment(g, xOffset, yOffset + 25);
 				break;
 			case 5:
-				drawVerticalSegment(g, xoffset, yoffset + 2);
+				drawVerticalSegment(g, xOffset, yOffset + 2);
 				break;
 			case 6:
-				drawHorizontalSegment(g, xoffset + 1, yoffset + 24);
+				drawHorizontalSegment(g, xOffset + 1, yOffset + 24);
 				break;
 			}
 		}
 	}
 
 	private void drawHorizontalSegment(Graphics2D g2, int x, int y) {
-		Path2D path = new Path2D.Double();
+		final Path2D path = new Path2D.Double();
 		path.moveTo(x, y);
 		path.lineTo(x + 2, y - 2);
 		path.lineTo(x + 19, y - 2);
@@ -73,7 +75,7 @@ public class SevenSegment extends Gate {
 	}
 
 	private void drawVerticalSegment(Graphics2D g2, int x, int y) {
-		Path2D path = new Path2D.Double();
+		final Path2D path = new Path2D.Double();
 		path.moveTo(x, y);
 		path.lineTo(x + 2, y + 2);
 		path.lineTo(x + 2, y + 19);
@@ -81,20 +83,5 @@ public class SevenSegment extends Gate {
 		path.lineTo(x - 2, y + 19);
 		path.lineTo(x - 2, y + 2);
 		g2.fill(path);
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "7-Segment-display");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION,
-				"Display with 7 segments (leds) to output numbers from 0-9 and from a-f");
-
-		I18N.addGate("de", type, I18N.TITLE, "7-Segment-Anzeige");
-		I18N.addGate("de", type, I18N.DESCRIPTION,
-				"7 Segment Anzeige zur Darstellung von Ziffern und den Buchstaben a-f");
-
-		I18N.addGate("es", type, I18N.TITLE, "Display 7 seg.");
-
-		I18N.addGate("fr", type, I18N.TITLE, "Afficheur 7 segments");
 	}
 }

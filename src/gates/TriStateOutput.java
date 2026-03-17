@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.LSProperties;
 import logicsim.Pin;
@@ -85,13 +84,4 @@ public class TriStateOutput extends Gate {
 			g2.draw(p);
 		}
 	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "Tri-State Output");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "Tri-State Output");
-		I18N.addGate("de", type, I18N.TITLE, "Tri-State Output");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "Schaltbarer Ausgang - hochohmig, wenn nicht geschaltet");
-	}
-
 }
