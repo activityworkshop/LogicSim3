@@ -1,4 +1,3 @@
-
 package gates;
 
 import logicsim.Pin;
@@ -62,16 +61,5 @@ public class JKFlipFlop extends Gate {
 				getPin(OI).changedLevel(evt);			
 			}
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "JK Flip-flop");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "positive edge triggered JK Flip-flop");
-		I18N.addGate("de", type, I18N.TITLE, "JK Flipflop");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "positiv flankengesteuertes JK-Flipflop");
-		I18N.addGate("es", type, I18N.TITLE, "FlipFlop JK");
-		I18N.addGate("fr", type, I18N.TITLE, "Bascule JK");
-		I18N.addGate("fr", type, I18N.DESCRIPTION, "Bascule JK (Front montant)");
 	}
 }

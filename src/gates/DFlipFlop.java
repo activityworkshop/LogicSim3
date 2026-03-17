@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 
@@ -54,15 +53,5 @@ public class DFlipFlop extends Gate {
 			getPin(2).changedLevel(evt);
 			getPin(3).changedLevel(evt);
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "D Flip-flop");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "D Flip-flop");
-		I18N.addGate("de", type, I18N.TITLE, "D Flipflop");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "D Flipflop");
-		I18N.addGate("es", type, I18N.TITLE, "FlipFlop D");
-		I18N.addGate("fr", type, I18N.TITLE, "Bascule D");
 	}
 }

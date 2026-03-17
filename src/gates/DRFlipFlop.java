@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 
@@ -74,16 +73,5 @@ public class DRFlipFlop extends Gate {
 		super.draw(g2);
 		g2.setColor(Color.black);
 		drawLabel(g2, "DR", Pin.smallFont);
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "DR Flip-flop");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "D Flip-flop with reset");
-		I18N.addGate("de", type, I18N.TITLE, "DR Flipflop");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "D Flipflop mit Reset-Eingang");
-		I18N.addGate("es", type, I18N.TITLE, "FlipFlop DR");
-		I18N.addGate("fr", type, I18N.TITLE, "Bascule DR");
-
 	}
 }

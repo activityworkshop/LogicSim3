@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.LSLevelEvent;
 import logicsim.Pin;
 
@@ -66,17 +65,5 @@ public class SRFlipFlop extends Gate {
 				getPin(4).changedLevel(evt);
 			}
 		}
-	}
-
-	@Override
-	public void loadLanguage() {
-		I18N.addGate(I18N.ALL, type, I18N.TITLE, "SR Flip-flop");
-		I18N.addGate(I18N.ALL, type, I18N.DESCRIPTION, "SR Flip-flop");
-		I18N.addGate("de", type, I18N.TITLE, "SR Flipflop");
-		I18N.addGate("de", type, I18N.DESCRIPTION, "SR Flipflop");
-		I18N.addGate("es", type, I18N.TITLE, "FlipFlop RS");
-		I18N.addGate("es", type, I18N.DESCRIPTION, "FlipFlop RS");
-		I18N.addGate("fr", type, I18N.TITLE, "Bascule RS");
-		I18N.addGate("fr", type, I18N.DESCRIPTION, "Bascule RS");
 	}
 }
