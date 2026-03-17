@@ -30,8 +30,8 @@
             <fileset dir="${classes.dir}/gates" />
         </copy>
 		<mkdir dir="${jar.dir}" />
-		<copy todir="${classes.dir}/logicsim/images">
-			<fileset dir="${src.dir}/logicsim/images" />
+		<copy todir="${classes.dir}/images">
+			<fileset dir="resources/images" />
 		</copy>
         <copy todir="${classes.dir}/languages">
             <fileset dir="resources/languages" />

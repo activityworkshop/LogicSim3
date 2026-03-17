@@ -44,7 +44,7 @@ public class LSButton extends JButton {
     }
 
     private ImageIcon getIcon(String imgName) {
-        String filename = "/logicsim/images/" + imgName + ".png";
+        String filename = "/images/" + imgName + ".png";
         Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage();
         return new ImageIcon(image.getScaledInstance(size, size, Image.SCALE_AREA_AVERAGING));
     }
