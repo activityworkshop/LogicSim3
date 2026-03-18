@@ -439,8 +439,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	static final short ACTION_SELECT = 1;
 
     public static final Color gridColor = Color.black;
-	@Serial
-    private static final long serialVersionUID = -6414072156700139318L;
 
 	public static final String MSG_ABORTED = "MSG_DESELECT_BUTTONS";
 

@@ -65,7 +65,7 @@ public class CLK extends Gate implements Runnable {
 		createInputs(1);
 		loadProperties();
 		getPin(1).setLevelType(Pin.INVERTED);
-		getPin(HLT).setProperty(TEXT, "H");
+//		getPin(HLT).setProperty(TEXT, "H"); // obscured by other elements
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class CLK extends Gate implements Runnable {
 		
 		g2.setPaint(Color.black);
 		g2.setFont(Pin.smallFont);
-		String s = "CLK";
+		final String s = "CLK";
 		final int sw = g2.getFontMetrics().stringWidth(s);
 		g2.drawString(s, x + getWidth() / 2 - sw / 2, y + 18);
 

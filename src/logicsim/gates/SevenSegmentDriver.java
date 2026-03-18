@@ -15,7 +15,6 @@ import logicsim.WidgetHelper;
  */
 public class SevenSegmentDriver extends Gate {
 
-	boolean out0 = false;
 	int[] out;
 	boolean force = false;
 
@@ -43,15 +42,12 @@ public class SevenSegmentDriver extends Gate {
 	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
-		String lbl = "7S-D";
+		final String lbl = "7S-D";
 		int sw = g2.getFontMetrics().stringWidth(lbl);
 		WidgetHelper.drawStringRotated(g2, lbl, getX() + getWidth() / 2 - 3, getY() + getHeight() / 2 - sw / 2,
 				WidgetHelper.ALIGN_CENTER, 90);
 	}
 
-	/**
-     * <a href="https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d">https://www.electronicsforu.com/resources/learn-electronics/flip-flop-rs-jk-t-d</a>
-     */
 	@Override
 	public void simulate() {
 		super.simulate();

@@ -45,25 +45,6 @@ public class Circuit implements LSRepaintListener {
 		return true;
 	}
 
-//	private CircuitPart[] findPartsAt(Class<?> clazz, int x, int y) {
-//		Vector<CircuitPart> findParts = new Vector<CircuitPart>();
-//		for (CircuitPart part : parts) {
-//			if (part instanceof Gate) {
-//				Gate g = (Gate) part;
-//				CircuitPart cp = g.findPartAt(x, y);
-//				if (cp != null && (clazz == null || (clazz != null && cp.getClass().equals(clazz))))
-//					findParts.add(cp);
-//			}
-//			if (part instanceof Wire) {
-//				Wire w = (Wire) part;
-//				CircuitPart cp = w.findPartAt(x, y);
-//				if (cp != null && (clazz == null || (clazz != null && cp.getClass().equals(clazz))))
-//					findParts.add(cp);
-//			}
-//		}
-//		return findParts.toArray(new CircuitPart[findParts.size()]);
-//	}
-
 	public Vector<CircuitPart> getParts() {
 		return parts;
 	}
@@ -99,6 +80,13 @@ public class Circuit implements LSRepaintListener {
 		deselectAll();
 		for (CircuitPart p : parts) {
 			p.select();
+		}
+	}
+
+	public void resetAll() {
+		for (CircuitPart p : parts) {
+			p.reset();
+			p.deselect();
 		}
 	}
 

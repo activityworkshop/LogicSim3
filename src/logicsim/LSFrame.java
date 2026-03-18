@@ -758,7 +758,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         if (btn.isSelected()) {
             if (!Simulation.getInstance().isRunning()) {
-                lspanel.circuit.deselectAll();
+                // Start simulation
+                lspanel.circuit.resetAll();
                 repaint();
                 Simulation.getInstance().start();
                 changedStatusText(I18N.tr(Lang.SIMULATION_STARTED));
@@ -767,6 +768,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
             }
         } else {
             if (Simulation.getInstance().isRunning()) {
+                // Stop simulation
                 Simulation.getInstance().stop();
                 changedStatusText(I18N.tr(Lang.SIMULATION_STOPPED));
                 splitPane.add(pnlGateList, JSplitPane.LEFT);
@@ -774,10 +776,11 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
             }
         }
 
-        Objects.requireNonNull(getMenuWidget(Lang.OPEN)).setEnabled(!Simulation.getInstance().isRunning());
-        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_OPEN)).setEnabled(!Simulation.getInstance().isRunning());
-        Objects.requireNonNull(getMenuWidget(Lang.NEW)).setEnabled(!Simulation.getInstance().isRunning());
-        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_NEW)).setEnabled(!Simulation.getInstance().isRunning());
+        final boolean simRunning = Simulation.getInstance().isRunning();
+        Objects.requireNonNull(getMenuWidget(Lang.OPEN)).setEnabled(!simRunning);
+        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_OPEN)).setEnabled(!simRunning);
+        Objects.requireNonNull(getMenuWidget(Lang.NEW)).setEnabled(!simRunning);
+        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_NEW)).setEnabled(!simRunning);
     }
 
     boolean showDiscardDialog(String title) {
