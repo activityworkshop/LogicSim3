@@ -190,6 +190,7 @@ public class Gate extends CircuitPart {
 
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
+		setPinPositions();
         drawIO(g2);
 		drawFrame(g2);
 		AffineTransform old = null;
@@ -206,6 +207,9 @@ public class Gate extends CircuitPart {
 		}
         drawIOLabels(g2);
         drawText(g2);
+	}
+
+	protected void setPinPositions() {
 	}
 
     public void drawText(Graphics2D g2) {
@@ -419,36 +423,6 @@ public class Gate extends CircuitPart {
 		return pins;
 	}
 
-	/*
-	 * protected Properties properties = new Properties();
-	 * 
-	 * public Properties getProperties() { return properties; }
-	 * 
-	 * protected String getProperty(String string) { return
-	 * properties.getProperty(string); }
-	 * 
-	 * protected int getPropertyInt(String string) { return
-	 * Integer.parseInt(getProperty(string)); }
-	 * 
-	 * protected String getPropertyWithDefault(String key, String sdefault) { String
-	 * s = getProperty(key); if (s == null) return sdefault; return s; }
-	 * 
-	 * public void setProperties(Properties properties) { this.properties =
-	 * properties; loadProperties(); }
-	 * 
-	 * protected void setProperty(String key, String value) {
-	 * properties.setProperty(key, value); }
-	 * 
-	 * protected void setPropertyInt(String key, int value) { setProperty(key,
-	 * String.valueOf(value)); }
-	 * 
-	 * public boolean hasPropertiesUI() { return false; }
-	 * 
-	 * public boolean showPropertiesUI(Component frame) { return false; }
-	 * 
-	 * Moved up to CircuitPart ML 19/04/20
-	 */
-
 	public int getWidth() {
 		return width;
 	}
@@ -496,20 +470,6 @@ public class Gate extends CircuitPart {
 		}
 	}
 
-	/**
-	 * wird aufgerufen, wenn auf das Gatter geklickt wird
-	 */
-	@Override
-	public void mousePressed(LSMouseEvent e) {
-		super.mousePressed(e);
-		/*
-		 * notifyMessage(I18N.getString(type, I18N.TITLE));
-		 * 
-		 * if (Simulation.getInstance().isRunning()) mousePressedSim(e); else {
-		 * select(); notifyRepaint(); }
-		 */
-	}
-
     @Override
 	public void moveBy(int dx, int dy) {
 		if (xc == -1) {
@@ -534,14 +494,6 @@ public class Gate extends CircuitPart {
 		int dy = y - getY();
 		moveBy(dx, dy);
 	}
-
-//	protected int pX(int percent) {
-//		return percent * width / 100;
-//	}
-
-//	protected int pY(int percent) {
-//		return percent * height / 100;
-//	}
 
 	/**
 	 * Reset Gate: query all Inputs and generate Events for all outputs this should

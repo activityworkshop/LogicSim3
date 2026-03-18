@@ -41,30 +41,13 @@ public class Buffer extends Gate {
 
 	@Override
 	protected void drawRotated(Graphics2D g2) {
-		String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
+		final String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
 		if (gateType.equals(LSProperties.GATEDESIGN_ANSI)) {
 			Path2D p = new Path2D.Double();
 			double yu = getY() + CONN_SIZE + 6;
 			double xr = getX() + width - 10 - CONN_SIZE + 1;
 			double yb = getY() + height - CONN_SIZE - 6;
 			double xl = getX() + 10 + CONN_SIZE;
-			// check coordinates of pins, x coordinates should be a little more inwards
-			if (getPin(0).getX() == getX()) {
-				getPin(0).setX(getPin(0).getX() + 10);
-				getPin(1).setX(getPin(1).getX() - 10);
-			}
-			if (getPin(0).getX() == getX() + width) {
-				getPin(0).setX(getPin(0).getX() - 10);
-				getPin(1).setX(getPin(1).getX() + 10);
-			}
-			if (getPin(0).getY() == getY()) {
-				getPin(0).setY(getPin(0).getY() + 10);
-				getPin(1).setY(getPin(1).getY() - 10);
-			}
-			if (getPin(0).getY() == getY() + height) {
-				getPin(0).setY(getPin(0).getY() - 10);
-				getPin(1).setY(getPin(1).getY() + 10);
-			}
 			p.moveTo(xl, yc);
 			p.lineTo(xl, yb);
 			p.lineTo(xr, yc);
@@ -79,13 +62,52 @@ public class Buffer extends Gate {
 	}
 
 	@Override
-	protected void drawFrame(Graphics2D g2) {
-		String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
+	protected void setPinPositions() {
+		final String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
 		if (gateType.equals(LSProperties.GATEDESIGN_IEC)) {
+			// check coordinates of pins if they have already been moved inwards
 			if (getPin(0).getX() == getX() + 10) {
 				getPin(0).setX(getPin(0).getX() - 10);
 				getPin(1).setX(getPin(1).getX() + 10);
 			}
+			else if (getPin(0).getX() == getX() + width - 10) {
+				getPin(0).setX(getPin(0).getX() + 10);
+				getPin(1).setX(getPin(1).getX() - 10);
+			}
+			else if (getPin(0).getY() == getY() + 10) {
+				getPin(0).setY(getPin(0).getY() - 10);
+				getPin(1).setY(getPin(1).getY() + 10);
+			}
+			else if (getPin(0).getY() == getY() + height - 10) {
+				getPin(0).setY(getPin(0).getY() + 10);
+				getPin(1).setY(getPin(1).getY() - 10);
+			}
+		}
+		else {
+			// check coordinates of pins, x coordinates should be a little more inwards
+			if (getPin(0).getX() == getX()) {
+				getPin(0).setX(getPin(0).getX() + 10);
+				getPin(1).setX(getPin(1).getX() - 10);
+			}
+			else if (getPin(0).getX() == getX() + width) {
+				getPin(0).setX(getPin(0).getX() - 10);
+				getPin(1).setX(getPin(1).getX() + 10);
+			}
+			else if (getPin(0).getY() == getY()) {
+				getPin(0).setY(getPin(0).getY() + 10);
+				getPin(1).setY(getPin(1).getY() - 10);
+			}
+			else if (getPin(0).getY() == getY() + height) {
+				getPin(0).setY(getPin(0).getY() - 10);
+				getPin(1).setY(getPin(1).getY() + 10);
+			}
+		}
+	}
+
+	@Override
+	protected void drawFrame(Graphics2D g2) {
+		String gateType = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN, LSProperties.GATEDESIGN_IEC);
+		if (gateType.equals(LSProperties.GATEDESIGN_IEC)) {
 			super.drawFrame(g2);
 		}
 	}
