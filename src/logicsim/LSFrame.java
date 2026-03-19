@@ -2,10 +2,7 @@ package logicsim;
 
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
-import logicsim.ui.LSButton;
-import logicsim.ui.LSFrame_AboutBox;
-import logicsim.ui.LSScrollBarUI;
-import logicsim.ui.LSToggleButton;
+import logicsim.ui.*;
 import logicsim.xml.XMLCreator;
 import logicsim.xml.XMLLoader;
 
@@ -491,7 +488,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         mnu.add(m);
 
         m = createMenuItem(Lang.ABOUT, 0, true);
-        m.addActionListener(e -> new LSFrame_AboutBox(LSFrame.this));
+        m.addActionListener(e -> new AboutBox(LSFrame.this));
         mnu.add(m);
 
         menuBar.add(mnu);
@@ -599,14 +596,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         toolbar.add(getMenuGap());
         // Zoom in and out
         final LSButton zoomOutButton = new LSButton("zoomout", Lang.ZOOMOUT);
-        zoomOutButton.addActionListener(e -> {
-            lspanel.zoomOut();
-        });
+        zoomOutButton.addActionListener(e -> lspanel.zoomOut());
         toolbar.add(zoomOutButton, null);
         final LSButton zoomInButton = new LSButton("zoomin", Lang.ZOOMIN);
-        zoomInButton.addActionListener(e -> {
-            lspanel.zoomIn();
-        });
+        zoomInButton.addActionListener(e -> lspanel.zoomIn());
         toolbar.add(zoomInButton, null);
         return toolbar;
     }
@@ -943,9 +936,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         }
 
         if (!lsFile.circuit.isEmpty()) {
-            final String fn = App.getModulePath() + lsFile.extractFileName()
+            lsFile.fileName = App.getModulePath() + lsFile.extractFileName()
                     + "." + App.MODULE_FILE_SUFFIX;
-            lsFile.fileName = fn;
             lsFile.changed = true;
         } else {
             lsFile = new LogicSimFile(defaultModuleFileName());

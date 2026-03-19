@@ -1,8 +1,8 @@
-package logicsim;
+package logicsim.ui;
 
+import logicsim.LSProperties;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
-import logicsim.ui.LSScrollBarUI;
 
 import javax.swing.*;
 import java.awt.AWTEvent;

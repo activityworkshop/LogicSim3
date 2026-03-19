@@ -23,13 +23,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-public class LSFrame_AboutBox extends JWindow {
+public class AboutBox extends JWindow {
 	@Serial
     private static final long serialVersionUID = -3193728228853983319L;
 
 	private final Image imgSplash;
 
-    public LSFrame_AboutBox(Frame parent) {
+    public AboutBox(Frame parent) {
 		super(parent);
 
 		imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
