@@ -236,6 +236,28 @@ public class Circuit implements LSRepaintListener {
 		return removeGate(g);
 	}
 
+	public void disconnectGateIdx(int idx) {
+		Gate gate = (Gate) parts.get(idx);
+		for (Pin pin : gate.getPins()) {
+			if (!pin.isConnected()) {
+				continue;
+			}
+			for (LSLevelListener listener : pin.getListeners()) {
+				if (listener instanceof Wire wire) {
+					wire.removeLevelListener(pin);
+					if (wire.getFrom() != null && wire.getFrom() != pin) {
+						wire.getFrom().removeLevelListener(wire);
+					}
+					if (wire.getTo() != null && wire.getTo() != pin) {
+						wire.getTo().removeLevelListener(wire);
+					}
+					parts.remove(wire);
+				}
+			}
+			pin.clearListeners();
+		}
+	}
+
 	@Override
 	public void needsRepaint(CircuitPart circuitPart) {
 		if (repaintListener != null)
@@ -308,7 +330,7 @@ public class Circuit implements LSRepaintListener {
 		for (Wire w : getWires()) {
 			s += "\n" + w;
 		}
-		return "Circuit:" + CircuitPart.indent(s, 3);
+		return "Circuit:" + CircuitPart.indent(s);
 	}
 
 	public CircuitPart[] findParts(Rectangle2D selectRect) {

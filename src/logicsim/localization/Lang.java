@@ -30,6 +30,7 @@ public enum Lang {
 	ABOUT("menu.help.about"),
 
 	REMOVEGATE("popup.removegate"),
+	POPUP_DISCONNECT("popup.disconnect"),
 	POPUP_PROPERTIES("popup.properties"),
 	ROTATE("popup.rotate"),
 	ADDINPUT("popup.addinput"),

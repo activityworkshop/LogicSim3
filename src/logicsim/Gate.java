@@ -523,9 +523,9 @@ public class Gate extends CircuitPart {
 		this.setX(newPos.x);
 		this.setY(newPos.y);
 		// switch width and height
-		width = width + height;
-		height = width - height;
-		width = width - height;
+		final int tempWidth = width;
+		width = height;
+		height = tempWidth;
 		// maybe correct the rotation
 		int dx = 0;
 		int dy = 0;
@@ -567,7 +567,7 @@ public class Gate extends CircuitPart {
 	public String toString() {
 		StringBuilder s = new StringBuilder(getId());
 		for (Pin c : pins) {
-			s.append("\n").append(indent(c.toString(), 3));
+			s.append("\n").append(indent(c.toString()));
 		}
 		return s.toString();
 	}
@@ -604,5 +604,15 @@ public class Gate extends CircuitPart {
 		if (xc == -1) {
 			xc = getX() + width / 2;
 		}
+	}
+
+	@Override
+	public boolean isConnected() {
+		for (Pin pin : pins) {
+			if (pin.isConnected()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

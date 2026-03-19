@@ -62,6 +62,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     int popupGateIdx;
     JPopupMenu popup;
     JMenuItem menuItem_remove;
+    JMenuItem menuItem_disconnect;
     JMenuItem menuItem_properties;
     JMenuItem menuItem_rotate;
     JMenuItem menuItem_increase_inputs;
@@ -299,6 +300,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         menuItem_remove = new JMenuItem(I18N.tr(Lang.REMOVEGATE));
         menuItem_remove.addActionListener(this);
         popup.add(menuItem_remove);
+
+        menuItem_disconnect = new JMenuItem(I18N.tr(Lang.POPUP_DISCONNECT));
+        menuItem_disconnect.addActionListener(this);
+        popup.add(menuItem_disconnect);
 
         menuItem_properties = new JMenuItem(I18N.tr(Lang.POPUP_PROPERTIES));
         menuItem_properties.addActionListener(this);
@@ -626,6 +631,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         if (source == menuItem_remove) {
             lspanel.circuit.removeGateIdx(popupGateIdx);
             lspanel.repaint();
+        } else if (source == menuItem_disconnect) {
+            lspanel.circuit.disconnectGateIdx(popupGateIdx);
+            lspanel.repaint();
         } else if (source == menuItem_properties) {
             if (popupGateIdx >= 0) {
                 Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
@@ -744,6 +752,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 if (!(part instanceof Gate g)) continue;
                 if (!g.insideFrame(mouseX, mouseY)) continue;
                 popupGateIdx = lspanel.circuit.getParts().indexOf(part);
+                menuItem_disconnect.setEnabled(part.isConnected());
                 menuItem_properties.setEnabled(g.hasPropertiesUI());
                 menuItem_decrease_inputs.setEnabled(g.variableInputCountSupported && g.getNumInputs() > 2);
                 menuItem_increase_inputs.setEnabled(g.variableInputCountSupported && g.getNumInputs() < 5);

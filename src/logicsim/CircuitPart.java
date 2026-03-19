@@ -29,10 +29,9 @@ public abstract class CircuitPart implements LSLevelListener {
 	private final Collection<LSLevelListener> listeners;
 	private LSRepaintListener repListener;
 
-	protected static String indent(String string, int indentation) {
-		StringBuilder s = new StringBuilder();
-        s.append(" ".repeat(Math.max(0, indentation)));
-		return s + string.replaceAll("\n", "\n" + s);
+
+	protected static String indent(String string) {
+		return "   " + string.replaceAll("\n", "\n   ");
 	}
 
 	// TODO: Clarify what this means
@@ -47,8 +46,6 @@ public abstract class CircuitPart implements LSLevelListener {
 			x = x / 10 * 10 + 10;
 		return x;
 	}
-
-	private final CircuitChangedListener changeListener = null;
 
 	protected Point mousePos;
 	public CircuitPart parent;
@@ -263,23 +260,23 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	protected void notifyAction(int action) {
-		if (changeListener != null)
-			changeListener.setAction(action);
+		// changeListener is always null!
+		// changeListener.setAction(action);
 	}
 
 	protected void notifyChanged() {
-		if (changeListener != null)
-			changeListener.changedCircuit();
+		// changeListener is always null!
+		// changeListener.changedCircuit();
 	}
 
 	protected void notifyMessage(String msg) {
-		if (changeListener != null)
-			changeListener.changedStatusText(msg);
+		// changeListener is always null!
+		// changeListener.changedStatusText(msg);
 	}
 
 	protected void notifyRepaint() {
-		if (changeListener != null)
-			changeListener.needsRepaint(this);
+		// changeListener is always null!
+		// changeListener.needsRepaint(this);
 	}
 
 	/**
