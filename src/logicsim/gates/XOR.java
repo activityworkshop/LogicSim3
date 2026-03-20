@@ -1,4 +1,3 @@
-
 package logicsim.gates;
 
 import java.awt.Graphics2D;

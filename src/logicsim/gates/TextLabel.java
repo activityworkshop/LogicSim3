@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import logicsim.Gate;
-import logicsim.localization.I18N;
 import logicsim.WidgetHelper;
 
 /**
@@ -46,6 +45,11 @@ public class TextLabel extends Gate {
 		}
 	}
 
+	/** Prevent rotation, causes coordinate confusion */
+	@Override
+	public void rotate() {
+	}
+
 	@Override
 	protected void drawFrame(Graphics2D g2) {
 	}
@@ -56,10 +60,8 @@ public class TextLabel extends Gate {
 		g2.setColor(Color.black);
 		if (text != null) {
 			Rectangle r = WidgetHelper.textDimensions(g2, text);
-			width = r.width;
-			width = width + 10;
-			height = r.height;
-			height = height + 10;
+			width = r.width + 10;
+			height = r.height + 10;
             xc = getX() + width / 2;
             yc = getY() + height / 2;
 			WidgetHelper.drawString(g2, text, xc, yc, WidgetHelper.ALIGN_CENTER);

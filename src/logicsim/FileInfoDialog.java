@@ -6,7 +6,7 @@ import logicsim.localization.Lang;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+
 
 public class FileInfoDialog {
 
