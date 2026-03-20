@@ -29,8 +29,8 @@ public class Xml {
 
 	private final String name;
 	private String content;
-	private final Map<String, String> nameAttributes = new HashMap<String, String>();
-	private final Map<String, ArrayList<Xml>> nameChildren = new HashMap<String, ArrayList<Xml>>();
+	private final Map<String, String> nameAttributes = new HashMap<>();
+	private final Map<String, ArrayList<Xml>> nameChildren = new HashMap<>();
 
 	public Xml(InputStream inputStream, String rootName) {
 		this(rootElement(inputStream, rootName));
@@ -128,7 +128,7 @@ public class Xml {
 
 	public ArrayList<Xml> children(String name) {
 		if (name == null) {
-			ArrayList<Xml> all = new ArrayList<Xml>();
+			ArrayList<Xml> all = new ArrayList<>();
 			// get all children
 			for (ArrayList<Xml> children : nameChildren.values()) {
 				all.addAll(children);
@@ -136,7 +136,7 @@ public class Xml {
 			return all;
 		}
 		ArrayList<Xml> children = nameChildren.get(name);
-		return children == null ? new ArrayList<Xml>() : children;
+		return children == null ? new ArrayList<>() : children;
 	}
 
 	public String string(String name) {

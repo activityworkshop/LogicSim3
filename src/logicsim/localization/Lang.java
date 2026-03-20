@@ -64,6 +64,7 @@ public enum Lang {
 	ADDPOINT_HELP("status.addpoint.help"),
 	REMOVEPOINT_HELP("status.removepoint.help"),
 	WIRENEW_HELP("status.wirenew.help"),
+	STATUS_GATE_ADDED("status.gateadded"),
 	SAVED("status.saved"),
 	ABORTED("status.aborted"),
 	SIMULATION_STARTED("status.simulation.started"),
@@ -83,6 +84,7 @@ public enum Lang {
 	UNNAMED("filename.unnamed"),
 
 	SAVECIRCUIT("dialog.savecircuit.title"),
+	GATE_PROPERTIES("dialog.gateproperties.title"),
 
 	QUESTION_CONFIRMDISCARD("question.confirmdiscard"),
 	QUESTION_CONFIRMSAVE("question.confirmsave"),

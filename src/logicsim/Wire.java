@@ -98,8 +98,7 @@ public class Wire extends CircuitPart implements Cloneable {
 		WirePoint first = getPointFrom();
 		path.moveTo(first.getX(), first.getY());
 
-		for (int i = 0; i < points.size(); i++) {
-			WirePoint point = points.get(i);
+		for (WirePoint point : points) {
 			path.lineTo(point.getX(), point.getY());
 		}
 
@@ -565,14 +564,11 @@ public class Wire extends CircuitPart implements Cloneable {
 	@Override
 	public void reset() {
 		super.reset();
-		if (from instanceof Wire) {
-			Wire w = (Wire) from;
+		if (from instanceof Wire w) {
 			from.fireChangedLevel(new LSLevelEvent(from, w.getLevel()));
-		} else if (from instanceof Pin) {
-			Pin p = (Pin) from;
+		} else if (from instanceof Pin p) {
 			from.fireChangedLevel(new LSLevelEvent(from, p.getLevel()));
-		} else if (from instanceof WirePoint) {
-			WirePoint wp = (WirePoint) from;
+		} else if (from instanceof WirePoint wp) {
 			if (wp.parent != null) {
 				Wire w = (Wire) wp.parent;
 				wp.parent.fireChangedLevel(new LSLevelEvent(wp.parent, w.getLevel()));

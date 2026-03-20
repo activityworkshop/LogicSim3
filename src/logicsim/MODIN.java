@@ -129,7 +129,7 @@ public class MODIN extends Gate {
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, PINCOUNT), I18N.tr(Lang.SETTINGS),
+		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, PINCOUNT), I18N.tr(Lang.GATE_PROPERTIES),
 				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(pincount));
 		if (h != null && !h.isEmpty()) {
 			pincount = Integer.parseInt(h);

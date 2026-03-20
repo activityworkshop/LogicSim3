@@ -33,17 +33,17 @@ public class CLK extends Gate implements Runnable {
 	static final int RUNNING = 1;
 	static final int MANUAL = 2;
 
-	static final String HT = "hightime";
-	static final String LT = "lowtime";
+	private static final String HT = "hightime";
+	private static final String LT = "lowtime";
 
 	static final String HT_DEFAULT = "500";
 	static final String LT_DEFAULT = "500";
 
     private boolean running = false;
 
-	Rectangle auto = new Rectangle(39, 53, 30, 15);
-	Rectangle manual = new Rectangle(11, 53, 15, 15);
-	Rectangle oszi = new Rectangle(11, 20, 59, 30);
+	private static final Rectangle auto = new Rectangle(39, 53, 30, 15);
+	private static final Rectangle manual = new Rectangle(11, 53, 15, 15);
+	private static final Rectangle oszi = new Rectangle(11, 20, 59, 30);
 
 	boolean[] osz = new boolean[oszi.width + 1];
 
@@ -166,13 +166,13 @@ public class CLK extends Gate implements Runnable {
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERHIGH), I18N.tr(Lang.SETTINGS),
+		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERHIGH), I18N.tr(Lang.GATE_PROPERTIES),
 				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(highTime));
 		if (h != null && !h.isEmpty()) {
 			highTime = Integer.parseInt(h);
 			setPropertyInt(HT, highTime);
 		}
-		h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERLOW), I18N.tr(Lang.SETTINGS),
+		h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, ENTERLOW), I18N.tr(Lang.GATE_PROPERTIES),
 				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(lowTime));
 		if (h != null && !h.isEmpty()) {
 			lowTime = Integer.parseInt(h);

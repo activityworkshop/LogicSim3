@@ -32,8 +32,7 @@ public class Circuit implements LSRepaintListener {
 	public boolean addWire(Wire newWire) {
 		// only add a wire if there is not a wire from<->to
 		for (CircuitPart part : parts) {
-			if (part instanceof Wire) {
-				Wire w = (Wire) part;
+			if (part instanceof Wire w) {
 				if (w.getTo().equals(newWire.getTo()) && w.getFrom().equals(newWire.getFrom())) {
 					// don't add
 					return false;
@@ -156,11 +155,9 @@ public class Circuit implements LSRepaintListener {
 			return false;
 
 		for (CircuitPart part : parts) {
-			if (part instanceof Gate) {
-				Gate g = (Gate) part;
+			if (part instanceof Gate g) {
 				removeGate(g);
-			} else if (part instanceof Wire) {
-				Wire w = (Wire) part;
+			} else if (part instanceof Wire w) {
 				w.disconnect(null);
 				this.parts.remove(part);
 			}
@@ -196,13 +193,11 @@ public class Circuit implements LSRepaintListener {
 //				}
 //			}
 //		}
-		for (Iterator<CircuitPart> iter = parts.iterator(); iter.hasNext();) {
-			CircuitPart part = iter.next();
-			if (!(part instanceof Wire))
+		for (CircuitPart part : parts) {
+			if (!(part instanceof Wire w)) {
 				continue;
-			Wire w = (Wire) part;
-			if (w.getTo() != null && w.getTo() instanceof Pin) {
-				Pin p = (Pin) w.getTo();
+			}
+			if (w.getTo() != null && w.getTo() instanceof Pin p) {
 				if (p.parent == g) {
 					w.removeLevelListener(p);
 					p.removeLevelListener(w);
@@ -213,8 +208,7 @@ public class Circuit implements LSRepaintListener {
 					w.connect(wp);
 				}
 			}
-			if (w.getFrom() != null && w.getFrom() instanceof Pin) {
-				Pin p = (Pin) w.getFrom();
+			if (w.getFrom() != null && w.getFrom() instanceof Pin p) {
 				if (p.parent == g) {
 					w.removeLevelListener(p);
 					p.removeLevelListener(w);
@@ -369,8 +363,7 @@ public class Circuit implements LSRepaintListener {
 		int px = wp.getX();
 		int py = wp.getY();
 		CircuitPart cp = findPartAt(px, py);
-		if (cp instanceof Pin) {
-			Pin p = (Pin) cp;
+		if (cp instanceof Pin p) {
 			// wirepoint will be replaced by pin
 			// get corresponding wire
 			for (Wire w : getWires()) {

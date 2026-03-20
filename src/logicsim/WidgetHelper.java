@@ -97,14 +97,12 @@ public class WidgetHelper {
 	public static Rectangle rotateRectangle(Rectangle r, Point ctr) {
 		Point p1 = rotatePoint90(r.x, r.y, ctr);
 		Point p2 = rotatePoint90(r.x + r.width, r.y + r.height, ctr);
-		r = new Rectangle(p2.x, p1.y, p1.x - p2.x, p2.y - p1.y);
-		return r;
+		return new Rectangle(p2.x, p1.y, p1.x - p2.x, p2.y - p1.y);
 	}
 
 	public static Point rotatePoint90(int x, int y, Point center) {
-		int degrees = -90;
-		double sin = Math.sin(Math.toRadians(degrees));
-		double cos = Math.cos(Math.toRadians(degrees));
+		final double sin = -1.0;
+		final double cos = 0.0;
 		// translate to origin
 		x -= center.x;
 		y -= center.y;

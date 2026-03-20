@@ -65,7 +65,7 @@ public abstract class Delay extends Gate implements Runnable {
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, DELAY), I18N.tr(Lang.SETTINGS),
+		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, DELAY), I18N.tr(Lang.GATE_PROPERTIES),
 				JOptionPane.QUESTION_MESSAGE, null, null, Integer.toString(delayTimeMs));
 		if (h != null && !h.isEmpty()) {
 			try {

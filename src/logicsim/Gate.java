@@ -35,14 +35,10 @@ public class Gate extends CircuitPart {
 
 	protected String label;
 
-	protected int labelOffsetX;
-
-	protected int labelOffsetY;
-
 	protected int origX = 0;
 	protected int origY = 0;
 
-	protected Vector<Pin> pins = new Vector<>();
+	protected final Vector<Pin> pins = new Vector<>();
 
 	/**
 	 * rotate in 90 degree steps clockwise (0-3).
@@ -83,20 +79,6 @@ public class Gate extends CircuitPart {
 		this.category = "category." + category;
 	}
 
-//	public Gate(String type, int actionid) {
-//		this(0, 0);
-//		this.type = type;
-//		this.actionid = actionid;
-//	}
-
-//	public void addConnector(Pin conn) {
-//		for (Pin c : pins)
-//			if (c.number == conn.number)
-//				throw new RuntimeException("Connector number " + c.number + " is already there in gate " + type);
-//		// check if number is present
-//		pins.add(conn);
-//	}
-
 	public void createDynamicInputs(int total) {
         if (total < 2) total = 2;
         if (total > 5) total = 5;
@@ -111,25 +93,7 @@ public class Gate extends CircuitPart {
             // add new connectors - total times
             for (int i = numInputs; i < total; i++) {
                 num++;
-                Pin c = new Pin(0, 0, this, num);
-                switch (rotate90) {
-                    case 0 -> {
-                        c.setX(getX());
-                        c.setDirection(Pin.RIGHT);
-                    }
-                    case 1 ->{
-                        c.setY(getY());
-                        c.setDirection(Pin.DOWN);
-                    }
-                    case 2 -> {
-                        c.setX(getX() + width);
-                        c.setDirection(Pin.LEFT);
-                    }
-                    case 3 ->{
-                        c.setY(getY() + height);
-                        c.setDirection(Pin.UP);
-                    }
-                }
+                Pin c = makeRotatedPin(num, rotate90);
                 c.setIoType(Pin.INPUT);
                 pins.add(c);
             }
@@ -160,6 +124,29 @@ public class Gate extends CircuitPart {
         }
 
     }
+
+	private Pin makeRotatedPin(int num, int rotate90) {
+		final Pin pin = new Pin(0, 0, this, num);
+		switch (rotate90) {
+			case 0 -> {
+				pin.setX(getX());
+				pin.setDirection(Pin.RIGHT);
+			}
+			case 1 -> {
+				pin.setY(getY());
+				pin.setDirection(Pin.DOWN);
+			}
+			case 2 -> {
+				pin.setX(getX() + width);
+				pin.setDirection(Pin.LEFT);
+			}
+			case 3 -> {
+				pin.setY(getY() + height);
+				pin.setDirection(Pin.UP);
+			}
+		}
+		return pin;
+	}
 
 	public void createInputs(int n) {
 		createPins(Pin.INPUT, n);
@@ -213,7 +200,7 @@ public class Gate extends CircuitPart {
 	}
 
     public void drawText(Graphics2D g2) {
-        drawLabelWithOffset(g2, getProperty(TEXT), bigFont, labelOffsetX, labelOffsetY + height/2 + 10);
+        drawLabelWithOffset(g2, getProperty(TEXT), bigFont, 0, height/2 + 10);
     }
 
 	protected void drawRotated(Graphics2D g2) {
@@ -268,12 +255,12 @@ public class Gate extends CircuitPart {
 		}
 	}
 
-	protected void drawLabelWithOffset(Graphics2D g2, String lbl, Font font, int OffsetX, int OffsetY) {
+	protected void drawLabelWithOffset(Graphics2D g2, String lbl, Font font, int offsetX, int offsetY) {
 		if (lbl != null) {
 			g2.setFont(font);
 			int sw = g2.getFontMetrics().stringWidth(lbl);
-			g2.drawString(lbl, getX() + getWidth() / 2 - sw / 2 + OffsetX,
-					getY() + getHeight() / 2 + (g2.getFont().getSize() / 2) - 2 + OffsetY);
+			g2.drawString(lbl, getX() + getWidth() / 2 - sw / 2 + offsetX,
+					getY() + getHeight() / 2 + (g2.getFont().getSize() / 2) - 2 + offsetY);
 		}
 	}
 
@@ -427,14 +414,14 @@ public class Gate extends CircuitPart {
 		return width;
 	}
 
-    /**
-	 * true, wenn Koordinaten mx,my innerhalb der gate Area liegen
-	 */
-	public final boolean insideArea(int mx, int my) {
-		// setup tolerance
-		int t = 1;
-		return new Rectangle(getX() - t, getY() - t, getWidth() + 2 * t + 1, getHeight() + 2 * t + 1).contains(mx, my);
-	}
+//	/**
+//	 * true, wenn Koordinaten mx,my innerhalb der gate Area liegen
+//	 */
+//	public final boolean insideArea(int mx, int my) {
+//		// setup tolerance
+//		int t = 1;
+//		return new Rectangle(getX() - t, getY() - t, getWidth() + 2 * t + 1, getHeight() + 2 * t + 1).contains(mx, my);
+//	}
 
 	/**
 	 * true, wenn Koordinaten mx,my innerhalb des Gatters liegen
@@ -501,7 +488,7 @@ public class Gate extends CircuitPart {
 	 */
 	@Override
 	public void reset() {
-		busted = false;
+		super.reset();
 		force = true;
 		simulate();
 		force = false;

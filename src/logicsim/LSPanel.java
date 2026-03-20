@@ -25,9 +25,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.Serial;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -60,7 +58,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 
 			draw(g2);
 
-			// redraw selected parts so that there are in the foreground
+			// redraw selected parts so that they are in the foreground
 			for (CircuitPart part : circuit.getSelected()) {
 				part.draw(g2);
 			}
@@ -247,7 +245,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                         wp.connect(newWire);
 					}
 				}
-				fireStatusText(I18N.tr(Lang.WIREEDIT));
+				fireStatusText(Lang.WIREEDIT);
 				circuit.deselectAll();
 				newWire.select();
 				fireCircuitChanged();
@@ -440,8 +438,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 
     public static final Color gridColor = Color.black;
 
-	public static final String MSG_ABORTED = "MSG_DESELECT_BUTTONS";
-
 	private CircuitChangedListener changeListener;
 	public Circuit circuit = new Circuit();
 
@@ -551,12 +547,12 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 					w.disconnect(null);
 					circuit.remove(w);
                     circuit.deselectAll();
-					fireStatusText(MSG_ABORTED);
+					fireStatusText(Lang.ABORTED);
 				}
 			} else if (currentAction == ACTION_ADDPOINT || currentAction == ACTION_DELPOINT
 					|| currentAction == ACTION_SELECT) {
 				currentAction = ACTION_NONE;
-				fireStatusText(MSG_ABORTED);
+				fireStatusText(Lang.ABORTED);
 			} else if (parts.length > 1) {
 				circuit.deselectAll();
 			}
@@ -617,6 +613,10 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		repaint();
 	}
 
+	private void fireStatusText(Lang token) {
+		fireStatusText(I18N.tr(token));
+	}
+
 	private void fireStatusText(String msg) {
 		if (changeListener != null) {
 			changeListener.changedStatusText(msg);
@@ -629,7 +629,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	}
 
 	@Override
-	public int print(Graphics g, PageFormat pf, int pi) throws PrinterException {
+	public int print(Graphics g, PageFormat pf, int pi) {
 		if (pi >= 1) {
 			return Printable.NO_SUCH_PAGE;
 		}
@@ -665,7 +665,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 			circuit.addGate((Gate) g);
 			g.select();
 
-			fireStatusText("MSG_ADD_NEW_GATE");
+			fireStatusText(Lang.STATUS_GATE_ADDED);
 			fireCircuitChanged();
 			repaint();
 		}
@@ -674,22 +674,22 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	public void setAction(int actionNumber) {
 		switch (actionNumber) {
 		case ACTION_ADDPOINT:
-			fireStatusText(I18N.tr(Lang.ADDPOINT));
+			fireStatusText(Lang.ADDPOINT);
 			break;
 		case ACTION_DELPOINT:
-			fireStatusText(I18N.tr(Lang.REMOVEPOINT));
+			fireStatusText(Lang.REMOVEPOINT);
 			break;
 		case Pin.HIGH:
-			fireStatusText(I18N.tr(Lang.INPUTHIGH));
+			fireStatusText(Lang.INPUTHIGH);
 			break;
 		case Pin.LOW:
-			fireStatusText(I18N.tr(Lang.INPUTLOW));
+			fireStatusText(Lang.INPUTLOW);
 			break;
 		case Pin.NORMAL:
-			fireStatusText(I18N.tr(Lang.INPUTNORM));
+			fireStatusText(Lang.INPUTNORM);
 			break;
 		case Pin.INVERTED:
-			fireStatusText(I18N.tr(Lang.INPUTINV));
+			fireStatusText(Lang.INPUTINV);
 			break;
 		}
 		currentAction = actionNumber;
@@ -740,7 +740,7 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		g.moveTo(posX, posY);
 		circuit.addGate(g);
 		g.select();
-		fireStatusText("MSG_ADD_NEW_GATE");
+		fireStatusText(Lang.STATUS_GATE_ADDED);
 		fireCircuitChanged();
 		repaint();
 	}

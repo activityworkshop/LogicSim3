@@ -205,7 +205,7 @@ public class Memory128 extends Gate {
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
 
-		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, PROGRAM), I18N.tr(Lang.PROPERTIES),
+		String h = (String) JOptionPane.showInputDialog(frame, I18N.getString(type, PROGRAM), I18N.tr(Lang.GATE_PROPERTIES),
 				JOptionPane.QUESTION_MESSAGE, null, null, text);
 		if (h != null) {
 			String[] instructions = h.split(" ");

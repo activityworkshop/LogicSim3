@@ -44,17 +44,17 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     JMenuBar mnuBar;
     JToolBar btnBar;
 
-    DefaultListModel<Object> partListModel = new DefaultListModel<>();
-    JList<Object> lstParts = new JList<>(partListModel);
-    JComboBox<String> cbNumInputs = null;
-    LSPanel lspanel = new LSPanel();
+    private final DefaultListModel<Object> partListModel = new DefaultListModel<>();
+    private final JList<Object> lstParts = new JList<>(partListModel);
+    private JComboBox<String> cbNumInputs = null;
+    private final LSPanel lspanel = new LSPanel();
 
     JSplitPane splitPane;
-    JPanel pnlGateList = new JPanel();
-    int dividerLocation;
+    private final JPanel pnlGateList = new JPanel();
+    private int dividerLocation;
 
-    JLabel sbText = new JLabel();
-    JLabel sbCoordinates = new JLabel();
+    private final JLabel sbText = new JLabel();
+    private final JLabel sbCoordinates = new JLabel();
 
     int popupGateIdx;
     JPopupMenu popup;
@@ -1174,16 +1174,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
     @Override
     public void changedStatusText(String text) {
-        if (LSPanel.MSG_ABORTED.equals(text)) {
-            for (Component c : btnBar.getComponents()) {
-                if (c instanceof LSToggleButton b) {
-                    b.setSelected(false);
-                }
-            }
-            setStatusText(I18N.tr(Lang.ABORTED));
-            repaint();
-        } else
-            setStatusText(text);
+        setStatusText(text);
     }
 
     @Override
