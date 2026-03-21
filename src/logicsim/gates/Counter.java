@@ -27,6 +27,8 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Counter extends BinaryOutput {
+	public static final String GATE_TYPE = "counter";
+
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";
@@ -35,7 +37,7 @@ public class Counter extends BinaryOutput {
 	int value = 0;
 
 	public Counter() {
-		super("counter");
+		super(GATE_TYPE);
 		height = 90;
 		createInputs(1);
 		createOutputs(8);
@@ -66,10 +68,7 @@ public class Counter extends BinaryOutput {
 	public void changedLevel(LSLevelEvent e) {
 		if (e.source.equals(getPin(0)) && e.level == HIGH) {
 			// rising edge detection
-			value++;
-			if (value > 0xff) {
-				value = 0;
-			}
+			value = (value + 1) % 256;
 			setOutputs();
 		}
 	}

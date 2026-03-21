@@ -10,9 +10,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class NOT extends Buffer {
+	public static final String GATE_TYPE = "not";
 
 	public NOT() {
-		super("not");
+		super(GATE_TYPE);
 		getPin(1).setLevelType(Pin.INVERTED);
 	}
 }

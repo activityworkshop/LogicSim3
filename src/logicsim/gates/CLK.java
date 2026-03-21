@@ -26,6 +26,8 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class CLK extends Gate implements Runnable {
+	public static final String GATE_TYPE = "clock";
+
 	private static final String ENTERLOW = "enterlow";
 	private static final String ENTERHIGH = "enterhigh";
 
@@ -36,29 +38,28 @@ public class CLK extends Gate implements Runnable {
 	private static final String HT = "hightime";
 	private static final String LT = "lowtime";
 
-	static final String HT_DEFAULT = "500";
-	static final String LT_DEFAULT = "500";
-
-    private boolean running = false;
+	private static final String HT_DEFAULT = "500";
+	private static final String LT_DEFAULT = "500";
 
 	private static final Rectangle auto = new Rectangle(39, 53, 30, 15);
 	private static final Rectangle manual = new Rectangle(11, 53, 15, 15);
 	private static final Rectangle oszi = new Rectangle(11, 20, 59, 30);
 
-	boolean[] osz = new boolean[oszi.width + 1];
-
-	int currentMode = PAUSE;
-	long lastTime;
-	int highTime = 500;
-	int lowTime = 500;
-	int pos = 0;
-
 	private static final int OUT = 0;
 	private static final int NOUT = 1;
 	private static final int HLT = 2;
 
+	private boolean running = false;
+	boolean[] osz = new boolean[oszi.width + 1];
+
+	private int currentMode = PAUSE;
+	private long lastTime;
+	private int highTime = 500;
+	private int lowTime = 500;
+	private int pos = 0;
+
 	public CLK() {
-		super("inputs", "clock");
+		super("inputs", GATE_TYPE);
 		width = 80;
 		height = 80;
 		createOutputs(2);

@@ -15,11 +15,13 @@ import logicsim.Wire;
  * @version 2.0
  */
 public class SRLatch extends Gate {
-	Gate nor1 = new NOR();
-	Gate nor2 = new NOR();
+	public static final String GATE_TYPE = "srl";
+
+	private final Gate nor1 = new NOR();
+	private final Gate nor2 = new NOR();
 
 	public SRLatch() {
-		super("flipflops", "srl");
+		super("flipflops", GATE_TYPE);
 		createInputs(2);
 		createOutputs(2);
 

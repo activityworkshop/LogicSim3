@@ -20,6 +20,8 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class LED8 extends Gate {
+	public static final String GATE_TYPE = "led8";
+
 	private static final String COLOR = "color";
 	private static final String DEFAULT_COLOR = "#ff0000";
 	private static final int OVAL_RADIUS = 9;
@@ -27,7 +29,7 @@ public class LED8 extends Gate {
 	private Color color = null;
 
 	public LED8() {
-		super("outputs", "led8");
+		super("outputs", GATE_TYPE);
 		setWidth(20);
 		setHeight(90);
 		createInputs(8);

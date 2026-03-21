@@ -12,8 +12,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class EQU extends Gate {
+	public static final String GATE_TYPE = "equ";
+
 	public EQU() {
-		super("basic", "equ");
+		super("basic", GATE_TYPE);
 		label = "=";
 		createOutputs(1);
 		createInputs(2);

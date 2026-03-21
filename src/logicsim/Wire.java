@@ -258,14 +258,8 @@ public class Wire extends CircuitPart implements Cloneable {
 		points.insertElementAt(wp, n);
 	}
 
-//	public void insertPointAfterStart(int x, int y) {
-//		WirePoint wp = new WirePoint(x, y, false);
-//		points.insertElementAt(wp, 0);
-//	}
-
 	/**
 	 * check if the wire is near given coordinates
-	 * 
 	 * if the distance between the clicked point and the wire is small enough the
 	 * point number is returned
 	 * 
@@ -363,12 +357,6 @@ public class Wire extends CircuitPart implements Cloneable {
 		for (WirePoint wp : points) {
 			wp.moveBy(dx, dy);
 		}
-		// if (getFrom() instanceof WirePoint) {
-		// getFrom().moveBy(dx, dy);
-		// }
-		// if (getTo() instanceof WirePoint) {
-		// getTo().moveBy(dx, dy);
-		// }
 	}
 
 	/**
@@ -415,8 +403,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	public void setNodeIsDrawn(int i) {
-		WirePoint p = points.get(i);
-		p.show = true;
+		points.get(i).show = true;
 	}
 
 	public void setTempPoint(Point point) {
@@ -481,25 +468,25 @@ public class Wire extends CircuitPart implements Cloneable {
 				+ (getTo() != null ? getTo().getId() : "");
 	}
 
-	public void addPointFitting(int x, int y) {
-		Vector<WirePoint> ps = getAllPoints();
-		for (int i = 0; i < ps.size() - 1; i++) {
-			// set current and next wirepoint
-			WirePoint c = ps.get(i);
-			WirePoint n = ps.get(i + 1);
-			if (n.isAt(x, y)) {
-				n.show = true;
-				return;
-			}
-			Line2D l = new Line2D.Float((float) c.getX(), (float) c.getY(), (float) n.getX(), (float) n.getY());
-			double dist = l.ptSegDist((double) x, (double) y);
-			if (dist < 4.5f) {
-				// so the point should be after "c"
-				insertPointAfter(i, x, y);
-				return;
-			}
-		}
-	}
+//	public void addPointFitting(int x, int y) {
+//		Vector<WirePoint> ps = getAllPoints();
+//		for (int i = 0; i < ps.size() - 1; i++) {
+//			// set current and next wirepoint
+//			WirePoint c = ps.get(i);
+//			WirePoint n = ps.get(i + 1);
+//			if (n.isAt(x, y)) {
+//				n.show = true;
+//				return;
+//			}
+//			Line2D l = new Line2D.Float((float) c.getX(), (float) c.getY(), (float) n.getX(), (float) n.getY());
+//			double dist = l.ptSegDist((double) x, (double) y);
+//			if (dist < 4.5f) {
+//				// so the point should be after "c"
+//				insertPointAfter(i, x, y);
+//				return;
+//			}
+//		}
+//	}
 
 	@Override
 	public void deselect() {
@@ -589,6 +576,5 @@ public class Wire extends CircuitPart implements Cloneable {
 			LOW_WIDTH = 1f;
 			HIGH_WIDTH = 1f;
 		}
-
 	}
 }

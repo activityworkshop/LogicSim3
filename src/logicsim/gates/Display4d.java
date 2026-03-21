@@ -18,19 +18,13 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Display4d extends Gate {
+	public static final String GATE_TYPE = "disp4d";
+
 	private static final int BLANK = 17;
 	private static final int MINUS = 16;
 
 	private static final Color OFF_COLOR = new Color(0xE0, 0xE0, 0xE0);
 	private static final Color ON_COLOR = Color.RED;
-
-	int[] out = new int[] { 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1,
-			0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-			0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1,
-			1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
-
-	int value;
-	int[] digit = new int[] { BLANK, BLANK, BLANK, BLANK };
 
 	private static final int WE = 8;
 
@@ -39,8 +33,16 @@ public class Display4d extends Gate {
 	private static final int CLK = 10;
 	private static final int CLR = 11;
 
+	private final int[] out = new int[] { 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1,
+			0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1,
+			1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 };
+
+	private int value;
+	private final int[] digit = new int[] { BLANK, BLANK, BLANK, BLANK };
+
 	public Display4d() {
-		super("cpu", "disp4d");
+		super("cpu", GATE_TYPE);
 		height = 90;
 		width = 150;
 		createInputs(12);

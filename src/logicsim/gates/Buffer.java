@@ -15,8 +15,10 @@ import logicsim.LSProperties;
  * @version 1.0
  */
 public class Buffer extends Gate {
+	public static final String GATE_TYPE = "buffer";
+
 	public Buffer() {
-		this("buffer");
+		this(GATE_TYPE);
 	}
 
 	protected Buffer(String type) {

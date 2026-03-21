@@ -26,6 +26,8 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class BinDisp extends BinaryOutput {
+	public static final String GATE_TYPE = "bindisp";
+
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";
@@ -34,7 +36,7 @@ public class BinDisp extends BinaryOutput {
 
 
 	public BinDisp() {
-		super("bindisp");
+		super(GATE_TYPE);
 		height = 90;
 		backgroundColor = Color.LIGHT_GRAY;
 		createInputs(8);

@@ -36,6 +36,8 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class Switch extends Gate {
+	public static final String GATE_TYPE = "switch";
+
 	private static final String SWITCH_TYPE = "type";
 	private static final String STATE = "state";
 	private static final String TOGGLE = "toggle";
@@ -47,12 +49,12 @@ public class Switch extends Gate {
 	/**
 	 * type of switch: true=MOMENTARY, false=TOGGLE
 	 */
-	boolean switchTypeMomentary = false;
+	private boolean switchTypeMomentary = false;
 
 	private Color color = null;
 
 	public Switch() {
-		super("inputs", "switch");
+		super("inputs", GATE_TYPE);
 		width = 40;
 		height = 40;
 		createOutputs(1);
@@ -107,12 +109,11 @@ public class Switch extends Gate {
 	@Override
 	public void draw(Graphics2D g) {
 		super.draw(g);
-		int x = getX();
-		int y = getY();
+		final int x = getX();
+		final int y = getY();
 
-		Rectangle2D rect;
-		// rect = new Rectangle2D.Float(x + width - CONN_SIZE - 12, y + 5, 13, 30);
-		rect = new Rectangle2D.Float(x + 5, y + height - CONN_SIZE - 12, 30, 13);
+		Rectangle2D rect = new Rectangle2D.Float(x + 5, y + height - CONN_SIZE - 12,
+				30, 13);
 
 		g.setStroke(new BasicStroke(1));
 		g.setPaint(Color.LIGHT_GRAY);
@@ -173,14 +174,13 @@ public class Switch extends Gate {
 			c.setX(getX() + width / 2);
 			c.setY(getY() + height);
 		}
-
 	}
 
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		JRadioButton jRadioButton1 = new JRadioButton();
-		JRadioButton jRadioButton2 = new JRadioButton();
+		JRadioButton jRadioButton1 = new JRadioButton(I18N.getString(type, TOGGLE));
+		JRadioButton jRadioButton2 = new JRadioButton(I18N.getString(type, MOMENTARY));
 
 		// Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
@@ -193,16 +193,11 @@ public class Switch extends Gate {
 			jRadioButton1.setSelected(true);
 
 		JPanel jPanel1 = new JPanel();
-		TitledBorder titledBorder1;
-		BorderLayout borderLayout1 = new BorderLayout();
-
-		titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
+		TitledBorder titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
 				I18N.getString(type, SWITCH_TYPE));
-		jRadioButton1.setText(I18N.getString(type, TOGGLE));
-		jRadioButton2.setText(I18N.getString(type, MOMENTARY));
 		jPanel1.setBorder(titledBorder1);
 		jPanel1.setBounds(new Rectangle(11, 11, 171, 150));
-		jPanel1.setLayout(borderLayout1);
+		jPanel1.setLayout(new BorderLayout());
 		jPanel1.add(jRadioButton1, BorderLayout.NORTH);
 		jPanel1.add(jRadioButton2, BorderLayout.CENTER);
 
@@ -223,8 +218,9 @@ public class Switch extends Gate {
 		}
 
 		Color newColor = JColorChooser.showDialog(null, I18N.tr(Lang.SETTINGS), color);
-		if (newColor != null)
+		if (newColor != null) {
 			color = newColor;
+		}
 		setProperty(COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
 		return true;
 	}

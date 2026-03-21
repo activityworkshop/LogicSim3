@@ -17,10 +17,10 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class Register8 extends Gate {
+	public static final String GATE_TYPE = "register8";
 
 	private static final String STATE = "state";
 
-	int content = 0;
 	private static final int DATA = 0;
 	private static final int OE = 8;
 	private static final int LOAD = 9;
@@ -28,8 +28,10 @@ public class Register8 extends Gate {
 	private static final int CLEAR = 11;
 	private static final int INTOUT = 12;
 
+	private int content = 0;
+
 	public Register8() {
-		super("cpu", "register8");
+		super("cpu", GATE_TYPE);
 		height = 110;
 		width = 110;
 		createInputs(12);

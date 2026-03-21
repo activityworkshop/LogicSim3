@@ -15,6 +15,8 @@ import logicsim.LSMouseEvent;
  * @version 1.0
  */
 public class Switch8 extends Gate {
+	public static final String GATE_TYPE = "switch8";
+
 	private static final String COLOR = "color";
 	private static final int OVAL_RADIUS = 9;
 	private static final String DEFAULT_COLOR = "#ff0000";
@@ -22,7 +24,7 @@ public class Switch8 extends Gate {
 	private Color color = null;
 
 	public Switch8() {
-		super("inputs", "switch8");
+		super("inputs", GATE_TYPE);
 		setWidth(20);
 		setHeight(90);
 		createOutputs(8);

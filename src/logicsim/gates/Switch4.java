@@ -19,13 +19,12 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class Switch4 extends Gate {
-	long clickCountDown = 0;
-	boolean mouseDown = false;
+	public static final String GATE_TYPE = "switch4";
 
-	Rectangle[] areaRect;
+	private final Rectangle[] areaRect;
 
 	public Switch4() {
-		super("inputs", "switch4");
+		super("inputs", GATE_TYPE);
 		width = 80;
 		height = 40;
 		createOutputs(4);
@@ -37,10 +36,9 @@ public class Switch4 extends Gate {
 
 		reset();
 		areaRect = new Rectangle[4];
-		Rectangle r;
 		for (int i = 0; i < 4; i++) {
 			Pin conn = getPin(i);
-			r = new Rectangle(conn.getX() - 6, getY() + 6, 13, 28);
+			Rectangle r = new Rectangle(conn.getX() - 6, getY() + 6, 13, 28);
 			areaRect[i] = r;
 		}
 	}
@@ -64,10 +62,11 @@ public class Switch4 extends Gate {
 		super.draw(g2);
 		g2.setStroke(new BasicStroke(1));
 		for (int i = 0; i < areaRect.length; i++) {
-			if (areaRect[i].width < areaRect[i].height)
+			if (areaRect[i].width < areaRect[i].height) {
 				WidgetHelper.drawSwitchVertical(g2, areaRect[i], getPin(i).getLevel(), Color.red, Color.LIGHT_GRAY);
-			else
+			} else {
 				WidgetHelper.drawSwitchHorizontal(g2, areaRect[i], getPin(i).getLevel(), Color.red, Color.LIGHT_GRAY);
+			}
 		}
 	}
 

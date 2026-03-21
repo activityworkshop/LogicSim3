@@ -10,8 +10,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class NOR extends OR {
+	public static final String GATE_TYPE = "nor";
+
 	public NOR() {
-		super("nor");
+		super(GATE_TYPE);
 		getPin(0).setLevelType(Pin.INVERTED);
 	}
 }

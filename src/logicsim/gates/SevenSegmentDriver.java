@@ -14,12 +14,13 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class SevenSegmentDriver extends Gate {
+	public static final String GATE_TYPE = "sevendrv";
 
-	int[] out;
-	boolean force = false;
+	private int[] out;
+	private boolean force = false;
 
 	public SevenSegmentDriver() {
-		super("outputs", "sevendrv");
+		super("outputs", GATE_TYPE);
 		height = 80;
 		createInputs(4);
 		createOutputs(7);

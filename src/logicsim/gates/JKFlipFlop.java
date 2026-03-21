@@ -12,14 +12,16 @@ import logicsim.LSLevelEvent;
  * @version 2.0
  */
 public class JKFlipFlop extends Gate {
-	static final int CLK = 1;
-	static final int J = 0;
-	static final int K = 2;
-	static final int ON = 3;
-	static final int OI = 4;
+	public static final String GATE_TYPE = "jkff";
+
+	private static final int CLK = 1;
+	private static final int J = 0;
+	private static final int K = 2;
+	private static final int ON = 3;
+	private static final int OI = 4;
 	
 	public JKFlipFlop() {
-		super("flipflops", "jkff");
+		super("flipflops", GATE_TYPE);
 		label = "JK";
 		createInputs(3);
 		createOutputs(2);

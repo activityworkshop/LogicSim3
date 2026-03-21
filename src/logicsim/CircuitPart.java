@@ -12,7 +12,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	protected static final Font bigFont = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
 	protected static final Font smallFont = new Font(Font.SANS_SERIF, Font.PLAIN, 7);
 
-	private final Collection<LSLevelListener> listeners;
+	private final List<LSLevelListener> listeners;
 	private LSRepaintListener repListener;
 
 
@@ -337,7 +337,7 @@ public abstract class CircuitPart implements LSLevelListener {
 		return !getListeners().isEmpty();
 	}
 
-	public Collection<LSLevelListener> getListeners() {
+	public List<LSLevelListener> getListeners() {
 		return listeners;
 	}
 

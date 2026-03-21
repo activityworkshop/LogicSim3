@@ -14,9 +14,10 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class SRRFlipFlop extends Gate {
+	public static final String GATE_TYPE = "srrff";
 
 	public SRRFlipFlop() {
-		super("flipflops", "srrff");
+		super("flipflops", GATE_TYPE);
 		createInputs(4);
 		createOutputs(2);
 

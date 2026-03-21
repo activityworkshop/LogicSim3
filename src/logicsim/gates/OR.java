@@ -18,9 +18,10 @@ import logicsim.LSProperties;
  * @version 2.0
  */
 public class OR extends Gate {
+	public static final String GATE_TYPE = "or";
 
 	public OR() {
-		this("or");
+		this(GATE_TYPE);
 	}
 
 	protected OR(String type) {

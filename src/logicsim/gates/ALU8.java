@@ -19,9 +19,8 @@ import logicsim.Pin;
  */
 public class ALU8 extends Gate {
 
-	int result = 0;
-	int wordA = 0;
-	int wordB = 0;
+	public static final String GATE_TYPE = "alu8";
+
 	private static final int WORD1 = 8;
 	private static final int WORD2 = 16;
 	private static final int OE = 24;
@@ -30,8 +29,10 @@ public class ALU8 extends Gate {
 	private static final int CF = 27;
 	private static final int ZF = 28;
 
+	private int result = 0;
+
 	public ALU8() {
-		super("cpu", "alu8");
+		super("cpu", GATE_TYPE);
 		height = 110;
 		width = 110;
 		createOutputs(8);
@@ -86,7 +87,6 @@ public class ALU8 extends Gate {
 		getPin(ZF).paintDirection = Pin.LEFT;
 		getPin(ZF).setX(getX() + width);
 		getPin(ZF).setY(getY() + height - 20);
-
 	}
 
 	@Override
@@ -130,13 +130,13 @@ public class ALU8 extends Gate {
 			// just compute everything when an event occurs
 
 			// compute wordA
-			wordA = 0;
+			int wordA = 0;
 			for (int i = WORD1; i < WORD1 + 8; i++) {
 				int pot = (int) Math.pow(2, (i - 8));
 				wordA += getPin(i).getLevel() ? pot : 0;
 			}
 			// compute wordB
-			wordB = 0;
+			int wordB = 0;
 			for (int i = WORD2; i < WORD2 + 8; i++) {
 				int pot = (int) Math.pow(2, (i - 16));
 				wordB += getPin(i).getLevel() ? pot : 0;

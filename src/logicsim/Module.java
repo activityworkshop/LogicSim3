@@ -24,7 +24,7 @@ public class Module extends Gate {
 	private boolean embedded = true;
 
 	public Module(String type) {
-		super(type);
+		super("modules", type);
 		loadModule();
 	}
 

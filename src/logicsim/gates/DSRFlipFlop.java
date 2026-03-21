@@ -16,13 +16,14 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class DSRFlipFlop extends Gate {
+	public static final String GATE_TYPE = "dsrff";
 
 	boolean clk = false;
 	boolean out0 = false;
 	boolean out1 = true;
 
 	public DSRFlipFlop() {
-		super("flipflops", "dsrff");
+		super("flipflops", GATE_TYPE);
 		createInputs(4);
 		createOutputs(2);
 

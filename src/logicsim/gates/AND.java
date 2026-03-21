@@ -17,9 +17,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class AND extends Gate {
+	public static final String GATE_TYPE = "and";
 
 	public AND() {
-		this("and");
+		this(GATE_TYPE);
 	}
 
 	protected AND(String type) {

@@ -21,13 +21,15 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class LED extends Gate {
+	public static final String GATE_TYPE = "led";
+
 	private static final String COLOR = "color";
 	private static final String DEFAULT_COLOR = "#ff0000";
 
 	private Color color = null;
 
 	public LED() {
-		super("outputs", "led");
+		super("outputs", GATE_TYPE);
 		width = 40;
 		height = 40;
 		createInputs(1);

@@ -15,18 +15,19 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class CtrlLogic extends Gate {
+	public static final String GATE_TYPE = "ctrllogic";
 
-	public static final int cNOP = 0;
-	public static final int cLDA = 1;
-	public static final int cADD = 2;
-	public static final int cSUB = 3;
-	public static final int cSTA = 4;
-	public static final int cLDI = 5;
-	public static final int cJMP = 6;
-	public static final int cJC = 7;
-	public static final int cJZ = 8;
-	public static final int cOUT = 14;
-	public static final int cHLT = 15;
+	private static final int cNOP = 0;
+	private static final int cLDA = 1;
+	private static final int cADD = 2;
+	private static final int cSUB = 3;
+	private static final int cSTA = 4;
+	private static final int cLDI = 5;
+	private static final int cJMP = 6;
+	private static final int cJC = 7;
+	private static final int cJZ = 8;
+	private static final int cOUT = 14;
+	private static final int cHLT = 15;
 
 	private static final int pINS = 0;
 	private static final int pCLK = 4;
@@ -73,7 +74,7 @@ public class CtrlLogic extends Gate {
 	private int instruction = 0;
 
 	public CtrlLogic() {
-		super("cpu", "ctrllogic");
+		super("cpu", GATE_TYPE);
 		height = 60;
 		width = 170;
 

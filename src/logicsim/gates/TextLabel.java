@@ -15,10 +15,12 @@ import logicsim.WidgetHelper;
  * @version 2.0
  */
 public class TextLabel extends Gate {
+	public static final String GATE_TYPE = "label";
+
 	private static final String TEXTLABEL_DEFAULT = "Text";
 
 	public TextLabel() {
-		super("outputs", "label"); // not really an output, not really a Gate either!
+		super("outputs", GATE_TYPE); // not really an output, not really a Gate either!
 		width = 60;
 		height = 20;
 		loadProperties();

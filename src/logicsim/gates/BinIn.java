@@ -30,6 +30,8 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class BinIn extends Gate {
+	public static final String GATE_TYPE = "binin";
+
 	private static final String DISPLAY_TYPE = "displaytype";
 	private static final String DISPLAY_TYPE_HEX = "hex";
 	private static final String DISPLAY_TYPE_DEC = "dec";
@@ -37,17 +39,17 @@ public class BinIn extends Gate {
 
 	private static final String TYPE = "type";
 
-	String displayType;
-
 	private static final Rectangle rect1 = new Rectangle(27, 32, 15, 15);
 	private static final Rectangle rect2 = new Rectangle(47, 32, 15, 15);
 	private static final Rectangle rect3 = new Rectangle(27, 67, 15, 15);
 	private static final Rectangle rect4 = new Rectangle(47, 67, 15, 15);
 
+	private String displayType;
+
 	public BinIn() {
-		super("inputs", "binin");
+		super("inputs", GATE_TYPE);
 		height = 90;
-		width=90;
+		width = 90;
 		createOutputs(8);
 		loadProperties();
 	}
@@ -59,11 +61,7 @@ public class BinIn extends Gate {
 
 	@Override
 	public void interact() {
-		int value = getValue();
-		value++;
-		if (value > 0xff) {
-			value = 0;
-		}
+		int value = (getValue() + 1) % 256;
 		setValue(value);
 	}
 
@@ -189,8 +187,8 @@ public class BinIn extends Gate {
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		JRadioButton jRadioButton1 = new JRadioButton();
-		JRadioButton jRadioButton2 = new JRadioButton();
+		JRadioButton jRadioButton1 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_HEX));
+		JRadioButton jRadioButton2 = new JRadioButton(I18N.getString(type, DISPLAY_TYPE_DEC));
 
 		// Group the radio buttons.
 		ButtonGroup group = new ButtonGroup();
@@ -204,16 +202,11 @@ public class BinIn extends Gate {
 		}
 
 		JPanel jPanel1 = new JPanel();
-		TitledBorder titledBorder1;
-		BorderLayout borderLayout1 = new BorderLayout();
-
-		titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
+		TitledBorder titledBorder1 = new TitledBorder(new EtchedBorder(EtchedBorder.RAISED, Color.white, new Color(142, 142, 142)),
 				I18N.getString(type, TYPE));
-		jRadioButton1.setText(I18N.getString(type, DISPLAY_TYPE_HEX));
-		jRadioButton2.setText(I18N.getString(type, DISPLAY_TYPE_DEC));
 		jPanel1.setBorder(titledBorder1);
 		jPanel1.setBounds(new Rectangle(11, 11, 171, 150));
-		jPanel1.setLayout(borderLayout1);
+		jPanel1.setLayout(new BorderLayout());
 		jPanel1.add(jRadioButton1, BorderLayout.NORTH);
 		jPanel1.add(jRadioButton2, BorderLayout.CENTER);
 

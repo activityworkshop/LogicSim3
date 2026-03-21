@@ -140,7 +140,6 @@ public class App {
 				}
 				if (load && !loadedModules.contains(modname.toLowerCase())) {
 					Module mod = new Module(modname);
-					mod.category = "category.modules";
 					addToCategory(mod);
 					loadedModules.add(modname.toLowerCase());
 				}

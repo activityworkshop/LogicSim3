@@ -17,8 +17,10 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class TriStateOutput extends Gate {
+	public static final String GATE_TYPE = "triout";
+
 	public TriStateOutput() {
-		super("outputs", "triout");
+		super("outputs", GATE_TYPE);
 		createInputs(2);
 		createOutputs(1);
 		width = 40;

@@ -26,11 +26,9 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class Memory128 extends Gate {
+	public static final String GATE_TYPE = "memory128";
 
 	private static final String STATE = "state";
-
-	byte[] mem = new byte[16];
-	private int address;
 	private static final int WE = 12;
 	private static final int OE = 13;
 	private static final int DATA = 0;
@@ -39,8 +37,11 @@ public class Memory128 extends Gate {
 
 	private static final String PROGRAM = "program";
 
+	private final byte[] mem = new byte[16];
+	private int address;
+
 	public Memory128() {
-		super("cpu", "memory128");
+		super("cpu", GATE_TYPE);
 		height = 110;
 		width = 110;
 		// 8 tri-state in/outputs for data

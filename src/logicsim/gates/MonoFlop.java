@@ -20,14 +20,15 @@ import logicsim.localization.Lang;
  * @version 2.0
  */
 public class MonoFlop extends Gate implements Runnable {
-    static final String HT = "hightime";
+	public static final String GATE_TYPE = "monoflop";
 
-	static final String HT_DEFAULT = "1000";
+    private static final String HT = "hightime";
+	private static final String HT_DEFAULT = "1000";
 
-	int highTime;
+	private int highTime;
 
 	public MonoFlop() {
-		super("flipflops", "monoflop");
+		super("flipflops", GATE_TYPE);
 		createInputs(1);
 		createOutputs(1);
 		reset();

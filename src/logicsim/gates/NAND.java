@@ -10,8 +10,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class NAND extends AND {
+	public static final String GATE_TYPE = "nand";
+
 	public NAND() {
-		super("nand");
+		super(GATE_TYPE);
 		getPin(0).setLevelType(Pin.INVERTED);
 	}
 }

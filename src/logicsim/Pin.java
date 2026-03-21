@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 public class Pin extends CircuitPart {
 
@@ -177,7 +176,6 @@ public class Pin extends CircuitPart {
 				WidgetHelper.drawStringCentered(g2, label, xp - 2, yp + 6);
 		}
 
-
 		if (levelType == HIGH || levelType == LOW || levelType == NORMAL) {
 			// Default Pin Line
 			g2.setStroke(new BasicStroke(1));
@@ -217,8 +215,6 @@ public class Pin extends CircuitPart {
 					g2.fillRoundRect(x - 1, y + offset, 3, CONN_SIZE + 1, 3, 3);
 				}
 			}
-
-
 
             if (levelType == HIGH || levelType == LOW) {
                 // Draw a small line to indicate HIGH/LOW input
@@ -280,37 +276,25 @@ public class Pin extends CircuitPart {
 
 	@Override
 	public String toString() {
-		String it = "I";
-		if (ioType == Pin.OUTPUT)
-			it = "O";
-		String lt = "N";
-		if (levelType == Pin.HIGH)
-			lt = "H";
-		else if (levelType == Pin.LOW)
-			lt = "L";
-		else if (levelType == Pin.INVERTED)
-			lt = "I";
-		String s = number + it + lt + "-" + (text == null ? "" : "\"" + text + "\"") + getX() + ":" + getY() + "@"
-				+ parent.getId();
-		s += " - " + (getLevel() ? "HIGH" : "LOW");
-		return s;
+		final String ioString = (ioType == Pin.OUTPUT ? "O" : "I");
+		final String levelString;
+		if (levelType == Pin.HIGH) {
+			levelString = "H";
+		} else if (levelType == Pin.LOW) {
+			levelString = "L";
+		} else if (levelType == Pin.INVERTED) {
+			levelString = "I";
+		} else {
+			levelString = "N";
+		}
+        return number + ioString + levelString
+				+ "-" + (text == null ? "" : "\"" + text + "\"") + getX()
+                + ":" + getY() + "@" + parent.getId()
+                + " - " + (getLevel() ? "HIGH" : "LOW");
 	}
 
 	public void setLevel(boolean b) {
 		level = b;
-	}
-
-	public static String actionToString(int id) {
-		if (id == HIGH)
-			return "HIGH";
-		if (id == LOW)
-			return "LOW";
-		if (id == INVERTED)
-			return "INVERTED";
-		if (id == NORMAL)
-			return "NORMAL";
-
-		return null;
 	}
 
 	@Override
@@ -344,10 +328,10 @@ public class Pin extends CircuitPart {
 					fireChangedLevel(e);
 				}
 			}
-		} else
+		} else {
 			throw new RuntimeException("pins communicate with gates or wires only! source is " + e.source.getId()
 					+ ", target is " + getId());
-
+		}
 	}
 
 	public boolean getInternalLevel() {
@@ -356,12 +340,11 @@ public class Pin extends CircuitPart {
 
 	public void disconnect() {
 		for (int i = 0; i < getListeners().size(); i++) {
-			LSLevelListener l = ((ArrayList<LSLevelListener>) getListeners()).get(i);
+			LSLevelListener l = getListeners().get(i);
 			if (l instanceof Wire w) {
                 w.disconnect(null);
                 i--;
 			}
 		}
 	}
-
 }

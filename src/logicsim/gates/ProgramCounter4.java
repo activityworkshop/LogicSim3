@@ -16,10 +16,10 @@ import logicsim.Pin;
  * @version 1.0
  */
 public class ProgramCounter4 extends Gate {
+	public static final String GATE_TYPE = "pgmcnt4";
 
 	private static final String STATE = "state";
 
-	int content = 0;
 	private static final int DATA = 0;
 	private static final int CO = 4;
 	private static final int JUMP = 5;
@@ -28,8 +28,10 @@ public class ProgramCounter4 extends Gate {
 	private static final int CE = 8;
 	private static final int INTOUT = 9;
 
+	private int content = 0;
+
 	public ProgramCounter4() {
-		super("cpu", "pgmcnt4");
+		super("cpu", GATE_TYPE);
 		height = 70;
 		width = 70;
 		createInputs(9);
@@ -60,7 +62,6 @@ public class ProgramCounter4 extends Gate {
 			getPin(i).setX(getX() + (10 * (4 - (i - INTOUT) + 1)));
 			getPin(i).setProperty(TEXT, "i" + (i - INTOUT));
 		}
-
 	}
 
 	@Override

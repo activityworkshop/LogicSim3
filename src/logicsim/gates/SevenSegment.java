@@ -15,11 +15,13 @@ import logicsim.Gate;
  * @version 2.0
  */
 public class SevenSegment extends Gate {
+	public static final String GATE_TYPE = "sevenseg";
+
 	private static final Color OFF_COLOR = new Color(0xE0, 0xE0, 0xE0);
 	private static final Color ON_COLOR = Color.RED;
 
 	public SevenSegment() {
-		super("outputs", "sevenseg");
+		super("outputs", GATE_TYPE);
 		height = 80;
 		width = 80;
 		createInputs(7);

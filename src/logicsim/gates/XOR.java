@@ -15,9 +15,10 @@ import logicsim.Pin;
  * @version 2.0
  */
 public class XOR extends OR {
+	public static final String GATE_TYPE = "xor";
 
 	public XOR() {
-		super("xor");
+		super(GATE_TYPE);
 		label = "=1";
 	}
 
