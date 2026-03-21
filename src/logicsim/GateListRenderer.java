@@ -1,5 +1,6 @@
 package logicsim;
 
+import logicsim.gatelist.GateDefinition;
 import logicsim.localization.I18N;
 
 import java.awt.*;
@@ -15,7 +16,7 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		setFont(list.getFont());
 		setOpaque(true);
-		if (value instanceof Gate gate) {
+		if (value instanceof GateDefinition gateDef) {
             if (isSelected) {
 				setBackground(new Color(0xaa, 0xaa, 0xFF));
 				setForeground(Color.white);
@@ -23,14 +24,7 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 				setForeground(list.getForeground());
 				setBackground(list.getBackground());
 			}
-			if (value instanceof Module) {
-				setText(gate.type);
-			} else {
-				String s = gate.type;
-				if (I18N.hasString("gate." + s + ".title"))
-					s = I18N.getString(s, "title");
-				setText(s);
-			}
+			setText(gateDef.getTitleString());
 			setHorizontalAlignment(SwingConstants.LEFT);
 			return this;
 		} else if (value instanceof String) {
@@ -47,8 +41,8 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
             panel.add(label, BorderLayout.CENTER);
 
             return panel;
-		} else
+		} else {
 			throw new RuntimeException("unknown format of object in getListCellRendererComponent");
+		}
 	}
-
 }

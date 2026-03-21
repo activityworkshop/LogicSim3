@@ -13,6 +13,7 @@ public class LSProperties {
 
 	public static final String AUTOWIRE = "autowire";
 
+	public static final String COMPLEXITY = "complexity";
 	public static final String MODE = "mode";
 	public static final String MODE_NORMAL = "normal";
 	public static final String MODE_EXPERT = "expert";
@@ -86,5 +87,16 @@ public class LSProperties {
 		if (instance == null)
 			instance = new LSProperties("logicsim.cfg");
 		return instance;
+	}
+
+	/** @return Configured complexity, or 2 by default */
+	public int getComplexity() {
+		if (properties.containsKey(COMPLEXITY)) {
+			try {
+				return Integer.parseInt(properties.getProperty(COMPLEXITY));
+			}
+			catch (NumberFormatException ignored) {}
+		}
+		return 2;
 	}
 }

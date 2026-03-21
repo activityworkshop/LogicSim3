@@ -22,8 +22,8 @@ public class Pin extends CircuitPart {
 	public static final int LEFT = 0xa2;
 	public static final int UP = 0xa3;
 
-	public static final int BOUNDING_SPACE = 5;
-	public static final int CONN_SIZE = 6;
+	private static final int BOUNDING_SPACE = 5;
+	private static final int CONN_SIZE = 6;
 	public static final String POS_EDGE_TRIG = "PosEdgeTrig";
 
 	public int number;
@@ -60,7 +60,6 @@ public class Pin extends CircuitPart {
 	/**
 	 * A connector can handle this event if there is one activePart and that part is
 	 * a wire in other cases we can start a wire if this is an output
-	 * 
 	 */
 	@Override
 	public void mousePressed(LSMouseEvent e) {
@@ -212,7 +211,7 @@ public class Pin extends CircuitPart {
 					}
 				} else {
 					g2.setPaint(getLevel() ? Color.red : Color.black);
-					g2.fillRoundRect(x - 1, y + offset, 3, CONN_SIZE + 1, 3, 3);
+					g2.fillRoundRect(x - 2, y + offset, 4, CONN_SIZE + 1, 3, 3);
 				}
 			}
 

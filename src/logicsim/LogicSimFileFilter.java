@@ -46,16 +46,17 @@ public class LogicSimFileFilter extends FileFilter {
 	public String getDescription() {
 		if (fullDescription == null) {
 			if (description == null) {
-				fullDescription = "(";
+				StringBuilder sb = new StringBuilder("(");
 				// build the description from the extension list
 				Enumeration<String> extensions = filters.keys();
 				if (extensions != null) {
-					fullDescription += "." + extensions.nextElement();
+					sb.append('.').append(extensions.nextElement());
 					while (extensions.hasMoreElements()) {
-						fullDescription += ", ." + extensions.nextElement();
+						sb.append(", .").append(extensions.nextElement());
 					}
 				}
-				fullDescription += ")";
+				sb.append(')');
+				fullDescription = sb.toString();
 			} else {
 				fullDescription = description;
 			}
@@ -67,5 +68,4 @@ public class LogicSimFileFilter extends FileFilter {
 		this.description = description;
 		fullDescription = null;
 	}
-
 }

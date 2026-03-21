@@ -1,6 +1,7 @@
 package logicsim.xml;
 
 import logicsim.*;
+import logicsim.gatelist.GateLibrary;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 
@@ -164,10 +165,10 @@ public class XMLLoader {
 
 		Gate gate;
 		try {
-			Gate g = App.getGate(type);
-			if (g == null)
-				throw new RuntimeException("gate type '" + type + "' not there");
-			gate = GateLoaderHelper.create(g);
+			gate = GateLibrary.createGate(type);
+			if (gate == null) {
+				throw new RuntimeException("gate type '" + type + "' not found");
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}

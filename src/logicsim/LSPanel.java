@@ -218,25 +218,29 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 				WirePoint wp = null;
 				Wire newWire = null;
                 switch (cp) {
-                    case null ->
+					case null:
                         // empty space
-                            wp = new WirePoint(rx, ry);
-                    case Wire clickedWire -> {
+                        wp = new WirePoint(rx, ry);
+						break;
+					case Wire clickedWire: {
                         // put a wirepoint at this position
                         int pt = clickedWire.isAt(e.getX(), e.getY());
                         clickedWire.insertPointAfter(pt, rx, ry);
                         cp = clickedWire.findPartAt(rx, ry);
                         wp = (WirePoint) cp;
+						break;
                     }
-                    case WirePoint wirePoint -> wp = wirePoint;
-                    case Pin p -> {
+					case WirePoint wirePoint:
+						wp = wirePoint;
+						break;
+					case Pin p: {
                         newWire = new Wire(p, null);
                         if (circuit.addWire(newWire)) {
                             p.connect(newWire);
                         }
+						break;
                     }
-                    default -> {
-                    }
+					default: break;
                 }
 				if (newWire == null) {
 					newWire = new Wire(wp, null);
@@ -256,10 +260,11 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 			if (currentAction == ACTION_EDITWIRE) {
 				Wire wire = circuit.getUnfinishedWire();
                 switch (cp) {
-                    case null ->
+					case null:
                         // empty space clicked
-                            wire.addPoint(rx, ry);
-                    case Pin pin -> {
+                        wire.addPoint(rx, ry);
+						break;
+					case Pin pin: {
                         if (!expertMode && pin.isOutput())
                             return;
                         wire.setTo(pin);
@@ -268,8 +273,9 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                         currentAction = ACTION_NONE;
                         fireStatusText("");
                         fireCircuitChanged();
+						break;
                     }
-                    case Wire clickedWire -> {
+					case Wire clickedWire: {
                         if (clickedWire.equals(wire))
                             return;
                         if (!expertMode)
@@ -283,8 +289,9 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                         currentAction = ACTION_NONE;
                         fireStatusText("");
                         fireCircuitChanged();
+						break;
                     }
-                    case WirePoint clickedWP -> {
+					case WirePoint clickedWP: {
                         // check if the clicked point belongs to another wire
                         if (clickedWP.parent != null && clickedWP.parent.equals(wire)) {
                             // the clicked wirepoint belongs to the editing wire...
@@ -314,9 +321,9 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                             fireStatusText("");
                             fireCircuitChanged();
                         }
+						break;
                     }
-                    default -> {
-                    }
+					default: break;
                 }
 				repaint();
 				return;
@@ -717,14 +724,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
 		zoomBy(x, y, 0.2f);
 		notifyZoomPos(scaleX, new Point(x, y));
-	}
-
-	public void gateSettings() {
-		CircuitPart[] parts = circuit.getSelected();
-		if (parts.length == 1 && parts[0] instanceof Gate g) {
-            g.showPropertiesUI(this);
-			fireCircuitChanged();
-		}
 	}
 
 	public void addGateAt(Gate g, int worldX, int worldY) {

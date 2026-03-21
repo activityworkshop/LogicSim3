@@ -1,5 +1,7 @@
 package logicsim;
 
+import logicsim.gatelist.GateDefinition;
+import logicsim.gatelist.GateLibrary;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 import logicsim.ui.*;
@@ -23,7 +25,6 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,40 +37,38 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.datatransfer.*;
 
 public class LSFrame extends JFrame implements ActionListener, CircuitChangedListener {
-    @Serial
-    private static final long serialVersionUID = -5281157929385660575L;
 
-    LogicSimFile lsFile;
+    private LogicSimFile lsFile;
 
-    JMenuBar mnuBar;
-    JToolBar btnBar;
+    private JMenuBar mnuBar;
+    private JToolBar btnBar;
 
     private final DefaultListModel<Object> partListModel = new DefaultListModel<>();
     private final JList<Object> lstParts = new JList<>(partListModel);
     private JComboBox<String> cbNumInputs = null;
     private final LSPanel lspanel = new LSPanel();
 
-    JSplitPane splitPane;
+    private JSplitPane splitPane;
     private final JPanel pnlGateList = new JPanel();
     private int dividerLocation;
 
     private final JLabel sbText = new JLabel();
     private final JLabel sbCoordinates = new JLabel();
 
-    int popupGateIdx;
-    JPopupMenu popup;
-    JMenuItem menuItem_remove;
-    JMenuItem menuItem_disconnect;
-    JMenuItem menuItem_properties;
-    JMenuItem menuItem_rotate;
-    JMenuItem menuItem_increase_inputs;
-    JMenuItem menuItem_decrease_inputs;
+    private int popupGateIdx;
+    private JPopupMenu popup;
+    private JMenuItem menuItem_remove;
+    private JMenuItem menuItem_disconnect;
+    private JMenuItem menuItem_properties;
+    private JMenuItem menuItem_rotate;
+    private JMenuItem menuItem_increase_inputs;
+    private JMenuItem menuItem_decrease_inputs;
 
-    int mouseX, mouseY;
+    private int mouseX, mouseY;
 
-    int lastPressedListIndex = -1;
-    boolean listDragArmed = false;
-    final AppTitleManager appTitleManager = new AppTitleManager();
+    private int lastPressedListIndex = -1;
+    private boolean listDragArmed = false;
+    private final AppTitleManager appTitleManager = new AppTitleManager();
 
 
     /** Transferable für GateDragInfo */
@@ -90,16 +89,20 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         @Override
         protected Transferable createTransferable(JComponent c) {
             int idx = lastPressedListIndex >= 0 ? lastPressedListIndex : lstParts.getSelectedIndex();
-            if (idx < 0 || idx >= partListModel.getSize()) return null;
+            if (idx < 0 || idx >= partListModel.getSize()) {
+                return null;
+            }
             final Object o = partListModel.getElementAt(idx);
-            if (!(o instanceof Gate gate)) return null;
+            if (!(o instanceof GateDefinition gateDef)) {
+                return null;
+            }
             // Eingangsanzahl aus ComboBox
             int numInputs = 2;
             try {
                 String sel = Objects.requireNonNull(cbNumInputs.getSelectedItem()).toString();
                 numInputs = Integer.parseInt(sel.substring(0, 1));
             } catch (Exception ignored) {}
-            return new GateInfoTransferable(new GateDragInfo(gate, numInputs));
+            return new GateInfoTransferable(new GateDragInfo(gateDef, numInputs));
         }
 
         @Override
@@ -116,12 +119,15 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         @Override
         public boolean importData(TransferSupport support) {
-            if (!canImport(support)) return false;
+            if (!canImport(support)) {
+                return false;
+            }
             try {
                 GateDragInfo info = (GateDragInfo) support.getTransferable().getTransferData(GateDragInfo.FLAVOR);
-                if (info == null || info.getPrototype() == null) return false;
-                Gate prototype = info.getPrototype();
-                Gate gate = GateLoaderHelper.create(prototype);
+                if (info == null || info.getDefinition() == null) {
+                    return false;
+                }
+                Gate gate = info.getDefinition().create();
                 // Eingänge ggf. setzen
                 if (gate.supportsVariableInputs()) {
                     gate.createDynamicInputs(info.getNumInputs());
@@ -139,7 +145,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         }
     }
 
-    public LSFrame(String title) {
+    public LSFrame() {
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
 
         lsFile = new LogicSimFile(defaultCircuitFileName());
@@ -158,9 +164,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      */
     @Override
     protected void processWindowEvent(WindowEvent e) {
-        if (e.getID() == WindowEvent.WINDOW_CLOSING) {
-            if (!showDiscardDialog(I18N.tr(Lang.EXIT)))
-                return;
+        if (e.getID() == WindowEvent.WINDOW_CLOSING
+                && showDiscardDialog(I18N.tr(Lang.EXIT))) {
             System.exit(0);
         }
     }
@@ -227,9 +232,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                     int idx = lstParts.locationToIndex(e.getPoint());
                     if (idx < 0 || idx >= partListModel.getSize()) return;
                     Object o = partListModel.getElementAt(idx);
-                    if (!(o instanceof Gate gateProto)) return;
-                    // Neues Gate aus Prototyp erstellen
-                    Gate gate = GateLoaderHelper.create(gateProto);
+                    if (!(o instanceof GateDefinition gateDef)) {
+                        return;
+                    }
+                    final Gate gate = gateDef.create();
                     // Eingänge gemäß Auswahl
                     int numInputs = 2;
                     try {
@@ -323,7 +329,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         // Add listener to components that can bring up popup menus.
         lspanel.addMouseListener(new PopupListener());
 
-        fillGateList();
+        refreshGateList();
         setAppTitle();
 
         lspanel.requestFocusInWindow();
@@ -334,59 +340,59 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         JMenu mnu = new JMenu(I18N.tr(Lang.FILE));
 
-        JMenuItem m = createMenuItem(Lang.NEW, KeyEvent.VK_N, false);
-        m.setEnabled(!Simulation.getInstance().isRunning());
-        m.addActionListener(this::actionNew);
-        mnu.add(m);
+        final JMenuItem mnuNew = createMenuItem(Lang.NEW, KeyEvent.VK_N, false);
+        mnuNew.setEnabled(!Simulation.getInstance().isRunning());
+        mnuNew.addActionListener(this::actionNew);
+        mnu.add(mnuNew);
 
-        m = createMenuItem(Lang.OPEN, KeyEvent.VK_O, true);
-        m.setEnabled(!Simulation.getInstance().isRunning());
-        m.addActionListener(this::actionOpen);
-        mnu.add(m);
-
-        mnu.addSeparator();
-
-        m = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
-        m.addActionListener(e -> actionSave(e, false));
-        mnu.add(m);
-
-        m = createMenuItem(Lang.SAVEAS, 0, true);
-        m.addActionListener(e -> actionSave(e, true));
-        mnu.add(m);
+        final JMenuItem mnuOpen = createMenuItem(Lang.OPEN, KeyEvent.VK_O, true);
+        mnuOpen.setEnabled(!Simulation.getInstance().isRunning());
+        mnuOpen.addActionListener(this::actionOpen);
+        mnu.add(mnuOpen);
 
         mnu.addSeparator();
 
-        m = createMenuItem(Lang.MODULECREATE, 0, true);
-        m.addActionListener(this::actionCreateModule);
-        mnu.add(m);
+        final JMenuItem mnuSave = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
+        mnuSave.addActionListener(e -> actionSave(e, false));
+        mnu.add(mnuSave);
 
-        m = createMenuItem(Lang.PROPERTIES, 0, true);
-        m.addActionListener(e -> {
+        final JMenuItem mnuSaveAs = createMenuItem(Lang.SAVEAS, 0, true);
+        mnuSaveAs.addActionListener(e -> actionSave(e, true));
+        mnu.add(mnuSaveAs);
+
+        mnu.addSeparator();
+
+        final JMenuItem mnuCreateModule = createMenuItem(Lang.MODULECREATE, 0, true);
+        mnuCreateModule.addActionListener(this::actionCreateModule);
+        mnu.add(mnuCreateModule);
+
+        final JMenuItem mnuFileProperties = createMenuItem(Lang.PROPERTIES, 0, true);
+        mnuFileProperties.addActionListener(e -> {
             if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
                 setAppTitle();
             }
         });
-        mnu.add(m);
+        mnu.add(mnuFileProperties);
 
         mnu.addSeparator();
 
-        m = createMenuItem(Lang.EXPORT, 0, true);
-        m.addActionListener(e -> exportImage());
-        mnu.add(m);
+        final JMenuItem mnuExport = createMenuItem(Lang.EXPORT, 0, true);
+        mnuExport.addActionListener(e -> exportImage());
+        mnu.add(mnuExport);
 
-        m = createMenuItem(Lang.PRINT, 0, true);
-        m.addActionListener(e -> lspanel.doPrint());
-        mnu.add(m);
+        final JMenuItem mnuPrint = createMenuItem(Lang.PRINT, 0, true);
+        mnuPrint.addActionListener(e -> lspanel.doPrint());
+        mnu.add(mnuPrint);
 
         mnu.addSeparator();
 
-        m = createMenuItem(Lang.EXIT, KeyEvent.VK_X, false);
-        m.addActionListener(e -> {
-            if (!showDiscardDialog(I18N.tr(Lang.EXIT)))
-                return;
-            System.exit(0);
+        final JMenuItem mnuExit = createMenuItem(Lang.EXIT, KeyEvent.VK_X, false);
+        mnuExit.addActionListener(e -> {
+            if (showDiscardDialog(I18N.tr(Lang.EXIT))) {
+                System.exit(0);
+            }
         });
-        mnu.add(m);
+        mnu.add(mnuExit);
 
         menuBar.add(mnu);
         // ------------------------------------------------------------------
@@ -412,7 +418,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         });
         mnu.add(cbMenuItem);
 
-        m = new JMenu(I18N.tr(Lang.GATEDESIGN));
+        final JMenuItem mnuStyle = new JMenu(I18N.tr(Lang.GATEDESIGN));
         String gatedesign = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN,
                 LSProperties.GATEDESIGN_IEC);
 
@@ -420,38 +426,36 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         mGatedesignIEC.setText(I18N.tr(Lang.GATEDESIGN_IEC));
         mGatedesignIEC.addActionListener(this::actionGateDesign);
         mGatedesignIEC.setSelected(LSProperties.GATEDESIGN_IEC.equals(gatedesign));
-        m.add(mGatedesignIEC);
+        mnuStyle.add(mGatedesignIEC);
 
         JRadioButtonMenuItem mGatedesignANSI = new JRadioButtonMenuItem();
         mGatedesignANSI.setText(I18N.tr(Lang.GATEDESIGN_ANSI));
         mGatedesignANSI.addActionListener(this::actionGateDesign);
         mGatedesignANSI.setSelected(LSProperties.GATEDESIGN_ANSI.equals(gatedesign));
-        m.add(mGatedesignANSI);
+        mnuStyle.add(mGatedesignANSI);
 
         ButtonGroup btnGroup = new ButtonGroup();
         btnGroup.add(mGatedesignIEC);
         btnGroup.add(mGatedesignANSI);
 
-        mnu.add(m);
+        mnu.add(mnuStyle);
 
-        JMenu mnuMode = new JMenu(I18N.tr(Lang.MODE));
+        final int complexity = LSProperties.getInstance().getComplexity();
+        JMenu mnuComplexity = new JMenu(I18N.tr(Lang.SETTINGS_COMPLEXITY));
         btnGroup = new ButtonGroup();
+        for (int level=0; level<=4; level++) {
+            String key = Lang.COMPLEXITY_LEVEL.getKey() + level;
+            JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(key));
+            mnuItem.setName("complexity" + level);
+            mnuItem.setSelected(level == complexity);
+            mnuItem.addActionListener(this::changeComplexity);
+            btnGroup.add(mnuItem);
+            mnuComplexity.add(mnuItem);
+            btnGroup.add(mnuItem);
+        }
+        mnu.add(mnuComplexity);
 
-        JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(Lang.NORMAL));
-        mnuItem.addActionListener(this::actionMode);
-        mnuItem.setSelected(LSProperties.MODE_NORMAL.equals(mode));
-        btnGroup.add(mnuItem);
-        mnuMode.add(mnuItem);
-
-        mnuItem = new JRadioButtonMenuItem(I18N.tr(Lang.EXPERT));
-        mnuItem.addActionListener(this::actionMode);
-        mnuItem.setSelected(LSProperties.MODE_EXPERT.equals(mode));
-        btnGroup.add(mnuItem);
-        mnuMode.add(mnuItem);
-
-        mnu.add(mnuMode);
-
-        m = new JMenu(I18N.tr(Lang.COLORMODE));
+        final JMenuItem mnuColorMode = new JMenu(I18N.tr(Lang.COLORMODE));
         btnGroup = new ButtonGroup();
         String cMode = LSProperties.getInstance().getProperty(LSProperties.COLORMODE, LSProperties.COLORMODE_ON);
 
@@ -459,18 +463,18 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         mCmOn.setText(I18N.tr(Lang.COLORMODE_ON));
         mCmOn.addActionListener(this::actionColorMode);
         mCmOn.setSelected(LSProperties.COLORMODE_ON.equals(cMode));
-        m.add(mCmOn);
+        mnuColorMode.add(mCmOn);
 
         JRadioButtonMenuItem mCmOff = new JRadioButtonMenuItem();
         mCmOff.setText(I18N.tr(Lang.COLORMODE_OFF));
         mCmOff.addActionListener(this::actionColorMode);
         mCmOff.setSelected(LSProperties.COLORMODE_OFF.equals(cMode));
-        m.add(mCmOff);
+        mnuColorMode.add(mCmOff);
 
         btnGroup.add(mCmOn);
         btnGroup.add(mCmOff);
 
-        mnu.add(m);
+        mnu.add(mnuColorMode);
 
         JMenu mnuLang = new JMenu(I18N.tr(Lang.LANGUAGE));
         String currentLanguage = LSProperties.getInstance().getProperty(LSProperties.LANGUAGE, "de");
@@ -483,13 +487,13 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         // HELP
         mnu = new JMenu(I18N.tr(Lang.HELP));
 
-        m = createMenuItem(Lang.HELP_HELP, 0, true);
-        m.addActionListener(e -> new HTMLHelp());
-        mnu.add(m);
+        final JMenuItem mnuHelpHelp = createMenuItem(Lang.HELP_HELP, 0, true);
+        mnuHelpHelp.addActionListener(e -> new HTMLHelp());
+        mnu.add(mnuHelpHelp);
 
-        m = createMenuItem(Lang.ABOUT, 0, true);
-        m.addActionListener(e -> new AboutBox(LSFrame.this));
-        mnu.add(m);
+        final JMenuItem mnuAbout = createMenuItem(Lang.ABOUT, 0, true);
+        mnuAbout.addActionListener(e -> new AboutBox(LSFrame.this));
+        mnu.add(mnuAbout);
 
         menuBar.add(mnu);
         return menuBar;
@@ -504,7 +508,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     }
 
     private JToolBar makeButtonBar(String mode) {
-        JToolBar toolbar = new JToolBar();
+        final JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
 
         LSButton btnLS = new LSButton("new", Lang.TOOLBAR_NEW);
@@ -843,7 +847,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     }
 
     /**
-     * Set up a file filter for displaying files who have the correct ending
+     * Set up a file filter for displaying files with the correct ending
      */
     private FileFilter setupFilter() {
         LogicSimFileFilter filter = new LogicSimFileFilter();
@@ -861,7 +865,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         String circuitName = (lsFile == null ? null : lsFile.getName());
         // Could also use the filename if the name is blank, but then
         // we'd get lots of "Unnamed" if the file hasn't been saved
-        appTitleManager.setAppTitleIfChanged(circuitName, lsFile.changed);
+        appTitleManager.setAppTitleIfChanged(circuitName, lsFile != null && lsFile.changed);
     }
 
     /**
@@ -889,7 +893,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         setAppTitle();
         setStatusText(String.format(I18N.tr(Lang.SAVED), lsFile.fileName));
         lsFile.changed = false;
-        fillGateList();
+        refreshGateList();
     }
 
     /**
@@ -922,8 +926,8 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                     lsFile.fileName += "." + App.CIRCUIT_FILE_SUFFIX;
             }
             return true;
-        } else
-            return false;
+        }
+        return false;
     }
 
     /**
@@ -944,19 +948,20 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
             lsFile.circuit.setRepaintListener(lspanel);
         }
 
-        if (!FileInfoDialog.showFileInfo(this, lsFile))
+        if (!FileInfoDialog.showFileInfo(this, lsFile)) {
             return;
+        }
 
         setAppTitle();
 
-        Gate g = new MODIN();
-        g.moveTo(150, 100);
-        g.loadProperties();
-        lsFile.circuit.addGate(g);
-        g = new MODOUT();
-        g.moveTo(650, 100);
-        g.loadProperties();
-        lsFile.circuit.addGate(g);
+        final Gate modin = new MODIN();
+        modin.moveTo(150, 100);
+        modin.loadProperties();
+        lsFile.circuit.addGate(modin);
+        final Gate modout = new MODOUT();
+        modout.moveTo(650, 100);
+        modout.loadProperties();
+        lsFile.circuit.addGate(modout);
         lspanel.circuit = lsFile.circuit;
         lspanel.circuit.setRepaintListener(lspanel);
         lspanel.repaint();
@@ -966,7 +971,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      * save image in file system
      */
     void exportImage() {
-        JFileChooser chooser = new JFileChooser();
+        final JFileChooser chooser = new JFileChooser();
         LogicSimFileFilter filter = new LogicSimFileFilter();
         filter.addExtension(".png");
         filter.setDescription("Portable Network Graphics");
@@ -992,44 +997,23 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         }
     }
 
-    /**
-     * fill gate list
-     */
-    void fillGateList() {
-        partListModel.clear();
-        for (Category cat : App.cats) {
-            if ("hidden".equals(cat.getTitle()))
-                continue;
-            if (cat.getGates().isEmpty())
-                continue;
-            partListModel.addElement(cat.getTitle());
-            for (Gate g : cat.getGates()) {
-                partListModel.addElement(g);
-            }
-        }
+    private void refreshGateList() {
+        int complexity = LSProperties.getInstance().getComplexity();
+        GateLibrary.populateListModel(partListModel, complexity);
     }
 
     /**
-     * handles gates list
+     * handles click on gates list
      */
     void actionLstGatesSelected(ListSelectionEvent e) {
-        if (Simulation.getInstance().isRunning())
+        if (Simulation.getInstance().isRunning()
+                || e.getValueIsAdjusting()
+                || lstParts.getSelectedIndex() < 0) {
             return;
-        if (e.getValueIsAdjusting()) return;
-        int sel = lstParts.getSelectedIndex();
-        if (sel < 0)
-            return;
+        }
         Object o = lstParts.getSelectedValue();
-        if (!(o instanceof Gate gate))
-            return;
-        if (gate.type != null) {
-            if (gate.type.contains("test"))
-                setStatusText(gate.type);
-            else if (I18N.hasString(gate.type, "description")) {
-                setStatusText(I18N.getString(gate.type, "description"));
-            } else {
-                setStatusText(I18N.getString(gate.type, "title"));
-            }
+        if (o instanceof GateDefinition gateDef) {
+            setStatusText(gateDef.getDescriptionString());
         }
     }
 
@@ -1040,15 +1024,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         final String gateDesign;
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
         if (src.getText().equals(I18N.tr(Lang.GATEDESIGN_IEC))) {
-            if (src.isSelected())
-                gateDesign = LSProperties.GATEDESIGN_IEC;
-            else
-                gateDesign = LSProperties.GATEDESIGN_ANSI;
+            gateDesign = (src.isSelected() ? LSProperties.GATEDESIGN_IEC : LSProperties.GATEDESIGN_ANSI);
         } else {
-            if (src.isSelected())
-                gateDesign = LSProperties.GATEDESIGN_ANSI;
-            else
-                gateDesign = LSProperties.GATEDESIGN_IEC;
+            gateDesign = (src.isSelected() ? LSProperties.GATEDESIGN_ANSI : LSProperties.GATEDESIGN_IEC);
         }
         LSProperties.getInstance().setProperty(LSProperties.GATEDESIGN, gateDesign);
         lspanel.repaint();
@@ -1061,17 +1039,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         final String mode;
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
         if (src.getText().equals(I18N.tr(Lang.COLORMODE_ON))) {
-            if (src.isSelected())
-                mode = LSProperties.COLORMODE_ON;
-            else
-                mode = LSProperties.COLORMODE_OFF;
+            mode = (src.isSelected() ? LSProperties.COLORMODE_ON : LSProperties.COLORMODE_OFF);
         } else {
-            // the expert item is clicked
-            if (src.isSelected()) {
-                mode = LSProperties.COLORMODE_OFF;
-            } else {
-                mode = LSProperties.COLORMODE_ON;
-            }
+            mode = (src.isSelected() ? LSProperties.COLORMODE_OFF : LSProperties.COLORMODE_ON);
         }
         LSProperties.getInstance().setProperty(LSProperties.COLORMODE, mode);
 
@@ -1080,32 +1050,12 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         this.lspanel.repaint();
     }
 
-    /**
-     * handles mode (normal/expert)
-     */
-    void actionMode(ActionEvent e) {
-        final String mode;
+    private void changeComplexity(ActionEvent e) {
         JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
-        if (src.getText().equals(I18N.tr(Lang.NORMAL))) {
-            if (src.isSelected())
-                mode = LSProperties.MODE_NORMAL;
-            else
-                mode = LSProperties.MODE_EXPERT;
-        } else {
-            // the expert item is clicked
-            if (src.isSelected()) {
-                mode = LSProperties.MODE_EXPERT;
-            } else {
-                mode = LSProperties.MODE_NORMAL;
-            }
-        }
-        LSProperties.getInstance().setProperty(LSProperties.MODE, mode);
-
-        // activate widgets
-        //Objects.requireNonNull(getMenuWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
-        //Objects.requireNonNull(getButtonWidget(Lang.WIRENEW)).setEnabled(LSProperties.MODE_EXPERT.equals(mode));
-
-        this.lspanel.repaint();
+        final int nameLen = src.getName().length();
+        final String level = (nameLen < 1 ? "2" : src.getName().substring(nameLen - 1));
+        LSProperties.getInstance().setProperty(LSProperties.COMPLEXITY, level);
+        refreshGateList();
     }
 
     /**
@@ -1119,8 +1069,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         for (int i = 0; i < mnuBar.getMenuCount(); i++) {
             JMenu mnu = mnuBar.getMenu(i);
             for (Component c : mnu.getMenuComponents()) {
-                if (lang.toString().equals(c.getName()))
+                if (lang.toString().equals(c.getName())) {
                     return (AbstractButton) c;
+                }
             }
         }
         return null;
@@ -1135,8 +1086,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      */
     private AbstractButton getButtonWidget(Lang lang) {
         for (Component c : btnBar.getComponents()) {
-            if (lang.toString().equals(c.getName()))
+            if (lang.toString().equals(c.getName())) {
                 return (AbstractButton) c;
+            }
         }
         return null;
     }

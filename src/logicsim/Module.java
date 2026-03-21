@@ -19,17 +19,16 @@ import javax.swing.JOptionPane;
 public class Module extends Gate {
 	private MODIN moduleIn = null;
 	private MODOUT moduleOut = null;
-	LogicSimFile lsFile = new LogicSimFile(null);
+	private LogicSimFile lsFile = new LogicSimFile(null);
 
-	private boolean embedded = true;
+	private final boolean embedded;
 
 	public Module(String type) {
-		super("modules", type);
-		loadModule();
+		this(type, true);
 	}
 
 	public Module(String type, boolean embedded) {
-		super(type);
+		super("modules", type);
 		this.embedded = embedded;
 		loadModule();
 	}
@@ -52,10 +51,9 @@ public class Module extends Gate {
 			return;
 		}
 
-		if (lsFile == null)
+		if (lsFile == null || lsFile.circuit == null) {
 			return;
-		if (lsFile.circuit == null)
-			return;
+		}
 		if (lsFile.getErrorString() != null) {
 			Dialogs.messageDialog(null, lsFile.getErrorString());
 		}
@@ -101,8 +99,9 @@ public class Module extends Gate {
 						newOut.paintDirection = Pin.LEFT;
 						newOut.levelType = Pin.NORMAL;
 						Pin out = moduleOut.getPin(c.number + numberOfInputs);
-						if (out.getProperty(TEXT) != null)
+						if (out.getProperty(TEXT) != null) {
 							newOut.setProperty(TEXT, out.getProperty(TEXT));
+						}
 						pins.add(newOut);
 					}
 				}

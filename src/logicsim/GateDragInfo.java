@@ -1,5 +1,7 @@
 package logicsim;
 
+import logicsim.gatelist.GateDefinition;
+
 import java.awt.datatransfer.DataFlavor;
 
 /**
@@ -11,16 +13,16 @@ public class GateDragInfo {
             DataFlavor.javaJVMLocalObjectMimeType + ";class=" + GateDragInfo.class.getName(),
             "GateDragInfo");
 
-    private final Gate prototype;
+    private final GateDefinition definition;
     private final int numInputs;
 
-    public GateDragInfo(Gate prototype, int numInputs) {
-        this.prototype = prototype;
+    public GateDragInfo(GateDefinition definition, int numInputs) {
+        this.definition = definition;
         this.numInputs = numInputs;
     }
 
-    public Gate getPrototype() {
-        return prototype;
+    public GateDefinition getDefinition() {
+        return definition;
     }
 
     public int getNumInputs() {

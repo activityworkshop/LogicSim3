@@ -42,7 +42,7 @@ public class Display4d extends Gate {
 	private final int[] digit = new int[] { BLANK, BLANK, BLANK, BLANK };
 
 	public Display4d() {
-		super("cpu", GATE_TYPE);
+		super("outputs", GATE_TYPE);
 		height = 90;
 		width = 150;
 		createInputs(12);

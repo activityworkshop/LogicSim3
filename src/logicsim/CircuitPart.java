@@ -18,24 +18,39 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 public abstract class CircuitPart implements LSLevelListener {
-	public static final int BOUNDING_SPACE = 6;
-	public static final boolean HIGH = true;
-	public static final boolean LOW = false;
+	private static final int BOUNDING_SPACE = 6;
+	protected static final boolean HIGH = true;
+	protected static final boolean LOW = false;
 
 	protected static final Font hugeFont = new Font(Font.SANS_SERIF, Font.PLAIN, 20);
 	protected static final Font bigFont = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
 	protected static final Font smallFont = new Font(Font.SANS_SERIF, Font.PLAIN, 7);
 
+	public static final String TEXT = "text";
+
 	private final List<LSLevelListener> listeners;
 	private LSRepaintListener repListener;
 
-
-	protected static String indent(String string) {
-		return "   " + string.replaceAll("\n", "\n   ");
-	}
-
 	// TODO: Clarify what this means
 	protected boolean busted = false;
+
+	protected Point mousePos;
+	public CircuitPart parent;
+	/** if part is currently being edited */
+	public boolean selected = false;
+
+	private int x;
+	private int y;
+
+	public String text;
+	protected Properties properties = new Properties();
+
+
+	public CircuitPart(int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.listeners = new ArrayList<>();
+	}
 
 	public static int round(int num) {
 		int x = num;
@@ -47,45 +62,24 @@ public abstract class CircuitPart implements LSLevelListener {
 		return x;
 	}
 
-	protected Point mousePos;
-	public CircuitPart parent;
-	/**
-	 * if part is currently being edited
-	 */
-    public boolean selected = false;
-
-	private int x;
-
-	private int y;
-
-	public static final String TEXT = "text";
-
-	private static final String TEXT_DEFAULT = "";
-
-	public String text;
-
-	public CircuitPart(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.listeners = new ArrayList<>();
+	protected static String indent(String string) {
+		return "   " + string.replaceAll("\n", "\n   ");
 	}
-
-	protected Properties properties = new Properties();
 
 	public Properties getProperties() {
 		return properties;
 	}
 
-    public String getProperty(String string) {
+	public String getProperty(String string) {
 		return properties.getProperty(string);
 	}
 
-    public int getPropertyInt(String string) {
+	public int getPropertyInt(String string) {
 		return Integer.parseInt(getProperty(string));
 	}
 
 	// TODO: Catch parse exceptions
-    public int getPropertyIntWithDefault(String string, int idefault) {
+	public int getPropertyIntWithDefault(String string, int idefault) {
 		String value = getProperty(string);
 		if (value == null)
 			return idefault;
@@ -93,15 +87,15 @@ public abstract class CircuitPart implements LSLevelListener {
 			return Integer.parseInt(value);
 	}
 
-    public String getPropertyWithDefault(String key, String sdefault) {
+	public String getPropertyWithDefault(String key, String sdefault) {
 		String s = getProperty(key);
 		if (s == null)
 			return sdefault;
 		return s;
 	}
 
-    public void loadProperties() {
-		text = getPropertyWithDefault(TEXT, TEXT_DEFAULT);
+	public void loadProperties() {
+		text = getPropertyWithDefault(TEXT, "");
 	}
 
 	public boolean hasPropertiesUI() {
@@ -141,11 +135,9 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public void addLevelListener(LSLevelListener l) {
-		if (getListeners() == null)
-			return;
-		if (getListeners().contains(l))
-			return;
-		getListeners().add(l);
+		if (getListeners() != null && !getListeners().contains(l)) {
+			getListeners().add(l);
+		}
 	}
 
 	public void setRepaintListener(LSRepaintListener l) {
@@ -200,7 +192,7 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	@Override
 	public String toString() {
-		return this.getId();
+		return getId();
 	}
 
 	public int getX() {
@@ -348,5 +340,4 @@ public abstract class CircuitPart implements LSLevelListener {
 	public boolean getLevel() {
 		return false;
 	}
-
 }
