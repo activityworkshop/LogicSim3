@@ -1,16 +1,14 @@
 package logicsim;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class LogicSimFile {
     public Circuit circuit = new Circuit();
     public Map<String, String> info = new HashMap<>();
     public String fileName;
 	public boolean changed = false;
-	private final Vector<String> errors = new Vector<>();
+	private final ArrayList<String> errors = new ArrayList<>();
 
 	public LogicSimFile(String fileName) {
 		this.fileName = fileName;
@@ -29,7 +27,7 @@ public class LogicSimFile {
 		return name;
 	}
 
-	public Vector<Gate> getGates() {
+	public List<Gate> getGates() {
 		return circuit.getGates();
 	}
 
@@ -88,12 +86,9 @@ public class LogicSimFile {
 	}
 
 	public String getErrorString() {
-		if (errors.isEmpty())
+		if (errors.isEmpty()) {
 			return null;
-		StringBuilder s = new StringBuilder();
-		for (String err : errors)
-			s.append(" ").append(err);
-		return s.toString();
+		}
+		return String.join(" ", errors);
 	}
-
 }

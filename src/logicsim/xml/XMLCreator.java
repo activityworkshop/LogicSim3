@@ -14,7 +14,9 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import logicsim.*;
-import logicsim.Module;
+import logicsim.module.Module;
+import logicsim.module.MODIN;
+import logicsim.module.MODOUT;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

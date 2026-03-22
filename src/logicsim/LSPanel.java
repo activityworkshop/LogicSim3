@@ -3,6 +3,7 @@ package logicsim;
 import logicsim.controllers.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
+import logicsim.module.Module;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

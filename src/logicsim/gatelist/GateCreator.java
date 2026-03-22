@@ -2,6 +2,6 @@ package logicsim.gatelist;
 
 import logicsim.Gate;
 
-interface GateCreator {
+public interface GateCreator {
     Gate create();
 }

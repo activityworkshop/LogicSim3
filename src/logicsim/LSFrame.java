@@ -4,6 +4,9 @@ import logicsim.gatelist.GateDefinition;
 import logicsim.gatelist.GateLibrary;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
+import logicsim.module.MODIN;
+import logicsim.module.MODOUT;
+import logicsim.module.ModuleLoader;
 import logicsim.ui.*;
 import logicsim.xml.XMLCreator;
 import logicsim.xml.XMLLoader;
@@ -25,6 +28,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -127,15 +131,18 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 if (info == null || info.getDefinition() == null) {
                     return false;
                 }
-                Gate gate = info.getDefinition().create();
+                final Gate gate = info.getDefinition().create();
+                if (!gate.isValid()) {
+                    return false;
+                }
                 // Eingänge ggf. setzen
                 if (gate.supportsVariableInputs()) {
                     gate.createDynamicInputs(info.getNumInputs());
                 }
                 // Drop-Position (Component-Koordinaten -> Weltkoordinaten)
-                Point p = support.getDropLocation().getDropPoint();
-                int worldX = (int) lspanel.getTransformer().screenToWorldX(p.x);
-                int worldY = (int) lspanel.getTransformer().screenToWorldY(p.y);
+                final Point p = support.getDropLocation().getDropPoint();
+                final int worldX = (int) lspanel.getTransformer().screenToWorldX(p.x);
+                final int worldY = (int) lspanel.getTransformer().screenToWorldY(p.y);
                 lspanel.addGateAt(gate, worldX, worldY);
                 return true;
             } catch (UnsupportedFlavorException | IOException ex) {
@@ -236,6 +243,9 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                         return;
                     }
                     final Gate gate = gateDef.create();
+                    if (!gate.isValid()) {
+                        return;
+                    }
                     // Eingänge gemäß Auswahl
                     int numInputs = 2;
                     try {
@@ -362,10 +372,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         mnu.addSeparator();
 
-        final JMenuItem mnuCreateModule = createMenuItem(Lang.MODULECREATE, 0, true);
-        mnuCreateModule.addActionListener(this::actionCreateModule);
-        mnu.add(mnuCreateModule);
-
         final JMenuItem mnuFileProperties = createMenuItem(Lang.PROPERTIES, 0, true);
         mnuFileProperties.addActionListener(e -> {
             if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
@@ -396,8 +402,36 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         menuBar.add(mnu);
         // ------------------------------------------------------------------
+        // Module
+        final JMenu moduleMenu = new JMenu(I18N.tr(Lang.MENU_MODULE));
+
+        final JMenuItem mnuCreateModule = createMenuItem(Lang.MENU_MODULECREATE, 0, true);
+        mnuCreateModule.addActionListener(this::actionCreateModule);
+        moduleMenu.add(mnuCreateModule);
+
+        final JMenuItem mnuLoadModule = new JMenuItem(I18N.tr(Lang.MENU_LOADMODULE));
+        mnuLoadModule.addActionListener(e -> loadModule());
+        moduleMenu.add(mnuLoadModule);
+        menuBar.add(moduleMenu);
+
+        // ------------------------------------------------------------------
         // SETTINGS
         mnu = new JMenu(I18N.tr(Lang.SETTINGS));
+
+        final int complexity = LSProperties.getInstance().getComplexity();
+        JMenu mnuComplexity = new JMenu(I18N.tr(Lang.SETTINGS_COMPLEXITY));
+        ButtonGroup btnGroup = new ButtonGroup();
+        for (int level=0; level<=4; level++) {
+            String key = Lang.COMPLEXITY_LEVEL.getKey() + level;
+            JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(key));
+            mnuItem.setName("complexity" + level);
+            mnuItem.setSelected(level == complexity);
+            mnuItem.addActionListener(this::changeComplexity);
+            btnGroup.add(mnuItem);
+            mnuComplexity.add(mnuItem);
+            btnGroup.add(mnuItem);
+        }
+        mnu.add(mnuComplexity);
 
         boolean sel = LSProperties.getInstance().getPropertyBoolean(LSProperties.PAINTGRID, true);
         final JCheckBoxMenuItem mSettingsPaintGrid = new JCheckBoxMenuItem(I18N.tr(Lang.PAINTGRID));
@@ -419,41 +453,26 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         mnu.add(cbMenuItem);
 
         final JMenuItem mnuStyle = new JMenu(I18N.tr(Lang.GATEDESIGN));
-        String gatedesign = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN,
+        String gateStyle = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN,
                 LSProperties.GATEDESIGN_IEC);
 
-        JRadioButtonMenuItem mGatedesignIEC = new JRadioButtonMenuItem();
-        mGatedesignIEC.setText(I18N.tr(Lang.GATEDESIGN_IEC));
-        mGatedesignIEC.addActionListener(this::actionGateDesign);
-        mGatedesignIEC.setSelected(LSProperties.GATEDESIGN_IEC.equals(gatedesign));
-        mnuStyle.add(mGatedesignIEC);
+        JRadioButtonMenuItem mnuStyleIEC = new JRadioButtonMenuItem();
+        mnuStyleIEC.setText(I18N.tr(Lang.GATEDESIGN_IEC));
+        mnuStyleIEC.addActionListener(this::actionGateDesign);
+        mnuStyleIEC.setSelected(LSProperties.GATEDESIGN_IEC.equals(gateStyle));
+        mnuStyle.add(mnuStyleIEC);
 
-        JRadioButtonMenuItem mGatedesignANSI = new JRadioButtonMenuItem();
-        mGatedesignANSI.setText(I18N.tr(Lang.GATEDESIGN_ANSI));
-        mGatedesignANSI.addActionListener(this::actionGateDesign);
-        mGatedesignANSI.setSelected(LSProperties.GATEDESIGN_ANSI.equals(gatedesign));
-        mnuStyle.add(mGatedesignANSI);
+        JRadioButtonMenuItem mnuStyleANSI = new JRadioButtonMenuItem();
+        mnuStyleANSI.setText(I18N.tr(Lang.GATEDESIGN_ANSI));
+        mnuStyleANSI.addActionListener(this::actionGateDesign);
+        mnuStyleANSI.setSelected(LSProperties.GATEDESIGN_ANSI.equals(gateStyle));
+        mnuStyle.add(mnuStyleANSI);
 
-        ButtonGroup btnGroup = new ButtonGroup();
-        btnGroup.add(mGatedesignIEC);
-        btnGroup.add(mGatedesignANSI);
+        btnGroup = new ButtonGroup();
+        btnGroup.add(mnuStyleIEC);
+        btnGroup.add(mnuStyleANSI);
 
         mnu.add(mnuStyle);
-
-        final int complexity = LSProperties.getInstance().getComplexity();
-        JMenu mnuComplexity = new JMenu(I18N.tr(Lang.SETTINGS_COMPLEXITY));
-        btnGroup = new ButtonGroup();
-        for (int level=0; level<=4; level++) {
-            String key = Lang.COMPLEXITY_LEVEL.getKey() + level;
-            JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(key));
-            mnuItem.setName("complexity" + level);
-            mnuItem.setSelected(level == complexity);
-            mnuItem.addActionListener(this::changeComplexity);
-            btnGroup.add(mnuItem);
-            mnuComplexity.add(mnuItem);
-            btnGroup.add(mnuItem);
-        }
-        mnu.add(mnuComplexity);
 
         final JMenuItem mnuColorMode = new JMenu(I18N.tr(Lang.COLORMODE));
         btnGroup = new ButtonGroup();
@@ -830,14 +849,15 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         lsFile.fileName = chooser.getSelectedFile().getAbsolutePath();
 
         try {
-            lsFile = XMLLoader.loadXmlFile(lsFile.fileName);
-        } catch (RuntimeException x) {
+            lsFile = XMLLoader.loadXmlFile(chooser.getSelectedFile());
+        } catch (RuntimeException | IOException x) {
             System.err.println(x);
             x.printStackTrace(System.err);
             Dialogs.messageDialog(this, I18N.tr(Lang.READERROR) + " " + x.getMessage());
         }
-        if (lsFile.getErrorString() != null) {
-            Dialogs.messageDialog(this, lsFile.getErrorString());
+        final String errorString = lsFile.getErrorString();
+        if (errorString != null) {
+            Dialogs.messageDialog(this, errorString);
         }
         setAppTitle();
         lspanel.clear();
@@ -850,12 +870,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
      * Set up a file filter for displaying files with the correct ending
      */
     private FileFilter setupFilter() {
-        LogicSimFileFilter filter = new LogicSimFileFilter();
-        filter.addExtension(App.CIRCUIT_FILE_SUFFIX);
-        filter.addExtension(App.MODULE_FILE_SUFFIX);
-        filter.setDescription("LogicSim Files (" + "." + App.CIRCUIT_FILE_SUFFIX
-                + ", " + "." + App.MODULE_FILE_SUFFIX + ")");
-        return filter;
+        // TODO: I18n for "Files"?
+        final String description = "LogicSim Files (" + "." + App.CIRCUIT_FILE_SUFFIX
+                + ", " + "." + App.MODULE_FILE_SUFFIX + ")";
+        return new LogicSimFileFilter(description, App.CIRCUIT_FILE_SUFFIX, App.MODULE_FILE_SUFFIX);
     }
 
     /**
@@ -1166,6 +1184,31 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
                 return "LogicSim";
             }
             return "LogicSim - " + circuitName + (fileChanged ? "*" : "");
+        }
+    }
+
+    private void loadModule() {
+        if (Simulation.getInstance().isRunning()) {
+            return;
+        }
+
+        final File file = new File(lsFile.fileName);
+        JFileChooser chooser = new JFileChooser(file.getParent());
+        final String filterDesc = "Modules (." + App.MODULE_FILE_SUFFIX + ")";
+        chooser.setFileFilter(new LogicSimFileFilter(filterDesc, App.MODULE_FILE_SUFFIX));
+        if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        final File selectedFile = chooser.getSelectedFile();
+        if (!selectedFile.exists() || !selectedFile.isFile()) {
+            return;
+        }
+        Collection<GateDefinition> moduleDefs = ModuleLoader.loadModule(selectedFile);
+        if (moduleDefs != null) {
+            for (GateDefinition moduleDef : moduleDefs) {
+                GateLibrary.addModule(moduleDef);
+            }
+            refreshGateList();
         }
     }
 }

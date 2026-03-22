@@ -8,12 +8,20 @@ import javax.swing.filechooser.FileFilter;
 
 public class LogicSimFileFilter extends FileFilter {
 
-	private final Hashtable<String, LogicSimFileFilter> filters;
+	private final Hashtable<String, LogicSimFileFilter> filters = new Hashtable<>();
 	private String description = null;
 	private String fullDescription = null;
 
 	public LogicSimFileFilter() {
-		this.filters = new Hashtable<>();
+	}
+
+	public LogicSimFileFilter(String description, String ... extensions) {
+		setDescription(description);
+		if (extensions != null) {
+			for (String extn : extensions) {
+				addExtension(extn);
+			}
+		}
 	}
 
 	public boolean accept(File f) {

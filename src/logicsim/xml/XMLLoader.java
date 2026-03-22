@@ -5,9 +5,11 @@ import logicsim.gatelist.GateLibrary;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
+import java.util.Set;
 
 /**
  * XML Loader for circuit and module files
@@ -21,13 +23,15 @@ public class XMLLoader {
 	private static final String ROOT_STRING = "logicsim";
 	public static String formatVersion = "3";
 
-	public static LogicSimFile loadXmlFile(String fileName) throws RuntimeException {
-		LogicSimFile ls = new LogicSimFile(fileName);
-		String rootString = ROOT_STRING;
-		Xml doc = new Xml(fileName, rootString);
+	private static class GateNotFoundException extends Exception {}
+
+	public static LogicSimFile loadXmlFile(File xmlFile) throws FileNotFoundException, RuntimeException {
+		LogicSimFile ls = new LogicSimFile(xmlFile.getAbsolutePath());
+		Xml doc = new Xml(xmlFile, ROOT_STRING);
 		String version = doc.string("version");
-		if (!formatVersion.equals(version))
+		if (!formatVersion.equals(version)) {
 			throw new RuntimeException(I18N.tr(Lang.READERROR) + ": version does not match");
+		}
 		Xml node = doc.optChild("info");
 		if (node != null) {
 			for (Xml n : node.children("item")) {
@@ -40,9 +44,14 @@ public class XMLLoader {
 		node = doc.optChild("gates");
 		if (node != null) {
 			for (Xml gnode : node.children(XMLCreator.TYPE_GATE)) {
-				Gate gate = loadGate(gnode);
-				gate.selected = false;
-				ls.circuit.addGate(gate);
+				try {
+					Gate gate = loadGate(gnode);
+					gate.selected = false;
+					ls.circuit.addGate(gate);
+				}
+				catch (GateNotFoundException nfe) {
+					throw new RuntimeException("Gate '" + gnode.string("type") + "' not found");
+				}
 			}
 		}
 
@@ -61,8 +70,9 @@ public class XMLLoader {
 					int fromNumber = Integer.parseInt(gnode.string("number"));
 					// try to get the gate
 					Gate fromGate = findGateById(ls.circuit.getGates(), fromGateId);
-					if (fromGate == null)
+					if (fromGate == null) {
 						throw new RuntimeException(I18N.tr(Lang.READERROR) + ": cannot find gate " + fromGateId);
+					}
 					from = fromGate.getPin(fromNumber);
 				} else if (XMLCreator.TYPE_WIREPOINT.equals(type)) {
 					int x = Integer.parseInt(gnode.string("x"));
@@ -80,8 +90,9 @@ public class XMLLoader {
 						}
 					}
 				}
-				if (from == null)
+				if (from == null) {
 					System.out.println("from not found " + type);
+				}
 
 				// to node
 				gnode = wnode.child("to");
@@ -91,8 +102,9 @@ public class XMLLoader {
 					int toNumber = Integer.parseInt(gnode.string("number"));
 
 					Gate toGate = findGateById(ls.circuit.getGates(), toGateId);
-					if (toGate == null)
+					if (toGate == null) {
 						throw new RuntimeException(I18N.tr(Lang.READERROR) + ": cannot find gate " + toGateId);
+					}
 					to = toGate.getPin(toNumber);
 				} else if (XMLCreator.TYPE_WIREPOINT.equals(type)) {
 					int x = Integer.parseInt(gnode.string("x"));
@@ -146,16 +158,12 @@ public class XMLLoader {
 				// connect wire to CircuitPart
 				from.connect(wire);
 				to.connect(wire);
-				// wire.reset();
-				// if (from instanceof Pin) {
-				// wire.changedLevel(new LSLevelEvent(from, from.getLevel()));
-				// }
 			}
 		}
 		return ls;
 	}
 
-	private static Gate loadGate(Xml gnode) {
+	private static Gate loadGate(Xml gnode) throws GateNotFoundException {
 		// acquire basic information
 		String type = gnode.string("type").toLowerCase();
 		int x = Integer.parseInt(gnode.string("x"));
@@ -163,14 +171,9 @@ public class XMLLoader {
 		String optRotate = gnode.optString("rotate");
 		String optInputs = gnode.optString("inputs");
 
-		Gate gate;
-		try {
-			gate = GateLibrary.createGate(type);
-			if (gate == null) {
-				throw new RuntimeException("gate type '" + type + "' not found");
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+		Gate gate = GateLibrary.createGate(type);
+		if (gate == null) {
+			throw new GateNotFoundException();
 		}
 
 		if (optInputs != null)
@@ -265,31 +268,48 @@ public class XMLLoader {
 		}
 	}
 
-	private static Gate findGateById(Vector<Gate> gates, String id) {
+	private static Gate findGateById(List<Gate> gates, String id) {
 		for (Gate gate : gates) {
-			if (id.equals(gate.getId()))
+			if (id.equals(gate.getId())) {
 				return gate;
+			}
 		}
 		return null;
 	}
 
-	public static ArrayList<String> getModuleListFromFile(String fileName) {
-		ArrayList<String> moduleList = new ArrayList<>();
-		Xml doc = new Xml(fileName, ROOT_STRING);
+	public static LogicSimFile verifyXmlFile(File xmlFile, Set<String> foundModules, Set<String> missingModules)
+			throws FileNotFoundException
+	{
+		boolean missingSubmodules = false;
+		LogicSimFile ls = new LogicSimFile(xmlFile.getAbsolutePath());
+		Xml doc = new Xml(xmlFile, ROOT_STRING);
 		String version = doc.string("version");
-		if (!formatVersion.equals(version))
+		if (!formatVersion.equals(version)) {
 			throw new RuntimeException(I18N.tr(Lang.READERROR) + ": version does not match");
-
-		Xml node = doc.optChild("gates");
+		}
+		Xml node = doc.optChild("info");
 		if (node != null) {
-			for (Xml gnode : node.children("gate")) {
-				String type = gnode.string("type").toLowerCase();
-				String module = gnode.optString("module");
-				if ("true".equals(module) && !moduleList.contains(type.toLowerCase())) {
-					moduleList.add(type.toLowerCase());
+			for (Xml n : node.children("item")) {
+				String key = n.optString("key");
+				ls.info.put(key, n.content());
+			}
+		}
+
+		node = doc.optChild("gates");
+		if (node != null) {
+			for (Xml gnode : node.children(XMLCreator.TYPE_GATE)) {
+				try {
+					ls.circuit.addGate(loadGate(gnode));
+				}
+				catch (GateNotFoundException nfe) {
+					String submoduleType = gnode.string("type") + ".lsm";
+					if (!foundModules.contains(submoduleType)) {
+						missingModules.add(submoduleType);
+						missingSubmodules = true;
+					}
 				}
 			}
 		}
-		return moduleList;
+		return missingSubmodules ? null : ls;
 	}
 }

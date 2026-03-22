@@ -1,5 +1,8 @@
 package logicsim;
 
+import logicsim.module.MODIN;
+import logicsim.module.MODOUT;
+
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
@@ -11,7 +14,7 @@ import java.util.Vector;
  * @version 2.0
  */
 public class Circuit implements LSRepaintListener {
-	Vector<CircuitPart> parts;
+	protected Vector<CircuitPart> parts;
 
 	private LSRepaintListener repaintListener;
 
@@ -96,12 +99,7 @@ public class Circuit implements LSRepaintListener {
 	}
 
 	public boolean isModule() {
-		for (CircuitPart g : parts) {
-			if (g instanceof MODIN) {
-				return true;
-			}
-		}
-		return false;
+		return getModIn() != null && getModOut() != null;
 	}
 
 	public boolean isPartAtCoordinates(int x, int y) {
@@ -388,5 +386,23 @@ public class Circuit implements LSRepaintListener {
 
 	public boolean isEmpty() {
 		return parts.isEmpty();
+	}
+
+	public MODIN getModIn() {
+		for (CircuitPart part : parts) {
+			if (part instanceof MODIN modin) {
+				return modin;
+			}
+		}
+		return null;
+	}
+
+	public MODOUT getModOut() {
+		for (CircuitPart part : parts) {
+			if (part instanceof MODOUT modout) {
+				return modout;
+			}
+		}
+		return null;
 	}
 }

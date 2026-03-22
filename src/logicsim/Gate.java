@@ -79,6 +79,10 @@ public class Gate extends CircuitPart {
 		this.category = "category." + category;
 	}
 
+	public boolean isValid() {
+		return true;
+	}
+
 	public void createDynamicInputs(int total) {
         if (total < 2) total = 2;
         if (total > 5) total = 5;

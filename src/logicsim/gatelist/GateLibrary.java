@@ -1,11 +1,12 @@
 package logicsim.gatelist;
 
 import logicsim.Gate;
-import logicsim.MODIN;
-import logicsim.MODOUT;
+import logicsim.module.MODIN;
+import logicsim.module.MODOUT;
 import logicsim.gates.*;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GateLibrary {
@@ -30,10 +31,21 @@ public class GateLibrary {
         }
     }
 
-    // TODO: Add module definitions here later
+    public static void addModule(GateDefinition moduleDef) {
+        if (definitions == null) {
+            definitions = makeDefinitions();
+        }
+        for (GateDefinition gateDef : definitions) {
+            if (gateDef.getCategory().equals(moduleDef.getCategory())
+                    && gateDef.isType(moduleDef.getType())) {
+                return;
+            }
+        }
+        definitions.add(moduleDef);
+    }
 
     private static List<GateDefinition> makeDefinitions() {
-        return List.of(
+        return new ArrayList<>(List.of(
             new GateDefinition("basic", AND.GATE_TYPE, 0, AND::new),
             new GateDefinition("basic", OR.GATE_TYPE, 0, OR::new),
             new GateDefinition("basic", XOR.GATE_TYPE, 0, XOR::new),
@@ -72,7 +84,7 @@ public class GateLibrary {
             new GateDefinition("cpu", ProgramCounter4.GATE_TYPE, 4, ProgramCounter4::new),
             new GateDefinition("cpu", Register4.GATE_TYPE, 4, Register4::new),
             new GateDefinition("cpu", Register8.GATE_TYPE, 4, Register8::new)
-        );
+        ));
     }
 
     public static Gate createGate(String type) {

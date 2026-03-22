@@ -1,8 +1,6 @@
 package logicsim.xml;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,16 +30,17 @@ public class Xml {
 	private final Map<String, String> nameAttributes = new HashMap<>();
 	private final Map<String, ArrayList<Xml>> nameChildren = new HashMap<>();
 
-	public Xml(InputStream inputStream, String rootName) {
+
+	public Xml(String filepath, String rootName) throws FileNotFoundException {
+		this(new File(filepath), rootName);
+	}
+
+	public Xml(File file, String rootName) throws FileNotFoundException {
+		this(new FileInputStream(file), rootName);
+	}
+
+	private Xml(InputStream inputStream, String rootName) {
 		this(rootElement(inputStream, rootName));
-	}
-
-	public Xml(String filename, String rootName) {
-		this(fileInputStream(filename), rootName);
-	}
-
-	public Xml(String rootName) {
-		this.name = rootName;
 	}
 
 	private Xml(Element element) {
@@ -190,13 +189,4 @@ public class Xml {
 			}
 		}
 	}
-
-	private static FileInputStream fileInputStream(String filename) {
-		try {
-			return new FileInputStream(filename);
-		} catch (IOException exception) {
-			throw new RuntimeException(exception);
-		}
-	}
-
 }

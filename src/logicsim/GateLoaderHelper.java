@@ -1,6 +1,7 @@
 package logicsim;
 
 import logicsim.gates.*;
+import logicsim.module.Module;
 
 import java.io.File;
 import java.io.IOException;

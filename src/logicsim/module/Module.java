@@ -1,5 +1,6 @@
-package logicsim;
+package logicsim.module;
 
+import logicsim.*;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 import logicsim.xml.XMLLoader;
@@ -7,6 +8,7 @@ import logicsim.xml.XMLLoader;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -22,37 +24,36 @@ public class Module extends Gate {
 	private LogicSimFile lsFile = new LogicSimFile(null);
 
 	private final boolean embedded;
+	private final boolean valid;
 
-	public Module(String type) {
-		this(type, true);
+	public Module(File moduleFile, String name) {
+		super("modules", name);
+		this.embedded = true;
+		valid = loadModule(moduleFile);
 	}
 
-	public Module(String type, boolean embedded) {
-		super("modules", type);
-		this.embedded = embedded;
-		loadModule();
+	public boolean isValid() {
+		return valid;
 	}
 
 	/**
 	 * loads module from file
 	 */
-	public void loadModule() {
-		String filename = App.getModulePath() + type + "." + App.MODULE_FILE_SUFFIX;
-		File f = new File(filename);
-		if (!f.exists()) {
-			String s = I18N.tr(Lang.MODULENOTFOUND).replaceFirst("%s", type);
+	public boolean loadModule(File moduleFile) {
+		if (!moduleFile.exists() || !moduleFile.isFile() || !moduleFile.canRead()) {
+			String s = I18N.tr(Lang.MODULENOTFOUND).replaceFirst("%s", moduleFile.getAbsolutePath());
 			JOptionPane.showMessageDialog(null, s);
-			return;
+			return false;
 		}
 		try {
-			lsFile = XMLLoader.loadXmlFile(filename);
-		} catch (RuntimeException x) {
-			JOptionPane.showMessageDialog(null, I18N.tr(Lang.READERROR) + ": " + x.getMessage());
-			return;
+			lsFile = XMLLoader.loadXmlFile(moduleFile);
+		} catch (IOException ioe) {
+			JOptionPane.showMessageDialog(null, I18N.tr(Lang.READERROR) + ": " + ioe.getMessage());
+			return false;
 		}
 
 		if (lsFile == null || lsFile.circuit == null) {
-			return;
+			return false;
 		}
 		if (lsFile.getErrorString() != null) {
 			Dialogs.messageDialog(null, lsFile.getErrorString());
@@ -67,63 +68,60 @@ public class Module extends Gate {
         }
 
 		// postprocessing: search for MODIN and MODOUT
-		for (CircuitPart g : lsFile.circuit.parts) {
-			if (g instanceof MODIN) {
-				moduleIn = (MODIN) g;
-				int numberOfInputs = moduleIn.getInputs().size();
-				for (Pin c : moduleIn.getOutputs()) {
-					// add MODIN's input-connectors to module:
-					// check if MODIN's outputs are connected
-					if (c.isConnected()) {
-						Pin newIn = new Pin(getX(), getY() + 10 + (c.number - numberOfInputs) * 10, this, c.number - numberOfInputs);
-						newIn.setIoType(Pin.INPUT);
-						newIn.levelType = Pin.NORMAL;
-						Pin in = moduleIn.getPin(c.number - numberOfInputs);
-						if (in.getProperty(TEXT) != null)
-							newIn.setProperty(TEXT, in.getProperty(TEXT));
-						pins.add(newIn);
-					}
+		moduleIn = lsFile.circuit.getModIn();
+		if (moduleIn != null) {
+			int numberOfInputs = moduleIn.getInputs().size();
+			for (Pin c : moduleIn.getOutputs()) {
+				// add MODIN's input-connectors to module:
+				// check if MODIN's outputs are connected
+				if (c.isConnected()) {
+					Pin newIn = new Pin(getX(), getY() + 10 + (c.number - numberOfInputs) * 10, this, c.number - numberOfInputs);
+					newIn.setIoType(Pin.INPUT);
+					newIn.levelType = Pin.NORMAL;
+					Pin in = moduleIn.getPin(c.number - numberOfInputs);
+					if (in.getProperty(TEXT) != null)
+						newIn.setProperty(TEXT, in.getProperty(TEXT));
+					pins.add(newIn);
 				}
 			}
 		}
-		for (CircuitPart g : lsFile.circuit.parts) {
-			if (g instanceof MODOUT) {
-				moduleOut = (MODOUT) g;
-				int numberOfInputs = moduleOut.getInputs().size();
-				// add MODOUT's output-connectors to module:
-				// check if MODOUT's inputs have a wire
-				for (Pin c : moduleOut.getInputs()) {
-					if (c.isConnected()) {
-						Pin newOut = new Pin(getX() + getWidth(), getY() + 10 + c.number * 10, this, c.number + numberOfInputs);
-						newOut.setIoType(Pin.OUTPUT);
-						newOut.paintDirection = Pin.LEFT;
-						newOut.levelType = Pin.NORMAL;
-						Pin out = moduleOut.getPin(c.number + numberOfInputs);
-						if (out.getProperty(TEXT) != null) {
-							newOut.setProperty(TEXT, out.getProperty(TEXT));
-						}
-						pins.add(newOut);
+		moduleOut = lsFile.circuit.getModOut();
+		if (moduleOut != null) {
+			int numberOfInputs = moduleOut.getInputs().size();
+			// add MODOUT's output-connectors to module:
+			// check if MODOUT's inputs have a wire
+			for (Pin c : moduleOut.getInputs()) {
+				if (c.isConnected()) {
+					Pin newOut = new Pin(getX() + getWidth(), getY() + 10 + c.number * 10, this, c.number + numberOfInputs);
+					newOut.setIoType(Pin.OUTPUT);
+					newOut.paintDirection = Pin.LEFT;
+					newOut.levelType = Pin.NORMAL;
+					Pin out = moduleOut.getPin(c.number + numberOfInputs);
+					if (out.getProperty(TEXT) != null) {
+						newOut.setProperty(TEXT, out.getProperty(TEXT));
 					}
+					pins.add(newOut);
 				}
 			}
 		}
+		if (moduleIn == null || moduleOut == null) {
+			JOptionPane.showMessageDialog(null, I18N.tr(Lang.NOMODULE));
+			throw new RuntimeException("no module - does not contain both module i/o components: " + type);
+		}
+
 		// initialize height and reposition connectors
 		int numIn = getNumInputs();
 		int numOut = getNumOutputs();
 		int modoutNumOut = moduleOut.getNumInputs();
 		int max = Math.max(numIn, numOut);
-		if (max > 5)
+		if (max > 5) {
 			height = 10 * max + 10;
+		}
 		for (Pin c : getInputs()) {
 			c.setY(getY() + getConnectorPosition(c.number, numIn, Gate.VERTICAL));
 		}
 		for (Pin c : getOutputs()) {
 			c.setY(getY() + getConnectorPosition(c.number - modoutNumOut, numOut, Gate.VERTICAL));
-		}
-
-		if (moduleIn == null || moduleOut == null) {
-			JOptionPane.showMessageDialog(null, I18N.tr(Lang.NOMODULE));
-			throw new RuntimeException("no module - does not contain both module i/o components: " + type);
 		}
 
 		if (embedded) {
@@ -139,6 +137,7 @@ public class Module extends Gate {
 		}
 		//send initialization
 		lsFile.circuit.reset();
+		return true;
 	}
 
 	@Override
@@ -177,7 +176,7 @@ public class Module extends Gate {
 
     @Override
     public void draw(Graphics2D g2) {
-        int sw = g2.getFontMetrics().stringWidth(label);
+        int sw = (label == null ? 20 : g2.getFontMetrics().stringWidth(label));
         sw += 10 - (sw % 10); // round to next multiple of 10
         sw += 40; // padding
         int width_diff = Math.max(width, (sw)) - width;

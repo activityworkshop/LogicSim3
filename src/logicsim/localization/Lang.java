@@ -6,11 +6,14 @@ public enum Lang {
 	OPEN("menu.file.open"),
 	SAVE("menu.file.save"),
 	SAVEAS("menu.file.saveas"),
-	MODULECREATE("menu.file.modulecreate"),
 	PROPERTIES("menu.file.properties"),
 	EXPORT("menu.file.export"),
 	PRINT("menu.file.print"),
 	EXIT("menu.file.exit"),
+
+	MENU_MODULE("menu.module"),
+	MENU_MODULECREATE("menu.module.create"),
+	MENU_LOADMODULE("menu.module.load"),
 
 	SETTINGS("menu.settings"),
 	PAINTGRID("menu.settings.paintgrid"),
