@@ -65,12 +65,12 @@ unfortunately the initial complexity could be quite overwhelming. That was one r
 `gates` directory was used to dynamically load a smaller selection of components, perhaps
 targeted towards a specific teaching goal.
 
-Instead of this, it would be nice if the "mode" selection could be expanded with more options.
-Currently only "normal" and "expert" are available, but one could imagine having many more
-gradations inbetween. An absolute beginner would not need to have anything to do with modules
-or Flip-Flops but would benefit from a simplified list just showing basic gates with switches
-and LEDs. A subsequent lesson might then introduce clocks and counters, gradually expanding
-the complexity. CPU stuff and half-adders could then come later.
+Instead of this, LogicSim now has 5 different "complexity" modes, selectable from the Settings
+menu. An absolute beginner does not need to have anything to do with modules
+or Flip-Flops and so can choose the minimum complexity, benefiting from a simplified list
+just showing basic gates with switches and LEDs. A subsequent lesson might then use the next
+level, introducing clocks and counters, and gradually expanding the complexity.
+CPU stuff and half-adders could then come later.
 
 It would be good to get some feedback from teachers or students who have used LogicSim in
 such a setting, to see what simplifications would make sense.

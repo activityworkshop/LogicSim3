@@ -191,12 +191,10 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
     private void createUI() {
         setTitle("LogicSim");
 
-        String mode = LSProperties.getInstance().getProperty(LSProperties.MODE, LSProperties.MODE_NORMAL);
-
         // ------------------------------------------------------------------
         // MENU
         // ------------------------------------------------------------------
-        mnuBar = makeMenuBar(mode);
+        mnuBar = makeMenuBar();
         setJMenuBar(mnuBar);
 
         // ------------------------------------------------------------------
@@ -303,7 +301,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         getContentPane().add(splitPane, BorderLayout.CENTER);
 
-        btnBar = makeButtonBar(mode);
+        btnBar = makeButtonBar();
         add(btnBar, BorderLayout.NORTH);
 
         // ------------------------------------------------------------------
@@ -345,7 +343,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         lspanel.requestFocusInWindow();
     }
 
-    private JMenuBar makeMenuBar(String mode) {
+    private JMenuBar makeMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu mnu = new JMenu(I18N.tr(Lang.FILE));
@@ -362,16 +360,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         mnu.addSeparator();
 
-        final JMenuItem mnuSave = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
-        mnuSave.addActionListener(e -> actionSave(e, false));
-        mnu.add(mnuSave);
-
-        final JMenuItem mnuSaveAs = createMenuItem(Lang.SAVEAS, 0, true);
-        mnuSaveAs.addActionListener(e -> actionSave(e, true));
-        mnu.add(mnuSaveAs);
-
-        mnu.addSeparator();
-
         final JMenuItem mnuFileProperties = createMenuItem(Lang.PROPERTIES, 0, true);
         mnuFileProperties.addActionListener(e -> {
             if (FileInfoDialog.showFileInfo(LSFrame.this, lsFile)) {
@@ -382,13 +370,17 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
 
         mnu.addSeparator();
 
+        final JMenuItem mnuSave = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
+        mnuSave.addActionListener(e -> actionSave(e, false));
+        mnu.add(mnuSave);
+
+        final JMenuItem mnuSaveAs = createMenuItem(Lang.SAVEAS, 0, true);
+        mnuSaveAs.addActionListener(e -> actionSave(e, true));
+        mnu.add(mnuSaveAs);
+
         final JMenuItem mnuExport = createMenuItem(Lang.EXPORT, 0, true);
         mnuExport.addActionListener(e -> exportImage());
         mnu.add(mnuExport);
-
-        final JMenuItem mnuPrint = createMenuItem(Lang.PRINT, 0, true);
-        mnuPrint.addActionListener(e -> lspanel.doPrint());
-        mnu.add(mnuPrint);
 
         mnu.addSeparator();
 
@@ -526,7 +518,7 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         return m;
     }
 
-    private JToolBar makeButtonBar(String mode) {
+    private JToolBar makeButtonBar() {
         final JToolBar toolbar = new JToolBar();
         toolbar.setFloatable(false);
 
@@ -590,7 +582,6 @@ public class LSFrame extends JFrame implements ActionListener, CircuitChangedLis
         toolbar.add(getMenuGap());
 
         btnLS = new LSButton("newwire", Lang.WIRENEW);
-        btnLS.setEnabled(LSProperties.MODE_EXPERT.equals(mode));
         btnLS.addActionListener(e -> {
             lspanel.setAction(LSPanel.ACTION_ADDWIRE);
             setStatusText(I18N.tr(Lang.WIRENEW_HELP));

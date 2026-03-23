@@ -8,7 +8,6 @@ public enum Lang {
 	SAVEAS("menu.file.saveas"),
 	PROPERTIES("menu.file.properties"),
 	EXPORT("menu.file.export"),
-	PRINT("menu.file.print"),
 	EXIT("menu.file.exit"),
 
 	MENU_MODULE("menu.module"),

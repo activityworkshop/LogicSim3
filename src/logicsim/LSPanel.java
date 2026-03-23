@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -24,13 +23,10 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterJob;
 
 import javax.swing.event.MouseInputAdapter;
 
-public class LSPanel extends Viewer implements Printable, CircuitChangedListener, LSRepaintListener {
+public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaintListener {
 
 	public class LogicSimPainterGraphics implements Painter {
 		@Override
@@ -189,9 +185,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 			int ry = CircuitPart.round(e.getY());
 
 			boolean simRunning = Simulation.getInstance().isRunning();
-			boolean expertMode = LSProperties.MODE_EXPERT
-					.equals(LSProperties.getInstance().getProperty(LSProperties.MODE, LSProperties.MODE_NORMAL));
-
 			if (simRunning) {
 				currentAction = ACTION_NONE;
 			} else if (currentAction == ACTION_NONE && e.getButton() == MouseEvent.BUTTON3) {
@@ -209,10 +202,8 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 				cp.parent.mousePressed(new LSMouseEvent(e, ACTION_DELPOINT, null));
 			}
 			if (!simRunning && cp instanceof Pin && !e.isAltDown() && currentAction == ACTION_NONE) {
-				// we start a new wire if the pin we clicked is an output OR
-				// if we are in expert mode
-				if (((Pin) cp).isOutput() || expertMode)
-					currentAction = ACTION_ADDWIRE;
+				// we start a new wire
+				currentAction = ACTION_ADDWIRE;
 			}
 
 			if (currentAction == ACTION_ADDWIRE) {
@@ -266,8 +257,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                         wire.addPoint(rx, ry);
 						break;
 					case Pin pin: {
-                        if (!expertMode && pin.isOutput())
-                            return;
                         wire.setTo(pin);
                         wire.getTo().connect(wire);
                         wire.finish();
@@ -278,8 +267,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                     }
 					case Wire clickedWire: {
                         if (clickedWire.equals(wire))
-                            return;
-                        if (!expertMode)
                             return;
                         int pt = clickedWire.isAt(e.getX(), e.getY());
                         clickedWire.insertPointAfter(pt, rx, ry);
@@ -313,8 +300,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                             }
                         } else {
                             // wirepoint belongs to another wire
-                            if (!expertMode)
-                                return;
                             wire.setTo(clickedWP);
                             wire.getTo().connect(wire);
                             wire.finish();
@@ -512,18 +497,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
                 e.getClickCount(), e.isPopupTrigger(), e.getButton());
 	}
 
-	public void doPrint() {
-		PrinterJob printJob = PrinterJob.getPrinterJob();
-		printJob.setPrintable(this);
-		if (printJob.printDialog()) {
-			try {
-				printJob.print();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
 	public void draw(Graphics2D g2) {
 		// draw panels first
 		for (CircuitPart gate : circuit.getGates()) {
@@ -634,15 +607,6 @@ public class LSPanel extends Viewer implements Printable, CircuitChangedListener
 	private void notifyZoomPos(double zoom, Point mousePos) {
 		if (changeListener != null)
 			changeListener.changedZoomPos(zoom, mousePos);
-	}
-
-	@Override
-	public int print(Graphics g, PageFormat pf, int pi) {
-		if (pi >= 1) {
-			return Printable.NO_SUCH_PAGE;
-		}
-		draw((Graphics2D) g);
-		return Printable.PAGE_EXISTS;
 	}
 
 	/**
