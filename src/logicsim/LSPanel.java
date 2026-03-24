@@ -645,24 +645,24 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 	public void setAction(int actionNumber) {
 		switch (actionNumber) {
-		case ACTION_ADDPOINT:
-			fireStatusText(Lang.ADDPOINT);
-			break;
-		case ACTION_DELPOINT:
-			fireStatusText(Lang.REMOVEPOINT);
-			break;
-		case Pin.HIGH:
-			fireStatusText(Lang.INPUTHIGH);
-			break;
-		case Pin.LOW:
-			fireStatusText(Lang.INPUTLOW);
-			break;
-		case Pin.NORMAL:
-			fireStatusText(Lang.INPUTNORM);
-			break;
-		case Pin.INVERTED:
-			fireStatusText(Lang.INPUTINV);
-			break;
+			case ACTION_ADDPOINT:
+				fireStatusText(Lang.ADDPOINT);
+				break;
+			case ACTION_DELPOINT:
+				fireStatusText(Lang.REMOVEPOINT);
+				break;
+			case Pin.HIGH:
+				fireStatusText(Lang.INPUTHIGH);
+				break;
+			case Pin.LOW:
+				fireStatusText(Lang.INPUTLOW);
+				break;
+			case Pin.NORMAL:
+				fireStatusText(Lang.INPUTNORM);
+				break;
+			case Pin.INVERTED:
+				fireStatusText(Lang.INPUTINV);
+				break;
 		}
 		currentAction = actionNumber;
 	}
