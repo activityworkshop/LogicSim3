@@ -28,6 +28,8 @@ public interface AppController {
     /** Settings have been changed from the Settings menu */
     public void actionChangedSettings(boolean needRestart);
 
+    public void complexityChanged();
+
     /** Help -> Help */
     public void actionShowHelp();
 

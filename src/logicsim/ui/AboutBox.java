@@ -32,7 +32,7 @@ public class AboutBox extends JWindow {
     public AboutBox(Frame parent) {
 		super(parent);
 
-		imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("images/about.jpg"))).getImage();
+		imgSplash = new ImageIcon(Objects.requireNonNull(LSFrame.class.getResource("/images/about.jpg"))).getImage();
 
 		final int imgWidth = imgSplash.getWidth(this);
 		final int imgHeight = imgSplash.getHeight(this) + 155;

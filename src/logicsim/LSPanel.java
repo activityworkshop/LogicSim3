@@ -525,7 +525,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				if (pointsOfWire == 0) {
 					currentAction = ACTION_NONE;
 					// delete wire
-					w.disconnect(null);
+					w.disconnect();
 					circuit.remove(w);
                     circuit.deselectAll();
 					fireStatusText(Lang.ABORTED);

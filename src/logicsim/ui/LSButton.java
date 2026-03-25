@@ -6,28 +6,24 @@ import logicsim.localization.Lang;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.*;
 
 public class LSButton extends JButton {
-
-    @Serial
-    private static final long serialVersionUID = 4465562539140913810L;
-    private final int size = 20;
+    private static final int size = 20;
 
     public LSButton(String iconName, Lang toolTip) {
-        this.setDoubleBuffered(true);
-        this.setIcon(getIcon(iconName));
-        this.setToolTipText(I18N.tr(toolTip));
-        this.setName(toolTip.toString());
-        int padding = 10;
-        this.setMinimumSize(new Dimension(size + padding, size + padding));
-        this.setMaximumSize(new Dimension(size + padding, size + padding));
-        this.setPreferredSize(new Dimension(size + padding, size + padding));
-        this.setBorder(new LSRoundedBorder(5));
-        this.addMouseListener(new MouseAdapter() {
+        setDoubleBuffered(true);
+        setIcon(getIcon(iconName));
+        setToolTipText(I18N.tr(toolTip));
+        setName(toolTip.toString());
+        final int totalSize = size + 10;
+        setMinimumSize(new Dimension(totalSize, totalSize));
+        setMaximumSize(new Dimension(totalSize, totalSize));
+        setPreferredSize(new Dimension(totalSize, totalSize));
+        setBorder(new LSRoundedBorder());
+        addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 setBackground(Color.LIGHT_GRAY);
             }
@@ -38,14 +34,9 @@ public class LSButton extends JButton {
         });
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
     private ImageIcon getIcon(String imgName) {
-        String filename = "/images/" + imgName + ".png";
-        Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage();
+        final String filename = "/images/" + imgName + ".png";
+        final Image image = new ImageIcon(Objects.requireNonNull(getClass().getResource(filename))).getImage();
         return new ImageIcon(image.getScaledInstance(size, size, Image.SCALE_AREA_AVERAGING));
     }
 }

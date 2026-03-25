@@ -155,7 +155,7 @@ public class Circuit implements LSRepaintListener {
 			if (part instanceof Gate g) {
 				removeGate(g);
 			} else if (part instanceof Wire w) {
-				w.disconnect(null);
+				w.disconnect();
 				this.parts.remove(part);
 			}
 		}

@@ -218,7 +218,6 @@ public abstract class CircuitPart implements LSLevelListener {
 			mousePressedSim(e);
 		else {
 			select();
-			notifyRepaint();
 		}
 
 		if (e.isAltDown()) {
@@ -246,29 +245,8 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	public void moveTo(int x, int y) {
 		checkXY(x, y);
-
 		this.x = x;
 		this.y = y;
-	}
-
-	protected void notifyAction(int action) {
-		// changeListener is always null!
-		// changeListener.setAction(action);
-	}
-
-	protected void notifyChanged() {
-		// changeListener is always null!
-		// changeListener.changedCircuit();
-	}
-
-	protected void notifyMessage(String msg) {
-		// changeListener is always null!
-		// changeListener.changedStatusText(msg);
-	}
-
-	protected void notifyRepaint() {
-		// changeListener is always null!
-		// changeListener.needsRepaint(this);
 	}
 
 	/**

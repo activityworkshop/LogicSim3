@@ -12,13 +12,7 @@ import logicsim.ui.*;
 import logicsim.xml.XMLCreator;
 import logicsim.xml.XMLLoader;
 
-import java.awt.AWTEvent;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -30,7 +24,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -45,7 +38,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
 
     private LogicSimFile lsFile;
 
-    private JMenuBar mnuBar;
+    private MenuManager menuManager;
     private JToolBar btnBar;
 
     private final DefaultListModel<Object> partListModel = new DefaultListModel<>();
@@ -173,7 +166,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     @Override
     protected void processWindowEvent(WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING
-                && showDiscardDialog(I18N.tr(Lang.EXIT))) {
+                && showDiscardDialog()) {
             System.exit(0);
         }
     }
@@ -195,7 +188,8 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         // ------------------------------------------------------------------
         // MENU
         // ------------------------------------------------------------------
-        mnuBar = makeMenuBar();
+        menuManager = new MenuManager(this);
+        final JMenuBar mnuBar = menuManager.makeMenuBar();
         setJMenuBar(mnuBar);
 
         // ------------------------------------------------------------------
@@ -363,177 +357,11 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
 
     @Override
     public void actionExit() {
-        if (showDiscardDialog(I18N.tr(Lang.EXIT))) {
+        if (showDiscardDialog()) {
             System.exit(0);
         }
     }
 
-    private JMenuBar makeMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu mnu = new JMenu(I18N.tr(Lang.FILE));
-
-        final JMenuItem mnuNew = createMenuItem(Lang.NEW, KeyEvent.VK_N, false);
-        mnuNew.setEnabled(!Simulation.getInstance().isRunning());
-        mnuNew.addActionListener(e -> actionNewCircuit());
-        mnu.add(mnuNew);
-
-        final JMenuItem mnuOpen = createMenuItem(Lang.OPEN, KeyEvent.VK_O, true);
-        mnuOpen.setEnabled(!Simulation.getInstance().isRunning());
-        mnuOpen.addActionListener(e -> actionOpenCircuit());
-        mnu.add(mnuOpen);
-
-        mnu.addSeparator();
-
-        final JMenuItem mnuFileProperties = createMenuItem(Lang.PROPERTIES, 0, true);
-        mnuFileProperties.addActionListener(e -> actionEditFileInfo());
-        mnu.add(mnuFileProperties);
-
-        mnu.addSeparator();
-
-        final JMenuItem mnuSave = createMenuItem(Lang.SAVE, KeyEvent.VK_S, true);
-        mnuSave.addActionListener(e -> actionSave( false));
-        mnu.add(mnuSave);
-
-        final JMenuItem mnuSaveAs = createMenuItem(Lang.SAVEAS, 0, true);
-        mnuSaveAs.addActionListener(e -> actionSave( true));
-        mnu.add(mnuSaveAs);
-
-        final JMenuItem mnuExport = createMenuItem(Lang.EXPORT, 0, true);
-        mnuExport.addActionListener(e -> actionExportImage());
-        mnu.add(mnuExport);
-
-        mnu.addSeparator();
-
-        final JMenuItem mnuExit = createMenuItem(Lang.EXIT, KeyEvent.VK_X, false);
-        mnuExit.addActionListener(e -> actionExit());
-        mnu.add(mnuExit);
-
-        menuBar.add(mnu);
-        // ------------------------------------------------------------------
-        // Module
-        final JMenu moduleMenu = new JMenu(I18N.tr(Lang.MENU_MODULE));
-
-        final JMenuItem mnuCreateModule = createMenuItem(Lang.MENU_MODULECREATE, 0, true);
-        mnuCreateModule.addActionListener(e -> actionCreateModule());
-        moduleMenu.add(mnuCreateModule);
-
-        final JMenuItem mnuLoadModule = new JMenuItem(I18N.tr(Lang.MENU_LOADMODULE));
-        mnuLoadModule.addActionListener(e -> actionLoadModule());
-        moduleMenu.add(mnuLoadModule);
-        menuBar.add(moduleMenu);
-
-        // ------------------------------------------------------------------
-        // SETTINGS
-        mnu = new JMenu(I18N.tr(Lang.SETTINGS));
-
-        final int complexity = LSProperties.getInstance().getComplexity();
-        JMenu mnuComplexity = new JMenu(I18N.tr(Lang.SETTINGS_COMPLEXITY));
-        ButtonGroup btnGroup = new ButtonGroup();
-        for (int level=0; level<=4; level++) {
-            String key = Lang.COMPLEXITY_LEVEL.getKey() + level;
-            JRadioButtonMenuItem mnuItem = new JRadioButtonMenuItem(I18N.tr(key));
-            mnuItem.setName("complexity" + level);
-            mnuItem.setSelected(level == complexity);
-            mnuItem.addActionListener(this::changeComplexity);
-            btnGroup.add(mnuItem);
-            mnuComplexity.add(mnuItem);
-            btnGroup.add(mnuItem);
-        }
-        mnu.add(mnuComplexity);
-
-        boolean sel = LSProperties.getInstance().getPropertyBoolean(LSProperties.PAINTGRID, true);
-        final JCheckBoxMenuItem paintGridCheckbox = new JCheckBoxMenuItem(I18N.tr(Lang.PAINTGRID));
-        paintGridCheckbox.setSelected(sel);
-        paintGridCheckbox.addActionListener(e -> {
-            LSProperties.getInstance().setPropertyBoolean(LSProperties.PAINTGRID, paintGridCheckbox.isSelected());
-            actionChangedSettings(false);
-        });
-        mnu.add(paintGridCheckbox);
-
-        boolean autowire = LSProperties.getInstance().getPropertyBoolean(LSProperties.AUTOWIRE, true);
-        final JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem(I18N.tr(Lang.AUTOWIRE));
-        cbMenuItem.setSelected(autowire);
-        cbMenuItem.addActionListener(e -> {
-            JCheckBoxMenuItem bmi = (JCheckBoxMenuItem) e.getSource();
-            LSProperties.getInstance().setPropertyBoolean(LSProperties.AUTOWIRE, bmi.isSelected());
-            actionChangedSettings(false);
-        });
-        mnu.add(cbMenuItem);
-
-        final JMenuItem mnuStyle = new JMenu(I18N.tr(Lang.GATEDESIGN));
-        String gateStyle = LSProperties.getInstance().getProperty(LSProperties.GATEDESIGN,
-                LSProperties.GATEDESIGN_IEC);
-
-        JRadioButtonMenuItem mnuStyleIEC = new JRadioButtonMenuItem();
-        mnuStyleIEC.setText(I18N.tr(Lang.GATEDESIGN_IEC));
-        mnuStyleIEC.addActionListener(this::actionGateDesign);
-        mnuStyleIEC.setSelected(LSProperties.GATEDESIGN_IEC.equals(gateStyle));
-        mnuStyle.add(mnuStyleIEC);
-
-        JRadioButtonMenuItem mnuStyleANSI = new JRadioButtonMenuItem();
-        mnuStyleANSI.setText(I18N.tr(Lang.GATEDESIGN_ANSI));
-        mnuStyleANSI.addActionListener(this::actionGateDesign);
-        mnuStyleANSI.setSelected(LSProperties.GATEDESIGN_ANSI.equals(gateStyle));
-        mnuStyle.add(mnuStyleANSI);
-
-        btnGroup = new ButtonGroup();
-        btnGroup.add(mnuStyleIEC);
-        btnGroup.add(mnuStyleANSI);
-
-        mnu.add(mnuStyle);
-
-        final JMenuItem mnuColorMode = new JMenu(I18N.tr(Lang.COLORMODE));
-        btnGroup = new ButtonGroup();
-        String cMode = LSProperties.getInstance().getProperty(LSProperties.COLORMODE, LSProperties.COLORMODE_ON);
-
-        JRadioButtonMenuItem mCmOn = new JRadioButtonMenuItem();
-        mCmOn.setText(I18N.tr(Lang.COLORMODE_ON));
-        mCmOn.addActionListener(this::actionColorMode);
-        mCmOn.setSelected(LSProperties.COLORMODE_ON.equals(cMode));
-        mnuColorMode.add(mCmOn);
-
-        JRadioButtonMenuItem mCmOff = new JRadioButtonMenuItem();
-        mCmOff.setText(I18N.tr(Lang.COLORMODE_OFF));
-        mCmOff.addActionListener(this::actionColorMode);
-        mCmOff.setSelected(LSProperties.COLORMODE_OFF.equals(cMode));
-        mnuColorMode.add(mCmOff);
-
-        btnGroup.add(mCmOn);
-        btnGroup.add(mCmOff);
-
-        mnu.add(mnuColorMode);
-
-        JMenu mnuLang = new JMenu(I18N.tr(Lang.LANGUAGE));
-        String currentLanguage = LSProperties.getInstance().getProperty(LSProperties.LANGUAGE, "de");
-        createLanguageMenu(mnuLang, currentLanguage);
-        mnu.add(mnuLang);
-
-        menuBar.add(mnu);
-
-        // ------------------------------------------------------------------
-        // HELP
-        mnu = new JMenu(I18N.tr(Lang.HELP));
-
-        final JMenuItem mnuHelpHelp = createMenuItem(Lang.HELP_HELP, 0, true);
-        mnuHelpHelp.addActionListener(e -> actionShowHelp());
-        mnu.add(mnuHelpHelp);
-
-        final JMenuItem mnuAbout = createMenuItem(Lang.ABOUT, 0, true);
-        mnuAbout.addActionListener(e -> actionShowAbout());
-        mnu.add(mnuAbout);
-
-        menuBar.add(mnu);
-        return menuBar;
-    }
-
-    private JMenuItem createMenuItem(Lang lang, int key, boolean isDialog) {
-        JMenuItem m = new JMenuItem(I18N.tr(lang) + (isDialog ? "..." : ""));
-        if (key != 0)
-            m.setAccelerator(KeyStroke.getKeyStroke(key, InputEvent.CTRL_DOWN_MASK, false));
-        m.setName(lang.toString());
-        return m;
-    }
 
     private JToolBar makeButtonBar() {
         final JToolBar toolbar = new JToolBar();
@@ -789,18 +617,18 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         }
     }
 
+    // Called from toolbar
     void actionSimulate(ActionEvent e) {
         LSToggleButton btn = (LSToggleButton) e.getSource();
         actionToggleSimulation(btn.isSelected());
 
         final boolean simRunning = Simulation.getInstance().isRunning();
-        Objects.requireNonNull(getMenuWidget(Lang.OPEN)).setEnabled(!simRunning);
         Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_OPEN)).setEnabled(!simRunning);
-        Objects.requireNonNull(getMenuWidget(Lang.NEW)).setEnabled(!simRunning);
         Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_NEW)).setEnabled(!simRunning);
+        menuManager.informSimulationStartedStopped();
     }
 
-    boolean showDiscardDialog(String title) {
+    private boolean showDiscardDialog() {
         if (lsFile.changed) {
             int result = Dialogs.confirmDiscardDialog(this);
             return (result == JOptionPane.YES_OPTION);
@@ -814,7 +642,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     public void actionNewCircuit() {
         if (Simulation.getInstance().isRunning())
             return;
-        if (!showDiscardDialog(I18N.tr(Lang.NEW)))
+        if (!showDiscardDialog())
             return;
         lsFile = new LogicSimFile(defaultCircuitFileName());
         lsFile.circuit.setRepaintListener(lspanel);
@@ -826,11 +654,10 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
      * handles opening of files
      */
     public void actionOpenCircuit() {
-        if (Simulation.getInstance().isRunning())
+        if (Simulation.getInstance().isRunning()
+                || !showDiscardDialog()) {
             return;
-
-        if (!showDiscardDialog(I18N.tr(Lang.OPEN)))
-            return;
+        }
 
         File file = new File(lsFile.fileName);
         JFileChooser chooser = new JFileChooser(file.getParent());
@@ -1031,65 +858,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     /**
-     * handles gate design (IEC/ISO)
-     */
-    void actionGateDesign(ActionEvent e) {
-        final String gateDesign;
-        JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
-        if (src.getText().equals(I18N.tr(Lang.GATEDESIGN_IEC))) {
-            gateDesign = (src.isSelected() ? LSProperties.GATEDESIGN_IEC : LSProperties.GATEDESIGN_ANSI);
-        } else {
-            gateDesign = (src.isSelected() ? LSProperties.GATEDESIGN_ANSI : LSProperties.GATEDESIGN_IEC);
-        }
-        LSProperties.getInstance().setProperty(LSProperties.GATEDESIGN, gateDesign);
-        actionChangedSettings(false);
-    }
-
-    /**
-     * handles color mode (on-redblack / off - blackwhite for printing)
-     */
-    private void actionColorMode(ActionEvent e) {
-        final String mode;
-        JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
-        if (src.getText().equals(I18N.tr(Lang.COLORMODE_ON))) {
-            mode = (src.isSelected() ? LSProperties.COLORMODE_ON : LSProperties.COLORMODE_OFF);
-        } else {
-            mode = (src.isSelected() ? LSProperties.COLORMODE_OFF : LSProperties.COLORMODE_ON);
-        }
-        LSProperties.getInstance().setProperty(LSProperties.COLORMODE, mode);
-        Wire.setColorMode();
-
-        actionChangedSettings(false);
-    }
-
-    private void changeComplexity(ActionEvent e) {
-        JRadioButtonMenuItem src = (JRadioButtonMenuItem) e.getSource();
-        final int nameLen = src.getName().length();
-        final String level = (nameLen < 1 ? "2" : src.getName().substring(nameLen - 1));
-        LSProperties.getInstance().setProperty(LSProperties.COMPLEXITY, level);
-        refreshGateList();
-    }
-
-    /**
-     * helper method to get a certain menu component
-     * so we don't have to set every item as member variable
-     *
-     * @param lang language enum
-     * @return menu item
-     */
-    private AbstractButton getMenuWidget(Lang lang) {
-        for (int i = 0; i < mnuBar.getMenuCount(); i++) {
-            JMenu mnu = mnuBar.getMenu(i);
-            for (Component c : mnu.getMenuComponents()) {
-                if (lang.toString().equals(c.getName())) {
-                    return (AbstractButton) c;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * helper method to get a certain button component
      * so we don't have to set every button as member variable
      *
@@ -1103,29 +871,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             }
         }
         return null;
-    }
-
-    /**
-     * add all languages from file system to languages menu
-     *
-     * @param menu the menu to fill
-     * @param currentLanguage the current language
-     */
-    void createLanguageMenu(JMenu menu, String currentLanguage) {
-        List<String> langs = I18N.getLanguages();
-        ButtonGroup btnGroup = new ButtonGroup();
-        for (String lang : langs) {
-            JMenuItem item = new JRadioButtonMenuItem(lang);
-            if (lang.equals(currentLanguage))
-                item.setSelected(true);
-            item.addActionListener(e -> {
-                LSProperties.getInstance().setProperty(LSProperties.LANGUAGE,
-                        ((JMenuItem) e.getSource()).getText());
-                actionChangedSettings(true);
-            });
-            btnGroup.add(item);
-            menu.add(item);
-        }
     }
 
     @Override
@@ -1253,5 +998,10 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
                 lspanel.requestFocusInWindow();
                 break;
         }
+    }
+
+    @Override
+    public void complexityChanged() {
+        refreshGateList();
     }
 }

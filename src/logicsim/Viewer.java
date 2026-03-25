@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.io.Serial;
 
 import javax.swing.JPanel;
 
@@ -20,8 +19,8 @@ import javax.swing.JPanel;
  */
 public class Viewer extends JPanel {
 
-	public static final double minZoom = 0.5f;
-	public static final double maxZoom = 10f;
+	private static final double minZoom = 0.5f;
+	private static final double maxZoom = 10f;
 
 	/**
 	 * Interface for all classes that may perform painting operations. Instances of
@@ -103,12 +102,6 @@ public class Viewer extends JPanel {
 		 */
 		Point2D worldToScreen(Point2D pSrc, Point2D pDst);
 	}
-
-	/**
-	 * Serial UID
-	 */
-	@Serial
-    private static final long serialVersionUID = -3252732941609348700L;
 
 	/**
 	 * The current zooming speed

@@ -13,7 +13,6 @@ public class I18N {
 
 	public static final String TITLE = "title";
 	public static final String DESCRIPTION = "description";
-	public static final String ALL = "ALL";
 
 	public static String lang = "en";
 	public static Properties prop = null;
@@ -76,13 +75,8 @@ public class I18N {
 		return (item != null);
 	}
 
-	public static boolean hasString(String id, String key) {
-		return hasString("gate." + id + "." + key);
-	}
-
 	public static String tr(Lang key, String value) {
-		String s = tr(key);
-		return String.format(s, value);
+		return String.format(tr(key), value);
 	}
 
 	public static List<String> getLanguages() {
@@ -97,17 +91,5 @@ public class I18N {
         langs.add("sv");
         langs.add("tr");
 		return langs;
-	}
-
-	public static void addGate(String langGate, String type, String key, String value) {
-		if (!langGate.equals(lang) && !langGate.equals(ALL))
-			return;
-		prop.setProperty("gate." + type + "." + key, value);
-	}
-
-	public static void add(String slang, String key, String value) {
-		if (!slang.equals(lang) && !slang.equals(ALL))
-			return;
-		prop.setProperty(key, value);
 	}
 }

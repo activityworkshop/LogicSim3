@@ -318,10 +318,7 @@ public class Wire extends CircuitPart implements Cloneable {
 			if (p > -1) {
 				insertPointAfter(p, round(mx), round(my));
 				select();
-				notifyChanged();
 			}
-			notifyMessage("");
-			notifyAction(0);
 		} else if (e.lsAction == LSPanel.ACTION_DELPOINT) {
 			if (removePointAt(e.getX(), e.getY())) {
 				select();
@@ -329,8 +326,6 @@ public class Wire extends CircuitPart implements Cloneable {
 			}
 		} else {
 			select();
-			// call listener of fromGate
-			getFrom().notifyRepaint();
 		}
 //		// clicked CTRL on a Wire -> insert node
 //		if (e.isControlDown()) {
@@ -385,12 +380,6 @@ public class Wire extends CircuitPart implements Cloneable {
 		}
 	}
 
-	public WirePoint removePoint(int n) {
-		if (points.isEmpty())
-			return null;
-		return points.remove(n);
-	}
-
 	public boolean removePointAt(int x, int y) {
 		for (Iterator<WirePoint> iter = points.iterator(); iter.hasNext();) {
 			WirePoint wp = iter.next();
@@ -400,10 +389,6 @@ public class Wire extends CircuitPart implements Cloneable {
 			}
 		}
 		return false;
-	}
-
-	public void setNodeIsDrawn(int i) {
-		points.get(i).show = true;
 	}
 
 	public void setTempPoint(Point point) {
@@ -416,24 +401,9 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	/**
-	 * wenn an (mx,my) ein Punkt des Wires liegt, wird dieser als Node markiert
-	 */
-	public boolean trySetNode(int mx, int my) {
-		int p = getNodeIndexAt(mx, my);
-		if (p > 0) {
-			setNodeIsDrawn(p);
-			return true;
-		} else
-			return false;
-	}
-
-	/**
 	 * disconnect wire from CircuitParts
-	 * 
-	 * if this method is called from a connector, the calling connector has to be
-	 * given as parameter and must remove the wire from itself.
 	 */
-	public void disconnect(Pin connector) {
+	public void disconnect() {
 		if (getTo() != null) {
 			getTo().removeLevelListener(this);
 			this.removeLevelListener(getTo());
@@ -467,26 +437,6 @@ public class Wire extends CircuitPart implements Cloneable {
 				+ "-"
 				+ (getTo() != null ? getTo().getId() : "");
 	}
-
-//	public void addPointFitting(int x, int y) {
-//		Vector<WirePoint> ps = getAllPoints();
-//		for (int i = 0; i < ps.size() - 1; i++) {
-//			// set current and next wirepoint
-//			WirePoint c = ps.get(i);
-//			WirePoint n = ps.get(i + 1);
-//			if (n.isAt(x, y)) {
-//				n.show = true;
-//				return;
-//			}
-//			Line2D l = new Line2D.Float((float) c.getX(), (float) c.getY(), (float) n.getX(), (float) n.getY());
-//			double dist = l.ptSegDist((double) x, (double) y);
-//			if (dist < 4.5f) {
-//				// so the point should be after "c"
-//				insertPointAfter(i, x, y);
-//				return;
-//			}
-//		}
-//	}
 
 	@Override
 	public void deselect() {

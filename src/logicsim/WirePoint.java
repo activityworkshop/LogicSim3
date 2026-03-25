@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  */
 public class WirePoint extends CircuitPart {
 
-	public static final int POINT_SIZE = 7;
+	private static final int POINT_SIZE = 6;
 
 	public boolean show = false;
 
@@ -55,10 +55,7 @@ public class WirePoint extends CircuitPart {
 	@Override
 	public void mousePressed(LSMouseEvent e) {
 		super.mousePressed(e);
-		notifyMessage("WIREPOINT_CLICKED");
-		// Auf Punkt eines Wires geklickt ?
 		select();
-		notifyRepaint();
 	}
 
 	@Override

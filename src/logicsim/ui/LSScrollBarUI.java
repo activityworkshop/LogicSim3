@@ -3,7 +3,6 @@ package logicsim.ui;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
-import java.io.Serial;
 
 public class LSScrollBarUI extends BasicScrollBarUI {
     private final Dimension d = new Dimension();
@@ -11,10 +10,6 @@ public class LSScrollBarUI extends BasicScrollBarUI {
     @Override
     protected JButton createDecreaseButton(int orientation) {
         return new JButton() {
-
-            @Serial
-            private static final long serialVersionUID = -3592643796245558676L;
-
             @Override
             public Dimension getPreferredSize() {
                 return d;
@@ -25,10 +20,6 @@ public class LSScrollBarUI extends BasicScrollBarUI {
     @Override
     protected JButton createIncreaseButton(int orientation) {
         return new JButton() {
-
-            @Serial
-            private static final long serialVersionUID = 1L;
-
             @Override
             public Dimension getPreferredSize() {
                 return d;
