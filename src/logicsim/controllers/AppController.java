@@ -28,7 +28,7 @@ public interface AppController {
     /** Settings have been changed from the Settings menu */
     public void actionChangedSettings(boolean needRestart);
 
-    public void complexityChanged();
+    public void complexityChanged(int level);
 
     /** Help -> Help */
     public void actionShowHelp();

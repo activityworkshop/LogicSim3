@@ -205,7 +205,7 @@ public class MenuManager {
         LSProperties.getInstance().setProperty(LSProperties.COMPLEXITY, level);
         final int levelNum = Integer.parseInt(level);
         hideMenusForComplexity(levelNum);
-        parent.complexityChanged();
+        parent.complexityChanged(levelNum);
     }
 
     private void hideMenusForComplexity(int levelNum) {

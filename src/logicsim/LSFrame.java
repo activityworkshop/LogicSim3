@@ -39,7 +39,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     private LogicSimFile lsFile;
 
     private MenuManager menuManager;
-    private JToolBar btnBar;
+    private ToolbarManager toolbarManager;
 
     private final DefaultListModel<Object> partListModel = new DefaultListModel<>();
     private final JList<Object> lstParts = new JList<>(partListModel);
@@ -296,8 +296,8 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
 
         getContentPane().add(splitPane, BorderLayout.CENTER);
 
-        btnBar = makeButtonBar();
-        add(btnBar, BorderLayout.NORTH);
+        toolbarManager = new ToolbarManager(this);
+        add(toolbarManager.makeButtonBar(), BorderLayout.NORTH);
 
         // ------------------------------------------------------------------
         // Create the popup menu.
@@ -362,80 +362,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         }
     }
 
-
-    private JToolBar makeButtonBar() {
-        final JToolBar toolbar = new JToolBar();
-        toolbar.setFloatable(false);
-
-        LSButton btnLS = new LSButton("new", Lang.TOOLBAR_NEW);
-        btnLS.setEnabled(!Simulation.getInstance().isRunning());
-        btnLS.addActionListener(e -> actionNewCircuit());
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("open", Lang.TOOLBAR_OPEN);
-        btnLS.setEnabled(!Simulation.getInstance().isRunning());
-        btnLS.addActionListener(e -> actionOpenCircuit());
-        toolbar.add(btnLS);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("save", Lang.TOOLBAR_SAVE);
-        btnLS.addActionListener(e -> actionSave( false));
-        toolbar.add(btnLS);
-
-        toolbar.add(getMenuGap());
-
-        LSToggleButton btnToggle = new LSToggleButton("play", Lang.SIMULATE);
-        btnToggle.addActionListener(this::actionSimulate);
-        toolbar.add(btnToggle, null);
-        toolbar.add(getMenuGap());
-
-        btnLS = new LSButton("inputnorm", Lang.INPUTNORM);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_PINNORMAL));
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("inputinv", Lang.INPUTINV);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_PININVERTED));
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("inputhigh", Lang.INPUTHIGH);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_PINHIGH));
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("inputlow", Lang.INPUTLOW);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_PINLOW));
-        toolbar.add(btnLS, null);
-
-        toolbar.add(getMenuGap());
-
-        btnLS = new LSButton("newwire", Lang.WIRENEW);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_ADDWIRE));
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("addpoint", Lang.ADDPOINT);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_ADDPOINT));
-        toolbar.add(btnLS, null);
-        toolbar.add(getSmallMenuGap());
-
-        btnLS = new LSButton("delpoint", Lang.REMOVEPOINT);
-        btnLS.addActionListener(e -> actionSetAction(Action.ACTION_DELPOINT));
-        toolbar.add(btnLS, null);
-
-        toolbar.add(getMenuGap());
-        // Zoom in and out
-        final LSButton zoomOutButton = new LSButton("zoomout", Lang.ZOOMOUT);
-        zoomOutButton.addActionListener(e -> actionZoom(Zoom.ZOOMOUT));
-        toolbar.add(zoomOutButton, null);
-        final LSButton zoomInButton = new LSButton("zoomin", Lang.ZOOMIN);
-        zoomInButton.addActionListener(e -> actionZoom(Zoom.ZOOMIN));
-        toolbar.add(zoomInButton, null);
-        return toolbar;
-    }
-
     private void setStatusText(String string) {
         sbText.setText("  " + string);
     }
@@ -448,14 +374,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         else if (zoomDir == Zoom.ZOOMOUT) {
             lspanel.zoomOut();
         }
-    }
-
-    private Component getMenuGap() {
-        return Box.createHorizontalStrut(10);
-    }
-
-    private Component getSmallMenuGap() {
-        return Box.createHorizontalStrut(3);
     }
 
     /**
@@ -615,16 +533,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             splitPane.add(pnlGateList, JSplitPane.LEFT);
             splitPane.setDividerLocation(dividerLocation);
         }
-    }
-
-    // Called from toolbar
-    void actionSimulate(ActionEvent e) {
-        LSToggleButton btn = (LSToggleButton) e.getSource();
-        actionToggleSimulation(btn.isSelected());
-
-        final boolean simRunning = Simulation.getInstance().isRunning();
-        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_OPEN)).setEnabled(!simRunning);
-        Objects.requireNonNull(getButtonWidget(Lang.TOOLBAR_NEW)).setEnabled(!simRunning);
         menuManager.informSimulationStartedStopped();
     }
 
@@ -857,22 +765,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         }
     }
 
-    /**
-     * helper method to get a certain button component
-     * so we don't have to set every button as member variable
-     *
-     * @param lang language enum
-     * @return button
-     */
-    private AbstractButton getButtonWidget(Lang lang) {
-        for (Component c : btnBar.getComponents()) {
-            if (lang.toString().equals(c.getName())) {
-                return (AbstractButton) c;
-            }
-        }
-        return null;
-    }
-
     @Override
     public void changedCircuit() {
         if (lsFile != null) {
@@ -1001,7 +893,8 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     @Override
-    public void complexityChanged() {
+    public void complexityChanged(int level) {
         refreshGateList();
+        toolbarManager.informComplexityChanged(level);
     }
 }
