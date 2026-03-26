@@ -70,19 +70,16 @@ public class Circuit implements LSRepaintListener {
 		return wires;
 	}
 
-	public void simulate() {
-	}
-
 	public void setRepaintListener(LSRepaintListener listener) {
 		this.repaintListener = listener;
 	}
 
-	public void selectAll() {
-		deselectAll();
-		for (CircuitPart p : parts) {
-			p.select();
-		}
-	}
+//	public void selectAll() {
+//		deselectAll();
+//		for (CircuitPart p : parts) {
+//			p.select();
+//		}
+//	}
 
 	public void resetAll() {
 		for (CircuitPart p : parts) {

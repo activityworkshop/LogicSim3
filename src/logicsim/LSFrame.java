@@ -403,85 +403,40 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     public void rotateSelected() {
-        if (popupGateIdx >= 0) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            CircuitPart[] sel = lspanel.circuit.getSelected();
-            if (sel == null || sel.length == 0) return;
-            boolean clickedInSelection = false;
-            for (CircuitPart p : sel) {
-                if (p == g) {
-                    clickedInSelection = true;
-                    break;
-                }
-            }
-            if (clickedInSelection && sel.length > 1) {
-                lspanel.rotateSelected();
-            } else {
-                g.rotate();
-                lspanel.changedCircuit();
-            }
-            lspanel.repaint();
-        }
+        CircuitPart[] sel = lspanel.circuit.getSelected();
+        if (sel == null || sel.length == 0) return;
+        lspanel.rotateSelected();
+        lspanel.repaint();
     }
 
     public void decreaseInputsForSelected() {
-        if (popupGateIdx >= 0) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            CircuitPart[] sel = lspanel.circuit.getSelected();
-            if (sel == null || sel.length == 0) return;
-            boolean clickedInSelection = false;
-            for (CircuitPart p : sel) {
-                if (p == g) {
-                    clickedInSelection = true;
-                    break;
-                }
-            }
-            if (clickedInSelection && sel.length > 1) {
-                for (CircuitPart p : sel) {
-                    if (p instanceof Gate g2) {
-                        if (g2.variableInputCountSupported) {
-                            g2.createDynamicInputs(g2.getNumInputs() - 1);
-                        }
-                    }
-                }
-            } else {
-                if (g.variableInputCountSupported) {
-                    g.createDynamicInputs(g.getNumInputs() - 1);
-                }
-                lspanel.changedCircuit();
-            }
-            lspanel.repaint();
+        if (popupGateIdx < 0) {
+            return;
         }
+        CircuitPart[] sel = lspanel.circuit.getSelected();
+        if (sel == null || sel.length == 0) return;
+        for (CircuitPart p : sel) {
+            if (p instanceof Gate g2 && g2.variableInputCountSupported) {
+                g2.createDynamicInputs(g2.getNumInputs() - 1);
+            }
+        }
+        lspanel.changedCircuit();
+        lspanel.repaint();
     }
 
     public void increaseInputsForSelected() {
-        if (popupGateIdx >= 0) {
-            Gate g = (Gate) lspanel.circuit.getParts().get(popupGateIdx);
-            CircuitPart[] sel = lspanel.circuit.getSelected();
-            if (sel == null || sel.length == 0) return;
-            boolean clickedInSelection = false;
-            for (CircuitPart p : sel) {
-                if (p == g) {
-                    clickedInSelection = true;
-                    break;
-                }
-            }
-            if (clickedInSelection && sel.length > 1) {
-                for (CircuitPart p : sel) {
-                    if (p instanceof Gate g2) {
-                        if (g2.variableInputCountSupported) {
-                            g2.createDynamicInputs(g2.getNumInputs() + 1);
-                        }
-                    }
-                }
-            } else {
-                if (g.variableInputCountSupported) {
-                    g.createDynamicInputs(g.getNumInputs() + 1);
-                }
-                lspanel.changedCircuit();
-            }
-            lspanel.repaint();
+        if (popupGateIdx < 0) {
+            return;
         }
+        CircuitPart[] sel = lspanel.circuit.getSelected();
+        if (sel == null || sel.length == 0) return;
+        for (CircuitPart p : sel) {
+            if (p instanceof Gate g2 && g2.variableInputCountSupported) {
+                g2.createDynamicInputs(g2.getNumInputs() + 1);
+            }
+        }
+        lspanel.changedCircuit();
+        lspanel.repaint();
     }
 
     public int getSelectedCount() {

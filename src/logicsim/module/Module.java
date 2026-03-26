@@ -165,10 +165,6 @@ public class Module extends Gate {
 			moduleIn.getPin(c.number).setLevel(c.getLevel());
 		}
 
-		if (lsFile.circuit != null) {
-			lsFile.circuit.simulate();
-		}
-
 		for (Pin c : getOutputs()) {
 			c.setLevel(moduleOut.getPin(c.number).getLevel());
 		}
