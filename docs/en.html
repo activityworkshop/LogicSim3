@@ -1,52 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>LogicSim Manual</title>
-<link rel="stylesheet" href="style.css" type="text/css"/>
+ <meta charset="utf-8"/>
+ <title>LogicSim Manual</title>
+ <link rel="stylesheet" href="style.css" type="text/css"/>
 </head>
 
 <body>
 <h1>LogicSim Manual</h1>
 
-<p>Select circuits from the list on the left side and drag them onto the work panel.</p>
+<p>LogicSim is a tool for design and simulation of digital circuits.</p>
+<p>Simple uses include switches, logic gates (such as AND, OR, XOR, NOT) and LEDs. For more advanced circuits, modules can be created and reused to build up complexity.</p>
+
+<h2>The main window</h2>
+<div>
+    <div style="margin:10px">
+        <img src="images/mainwindow_simple.png" alt="main window (simple)"
+             title="screenshot of main window in simplified form" width="511" height="521"/>
+        <br/><p>Simplified form</p></div>
+    <div style="margin:10px">
+        <img src="images/mainwindow_advanced.png" alt="main window (advanced)"
+             title="screenshot of main window in advanced form" width="511" height="521"/>
+        <br/><p>Advanced form</p></div>
+</div>
+
+<p>At the top of the window you'll find the menu bar and the toolbar. On the left side is a list of components
+which can be used in the current circuit, and on the right is the main canvas where you'll draw the circuit.</p>
+<p>Two screenshots are shown here, the first has the complexity set to minimum (from the Settings menu), and so
+the number of components is reduced. Also, the "Module" menu is hidden, as are several of the toolbar buttons.
+This allows beginners to start with a simplified environment, and add the more complex elements later.</p>
+
+<p>To change the language used by LogicSim, select one of the available languages from the Settings menu,
+and then restart LogicSim to use the selected language.</p>
+
+<h2>Designing a circuit</h2>
+<p>Select circuits from the list on the left side and drag them onto the main canvas.</p>
 <p>To connect, click on an output of a circuit (right side) and draw the wire to an input of another component.
 Hold down shift while clicking somewhere on a wire to connect a new wire to this point.</p>
-<p>Circuits and Wires can be activated by clicking on them and then deleted with the DEL key.</p>
-<p>You can change settings on some circuits (clock, MonoFlop, LCD, TextLabel) by selecting "Properties" in their
-context-menus.
-<br><br>
-
-<p>It is possible to change the number of inputs for some circuits (AND, OR, XOR, etc) by adding or removing inputs
-    using the right-click context menu. These circuits act as if they were connected like this:</p>
-<img src="images/and4input.png">
-<br clear=all>
-
-<h2>Circuit inputs</h2>
-<img src="images/input.gif" align="right" valign="top">
-<p>With the "input inverter" you can invert the level of a wire at the input of a circuit.
-To place the inverter, select it from the list and click on a circuit input.</p>
-<p>An input can be set to a defined level by using "input high" and "input low", without having to connect
-a wire to it.</p>
-<p>To reset an input to normal behaviour, use "normal input" on it.
+<p>Components and wires can be selected by clicking on them and then deleted with the DEL key.</p>
+<p>You can change settings on some components by selecting "Properties" from their right-click context menus.
 </p>
-<br clear=all>
-<br>
 
+<p>It is possible to change the number of inputs for some components (such as AND, OR, XOR, etc)
+    by adding or removing inputs using the right-click context menu. Such gates can have between 2 and 5
+    inputs.  For gates such as AND and OR, the effect is as you would normally expect. For XOR gates, they act
+    as parity checkers, so a four-input XOR gate will output "1" when an <i>odd</i> number of its inputs are "1".</p>
 
-<h2>Module Creation</h2>
-<p>A module contains a complete LogicSim circuit system that can be used as a single circuit element.</p>
-<p>Select "Create Module" from the "Module" menu. Enter the module description in
-the appearing dialog. "Module Name" is the filename under which the module is saved later, "Module Label" is
-the label on the module symbol.</p>
-<p>After pressing the "OK" button, an "input" and an "output" circuit will appear. These represent the module in/outputs.
-Connect your circuit to them. You can connect Switches to the "INPUT" and LEDs to the "OUTPUT" element to test the module.</p>
-<p>After saving the module using the save button, it will appear in the circuits list and can be used in
-a new circuit.</p>
-<p>Open "FullAdder.mod" from the "modules" directory for an example. This module is used in the "5 Bit Adder.lsim" circuit.</p>
-<br>
-<img src="images/ls1.gif"><br>5 Bit adder using five FullAdder Modules.<br><br>
-<img src="images/ls2.gif"><br>FullAdder Module
+<h2>Gate style</h2>
+Simple logic gates like AND and OR can be displayed in one of two ways, selectable from the Settings menu under
+"Gate style". The two different styles are shown below.</p>
+<div style="display:flex">
+    <div style="margin:10px">
+        <img src="images/symbols_iec.png" alt="IEC symbols (square)"
+             title="screenshot of gates in IEC style" width="382" height="209"/>
+        <br/><p>IEC style</p></div>
+    <div style="margin:10px">
+        <img src="images/symbols_ansi.png" alt="ANSI symbols (shaped)"
+             title="screenshot of gates in ANSI style" width="382" height="209"/>
+        <br/><p>ANSI style</p></div>
+</div>
+
+<h2>Autowiring</h2>
+<p>Wires can be connected individually by clicking on the pin of one component, optionally clicking on
+other points to define a path, and then finishing by clicking on the pin of another component.</p>
+<p>If the setting "Autowiring" is activated in the Settings menu, there's a quicker way of connecting
+components, which is especially convenient when there are a larger number of pins to connect.</p>
+<p>Simply drag one component over to meet the second component, and when the pins touch, they will
+be automatically connected by wires, as shown below.</p>
+<table style="border:0px"><tr><td>
+    <div style="margin:10px">
+        <img src="images/autowire.png" alt="Separate components"
+             title="screenshot of two separate components" width="280" height="692"/>
+        <br/><p>Autowiring two components</p></div>
+</td>
+    <td valign="top">
+        <p>Here, the seven segment driver on the left has 7 output pins, and the seven segment display
+        on the right has 7 input pins.</p>
+        <p>By carefully bringing the display over to touch the driver, the pins automatically get
+        connected with wires and stay connected as the display is brought back away. This avoids the
+        need to draw each wire individually.</p>
+        <p>If the wrong pins are connected, you can disconnect all the wires by right-clicking on the
+        display component and selecting "Disconnect" from the context menu.</p>
+    </td>
+</tr></table>
+
+<h2>Loading and saving</h2>
+<p>Circuits can be saved using the "Save" button on the toolbar or from the File menu.  Normal circuits
+will be saved (as xml) with the file extension ".lsc" (for LogicSim Circuit). Modules have a similar
+format but are saved with the extension ".lsm" (for LogicSim Module).</p>
 
 </body>
 </html>
