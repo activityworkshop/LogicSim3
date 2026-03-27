@@ -9,7 +9,40 @@
 <body>
 <h1>LogicSim Kurzanleitung</h1>
 
-<p>Aus der Liste auf der linken Seite k&ouml;nnen Komponenten auf der Arbeitsfl&auml;che verschoben werden.</p>
+<p>LogicSim ist ein Werkzeug um digitale Schaltkreise zu zeichnen und simulieren.</p>
+<p>Einfache Beispiele verwenden Schalter, Taster, Logikgatter (wie z.B. AND, OR, XOR, NOT) und LEDs.
+    F&uuml;r komplexere Schaltkreise, Module k&ouml;nnen kreiert und wiederverwendet werden
+    um die Komplexit&auml;t aufzubauen.</p>
+
+<h2>Das Hauptfenster</h2>
+<div>
+    <div style="margin:10px">
+        <img src="images/mainwindow_simple.png" alt="Hauptfenster (einfach)"
+             title="das Hauptfenster in vereinfachten Modus" width="511" height="521"/>
+        <br/><p>Vereinfacht</p></div>
+    <div style="margin:10px">
+        <img src="images/mainwindow_advanced.png" alt="Hauptfenster (erweitert)"
+             title="das Hauptfenster mit zus&auml;tzlichen Elementen" width="511" height="521"/>
+        <br/><p>Erweitert</p></div>
+</div>
+
+<p>Ganz oben am Fenster befinden sich die Men&uuml;leiste und Werkzeugleiste. Auf der linken Seite
+    ist eine Liste von Komponenten, welche im aktuellen Schaltkreis verwendet werden k&ouml;nnen.
+    Rechts ist die Hauptfl&auml;che wo der Schaltkreis gezeichnet werden kann.</p>
+
+<p>Die zwei Bilder hier zeigen das Hauptfenster zuerst mit minimaler Komplexit&auml;t und dann mit
+    h&ouml;herer Komplexit&auml;t (mittels Einstellungen-Men&uuml;).
+    Mit niedriger Komplexit&auml;t wird die Anzahl Komponente reduzuert, die "Module"-Men&uuml; wird versteckt,
+    und auch einige von den Kn&ouml;pfen aus der Werkzeugeleiste.
+    So k&ouml;nnen Benutzer mit einer vereinfachter Umgebung anfangen und erst sp&auml;ter
+    die anderen Elemente einf&uuml;gen.</p>
+
+<p>Die Sprache von LogicSim kann ge&auml;ndert werden indem man eine Sprache aus der Einstellungen-Men&uuml;
+    ausw&auml;hlt und dann LogicSim wieder neustartet.</p>
+
+<h2>Schaltkreise definieren</h2>
+<p>Aus der Liste auf der linken Seite k&ouml;nnen Komponenten auf der Arbeitsfl&auml;che verschoben werden,
+    oder auch per Doppelklick eingef&uuml;gt werden.</p>
 <p>Die Komponente wird verkabelt, indem auf den Ausgang (meist rechte Seite) eines Gatters 
 geklickt wird und das Kabel auch &uuml;ber Zwischenklicks bis zum Eingang (meist linke Seite) 
 eines anderen Gatters gef&uuml;hrt wird.</p>
@@ -18,60 +51,82 @@ L&ouml;schen (Entf./Del-Taste) ist m&ouml;glich.</p>
 <p>Bei einigen Gattern (z.B. Clock, MonoFlop, LCD, TextLabel) k&ouml;nnen Einstellungen 
 ver&auml;ndert werden, indem im Kontext-Men&uuml; (rechte Maustaste) des Gatters "Eigenschaften" 
 ausgew&auml;hlt wird.</p>
-<p>Einige Komponenten, normalerweise Eingabebauteile, unterst&uuml;tzen einen interaktiven Modus. 
-Durch Auswahl (Klick) und anschlie&szlig;endem Dr&uuml;cken der Leertaste wird eine Aktion ausgef&uuml;hrt. 
-Bei Schaltern wird der Schaltzustand umgeschaltet.</p> 
-<p>F&uuml;r manche Gatter (AND, OR, XOR, usw.) kann die Anzahl der Eing&auml;nge vor dem Einf&uuml;gen
-in der Auswahlbox unter der Gatterliste eingestellt werden, um Gatterkaskaden zu vermeiden, 
-s. Abbildung.</p>
-<img src="images/and4input.png">
-<br clear=all>
-<hr>
+<p>F&uuml;r manche Gatter (AND, OR, XOR, usw.) kann die Anzahl der Eing&auml;nge eingestellt werden,
+    um Gatterkaskaden zu vermeiden. Per Default ist die Anzahl Eing&auml;nge bei solchen Gattern 2,
+    aber mit Rechtsklick und "Eingang hinzuf&uuml;gen" bzw. "Eingang entfernen" kann zwischen 2 und 5
+    Eing&auml;nge ausgew&auml;htl werden.</p>
 
-<h2>Eingangsbeschaltung</h2>
-<img src="images/input.png" align="right" valign="top">
-<p>Im Men&uuml; und &uuml;ber die dargestellten Schaltfl&auml;chen k&ouml;nnen die Eing&auml;nge 
-von Gattern ver&auml;ndert werden. F&uuml;r die Eing&auml;nge stehen die Verhaltensweisen "Normal", 
-"Negiert", "HIGH" und "LOW" zur Verf&uuml;gung. Zur Ver&auml;nderung eines Eingangs wird der gew&uuml;nschte 
-Eingangsbeschaltung per Knopf oder Men&uuml;eintrag ausgew&auml;hlt. Anschlie&szlig;end wird per Klick auf 
-einen Eingangspin einer Komponente die Beschaltung aktiv.<br>
-Die Eingangsbeschaltungen HIGH und LOW bewirken einen st&auml;ndigen, festgelegten Pegel am Eingang.</p>
-<br clear=all>
-<br>
-
-<h2>Erstellen eines Moduls</h2>
-<p>In einem Modul wird eine Schaltung zusammengefasst, die dann als Gatter
-in einer anderen Schaltung verwendet werden kann.</p>
-<p>Zum Erstellen aus dem Men&uuml; "Datei" den Men&uuml;punkt "Modul erstellen" ausw&auml;hlen. Im 
-Dialogfenster kann eine Beschreibung eingetragen werden.</p>
-<p>Es erscheinen nach dem Schlie&szlig;en des Dialogfensters zwei Gatter, die nicht gel&ouml;scht werden k&ouml;nnen:
-INPUT und OUTPUT. An die Ausg&auml;nge des INPUT-Gatters k&ouml;nnen die Kabel angeschlossen werden, die zur
-Schaltung geh&ouml;ren. An die Eing&auml;nge des INPUT-Gatters k&ouml;nnen zum Test z.B. Schalter angeschlossen werden,
-diese werden bei Verwendung in einer Schaltung automatisch entfernt. Ebenso werden an die Eing&auml;nge des 
-OUTPUT-Gatters die sp&auml;teren Ausg&auml;nge der Schaltung angeschlossen. An die Ausg&auml;nge des OUTPUT-Gatters
-k&ouml;nnen wiederum zum Test LEDs u.&auml;. angeschlossen werden. Diese werden ebenso automatisch beim Verwenden
-des Moduls gel&ouml;scht, werden jedoch nicht aus der Datei entfernt, sodass jederzeit eine Weiterentwicklung
-m&ouml;glich ist.</p>
-<p>Das Ein- und Ausg&auml;nge des Moduls k&ouml;nnen mit Beschriftungen (Labels) versehen werden. Dazu muss neben die
-Pins in das Geh&auml;use geklickt werden. Es &ouml;ffnet sich dann ein Abfragefenster f&uuml;r die Beschriftung. Es ist jeweils
-Platz f&uuml;r ca. ein Zeichen.</p>
-<p>Beim Speichern wird das Modul unter dem angegebenen Namen im "modules" Verzeichnis
-gespeichert. Der Name, unter dem gespeichert wird,
-ist gleichzeitig der Name des Moduls. Der Name sollte also kurz gehalten werden. Das Modul erscheint 
-in der Liste der Komponenten zuunterst und kann in neue Schaltungen eingebaut werden.</p>
-<p>Es sind bereits Module vorbereitet, HA und FA stellen ein Halbaddierer und ein 
-Volladdierer (Full Adder) zur Verf&uuml;gung. Der Volladdierer verwendet Halbaddierer.</p>
-
-<h3>Beispiel</h3>
-<p>Die beiden nachfolgenden Abbildungen zeigen den Volladdierern in der 
-Bearbeitungsansicht und in der Verwendung. Es ist erkennbar, dass die Ausg&auml;nge des OUTPUT-Gatters mit 
-Beschriftungen versehen wurden.</p>
-<div align="center">
-<img src="images/fa.png"/><br>
-Volladdierer in der Bearbeitungsansicht<br/><br/>
-
-<img src="images/fanet.png"/><br/>
-Addiernetz aus 8 Volladdierern zur Addition zweier 8-stelliger Bin&auml;rzahlen (11+13=24)<br/>
+<h2>Darstellung der Gatter</h2>
+<p>Logikgatter wie AND und OR k&ouml;nnen mit zwei unterschiedlichen Stilen dargestellt werden,
+    ausw&auml;hlbar in der "Einstellungen"-Men&uuml;.
+    Diese zwei Optionen werden hier gezeigt.</p>
+<div style="display:flex">
+    <div style="margin:10px">
+        <img src="images/symbols_iec.png" alt="IEC Symbole (rechteckig)"
+             title="Gatter in IEC-Stil" width="382" height="209"/>
+        <br/><p>IEC-Stil</p></div>
+    <div style="margin:10px">
+        <img src="images/symbols_ansi.png" alt="ANSI Symbole (geformt)"
+             title=Gatter in ANSI-Stil" width="382" height="209"/>
+        <br/><p>ANSI-Stil</p></div>
 </div>
+
+<h2>Automatische Verkabelung</h2>
+<p>Pins k&ouml;nnen manuell miteinander verbunden werden mit Klick auf dem einen Pin und dann
+    Klick auf dem zweiten.</p>
+<p>Falls die Einstellung "Autom. Verkabelung" aktiviert ist in den Einstellungen, kann man sie
+    stattdessen automatisch verbinden, welches sich besonders eignet wenn die Komponenten mehrere
+    Verbindungen brauchen.</p>
+<p>Mit dieser Funktion bringt man die eine Komponente einfach neben der zweiten, sodass die Pins
+    einander ber&uuml;hren. Die Pins werden automatisch verkabelt, auch wenn man die Komponente
+    wieder wegzieht, wie hier abgebildet.</p>
+<table style="border:0px"><tr><td>
+    <div style="margin:10px">
+        <img src="images/autowire.png" alt="Automatische Verkabelung"
+             title="Verkabelung zweier Komponente" width="280" height="692"/>
+        <br/><p>Automatische Verkabelung mit 7 Pinpaaren</p></div>
+</td>
+    <td valign="top">
+        <p>Dieser Treiber auf der linken Seite hat 7 Ausgangspins, und das Display rechts
+            hat 7 entsprechende Eingabepins.</p>
+        <p>Das Display wird neben den Treiber gebracht, automatisch verkabelt, und dann wieder
+            weggezogen. So muss man die 7 Dr&auml;hte nicht einzeln zeichnen.</p>
+        <p>Falls aus Versehen falsch verkabelt wurde kann man alles wieder trennen indem man
+            auf dem Display rechts-klickt und dann "Gatter entkoppeln" aus der Men&uuml; ausw&auml;hlt.</p>
+    </td>
+</tr></table>
+
+<h2>Simulation</h2>
+<p>Um den fertigen Schaltkreis zu testen kann man ins Simulationsmodus schalten mid dem "Simulieren" Knopf
+    auf der Werkzeugleiste (sieht aus wie ein "Abspielen"-Knopf).</p>
+<p>In diesem Modus kann man die Schalter aktivieren (dem Schaltertyp entsprechend) und die Ergebnisse
+    mit LEDs anschauen. Aktivierte Pins und Dr&auml;te werden rot dargestellt.</p>
+<div style="margin:10px">
+    <img src="images/simulation.png" alt="main window during simulation"
+         title="screenshot of main window during gate simulation" width="549" height="343"/>
+    <br/><p>Simulation</p></div>
+<p>Dieses Beispiel zeigt wie man einen XOR-Gatter aus anderen Gattern bauen kann. Ein Schalter ist aktiviert (gedr&auml;ckt),
+    deswegen leuchtet die LED rot.</p>
+
+<h2>Speichern und Laden</h2>
+<p>Schaltkreise k&ouml;nnen mit dem "Speichern"-Knopf auf der Werkzeugleiste oder von der "Datei"-Men&uuml; gespeichert werden.
+    Normale Schaltkreise werden als xml gespeichert mit der Dateiendung ".lsc" (f&uuml;r LogicSim Circuit).
+    Module haben eine &auml;hnliche Format, werden aber mit der DateiEndung ".lsm" (f&uuml;r LogicSim Module) gespeichert.</p>
+<p>Um einen vorher gespeicherten Schaltkreis zu laden, w&auml;hlt man "&Ouml;ffnen" aus der Werkzeugleiste oder Datei -> &Ouml;ffnen
+    von der Men&uuml;, und dann w&auml;hlt man die Datei aus.</p>
+
+<h2>Module</h2>
+<p>Um eine wiederverwendbare Module zu kreieren w&auml;hlt man "Module erstellen" aus der "Module"-Men&uuml;.
+    Diese Men&uuml; ist aber nur bei eingestellten h&ouml;heren Komplexit&auml;ten sichtbar.</p>
+<p>Bei der Erstellung erh&auml;lt man eine leere Oberfl&auml;che mit einem 16-Eing&auml;ge "Inputs"-Block
+    und einem 16-Ausg&auml;nge "Outputs"-Block.
+    Alles was dazwischen gezeichnet wird wird die Module die dann als ".lsm"-Datei gespeichert werden kann.</p>
+<p>Schalter k&ouml;nnen mit den Eing&auml;ngen verbunden werden und LEDs zu den Ausg&auml;ngen
+    um die Module zu testen bevor sie gespeichert wird.</p>
+<p>Um diese Module in einem neuen Schaltkreis zu verwenden w&auml;hlt man "Modul laden" aus der "Module"-Men&uuml;,
+    und selektiert die gespeicherte Moduldatei. Die Module wird mit dem gegebenen "Beschriftung" in der Komponentenliste
+    auf der linken Seite erscheinen.</p>
+<p>Jetzt kann diese Komponente auf der Oberfl&auml;che gezogen werden genau wie andere Komponente.
+    Dann kann diese Modul (oder mehrere Instanzen dieser Modul) mit anderen Komponenten verbunden und getestet werden.</p>
 </body>
 </html>

@@ -39,15 +39,18 @@ and then restart LogicSim to use the selected language.</p>
 Hold down shift while clicking somewhere on a wire to connect a new wire to this point.</p>
 <p>Components and wires can be selected by clicking on them and then deleted with the DEL key.</p>
 <p>You can change settings on some components by selecting "Properties" from their right-click context menus.
-</p>
-
+  Depending on the type of component, different properties might be available, for example switches can be set
+  to be toggle switches (press for on, press again for off) or momentary (press and hold for on, release for off).
+  LEDs can have their colour specified, and Clocks can have both their high time and low time specified in milliseconds.</p>
 <p>It is possible to change the number of inputs for some components (such as AND, OR, XOR, etc)
     by adding or removing inputs using the right-click context menu. Such gates can have between 2 and 5
     inputs.  For gates such as AND and OR, the effect is as you would normally expect. For XOR gates, they act
     as parity checkers, so a four-input XOR gate will output "1" when an <i>odd</i> number of its inputs are "1".</p>
+<p>Groups of components can be selected (in order to move or delete them) by drawing a rectangle around them with
+    the right mouse button.</p>
 
 <h2>Gate style</h2>
-Simple logic gates like AND and OR can be displayed in one of two ways, selectable from the Settings menu under
+<p>Simple logic gates like AND and OR can be displayed in one of two ways, selectable from the Settings menu under
 "Gate style". The two different styles are shown below.</p>
 <div style="display:flex">
     <div style="margin:10px">
@@ -69,8 +72,8 @@ components, which is especially convenient when there are a larger number of pin
 be automatically connected by wires, as shown below.</p>
 <table style="border:0px"><tr><td>
     <div style="margin:10px">
-        <img src="images/autowire.png" alt="Separate components"
-             title="screenshot of two separate components" width="280" height="692"/>
+        <img src="images/autowire.png" alt="Autowiring in steps"
+             title="screenshot of autowiring two components" width="280" height="692"/>
         <br/><p>Autowiring two components</p></div>
 </td>
     <td valign="top">
@@ -84,10 +87,39 @@ be automatically connected by wires, as shown below.</p>
     </td>
 </tr></table>
 
+<h2>Simulation</h2>
+<p>Once the circuit has been designed, you can switch to simulation mode by pressing the "Simulate" button
+on the toolbar (it's the fourth button from the left and looks like a "play" button).</p>
+<p>Once in simulation mode, clicking the switches presses them (according to their switch type) and the
+pins and wires with a high logic level are highlighted in red.</p>
+<div style="margin:10px">
+    <img src="images/simulation.png" alt="main window during simulation"
+         title="screenshot of main window during gate simulation" width="549" height="343"/>
+    <br/><p>Simulation</p></div>
+<p>This example shows one way to build a two-input XOR gate out of AND, NOT and OR gates. One of the buttons
+is pressed down, and so the LED lights up in its selected colour.</p>
+
 <h2>Loading and saving</h2>
 <p>Circuits can be saved using the "Save" button on the toolbar or from the File menu.  Normal circuits
 will be saved (as xml) with the file extension ".lsc" (for LogicSim Circuit). Modules have a similar
 format but are saved with the extension ".lsm" (for LogicSim Module).</p>
+<p>To load a previously-saved circuit, just choose "Open" from the toolbar or File -> Open from the menu,
+and select the file to load.</p>
 
+<h2>Modules</h2>
+<p>To create a reusable module, use the menu item "Create module" from the "Module" menu. Note that this menu
+is hidden when the complexity in "Settings" is set to a low value.</p>
+<p>With this, you get a clear canvas with a 16-input "Inputs" block and a 16-output "Outputs" block.
+Everything you design between the Inputs and the Outputs becomes the module which you can then save as
+a ".lsm" file.</p>
+<p>You can attach switches and LEDs to the inputs and outputs in order to test the module before you save it.</p>
+<p>To use this module, create a new Circuit and choose "Load module" from the "Module" menu. Select your
+saved file, and your module will appear in the components list on the left, using the label you gave as
+the "Label" parameter when you saved it.</p>
+<p>Now you can drag this new component on to the canvas of your new circuit (or double-click the entry in the list)
+    as you would any other component in this list.</p>
+<p>Depending on how many of the inputs and outputs you connected inside your module, the block which appears
+on the canvas will have a varying number of input and output pins. Then you can wire up your module (or multiple
+instances of your module) together and simulate the result.</p>
 </body>
 </html>
