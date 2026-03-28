@@ -34,7 +34,7 @@
 			<fileset dir="resources/languages" />
 		</copy>
 		<copy todir="${classes.dir}/docs">
-			<fileset dir="docs" />
+			<fileset dir="resources/docs" />
 		</copy>
 		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
 			<manifest>
