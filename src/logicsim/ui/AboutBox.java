@@ -8,7 +8,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +15,6 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
-import java.io.Serial;
 import java.util.Objects;
 
 import javax.swing.ImageIcon;
@@ -24,9 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 public class AboutBox extends JWindow {
-	@Serial
-    private static final long serialVersionUID = -3193728228853983319L;
-
 	private final Image imgSplash;
 
     public AboutBox(Frame parent) {
@@ -57,8 +52,6 @@ public class AboutBox extends JWindow {
 	}
 
 	private class SplashPanel extends JPanel {
-		@Serial
-        private static final long serialVersionUID = 5564588819196489014L;
 
 		public void paint(Graphics g) {
 			Graphics2D g2 = (Graphics2D) g;
@@ -69,8 +62,7 @@ public class AboutBox extends JWindow {
 			g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 			g2.setColor(Color.white);
 
-			FontMetrics fm = g2.getFontMetrics();
-			Font of = fm.getFont();
+			Font of = g.getFont();
 			Font f = new Font(of.getName(), of.getStyle(), 12);
 			g2.setFont(f);
 
@@ -79,9 +71,8 @@ public class AboutBox extends JWindow {
 			g2.drawString("Created by Andreas Tetzl (tetzl.de) in 1995 - 2009.", 10, 270);
 			g2.drawString("Developed further by Peter 'codepiet' Gabriel in 2020,", 10, 290);
 			g2.drawString("also Matthew 'chocolatepatty' Lister in 2020,", 10, 310);
-			g2.drawString("and Benkralex in 2025", 10, 330);
+			g2.drawString("Benkralex in 2025, and activityworkshop in 2026.", 10, 330);
 			g2.drawString("LogicSim is free software - Released under the GPL", 10, 360);
 		}
 	}
-
 }

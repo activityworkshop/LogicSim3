@@ -2,7 +2,7 @@
 
 	<tstamp />
 
-	<property name="version" value="4.0-${DSTAMP}" />
+	<property name="version" value="3.10-${DSTAMP}" />
 	<property name="main-class" value="logicsim.App" />
 
 	<property name="release.dir" value="release" />
@@ -64,9 +64,9 @@
 				<file file="${jar.dir}/${ant.project.name}.jar" />
 				<file file="logicsim.cfg" />
 				<file file="LICENSE.md" />
-				<file file="icon.png" />
+				<file file="resources/images/icon.png" />
 				<file file="logicsim.bat" />
-                <file file="logicsim.sh" />
+				<file file="logicsim.sh" />
 				<file file="README.md" />
 			</resources>
 		</copy>
