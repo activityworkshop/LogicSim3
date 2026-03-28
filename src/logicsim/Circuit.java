@@ -74,13 +74,6 @@ public class Circuit implements LSRepaintListener {
 		this.repaintListener = listener;
 	}
 
-//	public void selectAll() {
-//		deselectAll();
-//		for (CircuitPart p : parts) {
-//			p.select();
-//		}
-//	}
-
 	public void resetAll() {
 		for (CircuitPart p : parts) {
 			p.reset();
@@ -248,8 +241,9 @@ public class Circuit implements LSRepaintListener {
 
 	@Override
 	public void needsRepaint(CircuitPart circuitPart) {
-		if (repaintListener != null)
+		if (repaintListener != null) {
 			repaintListener.needsRepaint(circuitPart);
+		}
 	}
 
 	public void setGates(Vector<Gate> gates) {
@@ -257,7 +251,7 @@ public class Circuit implements LSRepaintListener {
 			addGate(gate);
 			gate.setRepaintListener(this);
 		}
-		fireRepaint(null);
+		fireRepaint();
 	}
 
 	public void setWires(Vector<Wire> wires) {
@@ -265,8 +259,7 @@ public class Circuit implements LSRepaintListener {
 			addWire(wire);
 		}
 		// checkWires();
-
-		fireRepaint(null);
+		fireRepaint();
 	}
 
 	/**
@@ -304,9 +297,10 @@ public class Circuit implements LSRepaintListener {
 //		this.needsRepaint(null);
 //	}
 
-	private void fireRepaint(CircuitPart source) {
-		if (repaintListener != null)
-			repaintListener.needsRepaint(source);
+	private void fireRepaint() {
+		if (repaintListener != null) {
+			repaintListener.needsRepaint(null);
+		}
 	}
 
 	@Override

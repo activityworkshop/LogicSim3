@@ -533,7 +533,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         try {
             lsFile = XMLLoader.loadXmlFile(chooser.getSelectedFile());
         } catch (RuntimeException | IOException x) {
-            System.err.println(x);
+            System.err.println(x.getMessage());
             x.printStackTrace(System.err);
             Dialogs.messageDialog(this, I18N.tr(Lang.READERROR) + " " + x.getMessage());
         }
@@ -586,7 +586,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         try {
             XMLCreator.createXML(lsFile);
         } catch (RuntimeException err) {
-            System.err.println(err);
+            System.err.println(err.getMessage());
             err.printStackTrace(System.err);
             Dialogs.messageDialog(this, I18N.tr(Lang.SAVEERROR) + " " + err.getMessage());
         }

@@ -14,7 +14,7 @@ public class App {
 	public static final String CIRCUIT_FILE_SUFFIX = "lsc";
 	public static final String MODULE_FILE_SUFFIX = "lsm";
 
-    public static App instance;
+	public static App instance;
 
 	public LSFrame lsframe;
 
@@ -22,7 +22,7 @@ public class App {
 	public App() {
 		new I18N();
 
-        setUIFont(new FontUIResource("Roboto", Font.PLAIN, 12));
+		setUIFont(new FontUIResource("Roboto", Font.PLAIN, 12));
 
 		// center the window and adjust dimensions
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -34,22 +34,24 @@ public class App {
 			frameSize.width = screenSize.width;
 		}
 		lsframe = new LSFrame();
+		lsframe.setIconImage(new ImageIcon(getClass().getResource("/images/icon.png")).getImage());
 		lsframe.setSize(frameSize);
 		lsframe.setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
 		lsframe.setVisible(true);
-		
+
 		Wire.setColorMode();
 	}
 
-    private static void setUIFont(FontUIResource f) {
-        Enumeration<Object> keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof FontUIResource)
-                UIManager.put(key, f);
-        }
-    }
+	private static void setUIFont(FontUIResource f) {
+		Enumeration<Object> keys = UIManager.getDefaults().keys();
+		while (keys.hasMoreElements()) {
+			Object key = keys.nextElement();
+			Object value = UIManager.get(key);
+			if (value instanceof FontUIResource) {
+				UIManager.put(key, f);
+			}
+		}
+	}
 
 	public static String getModulePath() {
 		String fName = new File("").getAbsolutePath() + "/modules/";
@@ -81,6 +83,6 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		instance = new App();
-        ShortCuts.init();
+		ShortCuts.init();
 	}
 }
