@@ -271,7 +271,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         }
         cbNumInputs = new JComboBox<>(gateInputNums);
 
-        pnlGateList.setLayout(new BorderLayout());
+        pnlGateList.setLayout(new BorderLayout(0, 5));
 
         pnlGateList.setPreferredSize(new Dimension(120, 200));
         pnlGateList.setMinimumSize(new Dimension(100, 200));
@@ -689,7 +689,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             filename += ".png";
         }
 
-        BufferedImage image = (BufferedImage) this.createImage(this.lspanel.getWidth(), this.lspanel.getHeight());
+        BufferedImage image = (BufferedImage) createImage(lspanel.getWidth(), lspanel.getHeight());
         Graphics g = image.getGraphics();
         lspanel.circuit.deselectAll();
         lspanel.paint(g);

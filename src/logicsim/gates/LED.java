@@ -1,11 +1,9 @@
 package logicsim.gates;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.JColorChooser;
+import javax.swing.*;
 
 import logicsim.ColorFactory;
 import logicsim.Gate;
@@ -27,6 +25,7 @@ public class LED extends Gate {
 	private static final String DEFAULT_COLOR = "#ff0000";
 
 	private Color color = null;
+	private final Image glowImage;
 
 	public LED() {
 		super("outputs", GATE_TYPE);
@@ -36,6 +35,7 @@ public class LED extends Gate {
 		variableInputCountSupported = false;
 		loadProperties();
 		reset();
+		glowImage = new ImageIcon(getClass().getResource("/images/ledglow.png")).getImage();
 	}
 
 	@Override
@@ -55,8 +55,8 @@ public class LED extends Gate {
 		int x = getX();
 		int y = getY();
 
-		int ovalCenterY = y + getHeight() / 2;
-		int ovalRadius = 14;
+		final int ovalCenterY = y + getHeight() / 2;
+		final int ovalRadius = 14;
 
 		int y1 = ovalCenterY - ovalRadius;
 
@@ -71,19 +71,25 @@ public class LED extends Gate {
 		g2.fillOval(x + CONN_SIZE - 1, y1, ovalRadius * 2, ovalRadius * 2);
 		g2.setPaint(Color.BLACK);
 		g2.drawOval(x + CONN_SIZE - 1, y1, ovalRadius * 2, ovalRadius * 2);
+		if (getPin(0).getLevel()) {
+			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f)); // Set transparency
+			g2.drawImage(glowImage, x, y, null);
+		}
+
 		if (rotate90 != 0) {
 			g2.setTransform(old);
 		}
-
 	}
 
 	@Override
 	public boolean showPropertiesUI(Component frame) {
 		super.showPropertiesUI(frame);
-		Color newColor = JColorChooser.showDialog(null, I18N.getString(type, I18N.TITLE) + " " + I18N.tr(Lang.SETTINGS),
+		Color newColor = JColorChooser.showDialog(null,
+				I18N.getString(type, I18N.TITLE) + " " + I18N.tr(Lang.SETTINGS),
 				color);
-		if (newColor != null)
+		if (newColor != null) {
 			color = newColor;
+		}
 		setProperty(COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
 		return true;
 	}
