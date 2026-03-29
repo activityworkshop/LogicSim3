@@ -15,6 +15,8 @@ In 2020 LogicSim was uploaded to GitHub by Peter Gabriel (codepiet) and substant
 removing the applets, improving the graphics and switching to an XML-based file format.
 
 In 2025, it was picked up again by Benkralex and developed further, bringing us to the current 3.x state.
+The current website for this activityworkshop fork is https://activityworkshop.net/software/logicsim/ .
+The latest release is version 3.10, which requires Java 21 to run.
 
 ## Starting LogicSim
 If you just want to start LogicSim3:
@@ -40,17 +42,16 @@ With this tool, anyone can help to correct or enhance the existing translations,
 add new translations in any of the supported languages, or request that a new
 language be added.
 
-## Create the jar file / the distro
-Create the jar and complete distribution file via ant-build.
-In the ant file the manifest will be added which is necessary for any jar.
 
 ## Help / Manual
 As well as this Readme, there is a short user guide in Html format, available from the "Help"
 menu within the program. (For the sources, see the 'docs' folder).
-This is rather brief and could benefit from being updated and from having better pictures,
-but it is available in German, English, French and Italian. Not all of these versions are
-consistent with each other though, especially regarding screenshots. If you're using LogicSim in
-another language, then the English help will be shown.
+This is rather brief and could benefit from being updated and from having more screenshots,
+but it is available in both German and English. If you're using LogicSim in another language,
+then the English help will be shown.
+
+These help pages can also be viewed online at https://activityworkshop.net/software/logicsim/help_en.html
+and https://activityworkshop.net/software/logicsim/help_de.html .
 
 For earlier versions of the program, there used to be a 'manual' folder containing a Handbuch Pdf
 in German, built from `tex` sources. Unfortunately this has fallen out of date and is no longer
