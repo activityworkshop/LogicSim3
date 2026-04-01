@@ -88,7 +88,7 @@ public class Counter extends BinaryOutput {
 		int y = getY();
 
 		g.setPaint(Color.BLACK);
-		final String sval = getDisplayType();
+		final String sval = getValueAsString(value);
 		g.setFont(bigFont);
 		int sw = g.getFontMetrics().stringWidth(sval);
 		g.drawString(sval, x + getWidth() / 2 - sw / 2, y + height / 2 + 18);
