@@ -391,6 +391,10 @@ public class Wire extends CircuitPart implements Cloneable {
 		return false;
 	}
 
+	public boolean removePoint(WirePoint wp) {
+		return points.remove(wp);
+	}
+
 	public void setTempPoint(Point point) {
 		this.tempPoint = point;
 	}

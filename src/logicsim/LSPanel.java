@@ -561,8 +561,11 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		if (keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE) {
 			if (circuit.remove(parts)) {
 				currentAction = ACTION_NONE;
-				fireStatusText("");
-				fireStatusText(I18N.tr(Lang.PARTSDELETED, String.valueOf(parts.length)));
+				if (parts.length == 1) {
+					fireStatusText(I18N.tr(Lang.PARTDELETED));
+				} else {
+					fireStatusText(I18N.tr(Lang.PARTSDELETED, String.valueOf(parts.length)));
+				}
 				fireCircuitChanged();
 				repaint();
 				return;
@@ -572,14 +575,14 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 		if (keyCode == KeyEvent.VK_SPACE) {
 			CircuitPart[] selected = circuit.getSelected();
-			if (selected.length != 1)
-				return;
+			if (selected.length != 1) {
+                return;
+            }
 			if (selected[0] instanceof Gate g) {
                 g.interact();
 			}
 			repaint();
 		}
-
 	}
 
 	@Override

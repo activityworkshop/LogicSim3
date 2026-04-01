@@ -137,19 +137,28 @@ public class Circuit implements LSRepaintListener {
 		return selParts.toArray(new CircuitPart[selParts.size()]);
 	}
 
-	public boolean remove(CircuitPart[] parts) {
-		if (parts.length == 0)
-			return false;
-
-		for (CircuitPart part : parts) {
+	public boolean remove(CircuitPart[] partsToRemove) {
+		boolean deletedSomething = false;
+		for (CircuitPart part : partsToRemove) {
 			if (part instanceof Gate g) {
-				removeGate(g);
+				if (removeGate(g)) {
+					deletedSomething = true;
+				}
 			} else if (part instanceof Wire w) {
 				w.disconnect();
-				this.parts.remove(part);
+				if (parts.remove(part)) {
+					deletedSomething = true;
+				}
+			}
+			else if (part instanceof WirePoint wp) {
+				for (CircuitPart part2 : parts) {
+					if (part2 instanceof Wire w && w.removePoint(wp)) {
+						deletedSomething = true;
+					}
+				}
 			}
 		}
-		return true;
+		return deletedSomething;
 	}
 
 	public boolean removeGate(Gate g) {

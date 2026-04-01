@@ -640,6 +640,10 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             Dialogs.messageDialog(this, I18N.tr(Lang.ALREADYMODULE));
             return;
         }
+        if (Simulation.getInstance().isRunning()
+                || !showDiscardDialog()) {
+//            return;
+        }
 
         if (!lsFile.circuit.isEmpty()) {
             lsFile.fileName = App.getModulePath() + lsFile.extractFileName()
@@ -701,8 +705,9 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     private void refreshGateList() {
-        int complexity = LSProperties.getInstance().getComplexity();
+        final int complexity = LSProperties.getInstance().getComplexity();
         GateLibrary.populateListModel(partListModel, complexity);
+        toolbarManager.informComplexityChanged(complexity);
     }
 
     /**
@@ -803,7 +808,8 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     public void actionChangedSettings(boolean needRestart) {
         lspanel.repaint();
         if (needRestart) {
-            Dialogs.messageDialog(this, I18N.tr(Lang.LSRESTART));
+            Dialogs.messageDialog(this, I18N.tr(Lang.MSG_NEED_TO_RESTART),
+                    I18N.tr(Lang.MSG_NEED_TO_RESTART_TITLE));
         }
     }
 
