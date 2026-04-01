@@ -1,11 +1,13 @@
 package logicsim.gates;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Path2D;
 
 import logicsim.Gate;
+import logicsim.localization.I18N;
+import logicsim.localization.Lang;
+
+import javax.swing.*;
 
 /**
  * Seven Segment Display for LogicSim
@@ -16,9 +18,11 @@ import logicsim.Gate;
  */
 public class SevenSegment extends Gate {
 	public static final String GATE_TYPE = "sevenseg";
+	private static final Color OFF_COLOR = new Color(0xE8, 0xE8, 0xE8);
+	private static final Color DEFAULT_ON_COLOR = Color.RED;
+    private static final String PROPERTY_COLOR = "color";
 
-	private static final Color OFF_COLOR = new Color(0xE0, 0xE0, 0xE0);
-	private static final Color ON_COLOR = Color.RED;
+	private Color color = DEFAULT_ON_COLOR;
 
 	public SevenSegment() {
 		super("outputs", GATE_TYPE);
@@ -38,7 +42,7 @@ public class SevenSegment extends Gate {
 		final int yOffset = getY() + 16;
 		g.setStroke(new BasicStroke(1));
 		for (int i = 0; i < getNumInputs(); i++) {
-			g.setColor(getPin(i).getLevel() ? ON_COLOR : OFF_COLOR);
+			g.setColor(getPin(i).getLevel() ? color : OFF_COLOR);
 			switch (i) {
 			case 0:
 				drawHorizontalSegment(g, xOffset + 1, yOffset + 1);
@@ -86,4 +90,17 @@ public class SevenSegment extends Gate {
 		path.lineTo(x - 2, y + 2);
 		g2.fill(path);
 	}
+
+    @Override
+    public boolean showPropertiesUI(Component frame) {
+        super.showPropertiesUI(frame);
+        Color newColor = JColorChooser.showDialog(null,
+                I18N.getString(type, I18N.TITLE) + " " + I18N.tr(Lang.SETTINGS),
+                color);
+        if (newColor != null) {
+            color = newColor;
+        }
+        setProperty(PROPERTY_COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
+        return true;
+    }
 }
