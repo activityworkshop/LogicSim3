@@ -18,7 +18,11 @@ public class XOR extends OR {
 	public static final String GATE_TYPE = "xor";
 
 	public XOR() {
-		super(GATE_TYPE);
+		this(GATE_TYPE);
+	}
+
+	protected XOR(String gateType) {
+		super(gateType);
 		label = "=1";
 	}
 
