@@ -3,6 +3,7 @@ package logicsim.gates;
 import java.awt.*;
 import java.awt.geom.Path2D;
 
+import logicsim.ColorFactory;
 import logicsim.Gate;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
@@ -26,13 +27,19 @@ public class SevenSegment extends Gate {
 
 	public SevenSegment() {
 		super("outputs", GATE_TYPE);
-		height = 80;
 		width = 80;
+		height = 80;
 		createInputs(7);
 		for (int i = 0; i < 7; i++) {
 			getPin(i).setProperty(TEXT, String.valueOf((char) (((int) 'a') + i)));
 		}
+		loadProperties();
 		reset();
+	}
+
+	@Override
+	public void loadProperties() {
+		color = ColorFactory.makeColor(getProperty(PROPERTY_COLOR), DEFAULT_ON_COLOR);
 	}
 
 	@Override
@@ -100,7 +107,7 @@ public class SevenSegment extends Gate {
         if (newColor != null) {
             color = newColor;
         }
-        setProperty(PROPERTY_COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
+        setProperty(PROPERTY_COLOR, ColorFactory.getString(color));
         return true;
     }
 }

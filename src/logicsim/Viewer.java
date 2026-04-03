@@ -3,7 +3,6 @@ package logicsim;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -128,11 +127,6 @@ public class Viewer extends JPanel {
 	 */
 	protected double scaleY = 1;
 
-	/**
-	 * The previous mouse position
-	 */
-	protected final Point previousPoint;
-
 	private Painter painter;
 
 	/**
@@ -195,7 +189,6 @@ public class Viewer extends JPanel {
 	 */
 	public Viewer() {
 		painter = null;
-		previousPoint = new Point();
 		transformer = new SimpleTransformer();
 
 		setBackground(Color.WHITE);
@@ -214,7 +207,7 @@ public class Viewer extends JPanel {
 	/**
 	 * Add the given {@link Painter}, which will perform painting operations in the
 	 * {@link #paintComponent(Graphics)} method.
-	 * 
+	 *
 	 * @param painter The {@link Painter} to add
 	 */
 	public void setPainter(Painter painter) {
@@ -277,23 +270,23 @@ public class Viewer extends JPanel {
 		repaint();
 	}
 
-	protected void zoomTo(int x, int y, double amount) {
-		// check if scaleX and Y would be outside bounds
-
-		if (amount > maxZoom)
-			return;
-		if (amount < minZoom)
-			return;
-
-		offsetX -= x / scaleX;
-		offsetY -= y / scaleY;
-
-		scaleX = amount;
-		scaleY = amount;
-		offsetX += x / scaleX;
-		offsetY += y / scaleY;
-		repaint();
-	}
+//	protected void zoomTo(int x, int y, double amount) {
+//		// check if scaleX and Y would be outside bounds
+//
+//		if (amount > maxZoom)
+//			return;
+//		if (amount < minZoom)
+//			return;
+//
+//		offsetX -= x / scaleX;
+//		offsetY -= y / scaleY;
+//
+//		scaleX = amount;
+//		scaleY = amount;
+//		offsetX += x / scaleX;
+//		offsetY += y / scaleY;
+//		repaint();
+//	}
 
 	/**
 	 * Translate this viewer by the given delta, in screen coordinates

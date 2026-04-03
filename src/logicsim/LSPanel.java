@@ -4,6 +4,7 @@ import logicsim.controllers.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
 import logicsim.module.Module;
+import logicsim.ui.ClickPoint;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -27,6 +28,9 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.event.MouseInputAdapter;
 
 public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaintListener {
+
+	private final ClickPoint dragStartPoint = new ClickPoint();
+	private final ClickPoint currentMousePoint = new ClickPoint();
 
 	public class LogicSimPainterGraphics implements Painter {
 		@Override
@@ -63,9 +67,9 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			if (currentAction == ACTION_SELECT && selectRect != null) {
 				g2.setStroke(new BasicStroke());
 				g2.setColor(new Color(0, 115, 255));
-                g2.draw(selectRect); //Border
-                g2.setColor(new Color(0, 115, 255, 115));
-                g2.fill(selectRect); //Fill
+				g2.draw(selectRect); //Border
+				g2.setColor(new Color(0, 115, 255, 115));
+				g2.fill(selectRect); //Fill
 			}
 		}
 	}
@@ -79,14 +83,17 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			e = convertToWorld(e);
+			if (!dragStartPoint.isSet()) {
+				dragStartPoint.set(e.getX(), e.getY());
+			}
+			currentMousePoint.set(e.getX(), e.getY());
 			if (currentAction == ACTION_SELECT) {
-				notifyZoomPos(scaleX, new Point(e.getX(), e.getY()));
-				// previousPoint is the start point of the selection box
-				Point currentMouse = new Point(e.getX(), e.getY());
-				if (currentMouse.x < previousPoint.x || currentMouse.y < previousPoint.y)
-					selectRect.setFrameFromDiagonal(currentMouse, previousPoint);
-				else
-					selectRect.setFrameFromDiagonal(previousPoint, currentMouse);
+				notifyZoomPos(scaleX, currentMousePoint);
+				if (currentMousePoint.getX() < dragStartPoint.getX() || currentMousePoint.getY() < dragStartPoint.getY()) {
+					selectRect.setFrameFromDiagonal(currentMousePoint.getX(), currentMousePoint.getY(), dragStartPoint.getX(), dragStartPoint.getY());
+				} else {
+					selectRect.setFrameFromDiagonal(dragStartPoint.getX(), dragStartPoint.getY(), currentMousePoint.getX(), currentMousePoint.getY());
+				}
 				repaint();
 				return;
 			}
@@ -94,57 +101,34 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			CircuitPart[] parts = circuit.getSelected();
 			if (parts.length == 0) {
 				// drag world
-				int dx = e.getX() - previousPoint.x;
-				int dy = e.getY() - previousPoint.y;
+				int dx = currentMousePoint.getX() - dragStartPoint.getX();
+				int dy = currentMousePoint.getY() - dragStartPoint.getY();
 				translate(dx, dy);
-            } else {
-				// don't drag in simulation mode
-				if (Simulation.getInstance().isRunning())
-					return;
+				return;
+			}
 
-				// drag parts
-				notifyZoomPos(scaleX, new Point(e.getX(), e.getY()));
-				for (CircuitPart part : parts) {
-					part.mouseDragged(e);
+			// don't drag elements in simulation mode
+			if (Simulation.getInstance().isRunning()) {
+				return;
+			}
 
-					if (LSProperties.getInstance().getPropertyBoolean(LSProperties.AUTOWIRE, true)) {
-						// check if currentpart is a gate and if any output touches another part's input
-						// pin
-						if (part instanceof Gate gate) {
-                            for (Pin pin : gate.pins) {
-								// autowire unconnected pins only
-								if (!pin.isConnected()) {
-									int x = pin.getX();
-									int y = pin.getY();
-									for (Gate g : circuit.getGates()) {
-										CircuitPart cp = g.findPartAt(x, y);
-										if (cp instanceof Pin p) {
-                                            if (pin.isInput() == p.isOutput()) {
-												// put new wire between pin and p
-												Wire w;
-												if (pin.isOutput())
-													w = new Wire(pin, p);
-												else
-													w = new Wire(p, pin);
-												w.deselect();
-												if (circuit.addWire(w)) {
-													p.connect(w);
-													pin.connect(w);
-												}
-											}
-										}
-									}
-								}
-							}
-						}
+			// If shift is pressed, restrict coordinates to orthogonal movements
+			if (e.isShiftDown()) {
+				currentMousePoint.setOrthogonal(dragStartPoint);
+			}
+			// drag parts
+			notifyZoomPos(scaleX, currentMousePoint);
+			for (CircuitPart part : parts) {
+				part.mouseDragged(dragStartPoint, currentMousePoint);
+
+				if (LSProperties.getInstance().getPropertyBoolean(LSProperties.AUTOWIRE, true)) {
+					// check if currentpart is a gate and if any output touches another part's input pin
+					if (part instanceof Gate gate) {
+						checkAutowiring(gate);
 					}
 				}
-				fireCircuitChanged();
 			}
-		}
-
-		private void setPoint(int x, int y) {
-			previousPoint.setLocation(x, y);
+			fireCircuitChanged();
 		}
 
 		@Override
@@ -153,22 +137,16 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 			int rx = CircuitPart.round(e.getX());
 			int ry = CircuitPart.round(e.getY());
-			setPoint(rx, ry);
-			notifyZoomPos(scaleX, new Point(rx, ry));
+			currentMousePoint.set(rx, ry);
+			notifyZoomPos(scaleX, currentMousePoint);
 
 			CircuitPart[] parts = circuit.getSelected();
 			if (parts.length == 1 && parts[0] instanceof Wire wire) {
-                if (wire.isNotFinished()) {
+				if (wire.isNotFinished()) {
 					if (e.isShiftDown()) {
 						// pressed SHIFT while moving and drawing wire
 						WirePoint wp = wire.getLastPoint();
-						final int lastX = wp.getX();
-						final int lastY = wp.getY();
-						if (Math.abs(rx - lastX) < Math.abs(ry - lastY)) {
-							rx = lastX;
-						} else {
-							ry = lastY;
-						}
+						currentMousePoint.setOrthogonal(wp.getX(), wp.getY());
 					}
 					// the selected wire is unfinished - force draw
 					wire.setTempPoint(new Point(rx, ry));
@@ -180,7 +158,6 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		@Override
 		public void mousePressed(MouseEvent e) {
 			e = convertToWorld(e);
-			setPoint(e.getX(), e.getY());
 			int rx = CircuitPart.round(e.getX());
 			int ry = CircuitPart.round(e.getY());
 
@@ -188,10 +165,10 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			if (simRunning) {
 				currentAction = ACTION_NONE;
 			} else if (currentAction == ACTION_NONE && e.getButton() == MouseEvent.BUTTON3) {
-                currentAction = ACTION_SELECT;
-            }
+				currentAction = ACTION_SELECT;
+			}
 
-            if (currentAction == ACTION_SELECT) {
+			if (currentAction == ACTION_SELECT) {
 				selectRect = new Rectangle2D.Double(e.getX(), e.getY(), 0, 0);
 			}
 
@@ -209,36 +186,36 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			if (currentAction == ACTION_ADDWIRE) {
 				WirePoint wp = null;
 				Wire newWire = null;
-                switch (cp) {
+				switch (cp) {
 					case null:
-                        // empty space
-                        wp = new WirePoint(rx, ry);
+						// empty space
+						wp = new WirePoint(rx, ry);
 						break;
 					case Wire clickedWire: {
-                        // put a wirepoint at this position
-                        int pt = clickedWire.isAt(e.getX(), e.getY());
-                        clickedWire.insertPointAfter(pt, rx, ry);
-                        cp = clickedWire.findPartAt(rx, ry);
-                        wp = (WirePoint) cp;
+						// put a wirepoint at this position
+						int pt = clickedWire.isAt(e.getX(), e.getY());
+						clickedWire.insertPointAfter(pt, rx, ry);
+						cp = clickedWire.findPartAt(rx, ry);
+						wp = (WirePoint) cp;
 						break;
-                    }
+					}
 					case WirePoint wirePoint:
 						wp = wirePoint;
 						break;
 					case Pin p: {
-                        newWire = new Wire(p, null);
-                        if (circuit.addWire(newWire)) {
-                            p.connect(newWire);
-                        }
+						newWire = new Wire(p, null);
+						if (circuit.addWire(newWire)) {
+							p.connect(newWire);
+						}
 						break;
-                    }
+					}
 					default: break;
-                }
+				}
 				if (newWire == null) {
 					newWire = new Wire(wp, null);
 					if (circuit.addWire(newWire)) {
-                        assert wp != null;
-                        wp.connect(newWire);
+						assert wp != null;
+						wp.connect(newWire);
 					}
 				}
 				fireStatusText(Lang.WIREEDIT);
@@ -251,66 +228,78 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 			if (currentAction == ACTION_EDITWIRE) {
 				Wire wire = circuit.getUnfinishedWire();
-                switch (cp) {
+				if (e.isShiftDown()) {
+					// pressed SHIFT while clicking to edit a wire
+					WirePoint wp = wire.getLastPoint();
+					final int lastX = wp.getX();
+					final int lastY = wp.getY();
+					if (Math.abs(rx - lastX) < Math.abs(ry - lastY)) {
+						rx = lastX;
+					} else {
+						ry = lastY;
+					}
+				}
+				switch (cp) {
 					case null:
-                        // empty space clicked
-                        wire.addPoint(rx, ry);
+						// empty space clicked
+						wire.addPoint(rx, ry);
 						break;
 					case Pin pin: {
-                        wire.setTo(pin);
-                        wire.getTo().connect(wire);
-                        wire.finish();
-                        currentAction = ACTION_NONE;
-                        fireStatusText("");
-                        fireCircuitChanged();
+						wire.setTo(pin);
+						wire.getTo().connect(wire);
+						wire.finish();
+						currentAction = ACTION_NONE;
+						fireStatusText("");
+						fireCircuitChanged();
 						break;
-                    }
+					}
 					case Wire clickedWire: {
-                        if (clickedWire.equals(wire))
-                            return;
-                        int pt = clickedWire.isAt(e.getX(), e.getY());
-                        clickedWire.insertPointAfter(pt, rx, ry);
-                        cp = clickedWire.findPartAt(rx, ry);
-                        wire.setTo(cp);
-                        wire.getTo().connect(wire);
-                        wire.finish();
-                        currentAction = ACTION_NONE;
-                        fireStatusText("");
-                        fireCircuitChanged();
+						if (clickedWire.equals(wire)) {
+							return;
+						}
+						int pt = clickedWire.isAt(e.getX(), e.getY());
+						clickedWire.insertPointAfter(pt, rx, ry);
+						cp = clickedWire.findPartAt(rx, ry);
+						wire.setTo(cp);
+						wire.getTo().connect(wire);
+						wire.finish();
+						currentAction = ACTION_NONE;
+						fireStatusText("");
+						fireCircuitChanged();
 						break;
-                    }
+					}
 					case WirePoint clickedWP: {
-                        // check if the clicked point belongs to another wire
-                        if (clickedWP.parent != null && clickedWP.parent.equals(wire)) {
-                            // the clicked wirepoint belongs to the editing wire...
-                            // so check if we clicked the last point of the wire to finish it
-                            WirePoint lp = wire.getLastPoint();
-                            if (lp.getX() == rx && lp.getY() == ry) {
-                                // it is the same point as the last one
-                                wire.removeLastPoint();
-                                wire.setTo(new WirePoint(rx, ry));
-                                wire.getTo().connect(wire);
-                                wire.finish();
-                                currentAction = ACTION_NONE;
-                                fireStatusText("");
-                                fireCircuitChanged();
-                            } else {
-                                // shorten the wire and delete circles
-                                wire.addPoint(rx, ry);
-                            }
-                        } else {
-                            // wirepoint belongs to another wire
-                            wire.setTo(clickedWP);
-                            wire.getTo().connect(wire);
-                            wire.finish();
-                            currentAction = ACTION_NONE;
-                            fireStatusText("");
-                            fireCircuitChanged();
-                        }
+						// check if the clicked point belongs to another wire
+						if (clickedWP.parent != null && clickedWP.parent.equals(wire)) {
+							// the clicked wirepoint belongs to the editing wire...
+							// so check if we clicked the last point of the wire to finish it
+							WirePoint lp = wire.getLastPoint();
+							if (lp.getX() == rx && lp.getY() == ry) {
+								// it is the same point as the last one
+								wire.removeLastPoint();
+								wire.setTo(new WirePoint(rx, ry));
+								wire.getTo().connect(wire);
+								wire.finish();
+								currentAction = ACTION_NONE;
+								fireStatusText("");
+								fireCircuitChanged();
+							} else {
+								// shorten the wire and delete circles
+								wire.addPoint(rx, ry);
+							}
+						} else {
+							// wirepoint belongs to another wire
+							wire.setTo(clickedWP);
+							wire.getTo().connect(wire);
+							wire.finish();
+							currentAction = ACTION_NONE;
+							fireStatusText("");
+							fireCircuitChanged();
+						}
 						break;
-                    }
+					}
 					default: break;
-                }
+				}
 				repaint();
 				return;
 			}
@@ -324,7 +313,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			}
 			// check if the part is a connector
 			if (cp instanceof Pin pin && !e.isAltDown() && !simRunning) {
-                fireStatusText(I18N.tr(Lang.PIN) + " (" + cp.getId() + ")");
+				fireStatusText(I18N.tr(Lang.PIN) + " (" + cp.getId() + ")");
 				// modify input (inverted or high or low or revert to normal type)
 				if (pin.isInput()) {
 					if (currentAction == Pin.HIGH || currentAction == Pin.LOW || currentAction == Pin.INVERTED
@@ -382,13 +371,14 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			e = convertToWorld(e);
 			int x = e.getPoint().x;
 			int y = e.getPoint().y;
+			dragStartPoint.reset();
 			LSPanel.this.requestFocusInWindow();
 
 			if (currentAction == ACTION_SELECT) {
 				CircuitPart[] parts = circuit.findParts(selectRect);
 				for (CircuitPart part : parts) {
 					if (part instanceof Wire w) {
-                        if (w.getTo() instanceof WirePoint)
+						if (w.getTo() instanceof WirePoint)
 							w.getTo().select();
 						if (w.getFrom() instanceof WirePoint)
 							w.getFrom().select();
@@ -405,7 +395,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			for (CircuitPart part : parts) {
 				part.mouseReleased(x, y);
 				if (part instanceof WirePoint wp && part.parent == null) {
-                    circuit.checkWirePoint(wp);
+					circuit.checkWirePoint(wp);
 				}
 			}
 			CircuitPart cp = circuit.findPartAt(e.getX(), e.getY());
@@ -416,7 +406,36 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
 			zoomBy(e.getX(), e.getY(), -e.getWheelRotation() * zoomingSpeed);
-			notifyZoomPos(scaleX, new Point(e.getX(), e.getY()));
+			currentMousePoint.set(e.getX(), e.getY());
+			notifyZoomPos(scaleX, currentMousePoint);
+		}
+	}
+
+	/** Check the pins on the current gate and see if any pins line up with other gates */
+	private void checkAutowiring(Gate gate) {
+		for (Pin pin : gate.pins) {
+			// autowire unconnected pins only
+			if (pin.isConnected()) {
+				continue;
+			}
+			final int x = pin.getX();
+			final int y = pin.getY();
+			for (Gate otherGate : circuit.getGates()) {
+				if (otherGate == gate) {
+					continue;
+				}
+				CircuitPart cp = otherGate.findPartAt(x, y);
+				if (cp instanceof Pin p
+						&& pin.isInput() == p.isOutput()
+						&& !pin.isConnected()) {
+					// put new wire between pin and p or between p and pin
+					final Wire w = pin.isOutput() ? new Wire(pin, p) : new Wire(p, pin);
+					if (circuit.addWire(w)) {
+						p.connect(w);
+						pin.connect(w);
+					}
+				}
+			}
 		}
 	}
 
@@ -429,7 +448,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 	static final short ACTION_DELPOINT = 0x53;
 	static final short ACTION_SELECT = 1;
 
-    public static final Color gridColor = Color.black;
+	private static final Color gridColor = Color.black;
 
 	private CircuitChangedListener changeListener;
 	public Circuit circuit = new Circuit();
@@ -437,16 +456,16 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 	// current mode
 	private int currentAction;
 
-    /**
+	/**
 	 * used for track selection, is one endpoint of a rectangle
 	 */
 	private Rectangle2D selectRect;
 
 	public LSPanel() {
-        Dimension panelSize = new Dimension(1280, 1024);
-        this.setSize(panelSize);
-		this.setPreferredSize(panelSize);
-		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		final Dimension panelSize = new Dimension(1280, 1024);
+		setSize(panelSize);
+		setPreferredSize(panelSize);
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		circuit.setRepaintListener(this);
 
 		setPainter(new LogicSimPainterGraphics());
@@ -459,7 +478,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-                ShortCuts.keyPressed(e);
+				ShortCuts.keyPressed(e);
 				myKeyPressed(e);
 			}
 		});
@@ -479,7 +498,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 	}
 
 	@Override
-	public void changedZoomPos(double zoom, Point pos) {
+	public void changedZoomPos(double zoom, ClickPoint pos) {
 	}
 
 	public void clear() {
@@ -493,8 +512,8 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		int x = (int) (getTransformer().screenToWorldX(e.getX()));
 		int y = (int) (getTransformer().screenToWorldY(e.getY()));
 
-        return new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiersEx(), x, y,
-                e.getClickCount(), e.isPopupTrigger(), e.getButton());
+		return new MouseEvent((Component) e.getSource(), e.getID(), e.getWhen(), e.getModifiersEx(), x, y,
+				e.getClickCount(), e.isPopupTrigger(), e.getButton());
 	}
 
 	public void draw(Graphics2D g2) {
@@ -527,7 +546,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 					// delete wire
 					w.disconnect();
 					circuit.remove(w);
-                    circuit.deselectAll();
+					circuit.deselectAll();
 					fireStatusText(Lang.ABORTED);
 				}
 			} else if (currentAction == ACTION_ADDPOINT || currentAction == ACTION_DELPOINT
@@ -576,10 +595,10 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		if (keyCode == KeyEvent.VK_SPACE) {
 			CircuitPart[] selected = circuit.getSelected();
 			if (selected.length != 1) {
-                return;
-            }
+				return;
+			}
 			if (selected[0] instanceof Gate g) {
-                g.interact();
+				g.interact();
 			}
 			repaint();
 		}
@@ -607,9 +626,10 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		}
 	}
 
-	private void notifyZoomPos(double zoom, Point mousePos) {
-		if (changeListener != null)
+	private void notifyZoomPos(double zoom, ClickPoint mousePos) {
+		if (changeListener != null) {
 			changeListener.changedZoomPos(zoom, mousePos);
+		}
 	}
 
 	/**
@@ -617,7 +637,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 	 */
 	public void rotateSelected() {
 		CircuitPart[] parts = circuit.getSelected();
-        if (parts.length == 0) return;
+		if (parts.length == 0) return;
 		for (CircuitPart part : parts) {
 			if (part instanceof Gate) {
 				((Gate) part).rotate();
@@ -681,7 +701,8 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		int x = (int) getTransformer().screenToWorldX(getWidth() / 2);
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
 		zoomBy(x, y, -0.2f);
-		notifyZoomPos(scaleX, new Point(x, y));
+		currentMousePoint.set(x, y);
+		notifyZoomPos(scaleX, currentMousePoint);
 	}
 
 	/**
@@ -691,7 +712,8 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		int x = (int) getTransformer().screenToWorldX(getWidth() / 2);
 		int y = (int) getTransformer().screenToWorldY(getHeight() / 2);
 		zoomBy(x, y, 0.2f);
-		notifyZoomPos(scaleX, new Point(x, y));
+		currentMousePoint.set(x, y);
+		notifyZoomPos(scaleX, currentMousePoint);
 	}
 
 	public void addGateAt(Gate g, int worldX, int worldY) {

@@ -22,7 +22,6 @@ public class LED extends Gate {
 	public static final String GATE_TYPE = "led";
 
 	private static final String COLOR = "color";
-	private static final String DEFAULT_COLOR = "#ff0000";
 
 	private Color color = null;
 	private final Image glowImage;
@@ -46,7 +45,7 @@ public class LED extends Gate {
 
 	@Override
 	public void loadProperties() {
-		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
+		color = ColorFactory.makeColor(getProperty(COLOR), Color.RED);
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class LED extends Gate {
 		if (newColor != null) {
 			color = newColor;
 		}
-		setProperty(COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
+		setProperty(COLOR, ColorFactory.getString(color));
 		return true;
 	}
 

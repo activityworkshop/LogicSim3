@@ -1,6 +1,5 @@
 package logicsim.gates;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -28,7 +27,7 @@ public class TextLabel extends Gate {
 
 	@Override
 	public void loadProperties() {
-		text = getPropertyWithDefault(TEXT, TEXTLABEL_DEFAULT);
+		setProperty(TEXT, getPropertyWithDefault(TEXT, TEXTLABEL_DEFAULT));
 	}
 
 	@Override
@@ -57,16 +56,7 @@ public class TextLabel extends Gate {
 	}
 
 	@Override
-	public void drawRotated(Graphics2D g2) {
-		g2.setFont(bigFont);
-		g2.setColor(Color.black);
-		if (text != null) {
-			Rectangle r = WidgetHelper.textDimensions(g2, text);
-			width = r.width + 10;
-			height = r.height + 10;
-            xc = getX() + width / 2;
-            yc = getY() + height / 2;
-			WidgetHelper.drawString(g2, text, xc, yc, WidgetHelper.ALIGN_CENTER);
-		}
+	public void drawText(Graphics2D g2) {
+		drawLabelWithOffset(g2, getProperty(TEXT), bigFont, 0, 0);
 	}
 }

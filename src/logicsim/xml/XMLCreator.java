@@ -2,8 +2,8 @@ package logicsim.xml;
 
 import java.io.FileOutputStream;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,11 +42,8 @@ public class XMLCreator {
 		try {
 			xmlBuilder = xmlFactory.newDocumentBuilder();
 			Document doc = xmlBuilder.newDocument();
-			String rootName = "logicsim";
+			final String rootName = "logicsim";
 
-			if (f.circuit.isModule()) {
-				rootName = "logicsim";
-			}
 			Element mainRootElement = doc.createElement(rootName);
 			mainRootElement.setAttribute("version", XMLLoader.formatVersion);
 			doc.appendChild(mainRootElement);
@@ -230,7 +227,7 @@ public class XMLCreator {
 				}
 				n.appendChild(g);
 			}
-			Vector<WirePoint> pts = w.getPoints();
+			List<WirePoint> pts = w.getPoints();
 			for (int i = 0; i < pts.size(); i++) {
 				WirePoint wp = pts.get(i);
 				Element point = doc.createElement("point");
@@ -243,8 +240,9 @@ public class XMLCreator {
 
 			// label
 			Node snode = createSettingsNode(doc, w.getProperties());
-			if (snode != null)
+			if (snode != null) {
 				n.appendChild(snode);
+			}
 
 			return n;
 		}

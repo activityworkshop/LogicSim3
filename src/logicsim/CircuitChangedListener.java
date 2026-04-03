@@ -1,13 +1,13 @@
 package logicsim;
 
-import java.awt.Point;
+import logicsim.ui.ClickPoint;
 
 public interface CircuitChangedListener {
 	public void changedCircuit();
 
 	public void changedStatusText(String text);
 
-	public void changedZoomPos(double zoom, Point pos);
+	public void changedZoomPos(double zoom, ClickPoint pos);
 
 	public void setAction(int action);
 

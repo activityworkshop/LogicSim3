@@ -2,15 +2,14 @@ package logicsim;
 
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
+import logicsim.ui.ClickPoint;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -28,38 +27,27 @@ public abstract class CircuitPart implements LSLevelListener {
 
 	public static final String TEXT = "text";
 
-	private final List<LSLevelListener> listeners;
+	private final List<LSLevelListener> listeners = new ArrayList<>();
 	private LSRepaintListener repListener;
 
-	// TODO: Clarify what this means
-	protected boolean busted = false;
-
-	protected Point mousePos;
 	public CircuitPart parent;
 	/** if part is currently being edited */
 	public boolean selected = false;
 
-	private int x;
-	private int y;
+	private final ClickPoint currentPosition = new ClickPoint();
+	private final ClickPoint previousPosition = new ClickPoint();
 
 	public String text;
-	protected Properties properties = new Properties();
+	private final Properties properties = new Properties();
 
 
 	public CircuitPart(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.listeners = new ArrayList<>();
+		currentPosition.set(x, y);
+		previousPosition.reset();
 	}
 
 	public static int round(int num) {
-		int x = num;
-		int rest = x % 10;
-		if (rest < 5)
-			x = x / 10 * 10;
-		else
-			x = x / 10 * 10 + 10;
-		return x;
+		return ((num + 5) / 10) * 10;
 	}
 
 	protected static String indent(String string) {
@@ -112,15 +100,11 @@ public abstract class CircuitPart implements LSLevelListener {
 		return true;
 	}
 
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-		loadProperties();
-	}
-
 	public void setProperty(String key, String value) {
 		properties.setProperty(key, value);
-		if (TEXT.equals(key))
+		if (TEXT.equals(key)) {
 			text = value;
+		}
 	}
 
 	protected void setPropertyInt(String key, int value) {
@@ -135,7 +119,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public void addLevelListener(LSLevelListener l) {
-		if (getListeners() != null && !getListeners().contains(l)) {
+		if (!getListeners().contains(l)) {
 			getListeners().add(l);
 		}
 	}
@@ -145,8 +129,7 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public void removeLevelListener(LSLevelListener l) {
-		if (getListeners() != null)
-			getListeners().remove(l);
+		getListeners().remove(l);
 	}
 
 	public void clear() {
@@ -196,20 +179,20 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public int getX() {
-		return x;
+		return currentPosition.getX();
 	}
 
 	public int getY() {
-		return y;
+		return currentPosition.getY();
 	}
 
 	public boolean isSelected() {
 		return selected;
 	}
 
-	public void mouseDragged(MouseEvent e) {
-		if (mousePos == null) {
-			mousePos = new Point(e.getX(), e.getY());
+	public void mouseDragged(ClickPoint dragStart, ClickPoint currentPos) {
+		if (!previousPosition.isSet()) {
+			previousPosition.set(getX(), getY());
 		}
 	}
 
@@ -221,7 +204,7 @@ public abstract class CircuitPart implements LSLevelListener {
 		}
 
 		if (e.isAltDown()) {
-			this.showPropertiesUI(null);
+			showPropertiesUI(null);
 		}
 	}
 
@@ -232,28 +215,28 @@ public abstract class CircuitPart implements LSLevelListener {
 	 * wird aufgerufen, wenn über dem Teil die Maus losgelassen wird
 	 */
 	public void mouseReleased(int mx, int my) {
-		mousePos = null;
+		previousPosition.reset();
 	}
 
 	public void moveBy(int dx, int dy) {
-		if (dx == 0 && dy == 0)
+		if (dx == 0 && dy == 0) {
 			return;
-		x = x + dx;
-		y = y + dy;
-		checkXY(x, y);
+		}
+		final int nx = getX() + dx;
+		final int ny = getY() + dy;
+		checkXY(nx, ny);
+		currentPosition.set(nx, ny);
 	}
 
 	public void moveTo(int x, int y) {
 		checkXY(x, y);
-		this.x = x;
-		this.y = y;
+		currentPosition.set(x, y);
 	}
 
 	/**
 	 * all Circuitparts can be resetted: maybe set back inputs or outputs and so on
 	 */
 	public void reset() {
-		busted = false;
 	}
 
 	public void select() {
@@ -261,11 +244,15 @@ public abstract class CircuitPart implements LSLevelListener {
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		currentPosition.set(x, getY());
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		currentPosition.set(getX(), y);
+	}
+
+	protected ClickPoint getPreviousPosition() {
+		return previousPosition;
 	}
 
 	@Override

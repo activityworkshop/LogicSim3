@@ -19,7 +19,6 @@ public class Switch8 extends Gate {
 
 	private static final String COLOR = "color";
 	private static final int OVAL_RADIUS = 9;
-	private static final String DEFAULT_COLOR = "#ff0000";
 
 	private Color color = null;
 
@@ -96,6 +95,7 @@ public class Switch8 extends Gate {
 
 	@Override
 	public void loadProperties() {
-		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
+		// TODO: Make this editable?
+		color = ColorFactory.makeColor(getProperty(COLOR), Color.RED);
 	}
 }

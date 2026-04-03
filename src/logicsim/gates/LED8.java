@@ -23,7 +23,6 @@ public class LED8 extends Gate {
 	public static final String GATE_TYPE = "led8";
 
 	private static final String COLOR = "color";
-	private static final String DEFAULT_COLOR = "#ff0000";
 	private static final int OVAL_RADIUS = 9;
 
 	private Color color = null;
@@ -44,7 +43,7 @@ public class LED8 extends Gate {
 
 	@Override
 	public void loadProperties() {
-		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
+		color = ColorFactory.makeColor(getProperty(COLOR), Color.RED);
 	}
 
 	@Override
@@ -63,9 +62,10 @@ public class LED8 extends Gate {
 		super.showPropertiesUI(frame);
 		Color newColor = JColorChooser.showDialog(null, I18N.getString(type, I18N.TITLE) + " " + I18N.tr(Lang.SETTINGS),
 				color);
-		if (newColor != null)
+		if (newColor != null) {
 			color = newColor;
-		setProperty(COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
+		}
+		setProperty(COLOR, ColorFactory.getString(color));
 		return true;
 	}
 

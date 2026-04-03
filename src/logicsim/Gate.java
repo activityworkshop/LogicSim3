@@ -1,12 +1,13 @@
 package logicsim;
 
+import logicsim.ui.ClickPoint;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
@@ -218,7 +219,7 @@ public class Gate extends CircuitPart {
 			(width + 2) - 2 * CONN_SIZE,
 			(height + 2) - 2 * CONN_SIZE
 		);
-		g2.setPaint(busted ? Color.red : backgroundColor);
+		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(
 			(int) border.getX(),
 			(int) border.getY(),
@@ -439,26 +440,14 @@ public class Gate extends CircuitPart {
         ).contains(mx, my);
 	}
 
-    @Override
-	public void mouseDragged(MouseEvent e) {
-		super.mouseDragged(e);
-
-		int mx = e.getX();
-		int my = e.getY();
-		int dx = round(mx - mousePos.x);
-		int dy = round(my - mousePos.y);
-
-		if (dx != 0 || dy != 0) {
-			if (e.isShiftDown()) {
-				if (dx < dy)
-					dx = 0;
-				else
-					dy = 0;
-			}
-			mousePos.x = mousePos.x + dx;
-			mousePos.y = mousePos.y + dy;
-			moveBy(dx, dy);
+	@Override
+	public void mouseDragged(ClickPoint dragStart, ClickPoint currentPoint) {
+		if (!getPreviousPosition().isSet()) {
+			getPreviousPosition().set(getX(), getY());
 		}
+		final int targetX = round(currentPoint.getX() - dragStart.getX() + getPreviousPosition().getX());
+		final int targetY = round(currentPoint.getY() - dragStart.getY() + getPreviousPosition().getY());
+		moveTo(targetX, targetY);
 	}
 
     @Override
@@ -524,8 +513,9 @@ public class Gate extends CircuitPart {
 			dx = (rotate90 > 1) ? -5 : +5;
 		if (Math.abs(getY() % 10) == 5)
 			dy = (rotate90 > 1) ? -5 : +5;
-		if (dx != 0 || dy != 0)
+		if (dx != 0 || dy != 0) {
 			moveBy(dx, dy);
+		}
 	}
 
 	protected void rotatePins() {
@@ -566,15 +556,10 @@ public class Gate extends CircuitPart {
 	@Override
 	public void changedLevel(LSLevelEvent e) {
 		// source has to be a Pin
-		if (!(e.source instanceof Pin))
+		if (!(e.source instanceof Pin)) {
 			throw new RuntimeException(
 					"gates communicate with pins only! source is " + e.source.getId() + ", target is " + getId());
-		// Pin p = (Pin) e.source;
-//		if (p.isOutput() && e.level == HIGH) {
-		// if the level change comes from an output, this will crash the part
-		// TODO
-		// busted = true;
-//		}
+		}
 	}
 
 	/**
@@ -586,8 +571,9 @@ public class Gate extends CircuitPart {
 
 	protected void setHeight(int i) {
 		height = i;
-		if (yc == -1)
+		if (yc == -1) {
 			yc = getY() + height / 2;
+		}
 	}
 
 	protected void setWidth(int i) {

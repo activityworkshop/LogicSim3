@@ -1,5 +1,7 @@
 package logicsim;
 
+import logicsim.ui.ClickPoint;
+
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -16,15 +18,14 @@ public class WirePoint extends CircuitPart {
 	private static final int POINT_SIZE = 6;
 
 	public boolean show = false;
-
 	private boolean level = false;
 
 	public WirePoint(int x, int y) {
-		super(x, y);
+		this(x, y, false);
 	}
 
 	public WirePoint(int x, int y, boolean show) {
-		this(x, y);
+		super(x, y);
 		this.show = show;
 	}
 
@@ -59,23 +60,11 @@ public class WirePoint extends CircuitPart {
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		super.mouseDragged(e);
-
-		int dx = round(e.getX() - mousePos.x);
-		int dy = round(e.getY() - mousePos.y);
-
-		if (dx != 0 || dy != 0) {
-			if (e.isShiftDown()) {
-				if (dx < dy)
-					dx = 0;
-				else
-					dy = 0;
-			}
-			mousePos.x = mousePos.x + dx;
-			mousePos.y = mousePos.y + dy;
-			moveBy(dx, dy);
-		}
+	public void mouseDragged(ClickPoint dragStart, ClickPoint currentPos) {
+		super.mouseDragged(dragStart, currentPos);
+		final int targetX = round(currentPos.getX() - dragStart.getX() + getPreviousPosition().getX());
+		final int targetY = round(currentPos.getY() - dragStart.getY() + getPreviousPosition().getY());
+		moveTo(targetX, targetY);
 	}
 
 	@Override
@@ -92,8 +81,9 @@ public class WirePoint extends CircuitPart {
 
 	@Override
 	public String getId() {
-		if (parent == null)
+		if (parent == null) {
 			return super.getId();
+		}
 		return super.getId() + "@" + parent.getId();
 	}
 

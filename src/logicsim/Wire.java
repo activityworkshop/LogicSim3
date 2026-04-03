@@ -1,14 +1,17 @@
 package logicsim;
 
+import logicsim.ui.ClickPoint;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -18,14 +21,13 @@ import java.util.Vector;
  * @author Peter Gabriel
  * @version 2.0
  */
-public class Wire extends CircuitPart implements Cloneable {
+public class Wire extends CircuitPart {
 	public static float SEL_WIDTH = 3f;
 
-    private static Color LOW_COLOR = Color.black;
-
+    private static final Color LOW_COLOR = Color.black;
 	private static Color HIGH_COLOR = Color.red;
 
-	private static float LOW_WIDTH = 1.0f;
+	private static final float LOW_WIDTH = 1.0f;
 	private static float HIGH_WIDTH = 1.0f;
 
 	/**
@@ -34,9 +36,9 @@ public class Wire extends CircuitPart implements Cloneable {
 	private CircuitPart from;
 
 	/**
-	 * data structure to hold the wire points
+	 * list of wire points
 	 */
-	private Vector<WirePoint> points = new Vector<>();
+	private final ArrayList<WirePoint> points = new ArrayList<>();
 
 	private Point tempPoint = null;
 
@@ -55,18 +57,11 @@ public class Wire extends CircuitPart implements Cloneable {
 	 */
 	public Wire(CircuitPart fromPart, CircuitPart toPart) {
 		this(0, 0);
-		this.setFrom(fromPart);
-		this.setTo(toPart);
+		setFrom(fromPart);
+		setTo(toPart);
 		selected = true;
 		loadProperties();
 		checkFromTo();
-	}
-
-	private void checkFromTo() {
-		if (getFrom() instanceof WirePoint)
-			((WirePoint) getFrom()).show = true;
-		if (getTo() instanceof WirePoint)
-			((WirePoint) getTo()).show = true;
 	}
 
 	public Wire(int x, int y) {
@@ -74,23 +69,18 @@ public class Wire extends CircuitPart implements Cloneable {
 		loadProperties();
 	}
 
+	private void checkFromTo() {
+		if (getFrom() instanceof WirePoint fromPoint) {
+			fromPoint.show = true;
+		}
+		if (getTo() instanceof WirePoint toPoint) {
+			toPoint.show = true;
+		}
+	}
+
     public void addPoint(int x, int y) {
 		WirePoint wp = new WirePoint(x, y);
 		addPoint(wp);
-	}
-
-	@SuppressWarnings("unchecked")
-	public Object clone() {
-		Wire clone;
-		try {
-			clone = (Wire) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new InternalError();
-		}
-		// Kopie von poly & nodes anlegen, Gate bleibt dieselbe Referenz wie beim
-		// Original
-		clone.points = (Vector<WirePoint>) points.clone();
-		return clone;
 	}
 
 	private Path2D convertPointsToPath() {
@@ -232,7 +222,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	 * 
 	 * @return -1 if no point is near to given position, else number of node
 	 */
-	public int getNodeIndexAt(int mx, int my) {
+	private int getNodeIndexAt(int mx, int my) {
 		if (points.isEmpty())
 			return -1;
 
@@ -255,7 +245,7 @@ public class Wire extends CircuitPart implements Cloneable {
 	public void insertPointAfter(int n, int mx, int my) {
 		WirePoint wp = new WirePoint(mx, my, false);
 		wp.parent = this;
-		points.insertElementAt(wp, n);
+		points.add(n, wp);
 	}
 
 	/**
@@ -283,24 +273,13 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
-		super.mouseDragged(e);
-		int mx = e.getX();
-		int my = e.getY();
-
-		int dx = round(mx - mousePos.x);
-		int dy = round(my - mousePos.y);
-
-		if (dx != 0 || dy != 0) {
-			if (e.isShiftDown()) {
-				if (dx < dy)
-					dx = 0;
-				else
-					dy = 0;
-			}
-			mousePos.x = mousePos.x + dx;
-			mousePos.y = mousePos.y + dy;
-			moveBy(dx, dy);
+	public void mouseDragged(ClickPoint dragStart, ClickPoint currentPos) {
+		super.mouseDragged(dragStart, currentPos);
+		final int targetX = round(currentPos.getX() - dragStart.getX() + getPreviousPosition().getX());
+		final int targetY = round(currentPos.getY() - dragStart.getY() + getPreviousPosition().getY());
+		moveTo(targetX, targetY);
+		for (WirePoint wp : points) {
+			wp.mouseDragged(dragStart, currentPos);
 		}
 	}
 
@@ -368,14 +347,15 @@ public class Wire extends CircuitPart implements Cloneable {
 			// points + first point
 			return points.size() + 1;
 		} else if (points.isEmpty()) {
-			if (getFrom() == null)
+			if (getFrom() == null) {
 				throw new RuntimeException("wire is completely empty, may not be");
+			}
 			getFrom().removeLevelListener(this);
 			setFrom(null);
 			// wire can be released
 			return 0;
 		} else {
-			points.remove(points.size() - 1);
+			points.removeLast();
 			return points.size() + 1;
 		}
 	}
@@ -480,7 +460,7 @@ public class Wire extends CircuitPart implements Cloneable {
 		points.add(wp);
 	}
 
-	public Vector<WirePoint> getPoints() {
+	public List<WirePoint> getPoints() {
 		return points;
 	}
 
@@ -518,17 +498,21 @@ public class Wire extends CircuitPart implements Cloneable {
 	}
 
 	public static void setColorMode() {
-		String colmode = LSProperties.getInstance().getProperty(LSProperties.COLORMODE, LSProperties.COLORMODE_ON);
-		if (LSProperties.COLORMODE_OFF.equals(colmode)) {
+		String colorMode = LSProperties.getInstance().getProperty(LSProperties.COLORMODE, LSProperties.COLORMODE_ON);
+		if (LSProperties.COLORMODE_OFF.equals(colorMode)) {
 			HIGH_COLOR = Color.black;
-			LOW_COLOR = Color.black;
-			LOW_WIDTH = 1f;
 			HIGH_WIDTH = 3f;
 		} else {
 			HIGH_COLOR = Color.red;
-			LOW_COLOR = Color.black;
-			LOW_WIDTH = 1f;
 			HIGH_WIDTH = 1f;
+		}
+	}
+
+	@Override
+	public void mouseReleased(int mx, int my) {
+		super.mouseReleased(mx, my);
+		for (WirePoint wp : points) {
+			wp.mouseReleased(mx, my);
 		}
 	}
 }

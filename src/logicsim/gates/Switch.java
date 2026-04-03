@@ -44,7 +44,6 @@ public class Switch extends Gate {
 	private static final String MOMENTARY = "momentary";
 	private static final String DEFAULT_SWITCH_TYPE = TOGGLE;
 	private static final String COLOR = "color";
-	private static final String DEFAULT_COLOR = "#0000ff";
 
 	/**
 	 * type of switch: true=MOMENTARY, false=TOGGLE
@@ -66,7 +65,7 @@ public class Switch extends Gate {
 
 	@Override
 	public void loadProperties() {
-		color = ColorFactory.web(getPropertyWithDefault(COLOR, DEFAULT_COLOR));
+		color = ColorFactory.makeColor(getProperty(COLOR), Color.BLUE);
 		switchTypeMomentary = !getPropertyWithDefault(SWITCH_TYPE, DEFAULT_SWITCH_TYPE).equals(TOGGLE);
 		int state = getPropertyIntWithDefault(STATE, 0);
 		if (state == 1) {
@@ -221,7 +220,7 @@ public class Switch extends Gate {
 		if (newColor != null) {
 			color = newColor;
 		}
-		setProperty(COLOR, "#" + Integer.toHexString(color.getRGB()).substring(2));
+		setProperty(COLOR, ColorFactory.getString(color));
 		return true;
 	}
 

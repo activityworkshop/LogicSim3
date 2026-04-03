@@ -739,11 +739,11 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     @Override
-    public void changedZoomPos(double zoom, Point pos) {
-        mouseX = pos.x;
-        mouseY = pos.y;
-        sbCoordinates.setText("X: " + pos.x / 10 * 10
-                + ", Y: " + pos.y / 10 * 10
+    public void changedZoomPos(double zoom, ClickPoint pos) {
+        mouseX = pos.getX();
+        mouseY = pos.getY();
+        sbCoordinates.setText("X: " + pos.getX() / 10 * 10
+                + ", Y: " + pos.getY() / 10 * 10
                 + "   Zoom: " + Math.round(zoom * 100) + "%");
     }
 
