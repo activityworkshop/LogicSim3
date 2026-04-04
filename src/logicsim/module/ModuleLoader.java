@@ -70,7 +70,7 @@ public class ModuleLoader {
             return null;
         }
         if (lsFile.getErrorString() != null) {
-            Dialogs.messageDialog(null, lsFile.getErrorString());
+            Dialogs.errorDialog(null, lsFile.getErrorString());
         }
 
         String label = lsFile.getLabel();

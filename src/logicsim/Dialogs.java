@@ -38,7 +38,7 @@ public class Dialogs {
 		JOptionPane.showMessageDialog(comp, msg, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
-	public static void messageDialog(Component comp, String msg) {
-		JOptionPane.showMessageDialog(comp, msg);
+	public static void errorDialog(Component comp, String msg) {
+		JOptionPane.showMessageDialog(comp, msg, I18N.tr(Lang.MSG_ERROR_TITLE), JOptionPane.ERROR_MESSAGE);
 	}
 }

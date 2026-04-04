@@ -535,11 +535,11 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         } catch (RuntimeException | IOException x) {
             System.err.println(x.getMessage());
             x.printStackTrace(System.err);
-            Dialogs.messageDialog(this, I18N.tr(Lang.READERROR) + " " + x.getMessage());
+            Dialogs.errorDialog(this, I18N.tr(Lang.READERROR) + " " + x.getMessage());
         }
         final String errorString = lsFile.getErrorString();
         if (errorString != null) {
-            Dialogs.messageDialog(this, errorString);
+            Dialogs.errorDialog(this, errorString);
         }
         setAppTitle();
         lspanel.clear();
@@ -552,8 +552,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
      * Set up a file filter for displaying files with the correct ending
      */
     private FileFilter setupFilter() {
-        // TODO: I18n for "Files"?
-        final String description = "LogicSim Files (" + "." + App.CIRCUIT_FILE_SUFFIX
+        final String description = I18N.tr(Lang.FILE_TYPE_FILTER) + " (" + "." + App.CIRCUIT_FILE_SUFFIX
                 + ", " + "." + App.MODULE_FILE_SUFFIX + ")";
         return new LogicSimFileFilter(description, App.CIRCUIT_FILE_SUFFIX, App.MODULE_FILE_SUFFIX);
     }
@@ -588,7 +587,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         } catch (RuntimeException err) {
             System.err.println(err.getMessage());
             err.printStackTrace(System.err);
-            Dialogs.messageDialog(this, I18N.tr(Lang.SAVEERROR) + " " + err.getMessage());
+            Dialogs.errorDialog(this, I18N.tr(Lang.SAVEERROR) + " " + err.getMessage());
         }
 
         setAppTitle();
@@ -609,8 +608,9 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
         JFileChooser chooser = new JFileChooser(parentDirName);
         chooser.setDialogTitle(I18N.tr(Lang.SAVECIRCUIT));
 
-        String s = "LogicSim Files (" + "." + App.CIRCUIT_FILE_SUFFIX + ", " + "." + App.MODULE_FILE_SUFFIX + ")";
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(s, App.CIRCUIT_FILE_SUFFIX,
+        final String fileTypeDesc = I18N.tr(Lang.FILE_TYPE_FILTER) + " (" + "." + App.CIRCUIT_FILE_SUFFIX
+                + ", " + "." + App.MODULE_FILE_SUFFIX + ")";
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(fileTypeDesc, App.CIRCUIT_FILE_SUFFIX,
                 App.MODULE_FILE_SUFFIX);
         chooser.setFileFilter(filter);
 
@@ -621,10 +621,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             int lastDot = lsFile.fileName.lastIndexOf(".");
             if (lastDot < lastSeparator) {
                 // ending is missing
-                if (lsFile.circuit.isModule())
-                    lsFile.fileName += "." + App.MODULE_FILE_SUFFIX;
-                else
-                    lsFile.fileName += "." + App.CIRCUIT_FILE_SUFFIX;
+                lsFile.fileName += "." + (lsFile.circuit.isModule() ? App.MODULE_FILE_SUFFIX : App.CIRCUIT_FILE_SUFFIX);
             }
             return true;
         }
@@ -637,12 +634,12 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     @Override
     public void actionCreateModule() {
         if (lsFile.circuit.isModule()) {
-            Dialogs.messageDialog(this, I18N.tr(Lang.ALREADYMODULE));
+            Dialogs.errorDialog(this, I18N.tr(Lang.ALREADYMODULE));
             return;
         }
         if (Simulation.getInstance().isRunning()
                 || !showDiscardDialog()) {
-//            return;
+            return;
         }
 
         if (!lsFile.circuit.isEmpty()) {

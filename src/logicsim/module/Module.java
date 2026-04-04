@@ -56,7 +56,7 @@ public class Module extends Gate {
 			return false;
 		}
 		if (lsFile.getErrorString() != null) {
-			Dialogs.messageDialog(null, lsFile.getErrorString());
+			Dialogs.errorDialog(null, lsFile.getErrorString());
 		}
 
 		label = lsFile.getLabel();

@@ -27,7 +27,7 @@ public class I18N {
 		if (prop.isEmpty() && !"en".equals(lang)) {
 			prop = load("en");
 			if (prop == null) {
-				Dialogs.messageDialog(null,
+				Dialogs.errorDialog(null,
 						"Language file languages/en.properties not found.\nPlease run the program from its directory.");
 				System.exit(5);
 			}

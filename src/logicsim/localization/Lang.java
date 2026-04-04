@@ -87,6 +87,7 @@ public enum Lang {
 
 	SAVECIRCUIT("dialog.savecircuit.title"),
 	GATE_PROPERTIES("dialog.gateproperties.title"),
+	FILE_TYPE_FILTER("file.type.filter"),
 
 	QUESTION_CONFIRMDISCARD("question.confirmdiscard"),
 	QUESTION_CONFIRMSAVE("question.confirmsave"),
@@ -98,6 +99,7 @@ public enum Lang {
 	NOMODULE("error.nomodule"),
 	READERROR("error.readerror"),
 	SAVEERROR("error.saveerror"),
+	MSG_ERROR_TITLE("error.title"),
 
 	OK("button.ok"),
 	CANCEL("button.cancel"),

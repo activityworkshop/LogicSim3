@@ -59,7 +59,7 @@ public class App {
 		if (f.exists() && f.isDirectory()) {
 			return f.getAbsolutePath() + "/";
 		} else {
-			Dialogs.messageDialog(null, "Directory 'modules' not found.\nPlease run the program from its directory");
+			Dialogs.errorDialog(null, "Directory 'modules' not found.\nPlease run the program from its directory");
 			System.exit(0);
 		}
 
@@ -72,7 +72,7 @@ public class App {
 		if (f.exists() && f.isDirectory()) {
 			return f.getAbsolutePath() + "/";
 		} else {
-			Dialogs.messageDialog(null, "Directory 'circuits' not found.\nPlease run the program from its directory");
+			Dialogs.errorDialog(null, "Directory 'circuits' not found.\nPlease run the program from its directory");
 			System.exit(0);
 		}
 		return "";
