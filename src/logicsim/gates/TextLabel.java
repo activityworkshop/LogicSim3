@@ -32,7 +32,7 @@ public class TextLabel extends Gate {
 
 	@Override
 	public boolean insideFrame(int mx, int my) {
-		return getBoundingBox().contains(mx, my);
+		return getBoundingBox().containsPoint(mx, my);
 	}
 
 	@Override

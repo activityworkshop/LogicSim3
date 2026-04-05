@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -146,24 +145,29 @@ public abstract class CircuitPart implements LSLevelListener {
 	protected void drawActiveFrame(Graphics2D g2) {
 		if (selected) {
 			Rectangle rect = getBoundingBox();
+			if (rect.isEmpty()) {
+				return;
+			}
 
-			int r = rect.x + rect.width;
-			int b = rect.y + rect.height;
+			final int rightX = rect.getMaxX();
+			final int upperY = rect.getMinY();
+			final int lowerY = rect.getMaxY();
 			g2.setStroke(new BasicStroke(2));
 			g2.setColor(Color.blue);
 
 			// oben links
-			g2.drawLine(rect.x - BOUNDING_SPACE, rect.y - BOUNDING_SPACE, rect.x - BOUNDING_SPACE, rect.y);
-			g2.drawLine(rect.x - BOUNDING_SPACE, rect.y - BOUNDING_SPACE, rect.x, rect.y - BOUNDING_SPACE);
+			Integer leftX = rect.getMinX();
+			g2.drawLine(leftX - BOUNDING_SPACE, upperY - BOUNDING_SPACE, leftX - BOUNDING_SPACE, upperY);
+			g2.drawLine(leftX - BOUNDING_SPACE, upperY - BOUNDING_SPACE, leftX, upperY - BOUNDING_SPACE);
 			// unten links
-			g2.drawLine(rect.x - BOUNDING_SPACE, b + BOUNDING_SPACE, rect.x - BOUNDING_SPACE, b);
-			g2.drawLine(rect.x - BOUNDING_SPACE, b + BOUNDING_SPACE, rect.x, b + BOUNDING_SPACE);
+			g2.drawLine(leftX - BOUNDING_SPACE, lowerY + BOUNDING_SPACE, leftX - BOUNDING_SPACE, lowerY);
+			g2.drawLine(leftX - BOUNDING_SPACE, lowerY + BOUNDING_SPACE, leftX, lowerY + BOUNDING_SPACE);
 			// oben rechts
-			g2.drawLine(r + BOUNDING_SPACE, rect.y - BOUNDING_SPACE, r + BOUNDING_SPACE, rect.y);
-			g2.drawLine(r + BOUNDING_SPACE, rect.y - BOUNDING_SPACE, r, rect.y - BOUNDING_SPACE);
+			g2.drawLine(rightX + BOUNDING_SPACE, upperY - BOUNDING_SPACE, rightX + BOUNDING_SPACE, upperY);
+			g2.drawLine(rightX + BOUNDING_SPACE, upperY - BOUNDING_SPACE, rightX, upperY - BOUNDING_SPACE);
 			// unten rechts
-			g2.drawLine(r + BOUNDING_SPACE, b + BOUNDING_SPACE, r + BOUNDING_SPACE, b);
-			g2.drawLine(r + BOUNDING_SPACE, b + BOUNDING_SPACE, r, b + BOUNDING_SPACE);
+			g2.drawLine(rightX + BOUNDING_SPACE, lowerY + BOUNDING_SPACE, rightX + BOUNDING_SPACE, lowerY);
+			g2.drawLine(rightX + BOUNDING_SPACE, lowerY + BOUNDING_SPACE, rightX, lowerY + BOUNDING_SPACE);
 		}
 	}
 

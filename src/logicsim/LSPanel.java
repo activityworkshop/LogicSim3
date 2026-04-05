@@ -22,7 +22,6 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.MouseInputAdapter;
 
@@ -66,9 +65,9 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			if (currentAction == ACTION_SELECT && selectRect != null) {
 				g2.setStroke(new BasicStroke());
 				g2.setColor(new Color(0, 115, 255));
-				g2.draw(selectRect); //Border
+				g2.drawRect(selectRect.getMinX(), selectRect.getMinY(), selectRect.getWidth(), selectRect.getHeight());
 				g2.setColor(new Color(0, 115, 255, 115));
-				g2.fill(selectRect); //Fill
+				g2.fillRect(selectRect.getMinX(), selectRect.getMinY(), selectRect.getWidth(), selectRect.getHeight());
 			}
 		}
 	}
@@ -84,15 +83,14 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			e = convertToWorld(e);
 			if (!dragStartPoint.isSet()) {
 				dragStartPoint.set(e.getX(), e.getY());
+				selectRect = new Rectangle();
 			}
 			currentMousePoint.set(e.getX(), e.getY());
 			if (currentAction == ACTION_SELECT) {
 				notifyZoomPos(scaleX, currentMousePoint);
-				if (currentMousePoint.getX() < dragStartPoint.getX() || currentMousePoint.getY() < dragStartPoint.getY()) {
-					selectRect.setFrameFromDiagonal(currentMousePoint.getX(), currentMousePoint.getY(), dragStartPoint.getX(), dragStartPoint.getY());
-				} else {
-					selectRect.setFrameFromDiagonal(dragStartPoint.getX(), dragStartPoint.getY(), currentMousePoint.getX(), currentMousePoint.getY());
-				}
+				selectRect.clear();
+				selectRect.addPoint(currentMousePoint.getX(), currentMousePoint.getY());
+				selectRect.addPoint(dragStartPoint.getX(), dragStartPoint.getY());
 				repaint();
 				return;
 			}
@@ -163,10 +161,11 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				currentAction = ACTION_NONE;
 			} else if (currentAction == ACTION_NONE && e.getButton() == MouseEvent.BUTTON3) {
 				currentAction = ACTION_SELECT;
+				selectRect = new Rectangle();
 			}
 
 			if (currentAction == ACTION_SELECT) {
-				selectRect = new Rectangle2D.Double(e.getX(), e.getY(), 0, 0);
+				selectRect = new Rectangle(e.getX(), e.getY(), 0, 0);
 			}
 
 			CircuitPart[] parts = circuit.getSelected();
@@ -365,7 +364,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			dragStartPoint.reset();
 			LSPanel.this.requestFocusInWindow();
 
-			if (currentAction == ACTION_SELECT) {
+			if (currentAction == ACTION_SELECT && selectRect != null) {
 				CircuitPart[] parts = circuit.findParts(selectRect);
 				for (CircuitPart part : parts) {
 					if (part instanceof Wire w) {
@@ -447,10 +446,8 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 	// current mode
 	private int currentAction;
 
-	/**
-	 * used for track selection, is one endpoint of a rectangle
-	 */
-	private Rectangle2D selectRect;
+	/** used for selecting elements */
+	private Rectangle selectRect;
 
 	public LSPanel() {
 		final Dimension panelSize = new Dimension(1280, 1024);

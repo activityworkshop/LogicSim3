@@ -5,7 +5,6 @@ import logicsim.ui.ClickPoint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
@@ -198,7 +197,18 @@ public class Wire extends CircuitPart {
 
 	@Override
 	public Rectangle getBoundingBox() {
-		return convertPointsToPath().getBounds();
+		Rectangle bounds = new Rectangle();
+		WirePoint first = getPointFrom();
+		bounds.addPoint(first.getX(), first.getY());
+		for (WirePoint point : points) {
+			bounds.addPoint(point.getX(), point.getY());
+		}
+		if (getTo() != null) {
+			bounds.addPoint(getTo().getX(), getTo().getY());
+		} else if (tempPoint != null) {
+			bounds.addPoint(tempPoint.getX(), tempPoint.getY());
+		}
+		return bounds;
 	}
 
 	WirePoint getLastPoint() {

@@ -3,8 +3,6 @@ package logicsim;
 import logicsim.ui.ClickPoint;
 
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
 
 /**
  * WirePoint substructure class for Wire Objects
@@ -31,7 +29,7 @@ public class WirePoint extends CircuitPart {
 
 	@Override
 	public String toString() {
-		return "(" + getX() + "," + getY() + "-" + (show ? "w" : "f") + ")";
+		return "(" + getX() + "," + getY() + ",-" + (show ? "w" : "f") + ")";
 	}
 
 	@Override
@@ -43,7 +41,8 @@ public class WirePoint extends CircuitPart {
 	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
-		g2.fill(getBoundingBox());
+		Rectangle boundingBox = getBoundingBox();
+		g2.fillRect(boundingBox.getMinX(), boundingBox.getMinY(), boundingBox.getWidth(), boundingBox.getHeight());
 	}
 
 	public boolean isAt(int x, int y) {

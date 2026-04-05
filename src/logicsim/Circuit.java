@@ -3,7 +3,6 @@ package logicsim;
 import logicsim.module.MODIN;
 import logicsim.module.MODOUT;
 
-import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 /**
@@ -324,7 +323,7 @@ public class Circuit implements LSRepaintListener {
 		return "Circuit:" + CircuitPart.indent(s);
 	}
 
-	public CircuitPart[] findParts(Rectangle2D selectRect) {
+	public CircuitPart[] findParts(Rectangle selectRect) {
 		Vector<CircuitPart> findParts = new Vector<>();
 		for (CircuitPart p : parts) {
 			if (selectRect.contains(p.getBoundingBox())) {

@@ -7,9 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 /**
@@ -213,7 +211,7 @@ public class Gate extends CircuitPart {
 
 	protected void drawFrame(Graphics2D g2) {
 		int borderRadius = 10;
-		Rectangle2D border = new Rectangle2D.Double(
+		Rectangle border = new Rectangle(
 			getX() + CONN_SIZE - 1,
 			getY() + CONN_SIZE - 1,
 			(width + 2) - 2 * CONN_SIZE,
@@ -221,20 +219,20 @@ public class Gate extends CircuitPart {
 		);
 		g2.setPaint(backgroundColor);
 		g2.fillRoundRect(
-			(int) border.getX(),
-			(int) border.getY(),
-			(int) border.getWidth(),
-			(int) border.getHeight(),
+			border.getMinX(),
+			border.getMinY(),
+			border.getWidth(),
+			border.getHeight(),
 			borderRadius,
 			borderRadius
 		);
 		g2.setPaint(Color.black);
 		g2.setStroke(new BasicStroke(1));
 		g2.drawRoundRect(
-			(int) border.getX(),
-			(int) border.getY(),
-			(int) border.getWidth(),
-			(int) border.getHeight(),
+			border.getMinX(),
+			border.getMinY(),
+			border.getWidth(),
+			border.getHeight(),
 			borderRadius,
 			borderRadius
 		);
@@ -246,10 +244,11 @@ public class Gate extends CircuitPart {
 			c.draw(g2);
 	}
 
-    protected void drawIOLabels(Graphics2D g2) {
-        for (Pin c : pins)
-            c.drawLabel(g2);
-    }
+	protected void drawIOLabels(Graphics2D g2) {
+		for (Pin c : pins) {
+			c.drawLabel(g2);
+		}
+	}
 
 	protected void drawLabel(Graphics2D g2, String lbl, Font font) {
 		if (lbl != null) {
@@ -288,8 +287,9 @@ public class Gate extends CircuitPart {
 			return pin;
 
 		// if inside frame, it could only be a gate
-		if (insideFrame(x, y))
+		if (insideFrame(x, y)) {
 			return this;
+		}
 
 		return null;
 	}
@@ -437,7 +437,7 @@ public class Gate extends CircuitPart {
                 getY() + CONN_SIZE,
                 width - 2 * CONN_SIZE,
                 height - 2 * CONN_SIZE
-        ).contains(mx, my);
+        ).containsPoint(mx, my);
 	}
 
 	@Override
