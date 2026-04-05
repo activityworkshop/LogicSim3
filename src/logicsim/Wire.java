@@ -5,7 +5,6 @@ import logicsim.ui.ClickPoint;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
@@ -40,7 +39,7 @@ public class Wire extends CircuitPart {
 	 */
 	private final ArrayList<WirePoint> points = new ArrayList<>();
 
-	private Point tempPoint = null;
+	private ClickPoint tempPoint = null;
 
 	/**
 	 * connector to which this wire is targeting
@@ -95,7 +94,7 @@ public class Wire extends CircuitPart {
 		if (getTo() != null) {
 			path.lineTo(getTo().getX(), getTo().getY());
 		} else if (tempPoint != null) {
-			path.lineTo(tempPoint.x, tempPoint.y);
+			path.lineTo(tempPoint.getX(), tempPoint.getY());
 		}
 		return path;
 	}
@@ -144,7 +143,7 @@ public class Wire extends CircuitPart {
 		if (getTo() == null && tempPoint != null) {
 			// add a small red circle
 			g2.setPaint(Color.red);
-			g2.drawOval(tempPoint.x - 1, tempPoint.y - 1, 3, 3);
+			g2.drawOval(tempPoint.getX() - 1, tempPoint.getY() - 1, 3, 3);
 		}
 
 		g2.setColor(Color.black);
@@ -154,7 +153,7 @@ public class Wire extends CircuitPart {
 					(getFrom().getY() + points.getFirst().getY()) / 2);
 		} else {
 			if (getFrom() != null && getTo() == null && tempPoint != null) {
-				g2.drawString(text, (getFrom().getX() + tempPoint.x) / 2, (getFrom().getY() + tempPoint.y) / 2);
+				g2.drawString(text, (getFrom().getX() + tempPoint.getX()) / 2, (getFrom().getY() + tempPoint.getY()) / 2);
 			} else if (getFrom() != null && getTo() != null) {
 				g2.drawString(text, (getFrom().getX() + getTo().getX()) / 2, (getFrom().getY() + getTo().getY()) / 2);
 			}
@@ -375,8 +374,11 @@ public class Wire extends CircuitPart {
 		return points.remove(wp);
 	}
 
-	public void setTempPoint(Point point) {
-		this.tempPoint = point;
+	public void setTempPoint(int x, int y) {
+		if (tempPoint == null) {
+			tempPoint = new ClickPoint();
+		}
+		tempPoint.set(x, y);
 	}
 
 	@Override
@@ -437,7 +439,7 @@ public class Wire extends CircuitPart {
 	}
 
 	public void finish() {
-		setTempPoint(null);
+		tempPoint = null;
 	}
 
 	public void addPoint(WirePoint wp) {
