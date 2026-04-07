@@ -1,5 +1,6 @@
 package logicsim;
 
+import logicsim.controllers.Action;
 import logicsim.ui.ClickPoint;
 
 import java.awt.BasicStroke;
@@ -73,6 +74,11 @@ public class Wire extends CircuitPart {
 		}
 		if (getTo() instanceof WirePoint toPoint) {
 			toPoint.show = true;
+		}
+		if (getFrom() instanceof Pin pinFrom && getTo() instanceof Pin pinTo
+				&& (pinFrom.isInput() == pinTo.isInput())) {
+			System.err.println("Warning: Wire goes from " + (pinFrom.isInput() ? "input" : "output") + " of " + pinFrom.parent.getClass().getName()
+			+ " to " + (pinTo.isInput() ? "input" : "output") + " of " + pinTo.parent.getClass().getName());
 		}
 	}
 
@@ -301,13 +307,13 @@ public class Wire extends CircuitPart {
 		int mx = e.getX();
 		int my = e.getY();
 
-		if (e.lsAction == LSPanel.ACTION_ADDPOINT) {
+		if (e.lsAction == Action.ADDPOINT) {
 			int p = isAt(mx, my);
 			if (p > -1) {
 				insertPointAfter(p, round(mx), round(my));
 				select();
 			}
-		} else if (e.lsAction == LSPanel.ACTION_DELPOINT) {
+		} else if (e.lsAction == Action.DELPOINT) {
 			if (removePointAt(e.getX(), e.getY())) {
 				select();
 				fireRepaint();

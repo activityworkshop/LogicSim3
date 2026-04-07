@@ -20,11 +20,10 @@ public class LogicSimFile {
 	 * @return file name without path and extension
 	 */
 	public String extractFileName() {
-		File f = new File(fileName);
-		String name = f.getName();
+		final String name = new File(fileName).getName();
 		// strip extension
-		name = name.substring(0, name.lastIndexOf('.'));
-		return name;
+		final int dotPos = name.lastIndexOf('.');
+		return dotPos < 0 ? name : name.substring(0, dotPos);
 	}
 
 	public List<Gate> getGates() {

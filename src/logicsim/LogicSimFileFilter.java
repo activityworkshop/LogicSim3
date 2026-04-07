@@ -32,15 +32,15 @@ public class LogicSimFileFilter extends FileFilter {
             return true;
         }
         final String extension = getExtension(f);
-        return extension != null && filters.get(getExtension(f)) != null;
+        return extension != null && filters.get(extension) != null;
     }
 
 	public String getExtension(File f) {
 		if (f != null) {
 			String filename = f.getName();
-			int i = filename.lastIndexOf('.');
-			if (i > 0 && i < filename.length() - 1) {
-				return filename.substring(i + 1).toLowerCase();
+			final int dotPos = filename.lastIndexOf('.');
+			if (dotPos > 0 && dotPos < filename.length() - 1) {
+				return filename.substring(dotPos + 1).toLowerCase();
 			}
 		}
 		return null;

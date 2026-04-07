@@ -1,6 +1,7 @@
 package logicsim;
 
 import logicsim.controllers.AppController;
+import logicsim.controllers.Action;
 import logicsim.gatelist.GateDefinition;
 import logicsim.gatelist.GateLibrary;
 import logicsim.localization.I18N;
@@ -122,16 +123,16 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
             }
             try {
                 GateDragInfo info = (GateDragInfo) support.getTransferable().getTransferData(GateDragInfo.FLAVOR);
-                if (info == null || info.getDefinition() == null) {
+                if (info == null || info.definition() == null) {
                     return false;
                 }
-                final Gate gate = info.getDefinition().create();
+                final Gate gate = info.definition().create();
                 if (!gate.isValid()) {
                     return false;
                 }
                 // Eingänge ggf. setzen
                 if (gate.supportsVariableInputs()) {
-                    gate.createDynamicInputs(info.getNumInputs());
+                    gate.createDynamicInputs(info.numInputs());
                 }
                 // Drop-Position (Component-Koordinaten -> Weltkoordinaten)
                 final Point p = support.getDropLocation().getDropPoint();
@@ -745,7 +746,7 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     @Override
-    public void setAction(int action) {
+    public void setAction(Action action) {
     }
 
     @Override
@@ -811,43 +812,37 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     }
 
     @Override
-    public void actionSetAction(Action action) {
+    public void actionSetAction(logicsim.controllers.Action action) {
         switch (action) {
-            case ACTION_PINNORMAL:
-                lspanel.setAction(Pin.NORMAL);
+            case PINNORMAL:
                 setStatusText(I18N.tr(Lang.INPUTNORM_HELP));
                 lspanel.requestFocusInWindow();
                 break;
-            case ACTION_PININVERTED:
-                lspanel.setAction(Pin.INVERTED);
+            case PININVERTED:
                 setStatusText(I18N.tr(Lang.INPUTINV_HELP));
                 lspanel.requestFocusInWindow();
                 break;
-            case ACTION_PINHIGH:
-                lspanel.setAction(Pin.HIGH);
+            case PINHIGH:
                 setStatusText(I18N.tr(Lang.INPUTHIGH_HELP));
                 break;
-            case ACTION_PINLOW:
-                lspanel.setAction(Pin.LOW);
+            case PINLOW:
                 setStatusText(I18N.tr(Lang.INPUTLOW_HELP));
                 lspanel.requestFocusInWindow();
                 break;
-            case ACTION_ADDWIRE:
-                lspanel.setAction(LSPanel.ACTION_ADDWIRE);
+            case ADDWIRE:
                 setStatusText(I18N.tr(Lang.WIRENEW_HELP));
                 lspanel.requestFocusInWindow();
                 break;
-            case ACTION_ADDPOINT:
-                lspanel.setAction(LSPanel.ACTION_ADDPOINT);
+            case ADDPOINT:
                 setStatusText(I18N.tr(Lang.ADDPOINT_HELP));
                 lspanel.requestFocusInWindow();
                 break;
-            case ACTION_DELPOINT:
-                lspanel.setAction(LSPanel.ACTION_DELPOINT);
+            case DELPOINT:
                 setStatusText(I18N.tr(Lang.REMOVEPOINT_HELP));
                 lspanel.requestFocusInWindow();
                 break;
         }
+        lspanel.setAction(action);
     }
 
     @Override

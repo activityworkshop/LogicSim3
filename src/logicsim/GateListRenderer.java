@@ -24,14 +24,14 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 			setText(gateDef.getTitleString());
 			setHorizontalAlignment(SwingConstants.LEFT);
 			return this;
-		} else if (value instanceof String) {
+		} else if (value instanceof String valueString) {
             JPanel panel = new JPanel(new BorderLayout());
 
             JSeparator separatorLine = new JSeparator(SwingConstants.HORIZONTAL);
             separatorLine.setForeground(Color.BLACK);
             panel.add(separatorLine, BorderLayout.NORTH);
 
-            JLabel label = new JLabel(I18N.tr((String) value));
+            JLabel label = new JLabel(I18N.tr(valueString));
             label.setFont(new Font(list.getFont().getName(), Font.BOLD, list.getFont().getSize() + 4));
             label.setForeground(Color.BLACK);
             label.setHorizontalAlignment(SwingConstants.LEFT);
@@ -39,7 +39,8 @@ public class GateListRenderer extends JLabel implements ListCellRenderer<Object>
 
             return panel;
 		} else {
-			throw new RuntimeException("unknown format of object in getListCellRendererComponent");
+			throw new RuntimeException("unknown format of object in getListCellRendererComponent: "
+					+ (value == null ? "<null>" : value.getClass().getName()));
 		}
 	}
 }

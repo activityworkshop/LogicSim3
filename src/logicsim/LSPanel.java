@@ -1,5 +1,6 @@
 package logicsim;
 
+import logicsim.controllers.Action;
 import logicsim.controllers.ShortCuts;
 import logicsim.localization.I18N;
 import logicsim.localization.Lang;
@@ -62,7 +63,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				part.draw(g2);
 			}
 
-			if (currentAction == ACTION_SELECT && selectRect != null) {
+			if (currentAction == Action.SELECT && selectRect != null) {
 				g2.setStroke(new BasicStroke());
 				g2.setColor(new Color(0, 115, 255));
 				g2.drawRect(selectRect.getMinX(), selectRect.getMinY(), selectRect.getWidth(), selectRect.getHeight());
@@ -86,7 +87,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				selectRect = new Rectangle();
 			}
 			currentMousePoint.set(e.getX(), e.getY());
-			if (currentAction == ACTION_SELECT) {
+			if (currentAction == Action.SELECT) {
 				notifyZoomPos(scaleX, currentMousePoint);
 				selectRect.clear();
 				selectRect.addPoint(currentMousePoint.getX(), currentMousePoint.getY());
@@ -158,28 +159,28 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 			boolean simRunning = Simulation.getInstance().isRunning();
 			if (simRunning) {
-				currentAction = ACTION_NONE;
-			} else if (currentAction == ACTION_NONE && e.getButton() == MouseEvent.BUTTON3) {
-				currentAction = ACTION_SELECT;
+				currentAction = Action.NONE;
+			} else if (currentAction == Action.NONE && e.getButton() == MouseEvent.BUTTON3) {
+				currentAction = Action.SELECT;
 				selectRect = new Rectangle();
 			}
 
-			if (currentAction == ACTION_SELECT) {
+			if (currentAction == Action.SELECT) {
 				selectRect = new Rectangle(e.getX(), e.getY(), 0, 0);
 			}
 
 			CircuitPart[] parts = circuit.getSelected();
 			CircuitPart clickedPart = circuit.findPartAt(e.getX(), e.getY());
 
-			if (currentAction == ACTION_DELPOINT && clickedPart instanceof WirePoint && clickedPart.parent instanceof Wire) {
-				clickedPart.parent.mousePressed(new LSMouseEvent(e, ACTION_DELPOINT, null));
+			if (currentAction == Action.DELPOINT && clickedPart instanceof WirePoint && clickedPart.parent instanceof Wire) {
+				clickedPart.parent.mousePressed(new LSMouseEvent(e, Action.DELPOINT, null));
 			}
-			if (!simRunning && clickedPart instanceof Pin && !e.isAltDown() && currentAction == ACTION_NONE) {
+			if (!simRunning && clickedPart instanceof Pin && !e.isAltDown() && currentAction == Action.NONE) {
 				// we start a new wire
-				currentAction = ACTION_ADDWIRE;
+				currentAction = Action.ADDWIRE;
 			}
 
-			if (currentAction == ACTION_ADDWIRE) {
+			if (currentAction == Action.ADDWIRE) {
 				WirePoint wp = null;
 				Wire newWire = null;
 				switch (clickedPart) {
@@ -218,11 +219,11 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				circuit.deselectAll();
 				newWire.select();
 				fireCircuitChanged();
-				currentAction = ACTION_EDITWIRE;
+				currentAction = Action.EDITWIRE;
 				return;
 			}
 
-			if (currentAction == ACTION_EDITWIRE) {
+			if (currentAction == Action.EDITWIRE) {
 				Wire wire = circuit.getUnfinishedWire();
 				if (e.isShiftDown()) {
 					// pressed SHIFT while clicking to edit a wire
@@ -238,7 +239,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 						wire.setTo(pin);
 						wire.getTo().connect(wire);
 						wire.finish();
-						currentAction = ACTION_NONE;
+						currentAction = Action.NONE;
 						fireStatusText("");
 						fireCircuitChanged();
 						break;
@@ -253,7 +254,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 						wire.setTo(clickedPart);
 						wire.getTo().connect(wire);
 						wire.finish();
-						currentAction = ACTION_NONE;
+						currentAction = Action.NONE;
 						fireStatusText("");
 						fireCircuitChanged();
 						break;
@@ -270,7 +271,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 								wire.setTo(new WirePoint(clickPoint.getX(), clickPoint.getY()));
 								wire.getTo().connect(wire);
 								wire.finish();
-								currentAction = ACTION_NONE;
+								currentAction = Action.NONE;
 								fireStatusText("");
 								fireCircuitChanged();
 							} else {
@@ -282,7 +283,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 							wire.setTo(clickedWP);
 							wire.getTo().connect(wire);
 							wire.finish();
-							currentAction = ACTION_NONE;
+							currentAction = Action.NONE;
 							fireStatusText("");
 							fireCircuitChanged();
 						}
@@ -306,12 +307,18 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 				fireStatusText(I18N.tr(Lang.PIN) + " (" + clickedPart.getId() + ")");
 				// modify input (inverted or high or low or revert to normal type)
 				if (pin.isInput()) {
-					if (currentAction == Pin.HIGH || currentAction == Pin.LOW || currentAction == Pin.INVERTED
-							|| currentAction == Pin.NORMAL) {
-						// 1. if we clicked on an input modificator
-						pin.setLevelType(currentAction);
+					// 1. if we clicked on an input modificator
+					final int pinLevel = switch (currentAction) {
+						case Action.PINHIGH -> Pin.HIGH;
+						case Action.PINLOW -> Pin.LOW;
+						case Action.PININVERTED -> Pin.INVERTED;
+						case Action.PINNORMAL -> Pin.NORMAL;
+						default -> -1;
+					};
+					if (pinLevel != -1) {
+						pin.setLevelType(pinLevel);
 						pin.changedLevel(new LSLevelEvent(new Wire(null, null), pin.level, true));
-						currentAction = ACTION_NONE;
+						currentAction = Action.NONE;
 						fireStatusText("");
 						fireCircuitChanged();
 						return;
@@ -351,7 +358,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			}
 
 			clickedPart.mousePressed(new LSMouseEvent(e, currentAction, parts));
-			currentAction = ACTION_NONE;
+			currentAction = Action.NONE;
 			fireStatusText("");
 			repaint();
 		}
@@ -364,7 +371,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			dragStartPoint.reset();
 			LSPanel.this.requestFocusInWindow();
 
-			if (currentAction == ACTION_SELECT && selectRect != null) {
+			if (currentAction == Action.SELECT && selectRect != null) {
 				CircuitPart[] parts = circuit.findParts(selectRect);
 				for (CircuitPart part : parts) {
 					if (part instanceof Wire w) {
@@ -375,7 +382,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 					}
 				}
 				fireStatusText(String.format(I18N.tr(Lang.PARTSSELECTED), parts.length));
-				currentAction = ACTION_NONE;
+				currentAction = Action.NONE;
 				fireStatusText("");
 				selectRect = null;
 				repaint();
@@ -429,22 +436,13 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		}
 	}
 
-	static final short ACTION_NONE = 0;
-
-	static final short ACTION_ADDWIRE = 0x50;
-	static final short ACTION_EDITWIRE = 0x51;
-
-	static final short ACTION_ADDPOINT = 0x52;
-	static final short ACTION_DELPOINT = 0x53;
-	static final short ACTION_SELECT = 1;
-
 	private static final Color gridColor = Color.black;
 
 	private CircuitChangedListener changeListener;
 	public Circuit circuit = new Circuit();
 
 	// current mode
-	private int currentAction;
+	private Action currentAction = Action.NONE;
 
 	/** used for selecting elements */
 	private Rectangle selectRect;
@@ -491,7 +489,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 	public void clear() {
 		circuit.deselectAll();
-		currentAction = 0;
+		currentAction = Action.NONE;
 		circuit.clear();
 		repaint();
 	}
@@ -526,20 +524,20 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 			return;
 
 		if (keyCode == KeyEvent.VK_ESCAPE) {
-			if (currentAction == ACTION_EDITWIRE) {
+			if (currentAction == Action.EDITWIRE) {
 				Wire w = (Wire) parts[0];
 				int pointsOfWire = w.removeLastPoint();
 				if (pointsOfWire == 0) {
-					currentAction = ACTION_NONE;
+					currentAction = Action.NONE;
 					// delete wire
 					w.disconnect();
 					circuit.remove(w);
 					circuit.deselectAll();
 					fireStatusText(Lang.ABORTED);
 				}
-			} else if (currentAction == ACTION_ADDPOINT || currentAction == ACTION_DELPOINT
-					|| currentAction == ACTION_SELECT) {
-				currentAction = ACTION_NONE;
+			} else if (currentAction == Action.ADDPOINT || currentAction == Action.DELPOINT
+					|| currentAction == Action.SELECT) {
+				currentAction = Action.NONE;
 				fireStatusText(Lang.ABORTED);
 			} else if (parts.length > 1) {
 				circuit.deselectAll();
@@ -567,7 +565,7 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 
 		if (keyCode == KeyEvent.VK_DELETE || keyCode == KeyEvent.VK_BACK_SPACE) {
 			if (circuit.remove(parts)) {
-				currentAction = ACTION_NONE;
+				currentAction = Action.NONE;
 				if (parts.length == 1) {
 					fireStatusText(I18N.tr(Lang.PARTDELETED));
 				} else {
@@ -654,28 +652,28 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		}
 	}
 
-	public void setAction(int actionNumber) {
-		switch (actionNumber) {
-			case ACTION_ADDPOINT:
+	public void setAction(Action action) {
+		switch (action) {
+			case Action.ADDPOINT:
 				fireStatusText(Lang.ADDPOINT);
 				break;
-			case ACTION_DELPOINT:
+			case Action.DELPOINT:
 				fireStatusText(Lang.REMOVEPOINT);
 				break;
-			case Pin.HIGH:
+			case Action.PINHIGH:
 				fireStatusText(Lang.INPUTHIGH);
 				break;
-			case Pin.LOW:
+			case Action.PINLOW:
 				fireStatusText(Lang.INPUTLOW);
 				break;
-			case Pin.NORMAL:
+			case Action.PINNORMAL:
 				fireStatusText(Lang.INPUTNORM);
 				break;
-			case Pin.INVERTED:
+			case Action.PININVERTED:
 				fireStatusText(Lang.INPUTINV);
 				break;
 		}
-		currentAction = actionNumber;
+		currentAction = action;
 	}
 
 	public void setChangeListener(CircuitChangedListener changeListener) {

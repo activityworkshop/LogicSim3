@@ -1,6 +1,7 @@
 package logicsim.ui;
 
 import logicsim.Simulation;
+import logicsim.controllers.Action;
 import logicsim.controllers.AppController;
 import logicsim.localization.Lang;
 
@@ -49,28 +50,28 @@ public class ToolbarManager {
         toolbar.add(getMenuGap());
 
         final LSButton btnInputNorm = new LSButton("inputnorm", Lang.INPUTNORM);
-        btnInputNorm.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_PINNORMAL));
+        btnInputNorm.addActionListener(e -> parent.actionSetAction(Action.PINNORMAL));
         toolbar.add(btnInputNorm, null);
         buttonsToHide.add(btnInputNorm);
         itemsDisabledBySimulation.add(btnInputNorm);
         toolbar.add(getSmallMenuGap());
 
         final LSButton btnInputInv = new LSButton("inputinv", Lang.INPUTINV);
-        btnInputInv.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_PININVERTED));
+        btnInputInv.addActionListener(e -> parent.actionSetAction(Action.PININVERTED));
         toolbar.add(btnInputInv, null);
         buttonsToHide.add(btnInputInv);
         itemsDisabledBySimulation.add(btnInputInv);
         toolbar.add(getSmallMenuGap());
 
         final LSButton btnInputHigh = new LSButton("inputhigh", Lang.INPUTHIGH);
-        btnInputHigh.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_PINHIGH));
+        btnInputHigh.addActionListener(e -> parent.actionSetAction(Action.PINHIGH));
         toolbar.add(btnInputHigh, null);
         buttonsToHide.add(btnInputHigh);
         itemsDisabledBySimulation.add(btnInputHigh);
         toolbar.add(getSmallMenuGap());
 
         final LSButton btnInputLow = new LSButton("inputlow", Lang.INPUTLOW);
-        btnInputLow.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_PINLOW));
+        btnInputLow.addActionListener(e -> parent.actionSetAction(Action.PINLOW));
         toolbar.add(btnInputLow, null);
         buttonsToHide.add(btnInputLow);
         itemsDisabledBySimulation.add(btnInputLow);
@@ -78,21 +79,21 @@ public class ToolbarManager {
         toolbar.add(getMenuGap());
 
         final LSButton btnNewWire = new LSButton("newwire", Lang.WIRENEW);
-        btnNewWire.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_ADDWIRE));
+        btnNewWire.addActionListener(e -> parent.actionSetAction(Action.ADDWIRE));
         toolbar.add(btnNewWire, null);
         buttonsToHide.add(btnNewWire);
         itemsDisabledBySimulation.add(btnNewWire);
         toolbar.add(getSmallMenuGap());
 
         final LSButton btnAddPoint = new LSButton("addpoint", Lang.ADDPOINT);
-        btnAddPoint.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_ADDPOINT));
+        btnAddPoint.addActionListener(e -> parent.actionSetAction(Action.ADDPOINT));
         toolbar.add(btnAddPoint, null);
         buttonsToHide.add(btnAddPoint);
         itemsDisabledBySimulation.add(btnAddPoint);
         toolbar.add(getSmallMenuGap());
 
         final LSButton btnDelPoint = new LSButton("delpoint", Lang.REMOVEPOINT);
-        btnDelPoint.addActionListener(e -> parent.actionSetAction(AppController.Action.ACTION_DELPOINT));
+        btnDelPoint.addActionListener(e -> parent.actionSetAction(Action.DELPOINT));
         toolbar.add(btnDelPoint, null);
         buttonsToHide.add(btnDelPoint);
         itemsDisabledBySimulation.add(btnDelPoint);

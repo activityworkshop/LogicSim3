@@ -39,9 +39,6 @@ public interface AppController {
     /** Simulation start/stop from the toolbar */
     public void actionToggleSimulation(boolean start);
 
-    public enum Action {ACTION_NONE, ACTION_ADDWIRE, ACTION_EDITWIRE, ACTION_ADDPOINT, ACTION_DELPOINT,
-        ACTION_SELECT, ACTION_PINNORMAL, ACTION_PINHIGH, ACTION_PINLOW, ACTION_PININVERTED}
-
     /** Setting a mode from the toolbar */
     public void actionSetAction(Action action);
 
