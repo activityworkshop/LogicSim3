@@ -419,15 +419,6 @@ public class Gate extends CircuitPart {
 		return width;
 	}
 
-//	/**
-//	 * true, wenn Koordinaten mx,my innerhalb der gate Area liegen
-//	 */
-//	public final boolean insideArea(int mx, int my) {
-//		// setup tolerance
-//		int t = 1;
-//		return new Rectangle(getX() - t, getY() - t, getWidth() + 2 * t + 1, getHeight() + 2 * t + 1).contains(mx, my);
-//	}
-
 	/**
 	 * true, wenn Koordinaten mx,my innerhalb des Gatters liegen
 	 */

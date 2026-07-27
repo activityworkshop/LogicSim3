@@ -590,7 +590,6 @@ public class LSPanel extends Viewer implements CircuitChangedListener, LSRepaint
 		}
 	}
 
-	@Override
 	public void needsRepaint(CircuitPart circuitPart) {
 		repaint();
 	}

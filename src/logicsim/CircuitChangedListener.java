@@ -12,6 +12,4 @@ public interface CircuitChangedListener {
 	public void changedZoomPos(double zoom, ClickPoint pos);
 
 	public void setAction(Action action);
-
-	public void needsRepaint(CircuitPart circuitPart);
 }

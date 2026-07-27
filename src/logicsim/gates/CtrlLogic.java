@@ -151,7 +151,7 @@ public class CtrlLogic extends Gate {
 		super.drawLabel(g2, "Ins: " + insToMn(instruction) + " / μ Step: " + mstep, font);
 	}
 
-	private String insToMn(int instruction2) {
+	private static String insToMn(int instruction) {
         return switch (instruction) {
             case cNOP -> "NOP";
             case cLDA -> "LDA";
@@ -170,7 +170,6 @@ public class CtrlLogic extends Gate {
 	@Override
 	public void reset() {
 		super.reset();
-		// reset
 		force = true;
 		getPin(pCLR).changedLevel(new LSLevelEvent(this, HIGH, force));
 		getPin(NCLR1).changedLevel(new LSLevelEvent(this, HIGH, force));

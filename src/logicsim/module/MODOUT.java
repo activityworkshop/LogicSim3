@@ -19,8 +19,6 @@ public class MODOUT extends Gate {
 	private static final String PINCOUNT = "pincount";
 	private static final int PINCOUNT_DEFAULT = 16;
 
-	private int pincount;
-
 	public MODOUT() {
 		super("modout");
 		label = "OUTPUTS";
@@ -59,16 +57,14 @@ public class MODOUT extends Gate {
 
 	@Override
 	public void loadProperties() {
-		pincount = getPropertyIntWithDefault(PINCOUNT, PINCOUNT_DEFAULT);
-		int inputcount = getInputs().size();
-		if (pincount != inputcount) {
-			if (pincount < inputcount) {
-				// disconnect wires
-				for (int i = inputcount; i > pincount; i--) {
-					// disconnect all parts from input and output pin
-					getPin(i + inputcount).disconnect();
-					getPin(i).disconnect();
-				}
+		final int pinCount = getPropertyIntWithDefault(PINCOUNT, PINCOUNT_DEFAULT);
+		int inputCount = getInputs().size();
+		if (pinCount < inputCount) {
+			// disconnect wires
+			for (int i = inputCount; i > pinCount; i--) {
+				// disconnect all parts from input and output pin
+				getPin(i + inputCount).disconnect();
+				getPin(i).disconnect();
 			}
 		}
 	}

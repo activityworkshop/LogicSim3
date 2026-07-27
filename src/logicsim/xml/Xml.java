@@ -31,10 +31,6 @@ public class Xml {
 	private final Map<String, ArrayList<Xml>> nameChildren = new HashMap<>();
 
 
-	public Xml(String filepath, String rootName) throws FileNotFoundException {
-		this(new File(filepath), rootName);
-	}
-
 	public Xml(File file, String rootName) throws FileNotFoundException {
 		this(new FileInputStream(file), rootName);
 	}

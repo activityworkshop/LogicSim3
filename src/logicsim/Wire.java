@@ -70,10 +70,10 @@ public class Wire extends CircuitPart {
 
 	private void checkFromTo() {
 		if (getFrom() instanceof WirePoint fromPoint) {
-			fromPoint.show = true;
+			fromPoint.show();
 		}
 		if (getTo() instanceof WirePoint toPoint) {
-			toPoint.show = true;
+			toPoint.show();
 		}
 		if (getFrom() instanceof Pin pinFrom && getTo() instanceof Pin pinTo
 				&& (pinFrom.isInput() == pinTo.isInput())) {

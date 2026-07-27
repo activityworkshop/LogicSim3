@@ -27,7 +27,7 @@ public class LSProperties {
 
 	private Properties properties = new Properties();
 
-	private String filename;
+	private final String filename;
 
 	private LSProperties(String filename) {
 		this.filename = filename;

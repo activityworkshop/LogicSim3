@@ -15,7 +15,7 @@ public class WirePoint extends CircuitPart {
 
 	private static final int POINT_SIZE = 6;
 
-	public boolean show = false;
+	private boolean show;
 	private boolean level = false;
 
 	public WirePoint(int x, int y) {
@@ -25,6 +25,14 @@ public class WirePoint extends CircuitPart {
 	public WirePoint(int x, int y, boolean show) {
 		super(x, y);
 		this.show = show;
+	}
+
+	void show() {
+		show = true;
+	}
+
+	public boolean isShown() {
+		return show;
 	}
 
 	@Override

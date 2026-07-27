@@ -749,10 +749,6 @@ public class LSFrame extends JFrame implements AppController, ActionListener, Ci
     public void setAction(Action action) {
     }
 
-    @Override
-    public void needsRepaint(CircuitPart circuitPart) {
-    }
-
     private class AppTitleManager {
 
         private String circuitName = null;
