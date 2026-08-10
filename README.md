@@ -16,7 +16,7 @@ removing the applets, improving the graphics and switching to an XML-based file 
 
 In 2025, it was picked up again by Benkralex and developed further, bringing us to the current 3.x state.
 The current website for this activityworkshop fork is https://activityworkshop.net/software/logicsim/ .
-The latest release is version 3.10, which requires Java 21 to run.
+The latest release is version 3.11, which requires Java 21 to run.
 
 ## Starting LogicSim
 If you just want to start LogicSim3:

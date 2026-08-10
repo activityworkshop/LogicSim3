@@ -1,0 +1,60 @@
+Changelog:
+	3.11:
+		Added colour property to seven-segment LED
+		Show counter value on counter
+		Allow dragging elements with shift held down
+		Fix rectangle selection
+	3.10:
+		Introduce complexity level from 1-5, remove expert mode
+		Refactor gate definitions, module loading
+		Restore zoom buttons to toolbar, add "disconnect gate", remove mirroring, remove label rotation
+		Update in-program help, remove manual, remove print option
+		Call reset when starting simulation
+		Compile with Java version 21
+	3.9:
+		Add text drawing functionality to Gate
+		keyboard shortcuts for rotate, mirror, increase, and decrease inputs
+		Disable file opening/creation actions when simulating
+		Enhance drag-and-drop functionality for gates
+	3.8:
+		Update docs
+	3.7:
+		Enhance drawing of Pin components
+	3.6:
+		Enhance selection
+		Change Font
+	3.5:
+		update configuration settings for autowire and gate design
+		Add dynamic input management to Gates
+		Enhance GateListRenderer to include a separator line
+		Update Icons
+	3.4:
+		bugfixes
+		WirePoints will be drawn only if they are connected or if the wire is selected
+	3.3:
+		added colormode - red black or black and white
+	3.2:
+		CPU in CPU.lsm ist running nicely. It is Turing complete - Jump carry and Jump zero are working
+		added a third state for the Pins
+		added shift register files (module) and test circuit.
+		new event system
+		added multi led
+		icon work
+		added the ability to place wire into the air
+		german help file
+		added label editors for MODIN and MODOUT
+		added Status Bar update when clicking gate or module
+		reworked menu and btn bar
+		added expert mode
+		removed thread from simulation - not needed anymore
+	3.1:
+		implemented new event system
+	3.0:
+		added autowire feature: when two pins overlap while dragging they can be connected, if they are unconnected
+		moved all gate specific language items to gates
+		reworked language system
+		selection of multiple parts is possible. move, rotate, mirror more than one part at a time
+		changed icons
+		reworked rotation, added zoom buttons and rotate and mirror-buttons. removed gif for din and us, painted ANSI Symbols
+		work on zoom and rotation of parts
+		added manual
